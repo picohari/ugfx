@@ -25,3 +25,4 @@
 #include "gwin_keyboard.c"
 #include "gwin_keyboard_layout.c"
 #include "gwin_textedit.c"
+#include "gwin_spinbox.c"

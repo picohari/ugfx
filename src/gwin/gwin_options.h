@@ -163,6 +163,13 @@
 	#ifndef GWIN_NEED_TEXTEDIT
 		#define GWIN_NEED_TEXTEDIT	FALSE
 	#endif
+	/**
+	 * @brief   Should the spinbox widget be included.
+	 * @details	Defaults to FALSE
+	 */
+	#ifndef GWIN_NEED_SPINBOX
+		#define GWIN_NEED_SPINBOX	FALSE
+	#endif
 /**
  * @}
  *

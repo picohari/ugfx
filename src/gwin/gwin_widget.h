@@ -447,5 +447,9 @@ bool_t gwinAttachListener(GListener *pl);
 	#include "gwin_textedit.h"
 #endif
 
+#if GWIN_NEED_SPINBOX || defined(__DOXYGEN__)
+	#include "gwin_spinbox.h"
+#endif
+
 #endif /* _GWIDGET_H */
 /** @} */
