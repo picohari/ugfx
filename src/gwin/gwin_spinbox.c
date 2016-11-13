@@ -13,13 +13,12 @@
 // This widget uses partial redraw by using the widget flags to indicate which
 // portions of the widget needs to be redrawn.
 
+#include "../../gfx.h"
+#if GFX_USE_GWIN && GWIN_NEED_SPINBOX
+
 #include "gwin_class.h"
 #include "stdlib.h"
 #include "string.h"
-
-#if GFX_USE_GWIN && GWIN_NEED_SPINBOX
-
-#include "src/gwin/gwin_class.h"
 
 // Configuration options
 #define TEXTPADDING	2
