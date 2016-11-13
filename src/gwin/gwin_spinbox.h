@@ -53,6 +53,7 @@
 #define GSPINBOX_TXT			0x02	// Flag for text spinbox code flow
 #define GSPINBOX_NUM			0x04	// Flag for numeric spinbox code flow
 #define GSPINBOX_UPDOWN			0x08	// Increment/decrement flag
+/** @} */
 
 /**
  * @brief	A spinbox event
@@ -112,16 +113,16 @@ GHandle gwinGSpinboxTxtCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pIni
  * @details				A Spinbox widget is a rectangular box which can contain text or numeric data and allows the user to select
  * 						different numeric/text values with the use of mouse/touchpanel, (up/down arrows, keyboard & dial controls not supported).
  *
- * @param[in] g			The GDisplay on which the Spinbox should be displayed
- * @param[in] wt		The Spinbox structure to initialise. If this is NULL, the structure is dynamically allocated.
- * @param[in] pInit		The initialisation parameters to use.
- * @param[in] init		The initial spinbox value.
- * @param[in] min		The minimum spinbox value.
- * @param[in] max		The maximum spinbox value.
- * @param[in] step		The increment value.
- * @param[in] mark		The mark character separator, (decimal point, comma, colon etc).
- * @param[in] places	The number of places after the mark, (0 will prevent any mark displayed).
- * @param[in] units		The units string, (blank for no units).
+ * @param[in] g				The GDisplay on which the Spinbox should be displayed
+ * @param[in] wt			The Spinbox structure to initialise. If this is NULL, the structure is dynamically allocated.
+ * @param[in] pInit			The initialisation parameters to use.
+ * @param[in] init			The initial spinbox value.
+ * @param[in] min			The minimum spinbox value.
+ * @param[in] max			The maximum spinbox value.
+ * @param[in] step			The increment value.
+ * @param[in] mark			The mark character separator, (decimal point, comma, colon etc).
+ * @param[in] places		The number of places after the mark, (0 will prevent any mark displayed).
+ * @param[in] units			The units string, (blank for no units).
  *
  * @return				NULL if there is no resultant drawing area, otherwise the widget handle.
  *
@@ -130,6 +131,19 @@ GHandle gwinGSpinboxTxtCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pIni
  */
 GHandle gwinGSpinboxNumCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pInit, int init, int min, int max, int step,  const char* mark,  short places, const char* units, short fieldWidth);
 #define gwinSpinboxNumCreate(wt, pInit, init, min, max, step, mark, places, units, fieldWidth)			gwinGSpinboxNumCreate(GDISP, wt, pInit, init, min, max, step, mark, places, units, fieldWidth)
+
+/**
+ * @brief   Set the spinbox minimum and maximum values.
+ *
+ * @param[in] gh		The window handle (must be a spinbox window)
+ * @param[in] min		The minimum value
+ * @param[in] max		The maximum value
+ * @param[in] step		The value to increment
+ * @note				Sets the minimum, maximum and step values, returns if min > max.
+ *
+ * @api
+ */
+void gwinSpinboxSetParams(GHandle gh, int initial, int min, int max, int step, const char* decimalmark, short placesOrTxtlen, const char* units);
 
 /**
  * @defgroup Renderings_Spinbox Renderings
@@ -156,18 +170,6 @@ GHandle gwinGSpinboxNumCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pIni
  */
 
 void gwinSpinboxDefaultDraw(GWidgetObject* gw, void* param);
-/**
- * @brief   Set the spinbox minimum and maximum values.
- *
- * @param[in] gh		The window handle (must be a spinbox window)
- * @param[in] min		The minimum value
- * @param[in] max		The maximum value
- * @param[in] step		The value to increment
- * @note				Sets the minimum, maximum and step values, returns if min > max.
- *
- * @api
- */
-void gwinSpinboxSetParams (GHandle gh, int initial, int min, int max, int step, const char* decimalmark, short placesOrTxtlen, const char* units);
 
 
 /** @} */

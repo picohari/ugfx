@@ -13,8 +13,7 @@
 // This widget uses partial redraw by using the widget flags to indicate which
 // portions of the widget needs to be redrawn.
 
-#include "gfx.h"
-#include "gwin_spinbox.h"
+#include "gwin_class.h"
 #include "stdlib.h"
 #include "string.h"
 
@@ -31,8 +30,12 @@
 #define gw2obj ((GSpinboxObject *)gw)
 #define gw2ButtonSize (gw->g.height)
 
+// Macros to assist in calculations
+#define FIELD_WIDTH(gw) (gw->g.width - 2*gw->g.height)
+
 // Function to convert number to string, add decimal mark and sign
-// Parameter *s initially points to end of buffer
+// Parameter s initially points to end of buffer
+// ToDo: Improve this function. Need some serious clean-up & proper error detection/prevention/handling.
 char* fmtNum(int value, char* s, short placesOrTxtlen, const char* mark)
 {
 	uint8_t places = 0;
