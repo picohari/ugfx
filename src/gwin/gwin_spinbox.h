@@ -80,7 +80,6 @@ typedef struct GSpinboxObject {
 	short			placesOrTxtlen;		// Number of digits after decimal point or the length of the text string
 	const char*		strData;			// Inits for numeric spinbox
 	const char**	txtArray;			// Pointer to array of pointers for spinbox text data
-	short 			fieldwidth;			// Text field width in Text Spinbox,Value field width in Numeric Spinbox
 } GSpinboxObject;
 
 #ifdef __cplusplus
@@ -104,8 +103,8 @@ extern "C" {
  * @note					If the initial text set is larger than maxSize then the text is truncated at maxSize characters.
  * @api
  */
-GHandle gwinGSpinboxTxtCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pInit,  const char** textArray, uint8_t numEntries,short fieldWidth);
-#define gwinSpinboxTxtCreate(wt, pInit, textArray, numEntries, fieldWidth)			gwinGSpinboxTxtCreate(GDISP, wt, pInit, textArray, numEntries, fieldWidth)
+GHandle gwinGSpinboxTxtCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pInit,  const char** textArray, uint8_t numEntries);
+#define gwinSpinboxTxtCreate(wt, pInit, textArray, numEntries)			gwinGSpinboxTxtCreate(GDISP, wt, pInit, textArray, numEntries)
 
 
 /**
@@ -129,8 +128,8 @@ GHandle gwinGSpinboxTxtCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pIni
  * @note				If the initial text set is larger than maxSize then the text is truncated at maxSize characters.
  * @api
  */
-GHandle gwinGSpinboxNumCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pInit, int init, int min, int max, int step,  const char* mark,  short places, const char* units, short fieldWidth);
-#define gwinSpinboxNumCreate(wt, pInit, init, min, max, step, mark, places, units, fieldWidth)			gwinGSpinboxNumCreate(GDISP, wt, pInit, init, min, max, step, mark, places, units, fieldWidth)
+GHandle gwinGSpinboxNumCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pInit, int init, int min, int max, int step,  const char* mark,  short places, const char* units);
+#define gwinSpinboxNumCreate(wt, pInit, init, min, max, step, mark, places, units)			gwinGSpinboxNumCreate(GDISP, wt, pInit, init, min, max, step, mark, places, units)
 
 /**
  * @brief   Set the spinbox minimum and maximum values.

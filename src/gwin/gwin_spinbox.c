@@ -177,7 +177,7 @@ static const gwidgetVMT SpinboxVMT = {
 #endif
 };
 
-GHandle gwinGSpinboxTxtCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pInit,  const char** textArray, uint8_t numEntries, short fieldWidth)
+GHandle gwinGSpinboxTxtCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pInit,  const char** textArray, uint8_t numEntries)
 {
 	// Create the widget
 	if (!(wt = (GSpinboxObject*)_gwidgetCreate(g, &wt->w, pInit, &SpinboxVMT))) {
@@ -190,7 +190,6 @@ GHandle gwinGSpinboxTxtCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pIni
 	wt->maxval = numEntries-1;		// Set maxval to last text item index
 	wt->increment = 1;
 	wt->txtArray = textArray;
-	wt->fieldwidth = fieldWidth;
 	wt->w.g.flags |= GSPINBOX_TXT;	// Set flag for text spinbox
 	gwinSetVisible(&wt->w.g, pInit->g.show);
 
@@ -199,7 +198,7 @@ GHandle gwinGSpinboxTxtCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pIni
 
 GHandle gwinGSpinboxNumCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pInit,
 		int init, int min, int max, int step, const char* mark,
-		short places, const char* units, short fieldWidth) {
+		short places, const char* units) {
 
 	// Create the widget
 	if (!(wt = (GSpinboxObject*) _gwidgetCreate(g, &wt->w, pInit, &SpinboxVMT))) {
@@ -214,7 +213,6 @@ GHandle gwinGSpinboxNumCreate(GDisplay* g, GSpinboxObject* wt, GWidgetInit* pIni
 	wt->decimalmark = mark;
 	wt->placesOrTxtlen = places;
 	wt->strData = units;
-	wt->fieldwidth = fieldWidth;
 	wt->w.g.flags |= GSPINBOX_NUM;		// Set flag for numeric spinbox
 	gwinSetVisible(&wt->w.g, pInit->g.show);
 
@@ -266,7 +264,7 @@ void gwinSpinboxDefaultDraw(GWidgetObject* gw, void* param)
 
 		// Fill the stringbox with value - justifyRight
 		gdispGFillStringBox(gw->g.display, gw->g.x + gw2ButtonSize + 1 + TEXTPADDING,
-				gw->g.y + 1, gsw->fieldwidth, gw->g.height - 2, ptr,
+				gw->g.y + 1, gw->g.width - 2 * gw2ButtonSize - gdispGetStringWidth(gsw->strData, gw->g.font) - 6, gw->g.height - 2, ptr,
 				gw->g.font, ps->text, gw->pstyle->background, justifyRight);
 				gw->g.flags &= ~GSPINBOX_NUM_REDRAW;		// Reset flag
 
@@ -338,15 +336,15 @@ void gwinSpinboxDefaultDraw(GWidgetObject* gw, void* param)
 
 		if ((gw->g.flags & GSPINBOX_NUM)) {
 			// Fill the stringbox with units - justifyRight
-			gdispGFillStringBox(gw->g.display, gw->g.x + gw2ButtonSize + gsw->fieldwidth - TEXTPADDING,
-				gw->g.y + 1, gw->g.width - gsw->fieldwidth - gw2ButtonSize * 2,
+			gdispGFillStringBox(gw->g.display, gw->g.x + gw->g.width - gw2ButtonSize - gdispGetStringWidth(gsw->strData, gw->g.font) - TEXTPADDING,
+				gw->g.y + 1, gdispGetStringWidth(gsw->strData, gw->g.font),
 				gw->g.height - 2, gsw->strData, gw->g.font, ps->text,
 				gw->pstyle->background, justifyRight);
 		}
 
 		// Fill the stringbox with value - justifyRight
 		gdispGFillStringBox(gw->g.display, gw->g.x + gw2ButtonSize + 1 + TEXTPADDING,
-			gw->g.y + 1, gsw->fieldwidth, gw->g.height - 2, ptr, gw->g.font, ps->text,	gw->pstyle->background, justifyRight);
+			gw->g.y + 1, gw->g.width - 2 * gw2ButtonSize - gdispGetStringWidth(gsw->strData, gw->g.font) - 6, gw->g.height - 2, ptr, gw->g.font, ps->text,	gw->pstyle->background, justifyRight);
 	}
 
 	#undef gsw
