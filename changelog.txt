@@ -39,6 +39,7 @@ FEATURE:	Added KS0108 driver
 FEATURE:	Added RA6963 driver
 FIX:		Fixed clipping issue in gdispGDrawString()
 CHANGE:		Upgrade GFILE FATFS support from V0.10b to V0.13
+FEATURE:	Added UC1610 driver
 
 
 *** Release 2.7 ***
