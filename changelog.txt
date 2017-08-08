@@ -40,6 +40,8 @@ FEATURE:	Added RA6963 driver
 FIX:		Fixed clipping issue in gdispGDrawString()
 CHANGE:		Upgrade GFILE FATFS support from V0.10b to V0.13
 FEATURE:	Added UC1610 driver
+FIX:		Fixed to allow gwinSetText with static text on a TextEdit control
+FIX:		Fixed to ChibiOS realloc on a TextEdit control
 
 
 *** Release 2.7 ***
@@ -93,7 +95,7 @@ FEATURE:	Added support for IAR and EDG compilers
 FIX:		Fixed crash when loading GIF image without enough memory available
 FEATURE:	Added games/minesweeper demo
 FEATURE:	Added games/justget10 demo
-		
+
 
 *** Release 2.5 ***
 FEATURE:	Added support for numerous compilers

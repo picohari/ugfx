@@ -26,22 +26,58 @@
 #define gh2obj ((GTexteditObject *)gh)
 #define gw2obj ((GTexteditObject *)gw)
 
-static bool_t resizeText(GWidgetObject* gw, size_t pos, int32_t diff) {
-	char	*p, *q;
-	size_t	sz;
+static void TextEditRemoveChar(GWidgetObject* gw) {
+	char		*p;
+	const char	*q;
+	unsigned	sz;
+	unsigned	pos;
 
-	p = (char *)gw->text;
-	sz = strlen(p)+1;
-	if (diff < 0)
-		memcpy(p+pos, p+pos-diff, sz-pos+diff);
-	if (!(p = gfxRealloc(p, sz, sz+diff)))
-		return FALSE;
+	sz = strlen(gw->text);
+	pos = gw2obj->cursorPos;
+	q = gw->text+pos;
+	
+	if (!(gw->g.flags & GWIN_FLG_ALLOCTXT)) {
+		// Allocate and then copy
+		if (!(p = gfxAlloc(sz)))
+			return;
+		if (pos)
+			memcpy(p, gw->text, pos);
+		memcpy(p+pos, q+1, sz-pos);
+		gw->g.flags |= GWIN_FLG_ALLOCTXT;
+	} else {
+		// Copy and then reallocate
+		memcpy((char *)q, q+1, sz-pos);
+		if (!(p = gfxRealloc((char *)gw->text, sz+1, sz)))		// This should never fail as we are making it smaller
+			return;
+	}
 	gw->text = p;
-	if (diff > 0) {
-		q = p + sz;
-		p += pos;
-		while(--q >= p)
-			q[diff] = q[0];
+}
+
+static bool_t TextEditAddChars(GWidgetObject* gw, unsigned cnt) {
+	char		*p;
+	const char	*q;
+	unsigned	sz;
+	unsigned	pos;
+
+	// Get the size of the text buffer
+	sz = strlen(gw->text)+1;
+	pos = gw2obj->cursorPos;
+
+	if (!(gw->g.flags & GWIN_FLG_ALLOCTXT)) {
+		if (!(p = gfxAlloc(sz+cnt)))
+			return FALSE;
+		memcpy(p, gw->text, pos);
+		memcpy(p+pos+cnt, gw->text+pos, sz-pos);
+		gw->g.flags |= GWIN_FLG_ALLOCTXT;
+		gw->text = p;
+	} else {
+		if (!(p = gfxRealloc((char *)gw->text, sz, sz+cnt)))
+			return FALSE;
+		gw->text = p;
+		q = p+pos;
+		p += sz;
+		while(--p >= q)
+			p[cnt] = p[0];
 	}
 	return TRUE;
 }
@@ -117,7 +153,7 @@ static void TextEditMouseDown(GWidgetObject* gw, coord_t x, coord_t y) {
 				if (!gw2obj->cursorPos)
 					return;
 				gw2obj->cursorPos--;
-				resizeText(gw, gw2obj->cursorPos, -1);
+				TextEditRemoveChar(gw);
 				break;
 			case GKEY_TAB:
 			case GKEY_LF:
@@ -129,7 +165,7 @@ static void TextEditMouseDown(GWidgetObject* gw, coord_t x, coord_t y) {
 				// Delete
 				if (!gw->text[gw2obj->cursorPos])
 					return;
-				resizeText(gw, gw2obj->cursorPos, -1);
+				TextEditRemoveChar(gw);
 				break;
 			default:
 				// Ignore any other control characters
@@ -137,15 +173,15 @@ static void TextEditMouseDown(GWidgetObject* gw, coord_t x, coord_t y) {
 					return;
 
 				// Keep the edit length to less than the maximum
-				if (gw2obj->maxSize && gw2obj->cursorPos+pke->bytecount > gw2obj->maxSize)
+				if (gw2obj->maxSize && strlen(gw->text)+pke->bytecount > gw2obj->maxSize)
 					return;
 
 				// Make space
-				resizeText(gw, gw2obj->cursorPos, pke->bytecount);
-
-				// Insert the character
-				memcpy((char *)gw->text+gw2obj->cursorPos, pke->c, pke->bytecount);
-				gw2obj->cursorPos += pke->bytecount;
+				if (TextEditAddChars(gw, pke->bytecount)) {
+					// Insert the characters
+					memcpy((char *)gw->text+gw2obj->cursorPos, pke->c, pke->bytecount);
+					gw2obj->cursorPos += pke->bytecount;
+				}
 				break;
 			}
 		}
@@ -196,24 +232,13 @@ static const gwidgetVMT texteditVMT = {
 
 GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit, size_t maxSize)
 {
-	char	*p;
-
 	// Create the underlying widget
 	if (!(wt = (GTexteditObject*)_gwidgetCreate(g, &wt->w, pInit, &texteditVMT)))
 		return 0;
 
 	wt->maxSize = maxSize;
 
-	// Reallocate the text (if necessary)
-	if (!(wt->w.g.flags & GWIN_FLG_ALLOCTXT)) {
-		if (!(p = gfxAlloc(wt->maxSize+1)))
-			return 0;
-		strncpy(p, wt->w.text, wt->maxSize);
-		wt->w.text = p;
-		wt->w.g.flags |= GWIN_FLG_ALLOCTXT;
-	}
-
-	// Set text and cursor position
+	// Set cursor position
 	wt->cursorPos = strlen(wt->w.text);
 
 	gwinSetVisible(&wt->w.g, pInit->g.show);
