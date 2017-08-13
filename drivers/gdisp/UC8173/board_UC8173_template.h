@@ -28,9 +28,10 @@ static UC8173Lut	UC8173_ModeTable[] = {
 	// Add extra lines for other waveforms
 	};
 
-static GFXINLINE void init_board(GDisplay* g)
+static GFXINLINE bool_t init_board(GDisplay* g)
 {
 	(void) g;
+	return TRUE;
 }
 
 static GFXINLINE void post_init_board(GDisplay* g)
