@@ -42,6 +42,8 @@ CHANGE:		Upgrade GFILE FATFS support from V0.10b to V0.13
 FEATURE:	Added UC1610 driver
 FIX:		Fixed to allow gwinSetText with static text on a TextEdit control
 FIX:		Fixed to ChibiOS realloc on a TextEdit control
+FEATURE:	Added support for CMSIS V2.0 operating systems (eg RTX5)
+REMOVED:	Removed long deprecated functions gfxSemCounter() and gfxSemCounterI()
 
 
 *** Release 2.7 ***

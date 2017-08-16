@@ -476,8 +476,12 @@
 	#include "gos_arduino.h"
 #elif GFX_USE_OS_CMSIS
  	#include "gos_cmsis.h"
+#elif GFX_USE_OS_CMSIS2
+ 	#include "gos_cmsis2.h"
 #elif GFX_USE_OS_KEIL
     #include "gos_keil.h"
+#elif GFX_USE_OS_RTX5
+    #include "gos_rtx5.h"
 #elif GFX_USE_OS_NIOS
     #include "gos_nios.h"
 #elif GFX_USE_OS_QT

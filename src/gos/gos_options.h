@@ -91,11 +91,25 @@
 		#define GFX_USE_OS_CMSIS		FALSE
 	#endif
 	/**
-	 * @brief   Use Keil CMSIS
+	 * @brief	Use CMSIS2 RTOS compatible OS
+	 * @details	Defaults to FALSE
+	 */
+	#ifndef GFX_USE_OS_CMSIS2
+		#define GFX_USE_OS_CMSIS2		FALSE
+	#endif
+	/**
+	 * @brief   Use Keil CMSIS 1.x (RTOS, RTX4)
 	 * @details	Defaults to FALSE
 	 */
 	#ifndef GFX_USE_OS_KEIL
 		#define GFX_USE_OS_KEIL			FALSE
+	#endif
+	/**
+	 * @brief   Use Keil RTX5
+	 * @details	Defaults to FALSE
+	 */
+	#ifndef GFX_USE_OS_RTX5
+		#define GFX_USE_OS_RTX5			FALSE
 	#endif
 	/**
 	 * @brief   Use NIOS-II
