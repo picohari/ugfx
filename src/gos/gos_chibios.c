@@ -139,8 +139,13 @@ bool_t gfxSemWait(gfxSem *psem, delaytime_t ms)
 
 bool_t gfxSemWaitI(gfxSem *psem)
 {
-	if (chSemGetCounterI(&psem->sem) <= 0)
-		return FALSE;
+	#if (CH_KERNEL_MAJOR == 2) || (CH_KERNEL_MAJOR == 3)
+		if (psem->sem.s_cnt <= 0)
+			return GFalse;
+	#elif (CH_KERNEL_MAJOR == 4)
+		if (psem->sem.cnt <= 0)
+			return GFalse;
+	#endif
 	chSemFastWaitI(&psem->sem);
 	return TRUE;
 }
@@ -149,8 +154,13 @@ void gfxSemSignal(gfxSem *psem)
 {
 	chSysLock();
 
-	if (psem->sem.s_cnt < psem->limit)
-		chSemSignalI(&psem->sem);
+	#if (CH_KERNEL_MAJOR == 2) || (CH_KERNEL_MAJOR == 3)
+		if (psem->sem.s_cnt < psem->limit)
+			chSemSignalI(&psem->sem);
+	#elif (CH_KERNEL_MAJOR == 4)
+		if (psem->sem.cnt < psem->limit)
+			chSemSignalI(&psem->sem);
+	#endif
 
 	chSchRescheduleS();
 	chSysUnlock();
@@ -158,19 +168,24 @@ void gfxSemSignal(gfxSem *psem)
 
 void gfxSemSignalI(gfxSem *psem)
 {
-	if (psem->sem.s_cnt < psem->limit)
-		chSemSignalI(&psem->sem);
+	#if (CH_KERNEL_MAJOR == 2) || (CH_KERNEL_MAJOR == 3)
+		if (psem->sem.s_cnt < psem->limit)
+			chSemSignalI(&psem->sem);
+	#elif (CH_KERNEL_MAJOR == 4)
+		if (psem->sem.cnt < psem->limit)
+			chSemSignalI(&psem->sem);
+	#endif
 }
 
 gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
 	if (!stackarea) {
 		if (!stacksz) stacksz = 256;
-#if (CH_KERNEL_MAJOR == 2) || (CH_KERNEL_MAJOR == 3)
-		return chThdCreateFromHeap(0, stacksz, prio, (tfunc_t)fn, param);
-#elif CH_KERNEL_MAJOR == 4
-		return chThdCreateFromHeap(0, stacksz, "ugfx", prio, (tfunc_t)fn, param);
-#endif
+		#if (CH_KERNEL_MAJOR == 2) || (CH_KERNEL_MAJOR == 3)
+			return chThdCreateFromHeap(0, stacksz, prio, (tfunc_t)fn, param);
+		#elif CH_KERNEL_MAJOR == 4
+			return chThdCreateFromHeap(0, stacksz, "ugfx", prio, (tfunc_t)fn, param);
+		#endif
 	}
 
 	if (!stacksz)
