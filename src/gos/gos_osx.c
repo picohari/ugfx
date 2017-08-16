@@ -180,15 +180,4 @@ void gfxSemSignal(gfxSem *pSem) {
 	pthread_mutex_unlock(&pSem->mtx);
 }
 
-semcount_t gfxSemCounter(gfxSem *pSem) {
-	semcount_t	res;
-
-	// The locking is really only required if obtaining the count is a divisible operation
-	//	which it might be on a 8/16 bit processor with a 32 bit semaphore count.
-	pthread_mutex_lock(&pSem->mtx);
-	res = pSem->cnt;
-	pthread_mutex_unlock(&pSem->mtx);
-	return res;
-}
-
 #endif /* GFX_USE_OS_OSX */

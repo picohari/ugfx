@@ -78,7 +78,6 @@ typedef HANDLE gfxThreadHandle;
 #define gfxSemWaitI(psem)				gfxSemWait((psem), TIME_IMMEDIATE)
 #define gfxSemSignal(psem)				ReleaseSemaphore(*(psem), 1, 0)
 #define gfxSemSignalI(psem)				ReleaseSemaphore(*(psem), 1, 0)
-#define gfxSemCounterI(psem)			gfxSemCounter(psem)
 #define gfxThreadMe()					GetCurrentThread()
 #define gfxThreadClose(thread)			CloseHandle(thread)
 
@@ -93,7 +92,6 @@ extern "C" {
 void gfxHalt(const char *msg);
 void gfxSleepMicroseconds(delaytime_t ms);
 bool_t gfxSemWait(gfxSem *psem, delaytime_t ms);
-semcount_t gfxSemCounter(gfxSem *pSem);
 void gfxSystemLock(void);
 void gfxSystemUnlock(void);
 gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param);

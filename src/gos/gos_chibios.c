@@ -149,7 +149,7 @@ void gfxSemSignal(gfxSem *psem)
 {
 	chSysLock();
 
-	if (gfxSemCounterI(psem) < psem->limit)
+	if (psem->sem.s_cnt < psem->limit)
 		chSemSignalI(&psem->sem);
 
 	chSchRescheduleS();
@@ -158,7 +158,7 @@ void gfxSemSignal(gfxSem *psem)
 
 void gfxSemSignalI(gfxSem *psem)
 {
-	if (gfxSemCounterI(psem) < psem->limit)
+	if (psem->sem.s_cnt < psem->limit)
 		chSemSignalI(&psem->sem);
 }
 

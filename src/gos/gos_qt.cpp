@@ -178,16 +178,6 @@ void gfxSemSignalI(gfxSem *psem)
     static_cast<QSemaphore*>(*psem)->release(1);
 }
 
-semcount_t gfxSemCounter(gfxSem *psem)
-{
-    return static_cast<QSemaphore*>(*psem)->available();
-}
-
-semcount_t gfxSemCounterI(gfxSem *psem)
-{
-    return static_cast<QSemaphore*>(*psem)->available();
-}
-
 gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
     Q_UNUSED(stackarea)

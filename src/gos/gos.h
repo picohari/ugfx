@@ -403,27 +403,6 @@
 	void gfxSemSignalI(gfxSem *psem);
 
 	/**
-	 * @brief	Get the current semaphore count
-	 * @return	The current semaphore count
-	 *
-	 * @param[in] psem		A pointer to the semaphore
-	 *
-	 * @api
-	 */
-	semcount_t gfxSemCounter(gfxSem *psem);
-
-	/**
-	 * @brief	Get the current semaphore count
-	 * @return	The current semaphore count
-	 *
-	 * @param[in] psem		A pointer to the semaphore
-	 *
-	 * @iclass
-	 * @api
-	 */
-	semcount_t gfxSemCounterI(gfxSem *psem);
-
-	/**
 	 * @brief	Start a new thread.
 	 * @return	Returns a thread handle if the thread was started, NULL on an error
 	 *

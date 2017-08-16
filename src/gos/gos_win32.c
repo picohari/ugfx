@@ -86,6 +86,7 @@ typedef LONG (__stdcall *_NtQuerySemaphore)(
     PULONG ReturnLength OPTIONAL
 );
 
+/* - Left here simply because of its undocumented cleverness...
 semcount_t gfxSemCounter(gfxSem *pSem) {
 	static _NtQuerySemaphore NtQuerySemaphore;
 	struct _SEMAPHORE_BASIC_INFORMATION {
@@ -100,6 +101,7 @@ semcount_t gfxSemCounter(gfxSem *pSem) {
 
     return BasicInfo.CurrentCount;
 }
+*/
 
 gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param) {
 	(void)	stackarea;

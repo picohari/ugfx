@@ -84,7 +84,7 @@ void gfxSemSignal(gfxSem *psem)
 		cyg_semaphore_post(&psem->sem);
 	else {
 		cyg_scheduler_lock();
-		if (gfxSemCounterI(psem) < psem->limit)
+		if (cyg_semaphore_peek(&psem->sem, &cnt) < psem->limit)
 			cyg_semaphore_post(&psem->sem);
 		cyg_scheduler_unlock();
 	}
@@ -92,15 +92,8 @@ void gfxSemSignal(gfxSem *psem)
 
 void gfxSemSignalI(gfxSem *psem)
 {
-	if (psem->limit == MAX_SEMAPHORE_COUNT || gfxSemCounterI(psem) < psem->limit)
+	if (psem->limit == MAX_SEMAPHORE_COUNT || cyg_semaphore_peek(&psem->sem, &cnt) < psem->limit)
 		cyg_semaphore_post(&psem->sem);
-}
-
-semcount_t gfxSemCounterI(gfxSem *psem) {
-	semcount_t	cnt;
-
-	cyg_semaphore_peek(&psem->sem, &cnt);
-	return cnt;
 }
 
 gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)

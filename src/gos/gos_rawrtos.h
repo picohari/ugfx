@@ -47,7 +47,6 @@ typedef RAW_TASK_OBJ*		gfxThreadHandle;
 #define gfxSemDestroy(psem)				raw_semaphore_delete(psem)
 #define gfxSemSignal(psem)				raw_semaphore_put((psem))
 #define gfxSemSignalI(psem)				raw_semaphore_put_all((psem))
-#define gfxSemCounterI(psem)			((psem)->count)
 #define gfxThreadMe()					{(unsigned int)raw_task_identify()}
 #define gfxThreadClose(thread)			{}
 
