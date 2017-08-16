@@ -10,8 +10,6 @@
 
 #if GFX_USE_OS_CMSIS2
 
-#error "GOS: CMSIS2 - This port is not yet complete"
-
 #if !GFX_OS_NO_INIT && !GFX_OS_CALL_UGFXMAIN
 	#error "GOS: Either GFX_OS_NO_INIT or GFX_OS_CALL_UGFXMAIN must be defined for CMSIS V2"
 #endif
