@@ -44,6 +44,9 @@ FIX:		Fixed to allow gwinSetText with static text on a TextEdit control
 FIX:		Fixed to ChibiOS realloc on a TextEdit control
 FEATURE:	Added support for CMSIS V2.0 operating systems (eg RTX5)
 REMOVED:	Removed long deprecated functions gfxSemCounter() and gfxSemCounterI()
+FIX:		gwinDetachToggle() is now a visible part of the API
+CHANGE:		Update OSX makefiles (allows for 64bit building)
+FIX:		Fixed resetting a timer on gwinImage objects when using animated GIFs
 
 
 *** Release 2.7 ***
