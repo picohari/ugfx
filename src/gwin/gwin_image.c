@@ -21,7 +21,7 @@
 static void ImageDestroy(GWindowObject *gh) {
 	// Stop the timer
 	#if GWIN_NEED_IMAGE_ANIMATION
-		gtimerStop(&gobj->timer);
+		gtimerStop(&gw->timer);
 	#endif
 	if (gdispImageIsOpen(&gw->image))
 		gdispImageClose(&gw->image);
