@@ -80,7 +80,7 @@
 		#endif
 		#if !GFX_USE_GINPUT
 			// This test also ensures that GFX_USE_GEVENT is set
-			#error "GWIN: GFX_USE_GINPUT (and one or more input sources) is required if GWIN_NEED_WIDGET is TRUE"
+			#error "GWIN: GFX_USE_GINPUT is required if GWIN_NEED_WIDGET is TRUE"
 		#endif
 		#if !GWIN_NEED_WINDOWMANAGER
 			#if GFX_DISPLAY_RULE_WARNINGS
