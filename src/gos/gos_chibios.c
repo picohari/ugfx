@@ -141,10 +141,10 @@ bool_t gfxSemWaitI(gfxSem *psem)
 {
 	#if (CH_KERNEL_MAJOR == 2) || (CH_KERNEL_MAJOR == 3)
 		if (psem->sem.s_cnt <= 0)
-			return GFalse;
+			return FALSE;
 	#elif (CH_KERNEL_MAJOR == 4)
 		if (psem->sem.cnt <= 0)
-			return GFalse;
+			return FALSE;
 	#endif
 	chSemFastWaitI(&psem->sem);
 	return TRUE;
