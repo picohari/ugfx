@@ -66,7 +66,7 @@ void gfxMutexInit(gfxMutex* pmutex)
 
 void gfxSemInit(gfxSem* psem, semcount_t val, semcount_t limit)
 {
-	*pmutex = osSemaphoreNew(limit, val, NULL);
+	*psem = osSemaphoreNew(limit, val, NULL);
 }
 
 bool_t gfxSemWait(gfxSem* psem, delaytime_t ms)
