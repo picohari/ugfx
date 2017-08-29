@@ -36,7 +36,7 @@ typedef uint16_t			semcount_t;
 typedef void				threadreturn_t;
 typedef osPriority_t		threadpriority_t;
 
-#define MAX_SEMAPHORE_COUNT	osFeature_Semaphore
+#define MAX_SEMAPHORE_COUNT	65535UL
 #define LOW_PRIORITY		osPriorityLow
 #define NORMAL_PRIORITY		osPriorityNormal
 #define HIGH_PRIORITY		osPriorityHigh
