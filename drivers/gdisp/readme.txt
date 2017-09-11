@@ -24,6 +24,7 @@ S6D1121            - Mid-sized color LCD displays eg RGB565 320x240
 SPFD54124B         - Mid-sized color LCD displays eg RGB565 320x240
 SSD1289            - Mid-sized color LCD displays eg RGB565 320x240
 SSD1306            - Small monochrome LCD
+SSD1322            - Small 16 level grayscale LCD
 SSD1331            - Small hardware accelerated OLED display RGB565 96x64
 SSD1351            - Mid-sized color LCD displays eg RGB565 320x240
 SSD1848            - Small grayscale LCD eg 2-Bit 130x130

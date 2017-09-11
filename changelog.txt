@@ -49,6 +49,7 @@ CHANGE:		Update OSX makefiles (allows for 64bit building)
 FIX:		Fixed resetting a timer on gwinImage objects when using animated GIFs
 FEATURE:	Added gwinTextEditSendKey() and gwinTextEditSendSpecialKey()
 FEATURE:	Implemented the JPG image decoder
+FEATURE:	Added SSD1322 driver
 
 
 *** Release 2.7 ***
