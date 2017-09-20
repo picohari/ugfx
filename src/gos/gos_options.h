@@ -119,6 +119,13 @@
 		#define GFX_USE_OS_NIOS			FALSE
 	#endif
 	/**
+	 * @brief   Use Zephyr
+	 * @details	Defaults to FALSE
+	 */
+	#ifndef GFX_USE_OS_ZEPHYR
+		#define GFX_USE_OS_ZEPHYR			FALSE
+	#endif
+	/**
 	 * @brief   Use Qt
 	 * @details	Defaults to FALSE
 	 */

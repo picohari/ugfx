@@ -17,5 +17,6 @@
 #include "gos_cmsis.c"
 #include "gos_cmsis2.c"
 #include "gos_nios.c"
+#include "gos_zephyr.c"
 #include "gos_x_threads.c"
 #include "gos_x_heap.c"

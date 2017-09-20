@@ -484,6 +484,8 @@
     #include "gos_rtx5.h"
 #elif GFX_USE_OS_NIOS
     #include "gos_nios.h"
+#elif GFX_USE_OS_ZEPHYR
+	#include "gos_zephyr.h"
 #elif GFX_USE_OS_QT
     #include "gos_qt.h"
 #else

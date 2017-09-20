@@ -50,6 +50,7 @@ FIX:		Fixed resetting a timer on gwinImage objects when using animated GIFs
 FEATURE:	Added gwinTextEditSendKey() and gwinTextEditSendSpecialKey()
 FEATURE:	Implemented the JPG image decoder
 FEATURE:	Added SSD1322 driver
+FEATURE:    Added support for Zephyr operating system
 
 
 *** Release 2.7 ***
