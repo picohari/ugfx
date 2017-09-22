@@ -88,6 +88,7 @@ gdispImageError gdispImageOpen_JPG(gdispImage *img){
 
 		switch (hdr[1]) {
 		case 0xC0:	// SOF0
+			gfileSetPos(img->f, gfileGetPos(img->f)+1);
             gfileRead(img->f, hdr, 4);
             img->height = gdispImageGetAlignedBE16(hdr, 0);
             img->width = gdispImageGetAlignedBE16(hdr, 2);
