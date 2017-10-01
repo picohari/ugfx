@@ -328,6 +328,13 @@ typedef uint16_t	colorformat;
 	#endif
 	#define HTML2COLOR(h)		((COLOR_TYPE)(HTML2COLOR_R(h) | HTML2COLOR_G(h) | HTML2COLOR_B(h)))
 
+	// Special hack to allow alpha on RGB888
+	#if GDISP_PIXELFORMAT == GDISP_PIXELFORMAT_RGB888
+		#define GFXTRANSPARENT		(0xFF000000)
+		#define AHTML2COLOR(h)		((h) ^ 0xFF000000)
+ 		#define ARGB2COLOR(a,r,g,b)	((((COLOR_TYPE)(((a) ^ 0xFF) & 0xFF)) << 24) | RGB2COLOR_R(r) | RGB2COLOR_G(g) | RGB2COLOR_B(b))
+	#endif
+
 //-------------------------
 //	Gray-scale color system
 //-------------------------

@@ -23,6 +23,8 @@ static const SPIConfig spi_cfg = {
 	((1 << 3) & SPI_CR1_BR) | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_MSTR
 };
 
+#define ALLOW_2ND_LAYER		TRUE
+
 static const ltdcConfig driverCfg = {
 	240, 320,
 	10, 2,
@@ -37,15 +39,33 @@ static const ltdcConfig driverCfg = {
 		LTDC_PIXELFORMAT,					// fmt
 		0, 0,								// x, y
 		240, 320,							// cx, cy
-		LTDC_COLOR_FUCHSIA,					// defcolor
-		0x980088,							// keycolor
+		0x00000000,							// defcolor
+		0x000000,							// keycolor
 		LTDC_BLEND_FIX1_FIX2,				// blending
 		0,									// palette
 		0,									// palettelen
 		0xFF,								// alpha
 		LTDC_LEF_ENABLE						// flags
 	},
+#if ALLOW_2ND_LAYER
+	{										// Foreground layer config (if turned on)
+		(LLDCOLOR_TYPE *)(SDRAM_DEVICE_ADDR+(240 * 320 * LTDC_PIXELBYTES)), // Frame buffer address
+		240, 320,							// width, height
+		240 * LTDC_PIXELBYTES,				// pitch
+		LTDC_PIXELFORMAT,					// fmt
+		0, 0,								// x, y
+		240, 320,							// cx, cy
+		0x00000000,							// Default color (ARGB8888)
+		0x000000,							// Color key (RGB888)
+		LTDC_BLEND_MOD1_MOD2,				// Blending factors
+		0,									// Palette (RGB888, can be NULL)
+		0,									// Palette length
+		0xFF,								// Constant alpha factor
+		LTDC_LEF_ENABLE						// Layer configuration flags
+	}
+#else
 	LTDC_UNUSED_LAYER_CONFIG
+#endif
 };
 
 #include "ili9341.h"
@@ -146,45 +166,39 @@ static void Init9341(GDisplay *g) {
 }
 
 static void init_board(GDisplay *g) {
+	(void) g;
 
-	// As we are not using multiple displays we set g->board to NULL as we don't use it.
-	g->board = 0;
+	palSetPadMode(GPIOA, 9, PAL_MODE_ALTERNATE(7));		// UART_TX
+	palSetPadMode(GPIOA, 10, PAL_MODE_ALTERNATE(7));	// UART_RX
+	palSetPadMode(GPIOF, GPIOF_LCD_DCX, PAL_MODE_ALTERNATE(5));
+	palSetPadMode(GPIOF, GPIOF_LCD_DE, PAL_MODE_ALTERNATE(14));
 
-	switch(g->controllerdisplay) {
-	case 0:											// Set up for Display 0
-		palSetPadMode(GPIOA, 9, PAL_MODE_ALTERNATE(7));		// UART_TX
-		palSetPadMode(GPIOA, 10, PAL_MODE_ALTERNATE(7));	// UART_RX
-		palSetPadMode(GPIOF, GPIOF_LCD_DCX, PAL_MODE_ALTERNATE(5));
-		palSetPadMode(GPIOF, GPIOF_LCD_DE, PAL_MODE_ALTERNATE(14));
+	#define STM32_SAISRC_NOCLOCK    (0 << 23)   /**< No clock.                  */
+	#define STM32_SAISRC_PLL        (1 << 23)   /**< SAI_CKIN is PLL.           */
+	#define STM32_SAIR_DIV2         (0 << 16)   /**< R divided by 2.            */
+	#define STM32_SAIR_DIV4         (1 << 16)   /**< R divided by 4.            */
+	#define STM32_SAIR_DIV8         (2 << 16)   /**< R divided by 8.            */
+	#define STM32_SAIR_DIV16        (3 << 16)   /**< R divided by 16.           */
 
-		#define STM32_SAISRC_NOCLOCK    (0 << 23)   /**< No clock.                  */
-		#define STM32_SAISRC_PLL        (1 << 23)   /**< SAI_CKIN is PLL.           */
-		#define STM32_SAIR_DIV2         (0 << 16)   /**< R divided by 2.            */
-		#define STM32_SAIR_DIV4         (1 << 16)   /**< R divided by 4.            */
-		#define STM32_SAIR_DIV8         (2 << 16)   /**< R divided by 8.            */
-		#define STM32_SAIR_DIV16        (3 << 16)   /**< R divided by 16.           */
+	#define STM32_PLLSAIN_VALUE                 192
+	#define STM32_PLLSAIQ_VALUE                 7
+	#define STM32_PLLSAIR_VALUE                 4
+	#define STM32_PLLSAIR_POST                  STM32_SAIR_DIV4
 
-		#define STM32_PLLSAIN_VALUE                 192
-		#define STM32_PLLSAIQ_VALUE                 7
-		#define STM32_PLLSAIR_VALUE                 4
-		#define STM32_PLLSAIR_POST                  STM32_SAIR_DIV4
+	/* PLLSAI activation.*/
+	RCC->PLLSAICFGR = (STM32_PLLSAIN_VALUE << 6) | (STM32_PLLSAIR_VALUE << 28) | (STM32_PLLSAIQ_VALUE << 24);
+	RCC->DCKCFGR = (RCC->DCKCFGR & ~RCC_DCKCFGR_PLLSAIDIVR) | STM32_PLLSAIR_POST;
+	RCC->CR |= RCC_CR_PLLSAION;
 
-		/* PLLSAI activation.*/
-		RCC->PLLSAICFGR = (STM32_PLLSAIN_VALUE << 6) | (STM32_PLLSAIR_VALUE << 28) | (STM32_PLLSAIQ_VALUE << 24);
-		RCC->DCKCFGR = (RCC->DCKCFGR & ~RCC_DCKCFGR_PLLSAIDIVR) | STM32_PLLSAIR_POST;
-		RCC->CR |= RCC_CR_PLLSAION;
+	// Initialise the SDRAM
+	SDRAM_Init();
 
-		// Initialise the SDRAM
-		SDRAM_Init();
+	// Clear the SDRAM
+	memset((void *)SDRAM_BANK_ADDR, 0, 0x400000);
 
-		// Clear the SDRAM
-		memset((void *)SDRAM_BANK_ADDR, 0, 0x400000);
+	spiStart(SPI_PORT, &spi_cfg);
 
-		spiStart(SPI_PORT, &spi_cfg);
-
-		Init9341(g);
-		break;
-	}
+	Init9341(g);
 }
 
 static GFXINLINE void post_init_board(GDisplay *g) {

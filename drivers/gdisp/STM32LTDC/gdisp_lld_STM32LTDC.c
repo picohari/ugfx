@@ -99,12 +99,14 @@ typedef struct ltdcConfig {
 /* Driver local routines.                                                    */
 /*===========================================================================*/
 
-#define PIXIL_POS(g, x, y)		((y) * driverCfg.bglayer.pitch + (x) * LTDC_PIXELBYTES)
-#define PIXEL_ADDR(g, pos)		((LLDCOLOR_TYPE *)((uint8_t *)driverCfg.bglayer.frame+pos))
+#define PIXIL_POS(g, x, y)		((y) * ((ltdcLayerConfig *)g->priv)->pitch + (x) * LTDC_PIXELBYTES)
+#define PIXEL_ADDR(g, pos)		((LLDCOLOR_TYPE *)((uint8_t *)((ltdcLayerConfig *)g->priv)->frame+pos))
 
 /*===========================================================================*/
 /* Driver exported functions.                                                */
 /*===========================================================================*/
+
+static const ltdcLayerConfig layerOff = LTDC_UNUSED_LAYER_CONFIG;
 
 static void _ltdc_reload(void) {
 	LTDC->SRCR |= LTDC_SRCR_IMR;
@@ -210,7 +212,7 @@ static void _ltdc_init(void) {
 	_ltdc_layer_init(LTDC_Layer1, &driverCfg.bglayer);
 
 	// Load the foreground layer
-	_ltdc_layer_init(LTDC_Layer2, &driverCfg.fglayer);
+	_ltdc_layer_init(LTDC_Layer2, &layerOff);
 
 	// Interrupt handling
 	// Possible flags - LTDC_IER_RRIE, LTDC_IER_LIE, LTDC_IER_FUIE, LTDC_IER_TERRIE etc
@@ -227,26 +229,55 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay* g) {
 	g->priv = 0;
 	g->board = 0;
 
-	// Init the board
-	init_board(g);
+	switch(g->controllerdisplay) {
+	case 0:			// Display 0 is the background layer
+		// Init the board
+		init_board(g);
 
-	// Initialise the LTDC controller
-	_ltdc_init();
+		// Initialise the LTDC controller
+		_ltdc_init();
 
-	// Initialise DMA2D
-	#if LTDC_USE_DMA2D
-		dma2d_init();
-	#endif
+		// Initialise DMA2D
+		#if LTDC_USE_DMA2D
+			dma2d_init();
+		#endif
 
-    // Finish Init the board
-    post_init_board(g);
+		if (!(driverCfg.bglayer.layerflags & LTDC_LEF_ENABLE))
+			return FALSE;
 
-	// Turn on the back-light
-	set_backlight(g, GDISP_INITIAL_BACKLIGHT);
+		g->priv = (void *)&driverCfg.bglayer;
+
+	    // Finish Init the board
+	    post_init_board(g);
+
+		// Turn on the back-light
+		set_backlight(g, GDISP_INITIAL_BACKLIGHT);
+
+		break;
+
+	case 1:			// Display 1 is the foreground layer
+
+		if (!(driverCfg.fglayer.layerflags & LTDC_LEF_ENABLE))
+			return FALSE;
+
+		// Load the foreground layer
+		_ltdc_layer_init(LTDC_Layer2, &driverCfg.fglayer);
+		_ltdc_reload();
+
+		g->priv = (void *)&driverCfg.fglayer;
+
+	    // Finish Init the board
+	    post_init_board(g);
+
+		break;
+
+	default:		// There is only 1 LTDC in the CPU and only the 2 layers in the LTDC.
+		return FALSE;
+	}
 
 	// Initialise the GDISP structure
-	g->g.Width = driverCfg.bglayer.width;
-	g->g.Height = driverCfg.bglayer.height;
+	g->g.Width = ((ltdcLayerConfig *)g->priv)->width;
+	g->g.Height = ((ltdcLayerConfig *)g->priv)->height;
 	g->g.Orientation = GDISP_ROTATE_0;
 	g->g.Powermode = powerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
@@ -282,7 +313,14 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay* g) {
 		while(DMA2D->CR & DMA2D_CR_START);
 	#endif
 
-	PIXEL_ADDR(g, pos)[0] = gdispColor2Native(g->p.color);
+	#if GDISP_LLD_PIXELFORMAT == GDISP_PIXELFORMAT_RGB888
+		// As we don't support ARGB pixel types in uGFX yet we will
+		// use RGB with an inverted alpha value for compatibility
+		// ie. 0x00FFFFFF is fully opaque white, 0xFFFFFFFF is fully transparent white
+		PIXEL_ADDR(g, pos)[0] = gdispColor2Native(g->p.color) ^ 0xFF000000;
+	#else
+		PIXEL_ADDR(g, pos)[0] = gdispColor2Native(g->p.color);
+	#endif
 }
 
 LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
@@ -313,27 +351,21 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 		while(DMA2D->CR & DMA2D_CR_START);
 	#endif
 
-	color = PIXEL_ADDR(g, pos)[0];
-	
+	#if GDISP_LLD_PIXELFORMAT == GDISP_PIXELFORMAT_RGB888
+		// As we don't support ARGB pixel types in uGFX yet we will
+		// use RGB with an inverted alpha value for compatibility
+		// ie. 0x00FFFFFF is fully opaque white, 0xFFFFFFFF is fully transparent white
+		color = PIXEL_ADDR(g, pos)[0] ^ 0xFF000000;
+	#else
+		color = PIXEL_ADDR(g, pos)[0];
+	#endif
+
 	return gdispNative2Color(color);
 }
 
 #if GDISP_NEED_CONTROL
 	LLDSPEC void gdisp_lld_control(GDisplay* g) {
 		switch(g->p.x) {
-		case GDISP_CONTROL_POWER:
-			if (g->g.Powermode == (powermode_t)g->p.ptr)
-				return;
-			switch((powermode_t)g->p.ptr) {
-			case powerOff: case powerOn: case powerSleep: case powerDeepSleep:
-				// TODO
-				break;
-			default:
-				return;
-			}
-			g->g.Powermode = (powermode_t)g->p.ptr;
-			return;
-
 		case GDISP_CONTROL_ORIENTATION:
 			if (g->g.Orientation == (orientation_t)g->p.ptr)
 				return;
@@ -369,12 +401,6 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 			set_backlight(g, (unsigned)g->p.ptr);
 			g->g.Backlight = (unsigned)g->p.ptr;
 			return;
-
-		case GDISP_CONTROL_CONTRAST:
-			if ((unsigned)g->p.ptr > 100) g->p.ptr = (void *)100;
-			// TODO
-			g->g.Contrast = (unsigned)g->p.ptr;
-			return;
 		}
 	}
 #endif
@@ -383,14 +409,14 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 	static void dma2d_init(void) {
 		// Enable DMA2D clock
 		RCC->AHB1ENR |= RCC_AHB1ENR_DMA2DEN;
-	
+
 		// Output color format
 		#if GDISP_LLD_PIXELFORMAT == GDISP_PIXELFORMAT_RGB565
 			DMA2D->OPFCCR = OPFCCR_RGB565;
 		#elif GDISP_LLD_PIXELFORMAT == GDISP_PIXELFORMAT_RGB888
 			DMA2D->OPFCCR = OPFCCR_ARGB8888;
 		#endif
-	
+
 		// Foreground color format
 		#if GDISP_LLD_PIXELFORMAT == GDISP_PIXELFORMAT_RGB565
 			DMA2D->FGPFCCR = FGPFCCR_CM_RGB565;
@@ -401,13 +427,10 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 
 	// Uses p.x,p.y  p.cx,p.cy  p.color
 	LLDSPEC void gdisp_lld_fill_area(GDisplay* g)
-	{	
+	{
 		uint32_t pos;
 		uint32_t lineadd;
 		uint32_t shape;
-
-		// Wait until DMA2D is ready
-		while(DMA2D->CR & DMA2D_CR_START);
 
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
@@ -438,13 +461,24 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 			lineadd = g->g.Width - g->p.cx;
 			shape = (g->p.cx << 16) | (g->p.cy);
 		#endif
-		
+
+		// Wait until DMA2D is ready
+		while(DMA2D->CR & DMA2D_CR_START);
+
 		// Start the DMA2D
 		DMA2D->OMAR = (uint32_t)PIXEL_ADDR(g, pos);
 		DMA2D->OOR = lineadd;
 		DMA2D->NLR = shape;
-		DMA2D->OCOLR = (uint32_t)(gdispColor2Native(g->p.color));
-		DMA2D->CR = DMA2D_CR_MODE_R2M | DMA2D_CR_START;	
+		#if GDISP_LLD_PIXELFORMAT == GDISP_PIXELFORMAT_RGB888
+			// As we don't support ARGB pixel types in uGFX yet we will
+			// use RGB with an inverted alpha value for compatibility
+			// ie. 0x00FFFFFF is fully opaque white, 0xFFFFFFFF is fully transparent white
+			DMA2D->OCOLR = (uint32_t)(gdispColor2Native(g->p.color)) ^ 0xFF000000;
+		#else
+			DMA2D->OCOLR = (uint32_t)(gdispColor2Native(g->p.color));
+		#endif
+		;
+		DMA2D->CR = DMA2D_CR_MODE_R2M | DMA2D_CR_START;
 	}
 
 	/* Oops - the DMA2D only supports GDISP_ROTATE_0.
@@ -464,7 +498,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 	 * access to the framebuffer is fast - probably faster than DMA2D.
 	 * It just uses more CPU.
 	 */
-	#if GDISP_HARDWARE_BITFILLS 
+	#if GDISP_HARDWARE_BITFILLS
 		// Uses p.x,p.y  p.cx,p.cy  p.x1,p.y1 (=srcx,srcy)  p.x2 (=srccx), p.ptr (=buffer)
 		LLDSPEC void gdisp_lld_blit_area(GDisplay* g) {
 			// Wait until DMA2D is ready
@@ -473,7 +507,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 			// Source setup
 			DMA2D->FGMAR = LTDC_PIXELBYTES * (g->p.y1 * g->p.x2 + g->p.x1) + (uint32_t)g->p.ptr;
 			DMA2D->FGOR = g->p.x2 - g->p.cx;
-		
+
 			// Output setup
 			DMA2D->OMAR = (uint32_t)PIXEL_ADDR(g, PIXIL_POS(g, g->p.x, g->p.y));
 			DMA2D->OOR = g->g.Width - g->p.cx;

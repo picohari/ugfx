@@ -36,6 +36,8 @@
 	#define AFRH	AFR[1]
 #endif
 
+#define ALLOW_2ND_LAYER		TRUE
+
 static const ltdcConfig driverCfg = {
 	480, 272,								// Width, Height (pixels)
 	41, 10,									// Horizontal, Vertical sync (pixels)
@@ -51,8 +53,8 @@ static const ltdcConfig driverCfg = {
 		LTDC_PIXELFORMAT,					// Pixel format
 		0, 0,								// Start pixel position (x, y)
 		480, 272,							// Size of virtual layer (cx, cy)
-		LTDC_COLOR_FUCHSIA,					// Default color (ARGB8888)
-		0x980088,							// Color key (RGB888)
+		0x00000000,							// Default color (ARGB8888)
+		0x000000,							// Color key (RGB888)
 		LTDC_BLEND_FIX1_FIX2,				// Blending factors
 		0,									// Palette (RGB888, can be NULL)
 		0,									// Palette length
@@ -60,7 +62,25 @@ static const ltdcConfig driverCfg = {
 		LTDC_LEF_ENABLE						// Layer configuration flags
 	},
 
-	LTDC_UNUSED_LAYER_CONFIG				// Foreground layer config
+#if ALLOW_2ND_LAYER
+	{										// Foreground layer config (if turned on)
+		(LLDCOLOR_TYPE *)(SDRAM_DEVICE_ADDR+(480 * 272 * LTDC_PIXELBYTES)), // Frame buffer address
+		480, 272,							// Width, Height (pixels)
+		480 * LTDC_PIXELBYTES,				// Line pitch (bytes)
+		LTDC_PIXELFORMAT,					// Pixel format
+		0, 0,								// Start pixel position (x, y)
+		480, 272,							// Size of virtual layer (cx, cy)
+		0x00000000,							// Default color (ARGB8888)
+		0x000000,							// Color key (RGB888)
+		LTDC_BLEND_MOD1_MOD2,				// Blending factors
+		0,									// Palette (RGB888, can be NULL)
+		0,									// Palette length
+		0xFF,								// Constant alpha factor
+		LTDC_LEF_ENABLE						// Layer configuration flags
+	}
+#else
+	LTDC_UNUSED_LAYER_CONFIG
+#endif
 };
 
 static void configureLcdPins(void) {
@@ -97,10 +117,10 @@ static void configureLcdPins(void) {
 		palSetPadMode(GPIOI, GPIOI_LCD_DISP,	PAL_MODE_OUTPUT_PUSHPULL | PAL_STM32_OSPEED_HIGHEST);	// PI12: LCD_DISP_PIN
 		palSetPadMode(GPIOK, GPIOK_LCD_BL_CTRL,	PAL_MODE_OUTPUT_PUSHPULL | PAL_STM32_OSPEED_HIGHEST);	// PK3 : LCD_BL_CTRL
 	#else
-	
+
 		//-------------------------------------------
 		// Initialise port PE
-		
+
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;
 		GPIOE->MODER |= (
 						  GPIO_MODER_MODER4_1							// PE4:  LCD_B0 - PAL_STM32_OSPEED_HIGHEST, PAL_MODE_ALTERNATE(14)
@@ -123,7 +143,7 @@ static void configureLcdPins(void) {
 
 		//-------------------------------------------
 		// Initialise port PG
-		
+
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOGEN;
 		GPIOG->MODER |= (
 						  GPIO_MODER_MODER12_1							// PG12:  LCD_B4 - PAL_STM32_OSPEED_HIGHEST, PAL_MODE_ALTERNATE(9)
@@ -143,10 +163,10 @@ static void configureLcdPins(void) {
 		GPIOG->AFRH |= (
 						  ( 9U << 4*(12-8))
 						);
-	
+
 		//-------------------------------------------
 		// Initialise port PI
-		
+
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOIEN;
 		GPIOI->MODER |= (
 						  GPIO_MODER_MODER9_1							// PI9:  LCD_VSYNC    - PAL_STM32_OSPEED_HIGHEST, PAL_MODE_ALTERNATE(14)
@@ -374,77 +394,66 @@ static void configureLcdPins(void) {
 }
 
 static GFXINLINE void init_board(GDisplay *g) {
+	(void) g;
 
-	// As we are not using multiple displays we set g->board to NULL as we don't use it
-	g->board = 0;
+	// Set pin directions
+	configureLcdPins();
 
-	switch(g->controllerdisplay) {
-	case 0:
+	// Enable the display and turn on the backlight
+	#if GFX_USE_OS_CHIBIOS && !GFX_LTDC_USE_DIRECTIO
+	    palSetPad(GPIOI, GPIOI_LCD_DISP);
+	    palSetPad(GPIOK, GPIOK_LCD_BL_CTRL);
+	#else
+	    GPIOI->ODR |= (1 << 12);  // PowerOn
+	    GPIOK->ODR |= (1 << 3);   // Backlight on
+	#endif
 
-		// Set pin directions
-		configureLcdPins();
+	#if GFX_LTDC_TIMING_SET != 0
+			#define STM32_SAISRC_NOCLOCK    (0 << 23)   /**< No clock.                  */
+			#define STM32_SAISRC_PLL        (1 << 23)   /**< SAI_CKIN is PLL.           */
+			#define STM32_SAIR_DIV2         (0 << 16)   /**< R divided by 2.            */
+			#define STM32_SAIR_DIV4         (1 << 16)   /**< R divided by 4.            */
+			#define STM32_SAIR_DIV8         (2 << 16)   /**< R divided by 8.            */
+			#define STM32_SAIR_DIV16        (3 << 16)   /**< R divided by 16.           */
 
-		// Enable the display and turn on the backlight
-		#if GFX_USE_OS_CHIBIOS && !GFX_LTDC_USE_DIRECTIO
-		    palSetPad(GPIOI, GPIOI_LCD_DISP);
-		    palSetPad(GPIOK, GPIOK_LCD_BL_CTRL);
-		#else
-		    GPIOI->ODR |= (1 << 12);  // PowerOn
-		    GPIOK->ODR |= (1 << 3);   // Backlight on
-		#endif
+			// Some operating systems get these wrong eg ChibiOS - define our own values
+			#undef STM32_PLLSAIN_VALUE
+			#undef STM32_PLLSAIQ_VALUE
+			#undef STM32_PLLSAIP_VALUE
+			#undef STM32_PLLSAIR_VALUE
 
-		#if GFX_LTDC_TIMING_SET != 0
-				#define STM32_SAISRC_NOCLOCK    (0 << 23)   /**< No clock.                  */
-				#define STM32_SAISRC_PLL        (1 << 23)   /**< SAI_CKIN is PLL.           */
-				#define STM32_SAIR_DIV2         (0 << 16)   /**< R divided by 2.            */
-				#define STM32_SAIR_DIV4         (1 << 16)   /**< R divided by 4.            */
-				#define STM32_SAIR_DIV8         (2 << 16)   /**< R divided by 8.            */
-				#define STM32_SAIR_DIV16        (3 << 16)   /**< R divided by 16.           */
+			/* Display timing */
+			// RK043FN48H LCD clock configuration
+			// PLLSAI_VCO Input = HSE_VALUE/PLL_M = 1 Mhz
+			// PLLSAI_VCO Output = PLLSAI_VCO Input * PLLSAIN = 192 Mhz
+			// PLLLCDCLK = PLLSAI_VCO Output/PLLSAIR = 192/5 = 38.4 Mhz
+			// LTDC clock frequency = PLLLCDCLK / STM32_PLLSAIR_POST = 38.4/4 = 9.6Mhz
+			#if GFX_LTDC_TIMING_SET == 1
+				#define RK043FN48H_FREQUENCY_DIVIDER		5
+				#define STM32_PLLSAIN_VALUE                 192
+				#define STM32_PLLSAIQ_VALUE                 4
+				#define STM32_PLLSAIP_VALUE					4
+				#define STM32_PLLSAIR_VALUE                 RK043FN48H_FREQUENCY_DIVIDER
+				#define STM32_PLLSAIR_POST                  STM32_SAIR_DIV4
+			#elif  GFX_LTDC_TIMING_SET == 2
+				#define RK043FN48H_FREQUENCY_DIVIDER		4
+				#define STM32_PLLSAIN_VALUE                 192
+				#define STM32_PLLSAIQ_VALUE                 4
+				#define STM32_PLLSAIP_VALUE					4
+				#define STM32_PLLSAIR_VALUE                 RK043FN48H_FREQUENCY_DIVIDER
+				#define STM32_PLLSAIR_POST                  STM32_SAIR_DIV4
+			#else
+				#error "LTDC: - Unknown timing set for the STM32F746-Discovery board"
+			#endif
 
-				// Some operating systems get these wrong eg ChibiOS - define our own values
-				#undef STM32_PLLSAIN_VALUE
-				#undef STM32_PLLSAIQ_VALUE
-				#undef STM32_PLLSAIP_VALUE
-				#undef STM32_PLLSAIR_VALUE
+			RCC->CR &= ~RCC_CR_PLLSAION;
+			RCC->PLLSAICFGR = ((STM32_PLLSAIP_VALUE/2-1)<<16) | (STM32_PLLSAIN_VALUE << 6) | (STM32_PLLSAIR_VALUE << 28) | (STM32_PLLSAIQ_VALUE << 24);
+			RCC->DCKCFGR1 = (RCC->DCKCFGR1 & ~RCC_DCKCFGR1_PLLSAIDIVR) | STM32_PLLSAIR_POST;
+			RCC->CR |= RCC_CR_PLLSAION;
+	#endif
 
-				/* Display timing */
-				// RK043FN48H LCD clock configuration
-				// PLLSAI_VCO Input = HSE_VALUE/PLL_M = 1 Mhz
-				// PLLSAI_VCO Output = PLLSAI_VCO Input * PLLSAIN = 192 Mhz
-				// PLLLCDCLK = PLLSAI_VCO Output/PLLSAIR = 192/5 = 38.4 Mhz
-				// LTDC clock frequency = PLLLCDCLK / STM32_PLLSAIR_POST = 38.4/4 = 9.6Mhz
-				#if GFX_LTDC_TIMING_SET == 1
-					#define RK043FN48H_FREQUENCY_DIVIDER		5
-					#define STM32_PLLSAIN_VALUE                 192
-					#define STM32_PLLSAIQ_VALUE                 4
-					#define STM32_PLLSAIP_VALUE					4
-					#define STM32_PLLSAIR_VALUE                 RK043FN48H_FREQUENCY_DIVIDER
-					#define STM32_PLLSAIR_POST                  STM32_SAIR_DIV4
-				#elif  GFX_LTDC_TIMING_SET == 2
-					#define RK043FN48H_FREQUENCY_DIVIDER		4
-					#define STM32_PLLSAIN_VALUE                 192
-					#define STM32_PLLSAIQ_VALUE                 4
-					#define STM32_PLLSAIP_VALUE					4
-					#define STM32_PLLSAIR_VALUE                 RK043FN48H_FREQUENCY_DIVIDER
-					#define STM32_PLLSAIR_POST                  STM32_SAIR_DIV4
-				#else
-					#error "LTDC: - Unknown timing set for the STM32F746-Discovery board"
-				#endif
-				
-				RCC->CR &= ~RCC_CR_PLLSAION;
-				RCC->PLLSAICFGR = ((STM32_PLLSAIP_VALUE/2-1)<<16) | (STM32_PLLSAIN_VALUE << 6) | (STM32_PLLSAIR_VALUE << 28) | (STM32_PLLSAIQ_VALUE << 24);
-				RCC->DCKCFGR1 = (RCC->DCKCFGR1 & ~RCC_DCKCFGR1_PLLSAIDIVR) | STM32_PLLSAIR_POST;
-				RCC->CR |= RCC_CR_PLLSAION;
-		#endif
-
-		// Initialise the SDRAM
-		BSP_SDRAM_Init();
-
-		// Clear the SDRAM
-		//memset((void *)SDRAM_BANK_ADDR, 0, 0x400000);
-
-		break;
-	}
+	// Initialise the SDRAM
+	BSP_SDRAM_Init();
 }
 
 static GFXINLINE void post_init_board(GDisplay* g) {
