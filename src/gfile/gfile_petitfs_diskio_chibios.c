@@ -10,20 +10,34 @@
 #if GFX_USE_GFILE && GFILE_NEED_PETITFS && GFX_USE_OS_CHIBIOS && !GFILE_PETITFS_EXTERNAL_LIB
 
 #include "gfile_petitfs_wrapper.h"
-
 #include <string.h>
 
 #if HAL_USE_MMC_SPI && HAL_USE_SDC
-#error "cannot specify both MMC_SPI and SDC drivers"
+	#error "cannot specify both MMC_SPI and SDC drivers"
 #endif
 
 #if HAL_USE_MMC_SPI
-extern MMCDriver MMCD1;
+	extern MMCDriver MMCD1;
 #elif HAL_USE_SDC
-extern SDCDriver SDCD1;
+	extern SDCDriver SDCD1;
 #else
-#error "MMC_SPI or SDC driver must be specified"
+	#error "MMC_SPI or SDC driver must be specified"
 #endif
+
+// WOW - Bugs galore!!! (in ChibiOS)
+//	Bugs:
+//		1. ChibiOS DMA operations do not do the appropriate cache flushing or invalidating
+//			on cpu's that require it eg STM32F7 series.
+//			Instead they provide explicit dmaBufferInvalidate and dmaBufferFlush calls
+//			and rely on the user to explicitly flush the cache.
+//			Solution: We explicitly flush the cache after any possible DMA operation.
+//		2. Unfortunately these explicit routines also have a bug. They assume that the
+//			specified data structure is aligned on a cache line boundary - not a good assumption.
+//			Solution: We increase the size provided to ChibiOS so that it does it properly.
+//						This assumes of course that we know the size of the cpu cache line.
+#define CPU_CACHE_LINE_SIZE			32
+#define CACHE_FLUSH(buf, sz)		dmaBufferFlush((buf), (sz)+(CPU_CACHE_LINE_SIZE-1))
+#define CACHE_INVALIDATE(buf, sz)	dmaBufferInvalidate((buf), (sz)+(CPU_CACHE_LINE_SIZE-1))
 
 /*-----------------------------------------------------------------------*/
 /* Initialize a Drive                                                    */
@@ -72,7 +86,7 @@ DRESULT disk_readp (
 				return RES_ERROR;
 		#endif
 		sectpos = sector;
-		dmaBufferInvalidate(sectBuf, sizeof(sectBuf));
+		CACHE_INVALIDATE(sectBuf, sizeof(sectBuf));
 	}
 	memcpy(buff, sectBuf + offset, count);
 	return RES_OK;

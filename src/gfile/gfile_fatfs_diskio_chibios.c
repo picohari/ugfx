@@ -12,26 +12,39 @@
 #include "gfile_fatfs_wrapper.h"
 
 #if HAL_USE_MMC_SPI && HAL_USE_SDC
-#error "cannot specify both MMC_SPI and SDC drivers"
+	#error "cannot specify both MMC_SPI and SDC drivers"
 #endif
 
 #if HAL_USE_MMC_SPI
-extern MMCDriver MMCD1;
+	extern MMCDriver MMCD1;
 #elif HAL_USE_SDC
-extern SDCDriver SDCD1;
+	extern SDCDriver SDCD1;
 #else
-#error "MMC_SPI or SDC driver must be specified"
+	#error "MMC_SPI or SDC driver must be specified"
 #endif
 
 /*-----------------------------------------------------------------------*/
 /* Correspondence between physical drive number and physical drive.      */
-
 #define MMC     0
 #define SDC     0
-
 /*-----------------------------------------------------------------------*/
-/* Initialize a Drive                                                    */
 
+// WOW - Bugs galore!!! (in ChibiOS)
+//	Bugs:
+//		1. ChibiOS DMA operations do not do the appropriate cache flushing or invalidating
+//			on cpu's that require it eg STM32F7 series.
+//			Instead they provide explicit dmaBufferInvalidate and dmaBufferFlush calls
+//			and rely on the user to explicitly flush the cache.
+//			Solution: We explicitly flush the cache after any possible DMA operation.
+//		2. Unfortunately these explicit routines also have a bug. They assume that the
+//			specified data structure is aligned on a cache line boundary - not a good assumption.
+//			Solution: We increase the size provided to ChibiOS so that it does it properly.
+//						This assumes of course that we know the size of the cpu cache line.
+#define CPU_CACHE_LINE_SIZE			32
+#define CACHE_FLUSH(buf, sz)		dmaBufferFlush((buf), (sz)+(CPU_CACHE_LINE_SIZE-1))
+#define CACHE_INVALIDATE(buf, sz)	dmaBufferInvalidate((buf), (sz)+(CPU_CACHE_LINE_SIZE-1))
+
+/* Initialize a Drive                                                    */
 DSTATUS disk_initialize (
     BYTE drv                /* Physical drive nmuber (0..) */
 )
@@ -116,7 +129,7 @@ DRESULT disk_read (
       return RES_NOTRDY;
     if (mmcStartSequentialRead(&MMCD1, sector))
       return RES_ERROR;
-    dmaBufferFlush(buff, MMCSD_BLOCK_SIZE*count);
+    CACHE_FLUSH(buff, MMCSD_BLOCK_SIZE*count);
     while (count > 0) {
       if (mmcSequentialRead(&MMCD1, buff))
         return RES_ERROR;
@@ -125,16 +138,16 @@ DRESULT disk_read (
     }
     if (mmcStopSequentialRead(&MMCD1))
         return RES_ERROR;
-    dmaBufferInvalidate(buff, MMCSD_BLOCK_SIZE*count);
+    CACHE_INVALIDATE(buff, MMCSD_BLOCK_SIZE*count);
     return RES_OK;
 #else
   case SDC:
     if (blkGetDriverState(&SDCD1) != BLK_READY)
       return RES_NOTRDY;
-    dmaBufferFlush(buff, MMCSD_BLOCK_SIZE*count);
+    CACHE_FLUSH(buff, MMCSD_BLOCK_SIZE*count);
     if (sdcRead(&SDCD1, sector, buff, count))
       return RES_ERROR;
-    dmaBufferInvalidate(buff, MMCSD_BLOCK_SIZE*count);
+    CACHE_INVALIDATE(buff, MMCSD_BLOCK_SIZE*count);
     return RES_OK;
 #endif
   }
@@ -163,7 +176,7 @@ DRESULT disk_write (
         return RES_WRPRT;
     if (mmcStartSequentialWrite(&MMCD1, sector))
         return RES_ERROR;
-    dmaBufferFlush(buff, MMCSD_BLOCK_SIZE*count);
+    CACHE_FLUSH(buff, MMCSD_BLOCK_SIZE*count);
     while (count > 0) {
         if (mmcSequentialWrite(&MMCD1, buff))
             return RES_ERROR;
@@ -177,7 +190,7 @@ DRESULT disk_write (
   case SDC:
     if (blkGetDriverState(&SDCD1) != BLK_READY)
       return RES_NOTRDY;
-    dmaBufferFlush(buff, MMCSD_BLOCK_SIZE*count);
+    CACHE_FLUSH(buff, MMCSD_BLOCK_SIZE*count);
     if (sdcWrite(&SDCD1, sector, buff, count))
       return RES_ERROR;
     return RES_OK;
@@ -247,7 +260,7 @@ DRESULT disk_ioctl (
 
 	DWORD get_fattime(void) {
 	    RTCDateTime timespec;
-	
+
 	    rtcGetTime(&RTCD1, &timespec);
 	    return rtcConvertDateTimeToFAT(&timespec);
 	}
