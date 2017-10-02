@@ -61,6 +61,7 @@ FEATURE:	Added the new color GFXTRANSPARENT - only available for RGB888 pixel fo
 NOTE:		Alpha support in RGB888 requies an alpha capable display (STM32LTDC 2nd display only currently)
 NOTE:		Alpha support in RGB888 is NOT the standard ARGB8888 format. Only use AHTML2COLOR() and ARGB2COLOR() to create alpha colors.
 FEATURE:    Added nullpointer checks to GDISP image functions (with new error code GDISP_IMAGE_ERR_NULLPOINTER)
+FIX:		Add cache flushing to the ChibiOS FATFS/PETITFS block drivers. Needed for STM32F7 chips. This should really be in the ChibiOS DMA routines.
 
 
 *** Release 2.7 ***

@@ -23,11 +23,6 @@ extern SDCDriver SDCD1;
 #error "MMC_SPI or SDC driver must be specified"
 #endif
 
-#if HAL_USE_RTC
-#include "chrtclib.h"
-extern RTCDriver RTCD1;
-#endif
-
 /*-----------------------------------------------------------------------*/
 /* Correspondence between physical drive number and physical drive.      */
 
@@ -121,6 +116,7 @@ DRESULT disk_read (
       return RES_NOTRDY;
     if (mmcStartSequentialRead(&MMCD1, sector))
       return RES_ERROR;
+    dmaBufferFlush(buff, MMCSD_BLOCK_SIZE*count);
     while (count > 0) {
       if (mmcSequentialRead(&MMCD1, buff))
         return RES_ERROR;
@@ -129,13 +125,16 @@ DRESULT disk_read (
     }
     if (mmcStopSequentialRead(&MMCD1))
         return RES_ERROR;
+    dmaBufferInvalidate(buff, MMCSD_BLOCK_SIZE*count);
     return RES_OK;
 #else
   case SDC:
     if (blkGetDriverState(&SDCD1) != BLK_READY)
       return RES_NOTRDY;
+    dmaBufferFlush(buff, MMCSD_BLOCK_SIZE*count);
     if (sdcRead(&SDCD1, sector, buff, count))
       return RES_ERROR;
+    dmaBufferInvalidate(buff, MMCSD_BLOCK_SIZE*count);
     return RES_OK;
 #endif
   }
@@ -164,6 +163,7 @@ DRESULT disk_write (
         return RES_WRPRT;
     if (mmcStartSequentialWrite(&MMCD1, sector))
         return RES_ERROR;
+    dmaBufferFlush(buff, MMCSD_BLOCK_SIZE*count);
     while (count > 0) {
         if (mmcSequentialWrite(&MMCD1, buff))
             return RES_ERROR;
@@ -177,6 +177,7 @@ DRESULT disk_write (
   case SDC:
     if (blkGetDriverState(&SDCD1) != BLK_READY)
       return RES_NOTRDY;
+    dmaBufferFlush(buff, MMCSD_BLOCK_SIZE*count);
     if (sdcWrite(&SDCD1, sector, buff, count))
       return RES_ERROR;
     return RES_OK;
@@ -241,14 +242,19 @@ DRESULT disk_ioctl (
   return RES_PARERR;
 }
 
-DWORD get_fattime(void) {
 #if HAL_USE_RTC
-    return rtcGetTimeFat(&RTCD1);
+	extern RTCDriver RTCD1;
+
+	DWORD get_fattime(void) {
+	    RTCDateTime timespec;
+	
+	    rtcGetTime(&RTCD1, &timespec);
+	    return rtcConvertDateTimeToFAT(&timespec);
+	}
 #else
-    return ((uint32_t)0 | (1 << 16)) | (1 << 21); /* wrong but valid time */
+	DWORD get_fattime(void) {
+	    return ((uint32_t)0 | (1 << 16)) | (1 << 21); /* wrong but valid time */
+	}
 #endif
-}
 
 #endif // GFX_USE_GFILE && GFILE_NEED_FATFS && GFX_USE_OS_CHIBIOS && !GFILE_FATFS_EXTERNAL_LIB
-
-

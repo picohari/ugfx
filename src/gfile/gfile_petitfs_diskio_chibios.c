@@ -71,7 +71,8 @@ DRESULT disk_readp (
 			if (sdcRead(&SDCD1, sector, sectBuf, 1))
 				return RES_ERROR;
 		#endif
-			sectpos = sector;
+		sectpos = sector;
+		dmaBufferInvalidate(sectBuf, sizeof(sectBuf));
 	}
 	memcpy(buff, sectBuf + offset, count);
 	return RES_OK;
