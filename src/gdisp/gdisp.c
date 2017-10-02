@@ -3649,26 +3649,54 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	}
 #endif
 
-color_t gdispBlendColor(color_t fg, color_t bg, uint8_t alpha)
-{
-	uint16_t fg_ratio = alpha + 1;
-	uint16_t bg_ratio = 256 - alpha;
-	uint16_t r, g, b;
+#if GDISP_PIXELFORMAT == GDISP_PIXELFORMAT_RGB888
+	// Special alpha hacked version.
+	// Note: this will still work with real RGB888
+	color_t gdispBlendColor(color_t fg, color_t bg, uint8_t alpha)
+	{
+		uint16_t fg_ratio = alpha + 1;
+		uint16_t bg_ratio = 256 - alpha;
+		uint16_t a, r, g, b;
 
-	r = RED_OF(fg) * fg_ratio;
-	g = GREEN_OF(fg) * fg_ratio;
-	b = BLUE_OF(fg) * fg_ratio;
+		a = ALPHA_OF(fg) * fg_ratio;
+		r = RED_OF(fg) * fg_ratio;
+		g = GREEN_OF(fg) * fg_ratio;
+		b = BLUE_OF(fg) * fg_ratio;
 
-	r += RED_OF(bg) * bg_ratio;
-	g += GREEN_OF(bg) * bg_ratio;
-	b += BLUE_OF(bg) * bg_ratio;
+		a += ALPHA_OF(bg) * bg_ratio;
+		r += RED_OF(bg) * bg_ratio;
+		g += GREEN_OF(bg) * bg_ratio;
+		b += BLUE_OF(bg) * bg_ratio;
 
-	r >>= 8;
-	g >>= 8;
-	b >>= 8;
+		a >>= 8;
+		r >>= 8;
+		g >>= 8;
+		b >>= 8;
 
-	return RGB2COLOR(r, g, b);
-}
+		return ARGB2COLOR(a, r, g, b);
+	}
+#else
+	color_t gdispBlendColor(color_t fg, color_t bg, uint8_t alpha)
+	{
+		uint16_t fg_ratio = alpha + 1;
+		uint16_t bg_ratio = 256 - alpha;
+		uint16_t r, g, b;
+
+		r = RED_OF(fg) * fg_ratio;
+		g = GREEN_OF(fg) * fg_ratio;
+		b = BLUE_OF(fg) * fg_ratio;
+
+		r += RED_OF(bg) * bg_ratio;
+		g += GREEN_OF(bg) * bg_ratio;
+		b += BLUE_OF(bg) * bg_ratio;
+
+		r >>= 8;
+		g >>= 8;
+		b >>= 8;
+
+		return RGB2COLOR(r, g, b);
+	}
+#endif
 
 color_t gdispContrastColor(color_t color) {
 	uint16_t r, g, b;

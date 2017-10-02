@@ -330,9 +330,14 @@ typedef uint16_t	colorformat;
 
 	// Special hack to allow alpha on RGB888
 	#if GDISP_PIXELFORMAT == GDISP_PIXELFORMAT_RGB888
-		#define GFXTRANSPARENT		(0xFF000000)
+		#define COLOR_BITS_A		8
+		#define COLOR_SHIFT_A		24
+		#define ALPHA_OF(c)			(((c)>>24) ^ 0xFF)
+		#define EXACT_ALPHA_OF(c)	ALPHA_OF((c))
 		#define AHTML2COLOR(h)		((h) ^ 0xFF000000)
- 		#define ARGB2COLOR(a,r,g,b)	((((COLOR_TYPE)(((a) ^ 0xFF) & 0xFF)) << 24) | RGB2COLOR_R(r) | RGB2COLOR_G(g) | RGB2COLOR_B(b))
+		#define RGB2COLOR_A(a)		(((COLOR_TYPE)(((a) ^ 0xFF) & 0xFF)) << 24)
+ 		#define ARGB2COLOR(a,r,g,b)	(RGB2COLOR_A(a) | RGB2COLOR_R(r) | RGB2COLOR_G(g) | RGB2COLOR_B(b))
+		#define GFXTRANSPARENT		(0xFF000000)
 	#endif
 
 //-------------------------
