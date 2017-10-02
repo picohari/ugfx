@@ -155,9 +155,7 @@ void gdispImageClose(gdispImage *img) {
 }
 
 bool_t gdispImageIsOpen(gdispImage *img) {
-	if (!img)
-		return FALSE;
-	return img->type != GDISP_IMAGE_TYPE_UNKNOWN && img->fns != 0;
+	return img && img->type != GDISP_IMAGE_TYPE_UNKNOWN && img->fns != 0;
 }
 
 void gdispImageSetBgColor(gdispImage *img, color_t bgcolor) {
