@@ -29,12 +29,21 @@
 #ifndef LTDC_NO_CLOCK_INIT
 	#define LTDC_NO_CLOCK_INIT		FALSE
 #endif
+#ifndef	LTDC_DMA_CACHE_FLUSH
+	#define	LTDC_DMA_CACHE_FLUSH	FALSE
+#endif
 
 #include "stm32_ltdc.h"
 
 #if LTDC_USE_DMA2D
  	#include "stm32_dma2d.h"
+
+	#if defined(STM32F7) || defined(STM32F746xx)
+		#undef 	LTDC_DMA_CACHE_FLUSH
+		#define	LTDC_DMA_CACHE_FLUSH	TRUE
+	#endif
 #endif
+
 
 typedef struct ltdcLayerConfig {
 	// Frame
@@ -406,6 +415,15 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 #endif
 
 #if LTDC_USE_DMA2D
+	#if LTDC_DMA_CACHE_FLUSH
+		#if defined(__CC_ARM)
+			#define __DSB()		__dsb(0xF)
+		#else		// GCC like
+			#define __DSB()		__ASM volatile ("dsb 0xF":::"memory")
+		#endif
+	#endif
+
+
 	static void dma2d_init(void) {
 		// Enable DMA2D clock
 		RCC->AHB1ENR |= RCC_AHB1ENR_DMA2DEN;
@@ -462,6 +480,27 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 			shape = (g->p.cx << 16) | (g->p.cy);
 		#endif
 
+		#if LTDC_DMA_CACHE_FLUSH
+		{
+			// This is slightly less than optimal as we flush the whole line in the source and destination image
+			// instead of just the cx portion but this saves us having to iterate over each line.
+			uint32_t	f, e;
+
+			// Data memory barrier
+			__DSB();
+
+			// Flush then invalidate the destination area
+			e = pos + (g->p.cy > 1 ? ((uint32_t)((ltdcLayerConfig *)g->priv)->pitch*(shape & 0xFFFF)) : ((shape>>16)*LTDC_PIXELBYTES));
+			for(f=(pos & ~31); f < e; f += 32) {
+			    SCB->DCCIMVAC = f;
+			    SCB->DCIMVAC = f;
+			}
+
+			// Data memory barrier
+			__DSB();
+		}
+		#endif
+
 		// Wait until DMA2D is ready
 		while(DMA2D->CR & DMA2D_CR_START);
 
@@ -501,15 +540,46 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 	#if GDISP_HARDWARE_BITFILLS
 		// Uses p.x,p.y  p.cx,p.cy  p.x1,p.y1 (=srcx,srcy)  p.x2 (=srccx), p.ptr (=buffer)
 		LLDSPEC void gdisp_lld_blit_area(GDisplay* g) {
+			uint32_t	srcstart, dststart;
+
+			srcstart = LTDC_PIXELBYTES * ((uint32_t)g->p.x2 * g->p.y1 * + g->p.x1) + (uint32_t)g->p.ptr;
+			dststart = (uint32_t)PIXEL_ADDR(g, PIXIL_POS(g, g->p.x, g->p.y));
+
+			#if LTDC_DMA_CACHE_FLUSH
+			{
+				// This is slightly less than optimal as we flush the whole line in the source and destination image
+				// instead of just the cx portion but this saves us having to iterate over each line.
+				uint32_t	f, e;
+
+				// Data memory barrier
+				__DSB();
+
+				// Flush the source area
+				e = srcstart + (g->p.cy > 1 ? ((uint32_t)g->p.x2*g->p.cy) : (uint32_t)g->p.cx)*LTDC_PIXELBYTES;
+				for(f=(srcstart & ~31); f < e; f += 32)
+				    SCB->DCCIMVAC = f;
+
+				// Flush then invalidate the destination area
+				e = dststart + (g->p.cy > 1 ? ((uint32_t)((ltdcLayerConfig *)g->priv)->pitch*g->p.cy) : ((uint32_t)g->p.cx*LTDC_PIXELBYTES));
+				for(f=(dststart & ~31); f < e; f += 32) {
+				    SCB->DCCIMVAC = f;
+				    SCB->DCIMVAC = f;
+				}
+
+				// Data memory barrier
+				__DSB();
+			}
+			#endif
+
 			// Wait until DMA2D is ready
 			while(DMA2D->CR & DMA2D_CR_START);
 
 			// Source setup
-			DMA2D->FGMAR = LTDC_PIXELBYTES * (g->p.y1 * g->p.x2 + g->p.x1) + (uint32_t)g->p.ptr;
+			DMA2D->FGMAR = srcstart;
 			DMA2D->FGOR = g->p.x2 - g->p.cx;
 
 			// Output setup
-			DMA2D->OMAR = (uint32_t)PIXEL_ADDR(g, PIXIL_POS(g, g->p.x, g->p.y));
+			DMA2D->OMAR = dststart;
 			DMA2D->OOR = g->g.Width - g->p.cx;
 			DMA2D->NLR = (g->p.cx << 16) | (g->p.cy);
 

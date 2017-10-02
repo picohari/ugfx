@@ -42,12 +42,9 @@
 
 	// Accelerated bitfills are also possible but only for GDISP_ROTATE_0
 	//	and if no color translation is required (for now)
-	// Oops - this is not working and adds little performance benefit
-	//	so we will just disable it for the near future.
-//	#if !GDISP_NEED_CONTROL && !defined(GDISP_PIXELFORMAT)
-// 		#define GDISP_HARDWARE_BITFILLS	TRUE
-//	#endif
-
+	#if !GDISP_NEED_CONTROL && !defined(GDISP_PIXELFORMAT)
+ 		#define GDISP_HARDWARE_BITFILLS	TRUE
+	#endif
 #endif /* GDISP_USE_DMA2D */
 
 #endif	/* GFX_USE_GDISP */
