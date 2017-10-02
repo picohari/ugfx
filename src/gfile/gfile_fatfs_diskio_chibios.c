@@ -40,9 +40,14 @@
 //			specified data structure is aligned on a cache line boundary - not a good assumption.
 //			Solution: We increase the size provided to ChibiOS so that it does it properly.
 //						This assumes of course that we know the size of the cpu cache line.
-#define CPU_CACHE_LINE_SIZE			32
-#define CACHE_FLUSH(buf, sz)		dmaBufferFlush((buf), (sz)+(CPU_CACHE_LINE_SIZE-1))
-#define CACHE_INVALIDATE(buf, sz)	dmaBufferInvalidate((buf), (sz)+(CPU_CACHE_LINE_SIZE-1))
+#if CH_KERNEL_MAJOR > 2
+	#define CPU_CACHE_LINE_SIZE			32
+	#define CACHE_FLUSH(buf, sz)		dmaBufferFlush((buf), (sz)+(CPU_CACHE_LINE_SIZE-1))
+	#define CACHE_INVALIDATE(buf, sz)	dmaBufferInvalidate((buf), (sz)+(CPU_CACHE_LINE_SIZE-1))
+#else
+	#define CACHE_FLUSH(buf, sz)
+	#define CACHE_INVALIDATE(buf, sz)
+#endif
 
 /* Initialize a Drive                                                    */
 DSTATUS disk_initialize (
