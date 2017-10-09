@@ -3654,26 +3654,49 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	// Note: this will still work with real RGB888
 	color_t gdispBlendColor(color_t fg, color_t bg, uint8_t alpha)
 	{
-		uint16_t fg_ratio = alpha + 1;
-		uint16_t bg_ratio = 256 - alpha;
-		uint16_t a, r, g, b;
+		uint32_t ratio;
+		uint32_t a1, r1, g1, b1;
+		uint32_t a2, r2, g2, b2;
 
-		a = ALPHA_OF(fg) * fg_ratio;
-		r = RED_OF(fg) * fg_ratio;
-		g = GREEN_OF(fg) * fg_ratio;
-		b = BLUE_OF(fg) * fg_ratio;
+		// Ratio - add one to get 1 to 256
+		ratio = (uint32_t)alpha + 1;		// 0 to 1 in 0.8 fixed point
 
-		a += ALPHA_OF(bg) * bg_ratio;
-		r += RED_OF(bg) * bg_ratio;
-		g += GREEN_OF(bg) * bg_ratio;
-		b += BLUE_OF(bg) * bg_ratio;
+		// Calculate the pre-multiplied values of r, g, b for the fg color
+		a1 = ALPHA_OF(fg);					// 0 to 1 in 0.8 fixed point
+		r1 = RED_OF(fg) * a1;				// 0 to 1 in 0.16 fixed point
+		g1 = GREEN_OF(fg) * a1;				// 0 to 1 in 0.16 fixed point
+		b1 = BLUE_OF(fg) * a1;				// 0 to 1 in 0.16 fixed point
 
-		a >>= 8;
-		r >>= 8;
-		g >>= 8;
-		b >>= 8;
+		// Calculate the pre-multiplied values of r, g, b for the bg color
+		a2 = ALPHA_OF(bg);					// 0 to 1 in 0.8 fixed point
+		r2 = RED_OF(bg) * a2;				// 0 to 1 in 0.16 fixed point
+		g2 = GREEN_OF(bg) * a2;				// 0 to 1 in 0.16 fixed point
+		b2 = BLUE_OF(bg) * a2;				// 0 to 1 in 0.16 fixed point
 
-		return ARGB2COLOR(a, r, g, b);
+		// Calculate the mixed color values
+		a1 = ratio * (a1 - a2) + (a2<<8);	// 0 to 1 in 0.16 fixed point
+		if (!a1) return GFXTRANSPARENT;
+		r1 = ((ratio * (r1 - r2))>>8) + r2;	// 0 to 1 in 0.16 fixed point
+		g1 = ((ratio * (g1 - g2))>>8) + g2;	// 0 to 1 in 0.16 fixed point
+		b1 = ((ratio * (b1 - b2))>>8) + b2;	// 0 to 1 in 0.16 fixed point
+
+		// Fix precision
+		#if 1
+			// Convert back to un-multiplied values
+			ratio = 0x80000000 / a1;		// Divide 1 (0.31 fixed point) by a1 (0.16 fixed point) to get the a1 reciprocal in 0.15 fixed point
+			a1 >>= 8;						// Shift to get back to 0.8 fixed point
+			r1 = (r1 * ratio) >> 23;		// Multiply by ratio to get 0.31 and then shift to get back to 0.8 fixed point
+			g1 = (g1 * ratio) >> 23;		// Multiply by ratio to get 0.31 and then shift to get back to 0.8 fixed point
+			b1 = (b1 * ratio) >> 23;		// Multiply by ratio to get 0.31 and then shift to get back to 0.8 fixed point
+		#else
+			// Leave as pre-multiplied values
+			a1 >>= 8;						// Shift to get back to 0.8 fixed point
+			r1 >>= 8;						// Shift to get back to 0.8 fixed point
+			g1 >>= 8;						// Shift to get back to 0.8 fixed point
+			b1 >>= 8;						// Shift to get back to 0.8 fixed point
+		#endif
+
+		return ARGB2COLOR(a1, r1, g1, b1);
 	}
 #else
 	color_t gdispBlendColor(color_t fg, color_t bg, uint8_t alpha)
