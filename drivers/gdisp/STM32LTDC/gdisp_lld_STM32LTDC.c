@@ -417,9 +417,9 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 #if LTDC_USE_DMA2D
 	#if LTDC_DMA_CACHE_FLUSH
 		#if defined(__CC_ARM)
-			#define __DSB()		__dsb(0xF)
+			#define __ugfxDSB()		__dsb(0xF)
 		#else		// GCC like
-			#define __DSB()		__ASM volatile ("dsb 0xF":::"memory")
+			#define __ugfxDSB()		__ASM volatile ("dsb 0xF":::"memory")
 		#endif
 	#endif
 
@@ -487,7 +487,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 			uint32_t	f, e;
 
 			// Data memory barrier
-			__DSB();
+			__ugfxDSB();
 
 			// Flush then invalidate the destination area
 			e = pos + (g->p.cy > 1 ? ((uint32_t)((ltdcLayerConfig *)g->priv)->pitch*(shape & 0xFFFF)) : ((shape>>16)*LTDC_PIXELBYTES));
@@ -497,7 +497,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 			}
 
 			// Data memory barrier
-			__DSB();
+			__ugfxDSB();
 		}
 		#endif
 
@@ -552,7 +552,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 				uint32_t	f, e;
 
 				// Data memory barrier
-				__DSB();
+				__ugfxDSB();
 
 				// Flush the source area
 				e = srcstart + (g->p.cy > 1 ? ((uint32_t)g->p.x2*g->p.cy) : (uint32_t)g->p.cx)*LTDC_PIXELBYTES;
@@ -567,7 +567,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 				}
 
 				// Data memory barrier
-				__DSB();
+				__ugfxDSB();
 			}
 			#endif
 
