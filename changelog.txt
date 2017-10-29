@@ -2,7 +2,7 @@
 *** Releases                                                              ***
 *****************************************************************************
 
-*** Changes after 2.7 ***
+*** Release 2.8 ***
 FEATURE:	Added support for 128x32 SSD1306 based displays
 FIX:		Fixed recursion bug in console history
 FIX:		Multithreading issue with slow window redraws and large images
