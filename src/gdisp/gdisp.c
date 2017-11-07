@@ -2963,11 +2963,11 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	g->p.color = color;
 
-	if (cx - x > 2) {
+	if (cx - x >= 2) {
 		g->p.x = x; g->p.y = y; g->p.x1 = cx; hline_clip(g);
 		if (y != cy) {
 			g->p.x = x; g->p.y = cy; g->p.x1 = cx; hline_clip(g);
-			if (cy - y > 2) {
+			if (cy - y >= 2) {
 				y++; cy--;
 				g->p.x = x; g->p.y = y; g->p.y1 = cy; vline_clip(g);
 				g->p.x = cx; g->p.y = y; g->p.y1 = cy; vline_clip(g);
@@ -3128,13 +3128,13 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		/* Give a max number of steps, the calculation usually takes 3 or 4 */
 		for(maxSteps = 8; maxSteps > 0; maxSteps--)
 		{
-			/* Use an adapted version of Newton's algorithm to find the correct length 
+			/* Use an adapted version of Newton's algorithm to find the correct length
 			 * This calculation converge quadratically towards the correct length
-			 * n(x+1) = (n(x) + len^2 / n(x)) / 2 
+			 * n(x+1) = (n(x) + len^2 / n(x)) / 2
 			 */
 			len_n = (len + len2 / len) / 2;
 
-			/* We reach max precision when the last result is equal or greater than the previous one */ 
+			/* We reach max precision when the last result is equal or greater than the previous one */
 			if(len_n >= len){
 				break;
 			}
@@ -3360,7 +3360,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 				GD->t.wrapy += GD->t.font->line_height;
 			#undef GD
 			return TRUE;
-		}	
+		}
 	#endif
 
 	void gdispGDrawChar(GDisplay *g, coord_t x, coord_t y, uint16_t c, font_t font, color_t color) {
@@ -3459,7 +3459,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 				#endif
 			}
 		#endif
-			
+
 		// Save the clipping area
 		g->t.clipx0 = x;
 		g->t.clipy0 = y;
@@ -3507,7 +3507,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 				g->t.lrj = (justify & JUSTIFYMASK_LEFTRIGHT);
 				g->t.wrapx = x;
 				g->t.wrapy = y;
-				
+
 				mf_wordwrap(font, cx, str, mf_drawline_callback, g);
 			} else
 		#endif
@@ -3548,7 +3548,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 					#endif
 				}
 			#endif
-			
+
 			// Save the clipping area
 			g->t.clipx0 = x;
 			g->t.clipy0 = y;
@@ -3565,7 +3565,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 				} else
 			#endif
 			totalHeight = font->height;
-	
+
 			// Select the anchor position
 			switch((justify & JUSTIFYMASK_TOPBOTTOM)) {
 			case justifyTop:
@@ -3597,7 +3597,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 					g->t.lrj = (justify & JUSTIFYMASK_LEFTRIGHT);
 					g->t.wrapx = x;
 					g->t.wrapy = y;
-					
+
 					mf_wordwrap(font, cx, str, mf_fillline_callback, g);
 				} else
 			#endif
