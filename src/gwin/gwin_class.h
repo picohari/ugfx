@@ -359,9 +359,24 @@ bool_t _gwinWMAdd(GHandle gh, const GWindowInit *pInit);
 		 */
 		void _gwidgetDrawFocusRect(GWidgetObject *gw, coord_t x, coord_t y, coord_t cx, coord_t cy);
 
+		/**
+		 * @brief	Draw a simple focus circle in the default style.
+		 *
+		 * @param[in]	gw		The widget
+		 * @param[in]	radius	The radius of the circle
+		 *
+		 * @note		Assumes the widget is in a state where it can draw.
+		 * @note		Nothing is drawn if the window doesn't have focus.
+		 * @note		The focus circle may be more than one pixel thick.
+		 *
+		 * @notapi
+		 */
+		void _gwidgetDrawFocusCircle(GWidgetObject *gx, coord_t radius);
+
 	#else
 		#define _gwinFixFocus(gh)
 		#define _gwidgetDrawFocusRect(gh,x,y,cx,cy)
+		#define _gwidgetDrawFocusCircle(gh,radius)
 	#endif
 
 	#if GWIN_NEED_FLASHING || defined(__DOXYGEN__)

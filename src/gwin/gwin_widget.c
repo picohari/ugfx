@@ -330,6 +330,17 @@ static void gwidgetEvent(void *param, GEvent *pe) {
 		}
 	}
 
+	void _gwidgetDrawFocusCircle(GWidgetObject *gx, coord_t radius) {
+		coord_t i;
+
+		// Don't do anything if we don't have the focus
+		if (&gx->g != _widgetInFocus)
+			return;
+    
+		for (i = 0; i < GWIN_FOCUS_HIGHLIGHT_WIDTH; i++) {
+			gdispGDrawCircle(gx->g.display, gx->g.x + radius, gx->g.y + radius, radius + i, gx->pstyle->focus);
+		}
+	}
 #endif
 
 #if GFX_USE_GINPUT && GINPUT_NEED_TOGGLE

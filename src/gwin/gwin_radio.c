@@ -53,6 +53,20 @@ static void SendRadioEvent(GWidgetObject *gw) {
 	}
 #endif
 
+#if GINPUT_NEED_KEYBOARD || GWIN_NEED_KEYBOARD
+	static void RadioKeyboard(GWidgetObject* gw, GEventKeyboard* pke)
+	{
+		// Only react on KEYDOWN events. Ignore KEYUP events.
+		if ((pke->keystate & GKEYSTATE_KEYUP))
+			return;
+
+		// ENTER and SPACE keys to check/uncheck the checkbox
+		if (pke->c[0] == GKEY_ENTER || pke->c[0] == GKEY_SPACE) {
+			gwinRadioPress((GHandle)gw);
+		}
+	}
+#endif
+
 #if GINPUT_NEED_TOGGLE
 	// A toggle on has occurred
 	static void RadioToggleOn(GWidgetObject *gw, uint16_t role) {
@@ -91,7 +105,7 @@ static const gwidgetVMT radioVMT = {
 	#endif
 	#if GINPUT_NEED_KEYBOARD || GWIN_NEED_KEYBOARD
 		{
-			0						// Process keyboard events
+			RadioKeyboard			// Process keyboard events
 		},
 	#endif
 	#if GINPUT_NEED_TOGGLE
@@ -194,6 +208,8 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 			gdispGFillArea(gw->g.display, gw->g.x+df, gw->g.y+df, ld-2*df, ld-2*df, pcol->fill);
 	#endif
 
+	_gwidgetDrawFocusCircle(gw, df);
+
 	gdispGFillStringBox(gw->g.display, gw->g.x+ld+1, gw->g.y, gw->g.width-ld-1, gw->g.height, gw->text, gw->g.font, pcol->text, gw->pstyle->background, justifyLeft);
 	#undef gcw
 }
@@ -214,6 +230,9 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 		gdispGFillStringBox(gw->g.display, gw->g.x, gw->g.y, gw->g.width-1, gw->g.height-1, gw->text, gw->g.font, pcol->text, pcol->fill, justifyCenter);
 		gdispGDrawLine(gw->g.display, gw->g.x+gw->g.width-1, gw->g.y, gw->g.x+gw->g.width-1, gw->g.y+gw->g.height-1, pcol->edge);
 		gdispGDrawLine(gw->g.display, gw->g.x, gw->g.y+gw->g.height-1, gw->g.x+gw->g.width-2, gw->g.y+gw->g.height-1, pcol->edge);
+
+		// Render highlighted border if focused
+		_gwidgetDrawFocusRect(gw, 1, 1, gw->g.width-2, gw->g.height-2);
 	}
 	void gwinRadioDraw_Tab(GWidgetObject *gw, void *param) {
 		const GColorSet *	pcol;
@@ -235,6 +254,9 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 			gdispGDrawLine(gw->g.display, gw->g.x+gw->g.width-1, gw->g.y, gw->g.x+gw->g.width-1, gw->g.y+gw->g.height-1, pcol->edge);
 			gdispGDrawLine(gw->g.display, gw->g.x, gw->g.y+gw->g.height-1, gw->g.x+gw->g.width-2, gw->g.y+gw->g.height-1, pcol->edge);
 		}
+
+		// Render highlighted border if focused
+		_gwidgetDrawFocusRect(gw, 0, 0, gw->g.width-1, gw->g.height-1);
 	}
 #else
 	void gwinRadioDraw_Button(GWidgetObject *gw, void *param) {
@@ -258,6 +280,9 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 		gdispGDrawStringBox(gw->g.display, gw->g.x, gw->g.y, gw->g.width-1, gw->g.height-1, gw->text, gw->g.font, pcol->text, justifyCenter);
 		gdispGDrawLine(gw->g.display, gw->g.x+gw->g.width-1, gw->g.y, gw->g.x+gw->g.width-1, gw->g.y+gw->g.height-1, pcol->edge);
 		gdispGDrawLine(gw->g.display, gw->g.x, gw->g.y+gw->g.height-1, gw->g.x+gw->g.width-2, gw->g.y+gw->g.height-1, pcol->edge);
+
+		// Render highlighted border if focused
+		_gwidgetDrawFocusRect(gw, 0, 0, gw->g.width-1, gw->g.height-1);
 	}
 	void gwinRadioDraw_Tab(GWidgetObject *gw, void *param) {
 		const GColorSet *	pcol;
@@ -286,6 +311,9 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 			gdispGDrawLine(gw->g.display, gw->g.x+gw->g.width-1, gw->g.y, gw->g.x+gw->g.width-1, gw->g.y+gw->g.height-1, pcol->edge);
 			gdispGDrawStringBox(gw->g.display, gw->g.x+1, gw->g.y+1, gw->g.width-2, gw->g.height-2, gw->text, gw->g.font, pcol->text, justifyCenter);
 		}
+
+		// Render highlighted border if focused
+		_gwidgetDrawFocusRect(gw, 0, 0, gw->g.width-1, gw->g.height-1);
 	}
 #endif
 
