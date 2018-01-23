@@ -371,7 +371,9 @@ bool_t _gwinWMAdd(GHandle gh, const GWindowInit *pInit);
 		 *
 		 * @notapi
 		 */
-		void _gwidgetDrawFocusCircle(GWidgetObject *gx, coord_t radius);
+		#if GDISP_NEED_CIRCLE
+			void _gwidgetDrawFocusCircle(GWidgetObject *gx, coord_t radius);
+		#endif
 
 	#else
 		#define _gwinFixFocus(gh)
