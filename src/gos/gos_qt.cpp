@@ -86,6 +86,11 @@ void* gfxAlloc(size_t sz)
     return malloc(sz);
 }
 
+void* gfxRealloc(void* ptr, size_t oldsz, size_t newsz)
+{
+	return realloc(ptr, newsz);
+}
+
 void gfxFree(void* ptr)
 {
     free(ptr);

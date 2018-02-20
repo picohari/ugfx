@@ -45,6 +45,7 @@ void _gosDeinit();
 void gfxHalt(const char* msg);
 void gfxExit(void);
 void* gfxAlloc(size_t sz);
+void* gfxRealloc(void *ptr, size_t oldsz, size_t newsz);
 void gfxFree(void* ptr);
 void gfxYield(void);
 void gfxSleepMilliseconds(delaytime_t ms);
