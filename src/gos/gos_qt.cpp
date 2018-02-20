@@ -13,6 +13,7 @@
 #include <QThread>
 #include <QElapsedTimer>
 
+extern "C" void _gosPostInit(void);
 
 class Thread : public QThread
 {
