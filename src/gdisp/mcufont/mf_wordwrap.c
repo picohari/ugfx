@@ -179,7 +179,7 @@ void mf_wordwrap(const struct mf_font_s *font, int16_t width,
     struct linelen_s current = { 0 };
     struct linelen_s previous = { 0 };
     bool full;
-    uint32_t giveUp = 2048;     // Do while-loop a maximum of x times	
+    uint32_t giveUp = 2048;     /* Do while-loop a maximum of x times */
 
     current.start = text;
 
