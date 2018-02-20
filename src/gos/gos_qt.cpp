@@ -89,6 +89,7 @@ void* gfxAlloc(size_t sz)
 
 void* gfxRealloc(void* ptr, size_t oldsz, size_t newsz)
 {
+    Q_UNUSED(oldsz)
 	return realloc(ptr, newsz);
 }
 
