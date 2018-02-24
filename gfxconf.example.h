@@ -289,6 +289,10 @@
 //    #define GINPUT_TOUCH_USER_CALIBRATION_LOAD       FALSE
 //    #define GINPUT_TOUCH_USER_CALIBRATION_SAVE       FALSE
 //    #define GMOUSE_DRIVER_LIST                       GMOUSEVMT_Win32, GMOUSEVMT_Win32
+//    #define GINPUT_TOUCH_CALIBRATION_FONT1           "* Double"
+//    #define GINPUT_TOUCH_CALIBRATION_FONT2           "* Narrow"
+//    #define GINPUT_TOUCH_CALIBRATION_TITLE           "Calibration"
+//    #define GINPUT_TOUCH_CALIBRATION_ERROR           "Calibration Failed!"
 //#define GINPUT_NEED_KEYBOARD                         FALSE
 //    #define GINPUT_KEYBOARD_POLL_PERIOD              200
 //    #define GKEYBOARD_DRIVER_LIST                    GKEYBOARDVMT_Win32, GKEYBOARDVMT_Win32
