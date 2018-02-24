@@ -193,12 +193,12 @@ static const unsigned char
     ST7735_NORON  ,    DELAY, //  3: Normal display on, no args, w/delay
       10,                     //     10 ms delay
     ST7735_DISPON ,    DELAY, //  4: Main screen turn on, no args w/delay
-      100 
+      100
       };                  //     100 ms delay
 #endif
 
 
-static void execute_cmds (const uint8_t *addr) {
+static void execute_cmds(GDisplay *g, const uint8_t *addr) {
 
 	unsigned int cmds = *addr++;
 	while (cmds--) {
@@ -211,7 +211,7 @@ static void execute_cmds (const uint8_t *addr) {
 		if (ms) {
 			ms = *addr++;
 			gfxSleepMilliseconds(ms==255?500:ms);
-		} 
+		}
 	}
 }
 
@@ -231,7 +231,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 
 	// Get the bus for the following initialisation commands
 	acquire_bus(g);
-	execute_cmds (init_cmds);
+	execute_cmds(g, init_cmds);
 	release_bus(g);
 
 	// Finish Init
@@ -252,7 +252,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 
 static void set_viewport(GDisplay *g) {
 	write_cmd (g, ST7735_CASET);
-	write_data (g, g->p.x+ST7735_COL_SHIFT); 
+	write_data (g, g->p.x+ST7735_COL_SHIFT);
 	write_data (g, g->p.x+g->p.cx-1+ST7735_COL_SHIFT);
 	write_cmd (g, ST7735_RASET);
 	write_data (g, g->p.y+ST7735_ROW_SHIFT);
