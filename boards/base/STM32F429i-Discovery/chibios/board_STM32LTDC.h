@@ -189,6 +189,7 @@ static void init_board(GDisplay *g) {
 	RCC->PLLSAICFGR = (STM32_PLLSAIN_VALUE << 6) | (STM32_PLLSAIR_VALUE << 28) | (STM32_PLLSAIQ_VALUE << 24);
 	RCC->DCKCFGR = (RCC->DCKCFGR & ~RCC_DCKCFGR_PLLSAIDIVR) | STM32_PLLSAIR_POST;
 	RCC->CR |= RCC_CR_PLLSAION;
+	while(!(RCC->CR & RCC_CR_PLLSAIRDY));			// wait for PLLSAI to lock
 
 	// Initialise the SDRAM
 	SDRAM_Init();
