@@ -61,7 +61,7 @@ extern "C" {
 
 #define gfxExit()					os_error(0)
 #define gfxHalt(msg)				os_error(1)
-#define gfxSystemTicks()			osKernelGetSysTimerCount()
+#define gfxSystemTicks()			osKernelGetTickCount()
 #define gfxMillisecondsToTicks(ms)	(1000*(ms)/osKernelGetTickFreq())
 #define gfxSystemLock()				osKernelLock()
 #define gfxSystemUnlock()			osKernelUnlock()
