@@ -25,7 +25,7 @@
 void _gosInit(void)
 {
 	#if !GFX_OS_NO_INIT
-		#error "GOS: Operating System initialization for RawRTOS is not yet implemented in uGFX. Please set GFX_OS_NO_INIT to TRUE in your gfxconf.h"
+		#error "GOS: Operating System initialization for RawRTOS is not yet implemented in uGFX. Please set GFX_OS_NO_INIT to GFXON in your gfxconf.h"
 	#endif
 	#if !GFX_OS_INIT_NO_WARNING
 		#if GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_DIRECT

@@ -25,7 +25,7 @@
 #endif
 #ifndef GDISP_WIN32_USE_INDIRECT_UPDATE
 	/**
-	 * Setting this to TRUE delays updating the screen
+	 * Setting this to GFXON delays updating the screen
 	 * to the windows paint routine. Due to the
 	 * drawing lock this does not add as much speed
 	 * as might be expected but it is still faster in
@@ -37,20 +37,20 @@
 	 * if you are debugging drawing and want to see each
 	 * pixel as it is set.
 	 */
-	#define GDISP_WIN32_USE_INDIRECT_UPDATE		TRUE
+	#define GDISP_WIN32_USE_INDIRECT_UPDATE		GFXON
 #endif
 #ifndef GKEYBOARD_WIN32_NO_LAYOUT
 	/**
-	 * Setting this to TRUE turns off the layout engine.
+	 * Setting this to GFXON turns off the layout engine.
 	 * In this situation "cooked" characters are returned but
 	 * shift states etc are lost.
 	 * As only a limited number of keyboard layouts are currently
 	 * defined for Win32 in uGFX (currently only US English), setting this
-	 * to TRUE enables the windows keyboard mapping to be pass non-English
+	 * to GFXON enables the windows keyboard mapping to be pass non-English
 	 * characters to uGFX or to handle non-standard keyboard layouts at
 	 * the expense of losing special function keys etc.
 	 */
-	#define GKEYBOARD_WIN32_NO_LAYOUT			FALSE
+	#define GKEYBOARD_WIN32_NO_LAYOUT			GFXOFF
 #endif
 #ifndef GKEYBOARD_WIN32_DEFAULT_LAYOUT
 	#define GKEYBOARD_WIN32_DEFAULT_LAYOUT		KeyboardLayout_Win32_US
@@ -136,7 +136,7 @@
 
 	#if !GKEYBOARD_WIN32_NO_LAYOUT
 		#if GKEYBOARD_LAYOUT_OFF
-			#error "The Win32 keyboard driver is using the layout engine. Please set GKEYBOARD_LAYOUT_OFF=FALSE or GKEYBOARD_WIN32_NO_LAYOUT=TRUE."
+			#error "The Win32 keyboard driver is using the layout engine. Please set GKEYBOARD_LAYOUT_OFF=GFXOFF or GKEYBOARD_WIN32_NO_LAYOUT=GFXON."
 		#endif
 
 		#include "../../../src/ginput/ginput_keyboard_microcode.h"
@@ -381,9 +381,9 @@
 		};
 	#elif !GKEYBOARD_LAYOUT_OFF
 		#if GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_DIRECT
-			#warning "The WIN32 keyboard driver is not using the layout engine. If no other keyboard is using it consider defining GKEYBOARD_LAYOUT_OFF=TRUE to save code size."
+			#warning "The WIN32 keyboard driver is not using the layout engine. If no other keyboard is using it consider defining GKEYBOARD_LAYOUT_OFF=GFXON to save code size."
 		#elif GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_MACRO
-			COMPILER_WARNING("The WIN32 keyboard driver is not using the layout engine. If no other keyboard is using it consider defining GKEYBOARD_LAYOUT_OFF=TRUE to save code size.")
+			COMPILER_WARNING("The WIN32 keyboard driver is not using the layout engine. If no other keyboard is using it consider defining GKEYBOARD_LAYOUT_OFF=GFXON to save code size.")
 		#endif
 	#endif
 
@@ -467,7 +467,7 @@ void gfxEmulatorSetParentWindow(void *hwnd) {
 		priv->mousebuttons = buttons;
 		priv->mousex = x;
 		priv->mousey = y;
-		if ((gmvmt(priv->mouse)->d.flags & GMOUSE_VFLG_NOPOLL))		// For normal setup this is always TRUE
+		if ((gmvmt(priv->mouse)->d.flags & GMOUSE_VFLG_NOPOLL))		// For normal setup this is always true
 			_gmouseWakeup(priv->mouse);
 	}
 	void gfxEmulatorMouseEnable(GDisplay *g, bool_t enabled) {
@@ -634,7 +634,7 @@ static LRESULT myWindowProc(HWND hWnd,	UINT Msg, WPARAM wParam, LPARAM lParam)
 				priv->mousebuttons = btns;
 				priv->mousex = (coord_t)LOWORD(lParam);
 				priv->mousey = (coord_t)HIWORD(lParam);
-				if ((gmvmt(priv->mouse)->d.flags & GMOUSE_VFLG_NOPOLL))		// For normal setup this is always TRUE
+				if ((gmvmt(priv->mouse)->d.flags & GMOUSE_VFLG_NOPOLL))		// For normal setup this is always true
 					_gmouseWakeup(priv->mouse);
 			}
 			break;
@@ -652,7 +652,7 @@ static LRESULT myWindowProc(HWND hWnd,	UINT Msg, WPARAM wParam, LPARAM lParam)
 				else if (HIWORD(lParam) & KF_REPEAT)
 					keybuffer[keypos++] = 0x01;			// Repeat
 				keybuffer[keypos++] = wParam;
-				if ((gkvmt(keyboard)->d.flags & GKEYBOARD_VFLG_NOPOLL))		// For normal setup this is always TRUE
+				if ((gkvmt(keyboard)->d.flags & GKEYBOARD_VFLG_NOPOLL))		// For normal setup this is always true
 					_gkeyboardWakeup(keyboard);
 			}
 			return 0;
@@ -666,7 +666,7 @@ static LRESULT myWindowProc(HWND hWnd,	UINT Msg, WPARAM wParam, LPARAM lParam)
 				w = wParam;
 				len = WideCharToMultiByte(CP_UTF8, 0, &w, 1, (char *)(keybuffer+keypos), sizeof(keybuffer)-keypos, 0, 0);
 				keypos += len;
-				if (len && (gkvmt(keyboard)->d.flags & GKEYBOARD_VFLG_NOPOLL))		// For normal setup this is always TRUE
+				if (len && (gkvmt(keyboard)->d.flags & GKEYBOARD_VFLG_NOPOLL))		// For normal setup this is always true
 					_gkeyboardWakeup(keyboard);
 			}
 			return 0;

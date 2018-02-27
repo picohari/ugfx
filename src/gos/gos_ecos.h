@@ -27,8 +27,6 @@ typedef cyg_int32 			int32_t;
 typedef cyg_uint32 			uint32_t;
 typedef cyg_uint32 			size_t;
 
-#define TRUE				-1
-#define FALSE				0
 #define TIME_IMMEDIATE		0
 #define TIME_INFINITE		0xFFFFFFFF
 

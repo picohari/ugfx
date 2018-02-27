@@ -26,7 +26,7 @@
  * @note		This module gdriver.h file is NOT included in the general gfx.h file.
  * 				Instead it is included in each driver type's driver API.
  *
- * @pre			GFX_USE_GDRIVER must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GDRIVER must be set to GFXON in your gfxconf.h
  *
  * @{
  */

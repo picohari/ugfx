@@ -15,7 +15,7 @@
  * @details		GEVENT provides a simple to use but yet powerful event
  *				system.
  *
- * @pre			GFX_USE_GEVENT must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GEVENT must be set to GFXON in your gfxconf.h
  *
  * @{
  */

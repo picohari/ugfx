@@ -88,8 +88,6 @@
 	 * @note	Your platform may use slightly different definitions to these
 	 * @{
 	 */
-	#define FALSE						0
-	#define TRUE						1
 	#define TIME_IMMEDIATE				0
 	#define TIME_INFINITE				((delaytime_t)-1)
 	#define MAX_SEMAPHORE_COUNT			((semcount_t)(((unsigned long)((semcount_t)(-1))) >> 1))
@@ -193,7 +191,7 @@
 	 * @api
 	 */
 	#ifndef GFX_EMULATE_MALLOC
-		#define GFX_EMULATE_MALLOC			FALSE
+		#define GFX_EMULATE_MALLOC			GFXOFF
 	#endif
 
 	/**

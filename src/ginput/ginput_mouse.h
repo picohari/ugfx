@@ -15,8 +15,8 @@
  *
  * @details Both resistive and capacitive touchscreens are supported.
  *
- * @pre		GFX_USE_GINPUT must be set to TRUE in your gfxconf.h
- * @pre		GINPUT_NEED_MOUSE must be set to TRUE in your gfxconf.h
+ * @pre		GFX_USE_GINPUT must be set to GFXON in your gfxconf.h
+ * @pre		GINPUT_NEED_MOUSE must be set to GFXON in your gfxconf.h
  *
  * @{
  */
@@ -160,7 +160,7 @@ extern "C" {
 	 * @param[in] sz    		The size in bytes of the data to retrieve.
 	 *
      * @note    This routine is provided by the user application. It is only
-     *          called if GINPUT_TOUCH_USER_CALIBRATION_LOAD has been set to TRUE in the
+     *          called if GINPUT_TOUCH_USER_CALIBRATION_LOAD has been set to GFXON in the
      *          users gfxconf.h file.
      */
     bool_t LoadMouseCalibration(unsigned instance, void *data, size_t sz);
@@ -174,7 +174,7 @@ extern "C" {
 	 * @param[in] sz    		The size in bytes of the data to retrieve.
 	 *
      * @note    This routine is provided by the user application. It is only
-     *          called if GINPUT_TOUCH_USER_CALIBRATION_SAVE has been set to TRUE in the
+     *          called if GINPUT_TOUCH_USER_CALIBRATION_SAVE has been set to GFXON in the
      *          users gfxconf.h file.
      */
     bool_t SaveMouseCalibration(unsigned instance, const void *data, size_t sz);

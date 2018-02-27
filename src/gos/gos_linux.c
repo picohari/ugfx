@@ -13,7 +13,7 @@
 #if GFX_USE_OS_LINUX
 
 // Linux seems to have deprecated pthread_yield() and now says to use sched_yield()
-#define		USE_SCHED_NOT_PTHREAD_YIELD		TRUE
+#define		USE_SCHED_NOT_PTHREAD_YIELD		GFXON
 
 #include <stdio.h>
 #include <unistd.h>

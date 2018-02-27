@@ -38,11 +38,11 @@
 // My Settings
 #define GDISP_SCREEN_HEIGHT				64
 #define GDISP_SCREEN_WIDTH				128
-#define KS0108_NEED_READ                FALSE
-#define KS0108_HAS_RESET                FALSE
-#define KS0108_NEED_BACKLIGHT           FALSE
-#define KS0108_NEED_PWMBACKLIGHT        FALSE
-#define KS0108_NOP_DLY                  TRUE  //doesn't work for me without!
+#define KS0108_NEED_READ                GFXOFF
+#define KS0108_HAS_RESET                GFXOFF
+#define KS0108_NEED_BACKLIGHT           GFXOFF
+#define KS0108_NEED_PWMBACKLIGHT        GFXOFF
+#define KS0108_NOP_DLY                  GFXON  //doesn't work for me without!
 
 #define LINE_D0      PAL_LINE(GPIOB, 0U)
 #define LINE_D1      PAL_LINE(GPIOB, 1U)

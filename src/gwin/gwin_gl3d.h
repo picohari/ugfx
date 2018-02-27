@@ -16,8 +16,8 @@
  *
  * @details	3D GWIN window based on OpenGL (or more exactly Tiny GL)
  *
- * @pre		GFX_USE_GWIN must be set to TRUE in your gfxconf.h
- * @pre		GWIN_NEED_GL3D must be set to TRUE in your gfxconf.h
+ * @pre		GFX_USE_GWIN must be set to GFXON in your gfxconf.h
+ * @pre		GWIN_NEED_GL3D must be set to GFXON in your gfxconf.h
  *
  * @{
  */

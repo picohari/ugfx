@@ -11,7 +11,7 @@
  */
 
 /* Display various warnings from gfx_rules.h */
-#define GFX_DISPLAY_RULE_WARNINGS	TRUE
+#define GFX_DISPLAY_RULE_WARNINGS	GFXON
 
 #include "../gfx.h"
 

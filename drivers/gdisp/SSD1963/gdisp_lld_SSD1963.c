@@ -56,7 +56,7 @@ typedef struct LCD_Parameters {
 /*===========================================================================*/
 
 #ifndef GDISP_SSD1963_NO_INIT
-	#define GDISP_SSD1963_NO_INIT	FALSE
+	#define GDISP_SSD1963_NO_INIT	GFXOFF
 #endif
 #ifndef GDISP_INITIAL_CONTRAST
 	#define GDISP_INITIAL_CONTRAST	50
@@ -154,7 +154,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 
 /*
  *	Some displays (e.g. Displaytech) have an on-board setup process which just requires that we don't touch anything for a time after power up.
- *	For this type of display define GDISP_SSD1963_NO_INIT as TRUE, and implement an appropriate delay in the board file.
+ *	For this type of display define GDISP_SSD1963_NO_INIT as GFXON, and implement an appropriate delay in the board file.
  *	With such displays we can skip most of the initialisation. We also skip pulsing the reset pin, since it
  *	will introduce an extra second or so of display to the startup time.
  */

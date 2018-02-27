@@ -15,7 +15,7 @@
  *
  * @note	A Pixmap is an off-screen virtual display that can be drawn to just like any other
  * 			display. It can then be copied to a real display using the standard gdispGBlitArea() call.
- * @pre		GDISP_NEED_PIXMAP must be TRUE in your gfxconf.h
+ * @pre		GDISP_NEED_PIXMAP must be GFXON in your gfxconf.h
  * @{
  */
 
@@ -69,7 +69,7 @@ extern "C" {
 		/**
 		 * @brief	Get a pointer to a native format gdispImage.
 		 * @return	A pointer to a NATIVE format gdispImage in memory or NULL if this display is not a pixmap.
-		 * @pre		GDISP_NEED_PIXAMP_IMAGE must be TRUE in your gfxconf.h
+		 * @pre		GDISP_NEED_PIXAMP_IMAGE must be GFXON in your gfxconf.h
 		 *
 		 * @param[in] g  	The pixmap virtual display
 		 *

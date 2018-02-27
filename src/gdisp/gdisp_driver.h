@@ -23,28 +23,28 @@
 
 // Are we currently compiling the driver itself?
 #if defined(GDISP_DRIVER_VMT)
-	#define	IN_DRIVER			TRUE
+	#define	IN_DRIVER			GFXON
 #else
-	#define	IN_DRIVER			FALSE
+	#define	IN_DRIVER			GFXOFF
 #endif
 
 // Is this a multiple driver situation?
 #if defined(GDISP_DRIVER_LIST)
-	#define IS_MULTIPLE			TRUE
+	#define IS_MULTIPLE			GFXON
 #else
-	#define IS_MULTIPLE			FALSE
+	#define IS_MULTIPLE			GFXOFF
 #endif
 
 // Do we need to use VMT calling rather than direct calls to the driver?
 #if IS_MULTIPLE || GDISP_NEED_PIXMAP
-	#define USE_VMT				TRUE
+	#define USE_VMT				GFXON
 #else
-	#define USE_VMT				FALSE
+	#define USE_VMT				GFXOFF
 #endif
 
 // Are we in the pixmap virtual driver
 #ifndef IN_PIXMAP_DRIVER
-	#define IN_PIXMAP_DRIVER	FALSE
+	#define IN_PIXMAP_DRIVER	GFXOFF
 #endif
 
 //------------------------------------------------------------------------------------------------------------
@@ -57,7 +57,7 @@
 	#define HARDWARE_DEFAULT		HARDWARE_AUTODETECT
 #else
 	// The default is not to include code functions that aren't needed
-	#define HARDWARE_DEFAULT		FALSE
+	#define HARDWARE_DEFAULT		GFXOFF
 #endif
 
 //------------------------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@
  */
 	/**
 	 * @brief   The display hardware can benefit from being de-initialized when usage is complete.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 * @note	This is most useful for displays such as remote network displays.
@@ -79,7 +79,7 @@
 
 	/**
 	 * @brief   The display hardware can benefit from being flushed.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 * @note	Some controllers ** require ** the application to flush
@@ -90,7 +90,7 @@
 
 	/**
 	 * @brief   Hardware streaming writing is supported.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 * @note	Either GDISP_HARDWARE_STREAM_WRITE or GDISP_HARDWARE_DRAWPIXEL must be provided by each driver
@@ -101,7 +101,7 @@
 
 	/**
 	 * @brief   Hardware streaming reading of the display surface is supported.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 *
@@ -112,7 +112,7 @@
 
 	/**
 	 * @brief   Hardware supports setting the cursor position within the stream window.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 * @note	This is used to optimise setting of individual pixels within a stream window.
@@ -125,7 +125,7 @@
 
 	/**
 	 * @brief   Hardware accelerated draw pixel.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 * @note	Either GDISP_HARDWARE_STREAM_WRITE or GDISP_HARDWARE_DRAWPIXEL must be provided by the driver
@@ -136,7 +136,7 @@
 
 	/**
 	 * @brief   Hardware accelerated screen clears.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 * @note	This clears the entire display surface regardless of the clipping area currently set
@@ -147,7 +147,7 @@
 
 	/**
 	 * @brief   Hardware accelerated rectangular fills.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 */
@@ -157,7 +157,7 @@
 
 	/**
 	 * @brief   Hardware accelerated fills from an image.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 */
@@ -167,7 +167,7 @@
 
 	/**
 	 * @brief   Hardware accelerated scrolling.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 */
@@ -177,7 +177,7 @@
 
 	/**
 	 * @brief   Reading back of pixel values.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 */
@@ -187,7 +187,7 @@
 
 	/**
 	 * @brief   The driver supports one or more control commands.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 */
@@ -197,7 +197,7 @@
 
 	/**
 	 * @brief   The driver supports a non-standard query.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 */
@@ -207,7 +207,7 @@
 
 	/**
 	 * @brief   The driver supports a clipping in hardware.
-	 * @details Can be set to TRUE, FALSE or HARDWARE_AUTODETECT
+	 * @details Can be set to GFXON, GFXOFF or HARDWARE_AUTODETECT
 	 *
 	 * @note	HARDWARE_AUTODETECT is only meaningful when GDISP_DRIVER_LIST is defined
 	 * @note	If this is defined the driver must perform its own clipping on all calls to
@@ -223,8 +223,8 @@
 
 //------------------------------------------------------------------------------------------------------------
 
-// For pixmaps certain routines MUST not be FALSE as they are needed for pixmap drawing
-//	Similarly some routines MUST not be TRUE as pixmap's don't provide them.
+// For pixmaps certain routines MUST not be GFXOFF as they are needed for pixmap drawing
+//	Similarly some routines MUST not be GFXON as pixmap's don't provide them.
 #if GDISP_NEED_PIXMAP && !IN_DRIVER
 	#if !GDISP_HARDWARE_DEINIT
 		#undef GDISP_HARDWARE_DEINIT
@@ -242,39 +242,39 @@
 		#undef GDISP_HARDWARE_CONTROL
 		#define GDISP_HARDWARE_CONTROL		HARDWARE_AUTODETECT
 	#endif
-	#if GDISP_HARDWARE_FLUSH == TRUE
+	#if GDISP_HARDWARE_FLUSH == GFXON
 		#undef GDISP_HARDWARE_FLUSH
 		#define GDISP_HARDWARE_FLUSH		HARDWARE_AUTODETECT
 	#endif
-	#if GDISP_HARDWARE_STREAM_WRITE == TRUE
+	#if GDISP_HARDWARE_STREAM_WRITE == GFXON
 		#undef GDISP_HARDWARE_STREAM_WRITE
 		#define GDISP_HARDWARE_STREAM_WRITE	HARDWARE_AUTODETECT
 	#endif
-	#if GDISP_HARDWARE_STREAM_READ == TRUE
+	#if GDISP_HARDWARE_STREAM_READ == GFXON
 		#undef GDISP_HARDWARE_STREAM_READ
 		#define GDISP_HARDWARE_STREAM_READ	HARDWARE_AUTODETECT
 	#endif
-	#if GDISP_HARDWARE_CLEARS == TRUE
+	#if GDISP_HARDWARE_CLEARS == GFXON
 		#undef GDISP_HARDWARE_CLEARS
 		#define GDISP_HARDWARE_CLEARS		HARDWARE_AUTODETECT
 	#endif
-	#if GDISP_HARDWARE_FILLS == TRUE
+	#if GDISP_HARDWARE_FILLS == GFXON
 		#undef GDISP_HARDWARE_FILLS
 		#define GDISP_HARDWARE_FILLS		HARDWARE_AUTODETECT
 	#endif
-	#if GDISP_HARDWARE_BITFILLS == TRUE
+	#if GDISP_HARDWARE_BITFILLS == GFXON
 		#undef GDISP_HARDWARE_BITFILLS
 		#define GDISP_HARDWARE_BITFILLS		HARDWARE_AUTODETECT
 	#endif
-	#if GDISP_HARDWARE_SCROLL == TRUE
+	#if GDISP_HARDWARE_SCROLL == GFXON
 		#undef GDISP_HARDWARE_SCROLL
 		#define GDISP_HARDWARE_SCROLL		HARDWARE_AUTODETECT
 	#endif
-	#if GDISP_HARDWARE_QUERY == TRUE
+	#if GDISP_HARDWARE_QUERY == GFXON
 		#undef GDISP_HARDWARE_QUERY
 		#define GDISP_HARDWARE_QUERY		HARDWARE_AUTODETECT
 	#endif
-	#if GDISP_HARDWARE_CLIP == TRUE
+	#if GDISP_HARDWARE_CLIP == GFXON
 		#undef GDISP_HARDWARE_CLIP
 		#define GDISP_HARDWARE_CLIP			HARDWARE_AUTODETECT
 	#endif
@@ -342,7 +342,7 @@ struct GDisplay {
 	#endif
 
 	// Software clipping
-	#if GDISP_HARDWARE_CLIP != TRUE && (GDISP_NEED_CLIP || GDISP_NEED_VALIDATION)
+	#if GDISP_HARDWARE_CLIP != GFXON && (GDISP_NEED_CLIP || GDISP_NEED_VALIDATION)
 		coord_t					clipx0, clipy0;
 		coord_t					clipx1, clipy1;		/* not inclusive */
 	#endif
@@ -430,7 +430,7 @@ typedef struct GDISPVMT {
 	#if GDISP_HARDWARE_DEINIT || defined(__DOXYGEN__)
 		/**
 		 * @brief   The driver is being de-initialized
-		 * @pre		GDISP_HARDWARE_FLUSH is TRUE
+		 * @pre		GDISP_HARDWARE_FLUSH is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 *
@@ -441,7 +441,7 @@ typedef struct GDISPVMT {
 	#if GDISP_HARDWARE_FLUSH || defined(__DOXYGEN__)
 		/**
 		 * @brief   Flush the current drawing operations to the display
-		 * @pre		GDISP_HARDWARE_FLUSH is TRUE
+		 * @pre		GDISP_HARDWARE_FLUSH is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 *
@@ -453,7 +453,7 @@ typedef struct GDISPVMT {
 	#if GDISP_HARDWARE_STREAM_WRITE || defined(__DOXYGEN__)
 		/**
 		 * @brief   Start a streamed write operation
-		 * @pre		GDISP_HARDWARE_STREAM_WRITE is TRUE
+		 * @pre		GDISP_HARDWARE_STREAM_WRITE is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 *
@@ -463,13 +463,13 @@ typedef struct GDISPVMT {
 		 * @note		The parameter variables must not be altered by the driver.
 		 * @note		Streaming operations that wrap the defined window have
 		 * 				undefined results.
-		 * @note		This must be followed by a call to @p gdisp_lld_write_pos() if GDISP_HARDWARE_STREAM_POS is TRUE.
+		 * @note		This must be followed by a call to @p gdisp_lld_write_pos() if GDISP_HARDWARE_STREAM_POS is GFXON.
 		 */
 		LLDSPEC	void gdisp_lld_write_start(GDisplay *g);
 
 		/**
 		 * @brief   Send a pixel to the current streaming position and then increment that position
-		 * @pre		GDISP_HARDWARE_STREAM_WRITE is TRUE
+		 * @pre		GDISP_HARDWARE_STREAM_WRITE is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 *
@@ -480,7 +480,7 @@ typedef struct GDISPVMT {
 
 		/**
 		 * @brief   End the current streaming write operation
-		 * @pre		GDISP_HARDWARE_STREAM_WRITE is TRUE
+		 * @pre		GDISP_HARDWARE_STREAM_WRITE is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 *
@@ -491,7 +491,7 @@ typedef struct GDISPVMT {
 		#if GDISP_HARDWARE_STREAM_POS || defined(__DOXYGEN__)
 			/**
 			 * @brief   Change the current position within the current streaming window
-			 * @pre		GDISP_HARDWARE_STREAM_POS is TRUE and GDISP_HARDWARE_STREAM_WRITE is TRUE
+			 * @pre		GDISP_HARDWARE_STREAM_POS is GFXON and GDISP_HARDWARE_STREAM_WRITE is GFXON
 			 *
 			 * @param[in]	g				The driver structure
 			 * @param[in]	g->p.x,g->p.y	The new position (which will always be within the existing stream window)
@@ -505,7 +505,7 @@ typedef struct GDISPVMT {
 	#if GDISP_HARDWARE_STREAM_READ || defined(__DOXYGEN__)
 		/**
 		 * @brief   Start a streamed read operation
-		 * @pre		GDISP_HARDWARE_STREAM_READ is TRUE
+		 * @pre		GDISP_HARDWARE_STREAM_READ is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 * @param[in]	g->p.x,g->p.y	The window position
@@ -520,7 +520,7 @@ typedef struct GDISPVMT {
 		/**
 		 * @brief   Read a pixel from the current streaming position and then increment that position
 		 * @return	The color at the current position
-		 * @pre		GDISP_HARDWARE_STREAM_READ is TRUE
+		 * @pre		GDISP_HARDWARE_STREAM_READ is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 *
@@ -530,7 +530,7 @@ typedef struct GDISPVMT {
 
 		/**
 		 * @brief   End the current streaming operation
-		 * @pre		GDISP_HARDWARE_STREAM_READ is TRUE
+		 * @pre		GDISP_HARDWARE_STREAM_READ is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 *
@@ -542,7 +542,7 @@ typedef struct GDISPVMT {
 	#if GDISP_HARDWARE_DRAWPIXEL || defined(__DOXYGEN__)
 		/**
 		 * @brief   Draw a pixel
-		 * @pre		GDISP_HARDWARE_DRAWPIXEL is TRUE
+		 * @pre		GDISP_HARDWARE_DRAWPIXEL is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 * @param[in]	g->p.x,g->p.y	The pixel position
@@ -556,7 +556,7 @@ typedef struct GDISPVMT {
 	#if GDISP_HARDWARE_CLEARS || defined(__DOXYGEN__)
 		/**
 		 * @brief   Clear the screen using the defined color
-		 * @pre		GDISP_HARDWARE_CLEARS is TRUE
+		 * @pre		GDISP_HARDWARE_CLEARS is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 * @param[in]	g->p.color		The color to set
@@ -569,7 +569,7 @@ typedef struct GDISPVMT {
 	#if GDISP_HARDWARE_FILLS || defined(__DOXYGEN__)
 		/**
 		 * @brief   Fill an area with a single color
-		 * @pre		GDISP_HARDWARE_FILLS is TRUE
+		 * @pre		GDISP_HARDWARE_FILLS is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 * @param[in]	g->p.x,g->p.y	The area position
@@ -584,7 +584,7 @@ typedef struct GDISPVMT {
 	#if GDISP_HARDWARE_BITFILLS || defined(__DOXYGEN__)
 		/**
 		 * @brief   Fill an area using a bitmap
-		 * @pre		GDISP_HARDWARE_BITFILLS is TRUE
+		 * @pre		GDISP_HARDWARE_BITFILLS is GFXON
 		 *
 		 * @param[in]	g				The driver structure
 		 * @param[in]	g->p.x,g->p.y	The area position
@@ -602,7 +602,7 @@ typedef struct GDISPVMT {
 		/**
 		 * @brief   Read a pixel from the display
 		 * @return	The color at the defined position
-		 * @pre		GDISP_HARDWARE_PIXELREAD is TRUE (and the application needs it)
+		 * @pre		GDISP_HARDWARE_PIXELREAD is GFXON (and the application needs it)
 		 *
 		 * @param[in]	g				The driver structure
 		 * @param[in]	g->p.x,g->p.y	The pixel position
@@ -615,7 +615,7 @@ typedef struct GDISPVMT {
 	#if (GDISP_HARDWARE_SCROLL && GDISP_NEED_SCROLL) || defined(__DOXYGEN__)
 		/**
 		 * @brief   Scroll an area of the screen
-		 * @pre		GDISP_HARDWARE_SCROLL is TRUE (and the application needs it)
+		 * @pre		GDISP_HARDWARE_SCROLL is GFXON (and the application needs it)
 		 *
 		 * @param[in]	g				The driver structure
 		 * @param[in]	g->p.x,g->p.y	The area position
@@ -634,7 +634,7 @@ typedef struct GDISPVMT {
 	#if (GDISP_HARDWARE_CONTROL && GDISP_NEED_CONTROL) || defined(__DOXYGEN__)
 		/**
 		 * @brief   Control some feature of the hardware
-		 * @pre		GDISP_HARDWARE_CONTROL is TRUE (and the application needs it)
+		 * @pre		GDISP_HARDWARE_CONTROL is GFXON (and the application needs it)
 		 *
 		 * @param[in]	g				The driver structure
 		 * @param[in]	g->p.x			The operation to perform
@@ -649,7 +649,7 @@ typedef struct GDISPVMT {
 		/**
 		 * @brief   Query some feature of the hardware
 		 * @return	The information requested (typecast as void *)
-		 * @pre		GDISP_HARDWARE_QUERY is TRUE (and the application needs it)
+		 * @pre		GDISP_HARDWARE_QUERY is GFXON (and the application needs it)
 		 *
 		 * @param[in]	g				The driver structure
 		 * @param[in]	g->p.x			What to query
@@ -662,7 +662,7 @@ typedef struct GDISPVMT {
 	#if (GDISP_HARDWARE_CLIP && (GDISP_NEED_CLIP || GDISP_NEED_VALIDATION)) || defined(__DOXYGEN__)
 		/**
 		 * @brief   Set the hardware clipping area
-		 * @pre		GDISP_HARDWARE_CLIP is TRUE (and the application needs it)
+		 * @pre		GDISP_HARDWARE_CLIP is GFXON (and the application needs it)
 		 *
 		 * @param[in]	g				The driver structure
 		 * @param[in]	g->p.x,g->p.y	The area position
@@ -706,7 +706,7 @@ typedef struct GDISPVMT {
 
 	// Make sure the driver has a valid model
 	#if !GDISP_HARDWARE_STREAM_WRITE && !GDISP_HARDWARE_DRAWPIXEL
-		#error "GDISP Driver: Either GDISP_HARDWARE_STREAM_WRITE or GDISP_HARDWARE_DRAWPIXEL must be TRUE"
+		#error "GDISP Driver: Either GDISP_HARDWARE_STREAM_WRITE or GDISP_HARDWARE_DRAWPIXEL must be GFXON"
 	#endif
 
 	// If we are not using multiple displays then hard-code the VMT name (except for the pixmap driver)
@@ -840,9 +840,9 @@ typedef struct GDISPVMT {
 			#error "GDISP: Cannot define low level driver color types with more than 32 bits"
 		#endif
 		#if LLDCOLOR_TYPE_BITS == LLDCOLOR_BITS
-			#define LLDCOLOR_NEEDS_MASK	FALSE
+			#define LLDCOLOR_NEEDS_MASK	GFXOFF
 		#else
-			#define LLDCOLOR_NEEDS_MASK	TRUE
+			#define LLDCOLOR_NEEDS_MASK	GFXON
 		#endif
 		#define LLDCOLOR_MASK()			((1 << LLDCOLOR_BITS)-1)
 
@@ -943,9 +943,9 @@ typedef struct GDISPVMT {
 			#error "GDISP: Cannot define gray-scale low level driver color types with more than 8 bits"
 		#endif
 		#if LLDCOLOR_TYPE_BITS == LLDCOLOR_BITS
-			#define LLDCOLOR_NEEDS_MASK	FALSE
+			#define LLDCOLOR_NEEDS_MASK	GFXOFF
 		#else
-			#define LLDCOLOR_NEEDS_MASK	TRUE
+			#define LLDCOLOR_NEEDS_MASK	GFXON
 		#endif
 		#define LLDCOLOR_MASK()			((1 << LLDCOLOR_BITS)-1)
 
@@ -1005,9 +1005,9 @@ typedef struct GDISPVMT {
 	 */
 	#ifndef GDISP_HARDWARE_USE_EXACT_COLOR
 		#if LLDCOLOR_BITS_R - COLOR_BITS_R >= LLDCOLOR_BITS_R/2 || LLDCOLOR_BITS_G - COLOR_BITS_G >= LLDCOLOR_BITS_G/2 || LLDCOLOR_BITS_B - COLOR_BITS_B >= LLDCOLOR_BITS_B/2
-			#define GDISP_HARDWARE_USE_EXACT_COLOR	TRUE
+			#define GDISP_HARDWARE_USE_EXACT_COLOR	GFXON
 		#else
-			#define GDISP_HARDWARE_USE_EXACT_COLOR	FALSE
+			#define GDISP_HARDWARE_USE_EXACT_COLOR	GFXOFF
 		#endif
 	#endif
 

@@ -18,9 +18,9 @@
 
 #include "gwin_class.h"
 
-#define GWIN_CONSOLE_USE_CLEAR_LINES			TRUE			// Clear each line before using it
-#define GWIN_CONSOLE_USE_FILLED_CHARS			FALSE			// Use filled characters instead of drawn characters
-#define GWIN_CONSOLE_BUFFER_SCROLLING			TRUE			// Use the history buffer to scroll when it is available
+#define GWIN_CONSOLE_USE_CLEAR_LINES			GFXON			// Clear each line before using it
+#define GWIN_CONSOLE_USE_FILLED_CHARS			GFXOFF			// Use filled characters instead of drawn characters
+#define GWIN_CONSOLE_BUFFER_SCROLLING			GFXON			// Use the history buffer to scroll when it is available
 
 // Our control flags
 #define GCONSOLE_FLG_NOSTORE					(GWIN_FIRST_CONTROL_FLAG<<0)

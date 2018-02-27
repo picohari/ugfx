@@ -12,7 +12,7 @@
 
 /* Double check the GADC system is turned on */
 #if !GFX_USE_GADC
-	#error "GAUDIO - The GADC driver for GAUDIO requires GFX_USE_GADC to be TRUE"
+	#error "GAUDIO - The GADC driver for GAUDIO requires GFX_USE_GADC to be GFXON"
 #endif
 
 /* Include the driver defines */

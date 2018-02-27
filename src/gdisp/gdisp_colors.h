@@ -80,29 +80,54 @@ typedef uint16_t	colorformat;
  * @name   Some basic colors
  * @{
  */
-#define White			HTML2COLOR(0xFFFFFF)
-#define Black			HTML2COLOR(0x000000)
-#define Gray			HTML2COLOR(0x808080)
-#define Grey			Gray
-#define Blue			HTML2COLOR(0x0000FF)
-#define Red				HTML2COLOR(0xFF0000)
-#define Fuchsia			HTML2COLOR(0xFF00FF)
-#define Magenta			Fuchsia
-#define Green			HTML2COLOR(0x008000)
-#define Yellow			HTML2COLOR(0xFFFF00)
-#define Aqua			HTML2COLOR(0x00FFFF)
-#define Cyan			Aqua
-#define Lime			HTML2COLOR(0x00FF00)
-#define Maroon			HTML2COLOR(0x800000)
-#define Navy			HTML2COLOR(0x000080)
-#define Olive			HTML2COLOR(0x808000)
-#define Purple			HTML2COLOR(0x800080)
-#define Silver			HTML2COLOR(0xC0C0C0)
-#define Teal			HTML2COLOR(0x008080)
-#define Orange			HTML2COLOR(0xFFA500)
-#define Pink			HTML2COLOR(0xFFC0CB)
-#define SkyBlue			HTML2COLOR(0x87CEEB)
+#define GFXWHITE		HTML2COLOR(0xFFFFFF)
+#define GFXBLACK		HTML2COLOR(0x000000)
+#define GFXGRAY			HTML2COLOR(0x808080)
+#define GFXGREY			GFXGRAY
+#define GFXBLUE			HTML2COLOR(0x0000FF)
+#define GFXRED			HTML2COLOR(0xFF0000)
+#define GFXFUCHSIA		HTML2COLOR(0xFF00FF)
+#define GFXMAGENTA		GFXFUCHSIA
+#define GFXGREEN		HTML2COLOR(0x008000)
+#define GFXYELLOW		HTML2COLOR(0xFFFF00)
+#define GFXAQUA			HTML2COLOR(0x00FFFF)
+#define GFXCYAN			GFXAQUA
+#define GFXLIME			HTML2COLOR(0x00FF00)
+#define GFXMAROON		HTML2COLOR(0x800000)
+#define GFXNAVY			HTML2COLOR(0x000080)
+#define GFXOLIVE		HTML2COLOR(0x808000)
+#define GFXPURPLE		HTML2COLOR(0x800080)
+#define GFXSILVER		HTML2COLOR(0xC0C0C0)
+#define GFXTEAL			HTML2COLOR(0x008080)
+#define GFXORANGE		HTML2COLOR(0xFFA500)
+#define GFXPINK			HTML2COLOR(0xFFC0CB)
+#define GFXSKYBLUE		HTML2COLOR(0x87CEEB)
 /** @} */
+
+#if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
+	#define White			GFXWHITE
+	#define Black			GFXBLACK
+	#define Gray			GFXGRAY
+	#define Grey			GFXGREY
+	#define Blue			GFXBLUE
+	#define Red				GFXRED
+	#define Fuchsia			GFXFUCHSIA
+	#define Magenta			GFXMAGENTA
+	#define Green			GFXGREEN
+	#define Yellow			GFXYELLOW
+	#define Aqua			GFXAQUA
+	#define Cyan			GFXCYAN
+	#define Lime			GFXLIME
+	#define Maroon			GFXMAROON
+	#define Navy			GFXNAVY
+	#define Olive			GFXOLIVE
+	#define Purple			GFXPURPLE
+	#define Silver			GFXSILVER
+	#define Teal			GFXTEAL
+	#define Orange			GFXORANGE
+	#define Pink			GFXPINK
+	#define SkyBlue			GFXSKYBLUE
+#endif
 
 #if defined(__DOXYGEN__)
 	/**
@@ -138,7 +163,7 @@ typedef uint16_t	colorformat;
 	/**
 	 * @brief	Does the color need masking to remove invalid bits
 	 */
-	#define COLOR_NEEDS_MASK	FALSE
+	#define COLOR_NEEDS_MASK	GFXOFF
 
 	/**
 	 * @brief	If the color needs masking to remove invalid bits, this is the mask
@@ -248,9 +273,9 @@ typedef uint16_t	colorformat;
 		#error "GDISP: Cannot define color types with more than 32 bits"
 	#endif
 	#if COLOR_TYPE_BITS == COLOR_BITS
-		#define COLOR_NEEDS_MASK	FALSE
+		#define COLOR_NEEDS_MASK	GFXOFF
 	#else
-		#define COLOR_NEEDS_MASK	TRUE
+		#define COLOR_NEEDS_MASK	GFXON
 	#endif
 	#define COLOR_MASK()			((1 << COLOR_BITS)-1)
 
@@ -363,9 +388,9 @@ typedef uint16_t	colorformat;
 		#error "GDISP: Cannot define gray-scale color types with more than 8 bits"
 	#endif
 	#if COLOR_TYPE_BITS == COLOR_BITS
-		#define COLOR_NEEDS_MASK	FALSE
+		#define COLOR_NEEDS_MASK	GFXOFF
 	#else
-		#define COLOR_NEEDS_MASK	TRUE
+		#define COLOR_NEEDS_MASK	GFXON
 	#endif
 	#define COLOR_MASK()			((1 << COLOR_BITS)-1)
 

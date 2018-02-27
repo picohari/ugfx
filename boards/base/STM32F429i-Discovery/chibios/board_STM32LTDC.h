@@ -23,7 +23,7 @@ static const SPIConfig spi_cfg = {
 	((1 << 3) & SPI_CR1_BR) | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_MSTR
 };
 
-#define ALLOW_2ND_LAYER		TRUE
+#define ALLOW_2ND_LAYER		GFXON
 
 static const ltdcConfig driverCfg = {
 	240, 320,

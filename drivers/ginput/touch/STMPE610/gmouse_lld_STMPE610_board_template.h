@@ -20,18 +20,18 @@
 #define GMOUSE_STMPE610_BOARD_DATA_SIZE			0
 
 // Options - Leave these commented to make it user configurable in the gfxconf.h
-//#define GMOUSE_STMPE610_READ_PRESSURE		FALSE
-//#define GMOUSE_STMPE610_SELF_CALIBRATE	FALSE
-//#define GMOUSE_STMPE610_TEST_MODE			FALSE
+//#define GMOUSE_STMPE610_READ_PRESSURE		GFXOFF
+//#define GMOUSE_STMPE610_SELF_CALIBRATE	GFXOFF
+//#define GMOUSE_STMPE610_TEST_MODE			GFXOFF
 
-// If TRUE this board has the STMPE610 IRQ pin connected to a GPIO.
-// Note: For tested hardware this is unreliable and should be set to FALSE until tested.
+// If GFXON this board has the STMPE610 IRQ pin connected to a GPIO.
+// Note: For tested hardware this is unreliable and should be set to GFXOFF until tested.
 //			Symptoms are that mouse readings just appear to stop for a bit. Lifting the touch
 //			and re-applying the touch cause readings to start again.
-#define GMOUSE_STMPE610_GPIO_IRQPIN				FALSE
+#define GMOUSE_STMPE610_GPIO_IRQPIN				GFXOFF
 
-// If TRUE this is a really slow CPU and we should always clear the FIFO between reads.
-#define GMOUSE_STMPE610_SLOW_CPU				FALSE
+// If GFXON this is a really slow CPU and we should always clear the FIFO between reads.
+#define GMOUSE_STMPE610_SLOW_CPU				GFXOFF
 
 static bool_t init_board(GMouse* m, unsigned driverinstance) {
 }

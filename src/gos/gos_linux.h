@@ -12,7 +12,7 @@
 
 // We don't put this in the general sys_options.h as it is Linux specific.
 #ifndef GFX_USE_POSIX_SEMAPHORES
-	#define GFX_USE_POSIX_SEMAPHORES	TRUE
+	#define GFX_USE_POSIX_SEMAPHORES	GFXON
 #endif
 
 #include <sys/types.h>

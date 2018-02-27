@@ -17,8 +17,8 @@
  * @details		A frame is a rectangular window that can have optional border as well as buttons to
  *				close, maximize and minimize it. The main purpose of this widget is to contain children. 	
  *
- * @pre			GFX_USE_GWIN must be set to TRUE in your gfxconf.h
- * @pre			GWIN_NEED_FRAME must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GWIN must be set to GFXON in your gfxconf.h
+ * @pre			GWIN_NEED_FRAME must be set to GFXON in your gfxconf.h
  * @{
  */
 
@@ -130,7 +130,7 @@ void gwinFrameDraw_Transparent(GWidgetObject *gw, void *param);
 	 * @note				The image must be already opened before calling  @p gwinSetCustomDraw(). The handle is passed as the parameter
 	 *						to this function.
 	 *
-	 * @pre					GDISP_NEED_IMAGE must be set to TRUE
+	 * @pre					GDISP_NEED_IMAGE must be set to GFXON
 	 *
 	 * @api
 	 */

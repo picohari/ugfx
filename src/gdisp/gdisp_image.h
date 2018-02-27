@@ -127,7 +127,7 @@ extern "C" {
 	 * @details	Determine the image format and get ready to decode the first image frame
 	 * @return	GDISP_IMAGE_ERR_OK (0) on success or an error code.
 	 *
-	 * @pre		GFILE_NEED_CHIBIOSFS and GFX_USE_OS_CHIBIOS must be TRUE. This only makes sense on the ChibiOS
+	 * @pre		GFILE_NEED_CHIBIOSFS and GFX_USE_OS_CHIBIOS must be GFXON. This only makes sense on the ChibiOS
 	 * 			operating system.
 	 *
 	 * @param[in] img  				The image structure
@@ -142,7 +142,7 @@ extern "C" {
 	 * @details	Determine the image format and get ready to decode the first image frame
 	 * @return	GDISP_IMAGE_ERR_OK (0) on success or an error code.
 	 *
-	 * @pre		GFILE_NEED_MEMFS must be TRUE
+	 * @pre		GFILE_NEED_MEMFS must be GFXON
 	 *
 	 * @param[in] img  		The image structure
 	 * @param[in] ptr		A pointer to the image bytes in memory

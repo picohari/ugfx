@@ -70,8 +70,8 @@ extern "C" {
 /* Use the generic thread handling and heap handling                         */
 /*===========================================================================*/
 
-#define GOS_NEED_X_THREADS	TRUE
-#define GOS_NEED_X_HEAP		TRUE
+#define GOS_NEED_X_THREADS	GFXON
+#define GOS_NEED_X_HEAP		GFXON
 
 #include "gos_x_threads.h"
 #include "gos_x_heap.h"

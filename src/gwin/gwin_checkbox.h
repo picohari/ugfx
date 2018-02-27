@@ -16,8 +16,8 @@
  *
  * @details		GWIN allows it to easily create a group of checkbox buttons.
  *
- * @pre			GFX_USE_GWIN must be set to TRUE in your gfxconf.h
- * @pre			GWIN_NEED_CHECKBOX must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GWIN must be set to GFXON in your gfxconf.h
+ * @pre			GWIN_NEED_CHECKBOX must be set to GFXON in your gfxconf.h
  * @{
  */
 

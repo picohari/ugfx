@@ -17,8 +17,8 @@
  * @details		RadioButtons need to be grouped together. This is archived by passing a group parameter through
  *				@p gwinRadioCreate().
  *
- * @pre			GFX_USE_GWIN must be set to TRUE in your gfxconf.h
- * @pre			GWIN_NEED_RADIO must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GWIN must be set to GFXON in your gfxconf.h
+ * @pre			GWIN_NEED_RADIO must be set to GFXON in your gfxconf.h
  * @{
  */
 

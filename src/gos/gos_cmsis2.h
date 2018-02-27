@@ -92,7 +92,7 @@ gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, threadpriority_
 /* Use the generic heap handling                                             */
 /*===========================================================================*/
 
-#define GOS_NEED_X_HEAP TRUE
+#define GOS_NEED_X_HEAP GFXON
 #include "gos_x_heap.h"
 
 #endif /* GFX_USE_OS_CMSIS */

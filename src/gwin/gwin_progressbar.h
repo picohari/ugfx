@@ -14,8 +14,8 @@
  *
  * @brief		ProgressBar widget.
  *
- * @pre			GFX_USE_GWIN must be set to TRUE in your gfxconf.h
- * @pre			GWIN_NEED_PROGRESSBAR must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GWIN must be set to GFXON in your gfxconf.h
+ * @pre			GWIN_NEED_PROGRESSBAR must be set to GFXON in your gfxconf.h
  * @{
  */
 
@@ -213,7 +213,7 @@ void gwinProgressbarDraw_Std(GWidgetObject *gw, void *param);
 	 *						and inactive areas. No checking is done to compare the dimensions of the progressbar
 	 *						to the size of the image. Note text is drawn on top of the image.
 	 *
-	 * @pre					GDISP_NEED_IMAGE must be set to TRUE
+	 * @pre					GDISP_NEED_IMAGE must be set to GFXON
 	 *
 	 * @api
 	 */

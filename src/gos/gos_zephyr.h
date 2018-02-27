@@ -42,8 +42,6 @@
 
 	#define THREAD_RETURN(retval)		return
 
-	// #define FALSE			0
-	// #define TRUE				1
 	#define TIME_IMMEDIATE			K_NO_WAIT
 	#define TIME_INFINITE			K_FOREVER
 	#define MAX_SEMAPHORE_COUNT		((semcount_t)(((unsigned long)((semcount_t)(-1))) >> 1))

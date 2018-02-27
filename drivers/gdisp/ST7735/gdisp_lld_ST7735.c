@@ -43,19 +43,19 @@
 // Define one of supported type, if not defined yet
 #if !defined(ST7735_TYPE_R) && !defined(ST7735_TYPE_B)
 	// It seems all modern boards is 7735R
-	#define ST7735_TYPE_R TRUE
+	#define ST7735_TYPE_R GFXON
 #endif
 
 // Define one of supported color packing, if not defined yet
 #if !defined(ST7735_COLOR_RGB) && !defined(ST7735_COLOR_BRG)
 	// It seems all modern boards is RGB
-	#define ST7735_COLOR_RGB TRUE
+	#define ST7735_COLOR_RGB GFXON
 #endif
 
 
 // Strange boars with shifted coords
 #if !defined (ST7735_SHIFTED_COORDS)
-	#define ST7735_SHIFTED_COORDS FALSE
+	#define ST7735_SHIFTED_COORDS GFXOFF
 #endif
 
 

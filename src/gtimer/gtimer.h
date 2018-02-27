@@ -21,7 +21,7 @@
  *			This contrary to the goals of a real-time operating system. So a user-land
  *			(thread based) timer mechanism is also required.
  *
- * @pre		GFX_USE_GTIMER must be set to TRUE in your gfxconf.h
+ * @pre		GFX_USE_GTIMER must be set to GFXON in your gfxconf.h
  *
  * @{
  */

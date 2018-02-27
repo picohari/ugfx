@@ -24,13 +24,13 @@
 	 * @brief	Audio Play capability is needed
 	 */
 	#ifndef GAUDIO_NEED_PLAY
-		#define GAUDIO_NEED_PLAY			FALSE
+		#define GAUDIO_NEED_PLAY			GFXOFF
 	#endif
 	/**
 	 * @brief	Audio Recording capability is needed
 	 */
 	#ifndef GAUDIO_NEED_RECORD
-		#define GAUDIO_NEED_RECORD			FALSE
+		#define GAUDIO_NEED_RECORD			GFXOFF
 	#endif
 /**
  * @}

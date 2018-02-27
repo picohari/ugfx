@@ -35,19 +35,19 @@ typedef struct UC8173Lut {
 
 /*------------------ Default UC8173 parameters ------------------*/
 #ifndef UC8173_REVERSEAXIS_Y
-	#define UC8173_REVERSEAXIS_Y	FALSE
+	#define UC8173_REVERSEAXIS_Y	GFXOFF
 #endif
 #ifndef UC8173_REVERSEAXIS_X
-	#define UC8173_REVERSEAXIS_X	FALSE
+	#define UC8173_REVERSEAXIS_X	GFXOFF
 #endif
 #ifndef UC8173_DEFAULT_MODE
 	#define UC8173_DEFAULT_MODE		0
 #endif
 #ifndef UC8173_USE_OTP_LUT
-	#define UC8173_USE_OTP_LUT		FALSE
+	#define UC8173_USE_OTP_LUT		GFXOFF
 #endif
 #ifndef UC8173_CAN_READ
-	#define UC8173_CAN_READ			FALSE
+	#define UC8173_CAN_READ			GFXOFF
 #endif
 #ifdef UC8173_VCOM_VOLTAGE
 	#define UC8173_VCOM_VOLTAGEBYTE	(((UC8173_VCOM_VOLTAGE) + 0.1)/-0.05)
@@ -56,7 +56,7 @@ typedef struct UC8173Lut {
 	#define UC8171_BORDER			0			/* 0 = Hi-Z, 1 = Black, 2 = White */
 #endif
 #ifndef UC8173_INIT_REAL_LUT
-	#define UC8173_INIT_REAL_LUT	TRUE
+	#define UC8173_INIT_REAL_LUT	GFXON
 #endif
 #define UC8173_HEIGHT				240
 #define UC8173_WIDTH				240
@@ -67,7 +67,7 @@ typedef struct UC8173Lut {
 #define FB_WIDTH					UC8173_WIDTH
 #define FB_HEIGHT					UC8173_HEIGHT
 #define FB_PAGES					1
-#define FB_PIXELORDER_MSB			TRUE
+#define FB_PIXELORDER_MSB			GFXON
 
 /*------------------ Include Generic FB Code ------------------*/
 // This FB is for 1,2 or 4 bits per pixel packed along the x-axis
@@ -242,7 +242,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay* g)
 			write_data(g, vc);
 		}
 	#else
-		#error "UC8173: Either UC8173_VCOM_VOLTAGE or UC8173_VCOM_VOLTAGEBYTE must be defined or UC8173_CAN_READ must be TRUE"
+		#error "UC8173: Either UC8173_VCOM_VOLTAGE or UC8173_VCOM_VOLTAGEBYTE must be defined or UC8173_CAN_READ must be GFXON"
 	#endif
   
 	// Undocumented register	- Values from example code

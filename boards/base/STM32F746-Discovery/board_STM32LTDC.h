@@ -11,7 +11,7 @@
 #include "stm32f746g_discovery_sdram.h"
 
 #ifndef GFX_LTDC_USE_DIRECTIO
-	#define GFX_LTDC_USE_DIRECTIO	TRUE
+	#define GFX_LTDC_USE_DIRECTIO	GFXON
 #endif
 #ifndef GFX_LTDC_TIMING_SET
 	/* Options are:
@@ -36,7 +36,7 @@
 	#define AFRH	AFR[1]
 #endif
 
-#define ALLOW_2ND_LAYER		TRUE
+#define ALLOW_2ND_LAYER		GFXON
 
 static const ltdcConfig driverCfg = {
 	480, 272,								// Width, Height (pixels)

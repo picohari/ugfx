@@ -16,8 +16,8 @@
  *
  * @details		Extended events can be enabled using @p gwinSliderSendExtendedEvents().
  *
- * @pre			GFX_USE_GWIN must be set to TRUE in your gfxconf.h
- * @pre			GWIN_NEED_SLIDER must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GWIN must be set to GFXON in your gfxconf.h
+ * @pre			GWIN_NEED_SLIDER must be set to GFXON in your gfxconf.h
  * @{
  */
 
@@ -191,7 +191,7 @@ void gwinSliderDraw_Std(GWidgetObject *gw, void *param);
 	 * 						No checking is done to compare the size of the button to the size of the image.
 	 * 						No text is drawn on top of the image.
 	 *
-	 * @pre					GDISP_NEED_IMAGE must be set to TRUE
+	 * @pre					GDISP_NEED_IMAGE must be set to GFXON
 	 *
 	 * @api
 	 */

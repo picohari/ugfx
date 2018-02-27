@@ -25,7 +25,7 @@
 #include "../../../src/gdisp/gdisp_driver.h"
 
 #ifndef GDISP_FORCE_24BIT
-	#define GDISP_FORCE_24BIT			FALSE
+	#define GDISP_FORCE_24BIT			GFXOFF
 #endif
 #ifndef GDISP_SCREEN_WIDTH
 	#define GDISP_SCREEN_WIDTH			640

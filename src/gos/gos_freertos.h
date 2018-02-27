@@ -42,7 +42,6 @@
  * int16_t, uint16_t,
  * int32_t, uint32_t,
  * size_t
- * TRUE, FALSE
  * are already defined by FreeRTOS
  */
 #define TIME_IMMEDIATE		0

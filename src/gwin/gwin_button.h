@@ -18,8 +18,8 @@
  *				and check for different meta states such as: PRESSED, CLICKED,
  *				RELEASED etc.
  *
- * @pre			GFX_USE_GWIN must be set to TRUE in your gfxconf.h
- * @pre			GWIN_NEED_BUTTON must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GWIN must be set to GFXON in your gfxconf.h
+ * @pre			GWIN_NEED_BUTTON must be set to GFXON in your gfxconf.h
  * @{
  */
 
@@ -129,7 +129,7 @@ void gwinButtonDraw_Normal(GWidgetObject *gw, void *param);
 	 * @param[in] gw		The widget object (must be a button object)
 	 * @param[in] param		A parameter passed in from the user. Ignored by this function.
 	 *
-	 * @pre					GDISP_NEED_ARC must be set to TRUE
+	 * @pre					GDISP_NEED_ARC must be set to GFXON
 	 *
 	 * @api
 	 */
@@ -143,7 +143,7 @@ void gwinButtonDraw_Normal(GWidgetObject *gw, void *param);
 	 * @param[in] gw		The widget object (must be a button object)
 	 * @param[in] param		A parameter passed in from the user. Ignored by this function.
 	 *
-	 * @pre					GDISP_NEED_ELLIPSE must be set to TRUE
+	 * @pre					GDISP_NEED_ELLIPSE must be set to GFXON
 	 *
 	 * @api
 	 */
@@ -157,7 +157,7 @@ void gwinButtonDraw_Normal(GWidgetObject *gw, void *param);
 	 * @param[in] gw		The widget object (must be a button object)
 	 * @param[in] param		A parameter passed in from the user. Ignored by this function.
 	 *
-	 * @pre					GDISP_NEED_CONVEX_POLYGON must be set to TRUE
+	 * @pre					GDISP_NEED_CONVEX_POLYGON must be set to GFXON
 	 *
 	 * @api
 	 */
@@ -169,7 +169,7 @@ void gwinButtonDraw_Normal(GWidgetObject *gw, void *param);
 	 * @param[in] gw		The widget object (must be a button object)
 	 * @param[in] param		A parameter passed in from the user. Ignored by this function.
 	 *
-	 * @pre					GDISP_NEED_CONVEX_POLYGON must be set to TRUE
+	 * @pre					GDISP_NEED_CONVEX_POLYGON must be set to GFXON
 	 *
 	 * @api
 	 */
@@ -181,7 +181,7 @@ void gwinButtonDraw_Normal(GWidgetObject *gw, void *param);
 	 * @param[in] gw		The widget object (must be a button object)
 	 * @param[in] param		A parameter passed in from the user. Ignored by this function.
 	 *
-	 * @pre					GDISP_NEED_CONVEX_POLYGON must be set to TRUE
+	 * @pre					GDISP_NEED_CONVEX_POLYGON must be set to GFXON
 	 *
 	 * @api
 	 */
@@ -193,7 +193,7 @@ void gwinButtonDraw_Normal(GWidgetObject *gw, void *param);
 	 * @param[in] gw		The widget object (must be a button object)
 	 * @param[in] param		A parameter passed in from the user. Ignored by this function.
 	 *
-	 * @pre					GDISP_NEED_CONVEX_POLYGON must be set to TRUE
+	 * @pre					GDISP_NEED_CONVEX_POLYGON must be set to GFXON
 	 *
 	 * @api
 	 */
@@ -214,7 +214,7 @@ void gwinButtonDraw_Normal(GWidgetObject *gw, void *param);
 	 * 						No checking is done to compare the size of the button to the size of the image.
 	 * 						Note text is drawn on top of the image.
 	 *
-	 * @pre					GDISP_NEED_IMAGE must be set to TRUE
+	 * @pre					GDISP_NEED_IMAGE must be set to GFXON
 	 *
 	 * @api
 	 */

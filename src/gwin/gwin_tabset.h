@@ -18,8 +18,8 @@
  *				Note: Although the tabset is implemented as a container - you don't put your controls
  *				directly on the tabset. Instead you create a page and put your widgets on the page.
  *
- * @pre			GFX_USE_GWIN must be set to TRUE in your gfxconf.h
- * @pre			GWIN_NEED_TABSET must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GWIN must be set to GFXON in your gfxconf.h
+ * @pre			GWIN_NEED_TABSET must be set to GFXON in your gfxconf.h
  * @{
  */
 
@@ -224,7 +224,7 @@ void gwinTabsetDraw_Transparent(GWidgetObject *gw, void *param);
 	 * @note				The image must be already opened before calling  @p gwinSetCustomDraw(). The handle is passed as the parameter
 	 *						to this function.
 	 *
-	 * @pre					GDISP_NEED_IMAGE must be set to TRUE
+	 * @pre					GDISP_NEED_IMAGE must be set to GFXON
 	 *
 	 * @api
 	 */

@@ -17,7 +17,7 @@
 #include "stm32f4xx_hal.h"
 #include "stm324x9i_eval_sdram.h"
 
-#define ALLOW_2ND_LAYER		TRUE
+#define ALLOW_2ND_LAYER		GFXON
 
 // Panel parameters
 // This panel is a AMPIRE640480 panel.

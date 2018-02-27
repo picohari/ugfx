@@ -20,7 +20,7 @@
 #endif
 
 // Uncomment this if your frame buffer device requires flushing ("Synch" in eCos speak)
-#define GDISP_HARDWARE_FLUSH		TRUE
+#define GDISP_HARDWARE_FLUSH		GFXON
 
 #ifdef GDISP_DRIVER_VMT
 

@@ -36,7 +36,7 @@
  * the same time there's still just one copy of the image in memory at all times.
  */
 
-#define USE_PRINTF TRUE
+#define USE_PRINTF GFXON
 
 #include "gfx.h"
 
