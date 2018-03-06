@@ -23,8 +23,16 @@
 #define CALIBRATION_MINPRESS_PERIOD		300				// milliseconds
 #define CALIBRATION_MAXPRESS_PERIOD		5000			// milliseconds
 
-#define CALIBRATION_FONT				"* Double"
-#define CALIBRATION_FONT2				"* Narrow"
+#ifdef GINPUT_TOUCH_CALIBRATION_FONT1
+	#define CALIBRATION_FONT1			GINPUT_TOUCH_CALIBRATION_FONT1
+#else
+	#define CALIBRATION_FONT1			"* Double"
+#endif
+#ifdef GINPUT_TOUCH_CALIBRATION_FONT2
+	#define CALIBRATION_FONT2			GINPUT_TOUCH_CALIBRATION_FONT2
+#else
+	#define CALIBRATION_FONT2			"* Narrow"
+#endif
 #define CALIBRATION_BACKGROUND			Blue
 
 #define CALIBRATION_CROSS_COLOR1		White
@@ -32,13 +40,21 @@
 #define CALIBRATION_CROSS_INNERGAP		2
 #define CALIBRATION_CROSS_RADIUS		15
 
-#define CALIBRATION_TITLE				"Calibration"
+#ifdef GINPUT_TOUCH_CALIBRATION_TITLE
+	#define CALIBRATION_TITLE			GINPUT_TOUCH_CALIBRATION_TITLE
+#else
+	#define CALIBRATION_TITLE			"Calibration"
+#endif
 #define CALIBRATION_TITLE_Y				5
 #define CALIBRATION_TITLE_HEIGHT		30
 #define CALIBRATION_TITLE_COLOR			White
 #define CALIBRATION_TITLE_BACKGROUND	Blue
 
-#define CALIBRATION_ERROR_TEXT			"Calibration Failed!"
+#ifdef GINPUT_TOUCH_CALIBRATION_ERROR
+	#define CALIBRATION_ERROR_TEXT		GINPUT_TOUCH_CALIBRATION_ERROR
+#else
+	#define CALIBRATION_ERROR_TEXT		"Calibration Failed!"
+#endif
 #define CALIBRATION_ERROR_DELAY			3000
 #define CALIBRATION_ERROR_COLOR			Red
 #define CALIBRATION_ERROR_BACKGROUND	Yellow
@@ -60,7 +76,7 @@ static GTIMER_DECL(MouseTimer);
 
 		x = (coord_t) (c->ax * pt->x + c->bx * pt->y + c->cx);
 		y = (coord_t) (c->ay * pt->x + c->by * pt->y + c->cy);
-		
+
 		pt->x = x;
 		pt->y = y;
 	}
@@ -455,7 +471,7 @@ static void MousePoll(void *param) {
 		#endif
 
 		#if GDISP_NEED_TEXT
-			font1 = gdispOpenFont(CALIBRATION_FONT);
+			font1 = gdispOpenFont(CALIBRATION_FONT1);
 			if (!font1) font1 = gdispOpenFont("*");
 			font2 = gdispOpenFont(CALIBRATION_FONT2);
 			if (!font2) font2 = gdispOpenFont("*");

@@ -18,7 +18,7 @@
  *				will have it's own properties such as colors as well as
  *				it's own drawing origin.
  *
- * @pre		GFX_USE_GWIN must be set to TRUE in your gfxconf.h
+ * @pre		GFX_USE_GWIN must be set to GFXON in your gfxconf.h
  * @{
  */
 
@@ -493,7 +493,7 @@ extern "C" {
 
 		/**
 		 * @brief	Minimize, Maximize or Restore a window
-		 * @pre		GWIN_NEED_WINDOWMANAGER must be TRUE
+		 * @pre		GWIN_NEED_WINDOWMANAGER must be GFXON
 		 *
 		 * @param[in] gh				The window
 		 * @param[in] minmax			The new minimized/maximized state
@@ -514,7 +514,7 @@ extern "C" {
 
 		/**
 		 * @brief	Get the Minimized/Maximized state of a window
-		 * @pre		GWIN_NEED_WINDOWMANAGER must be TRUE
+		 * @pre		GWIN_NEED_WINDOWMANAGER must be GFXON
 		 *
 		 * @param[in] gh				The window
 		 *
@@ -526,7 +526,7 @@ extern "C" {
 
 		/**
 		 * @brief	Raise a window to the top of the z-order
-		 * @pre		GWIN_NEED_WINDOWMANAGER must be TRUE
+		 * @pre		GWIN_NEED_WINDOWMANAGER must be GFXON
 		 *
 		 * @param[in] gh				The window
 		 *
@@ -565,7 +565,7 @@ extern "C" {
 		 * 			way every flash period (GWIN_FLASHING_PERIOD). How its appearance
 		 * 			changes depends on the draw for each window/widget.
 		 *
-		 * @pre		Requires GWIN_NEED_FLASHING to be TRUE
+		 * @pre		Requires GWIN_NEED_FLASHING to be GFXON
 		 *
 		 * @api
 		 */
@@ -724,7 +724,7 @@ extern "C" {
 		 * @note	Uses the current foreground color to draw the inner circle
 		 * @note	Uses the current background color to draw the outer circle
 		 * @note	May leave GDISP clipping to this window's dimensions
-		 * @pre		GDISP_NEED_DUALCIRCLE must be TRUE in your gfxconf.h
+		 * @pre		GDISP_NEED_DUALCIRCLE must be GFXON in your gfxconf.h
 		 *
 		 * @param[in] gh		The window handle
 		 * @param[in] x,y		The center of the circle

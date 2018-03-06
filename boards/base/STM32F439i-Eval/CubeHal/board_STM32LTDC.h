@@ -17,7 +17,7 @@
 #include "stm32f4xx_hal.h"
 #include "stm324x9i_eval_sdram.h"
 
-#define ALLOW_2ND_LAYER		TRUE
+#define ALLOW_2ND_LAYER		GFXON
 
 // Panel parameters
 // This panel is a AMPIRE640480 panel.
@@ -89,6 +89,7 @@ static void configureLcdClock(void)
 		RCC->PLLSAICFGR = (LCD_PLLSAIN_VALUE << 6) | (LCD_PLLSAIR_VALUE << 28) | (LCD_PLLSAIQ_VALUE << 24);
 		RCC->DCKCFGR = (RCC->DCKCFGR & ~RCC_DCKCFGR_PLLSAIDIVR) | LCD_PLLSAIDIVR_VALUE;
 		RCC->CR |= RCC_CR_PLLSAION;
+		while(!(RCC->CR & RCC_CR_PLLSAIRDY));			// wait for PLLSAI to lock
 	#endif
 }
 

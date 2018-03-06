@@ -59,7 +59,7 @@
 /* Do a "blinking" clear, i.e. clear to opposite polarity first.
  * This reduces the image persistence. */
 #ifndef EINK_BLINKCLEAR
-	#define EINK_BLINKCLEAR TRUE
+	#define EINK_BLINKCLEAR GFXON
 #endif
 
 /* Number of passes to use when clearing the display */

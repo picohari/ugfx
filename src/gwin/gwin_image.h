@@ -17,10 +17,10 @@
  * @details		GWIN allos it to create an image widget. The widget
  *				takes no user input.
  *
- * @pre			GFX_USE_GDISP must be set to TRUE in your gfxconf.h
- * @pre			GFX_USE_GWIN must be set to TRUE in your gfxconf.h
- * @pre			GDISP_NEED_IMAGE must be set to TRUE in your gfxconf.h
- * @pre			GWIN_NEED_IMAGE must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GDISP must be set to GFXON in your gfxconf.h
+ * @pre			GFX_USE_GWIN must be set to GFXON in your gfxconf.h
+ * @pre			GDISP_NEED_IMAGE must be set to GFXON in your gfxconf.h
+ * @pre			GWIN_NEED_IMAGE must be set to GFXON in your gfxconf.h
  * @pre			At least one image type must be enabled in your gfxconf.h
  *
  * @{
@@ -86,7 +86,7 @@ bool_t gwinImageOpenGFile(GHandle gh, GFILE *f);
 	/**
 	 * @brief				Sets the input routines that support reading the image from memory
 	 *						in RAM or flash.
-	 * @pre					GFILE_NEED_MEMFS must be TRUE
+	 * @pre					GFILE_NEED_MEMFS must be GFXON
 	 * @return				TRUE if the IO open function succeeds
 	 *
 	 * @param[in] gh		The widget (must be an image widget)
@@ -99,7 +99,7 @@ bool_t gwinImageOpenGFile(GHandle gh, GFILE *f);
 /**
  * @brief				Sets the input routines that support reading the image from a BaseFileStream (eg. an SD-Card).
  * @return				TRUE if the IO open function succeeds
- * @pre					GFILE_NEED_CHIBIOSFS and GFX_USE_OS_CHIBIOS must be TRUE
+ * @pre					GFILE_NEED_CHIBIOSFS and GFX_USE_OS_CHIBIOS must be GFXON
  *
  * @param[in] gh		The widget (must be an image widget)
  * @param[in] streamPtr	A pointer to the (open) BaseFileStream object.

@@ -242,8 +242,8 @@ static thread		mainthread;				// The main thread context
 	 *
 	 * MACROS:
 	 *
-	 *	AUTO_DETECT_STACKFRAME	TRUE/FALSE			- TRUE to auto-detect stack frame structure
-	 *	STACK_DIR_UP			Macro/bool_t		- TRUE if the stack grows up instead of down
+	 *	AUTO_DETECT_STACKFRAME	GFXON/GFXOFF			- GFXON to auto-detect stack frame structure
+	 *	STACK_DIR_UP			Macro/bool_t		- GFXON if the stack grows up instead of down
 	 *	MASK1					Macro/uint32_t		- The 1st mask of jmp_buf elements that need relocation
 	 *	MASK2					Macro/uint32_t		- The 2nd mask of jmp_buf elements that need relocation
 	 *	STACK_BASE				Macro/size_t		- The base of the stack frame relative to the local variables
@@ -252,8 +252,8 @@ static thread		mainthread;				// The main thread context
 	 */
 	#if GFX_COMPILER == GFX_COMPILER_MINGW32
 
-		#define AUTO_DETECT_STACKFRAME	FALSE
-		#define STACK_DIR_UP		FALSE
+		#define AUTO_DETECT_STACKFRAME	GFXOFF
+		#define STACK_DIR_UP		GFXOFF
 		#define MASK1				0x00000011
 		#define MASK2				0x00000000
 		#define STACK_BASE			12
@@ -263,8 +263,8 @@ static thread		mainthread;				// The main thread context
 
 		// Use auto-detection of the stack frame format
 		// Assumes all the relevant stuff to be relocated is in the first 256 bytes of the jmpbuf.
-		#define AUTO_DETECT_STACKFRAME	TRUE
-		#define STACK_DIR_UP		stackdirup			// TRUE if the stack grow up instead of down
+		#define AUTO_DETECT_STACKFRAME	GFXON
+		#define STACK_DIR_UP		stackdirup			// GFXON if the stack grow up instead of down
 		#define MASK1				jmpmask1			// The 1st mask of jmp_buf elements that need relocation
 		#define MASK2				jmpmask2			// The 2nd mask of jmp_buf elements that need relocation
 		#define STACK_BASE			stackbase			// The base of the stack frame relative to the local variables

@@ -24,13 +24,13 @@
 #endif
 
 #ifndef LTDC_USE_DMA2D
- 	#define LTDC_USE_DMA2D 			FALSE
+ 	#define LTDC_USE_DMA2D 			GFXOFF
 #endif
 #ifndef LTDC_NO_CLOCK_INIT
-	#define LTDC_NO_CLOCK_INIT		FALSE
+	#define LTDC_NO_CLOCK_INIT		GFXOFF
 #endif
 #ifndef	LTDC_DMA_CACHE_FLUSH
-	#define	LTDC_DMA_CACHE_FLUSH	FALSE
+	#define	LTDC_DMA_CACHE_FLUSH	GFXOFF
 #endif
 
 #include "stm32_ltdc.h"
@@ -40,7 +40,7 @@
 
 	#if defined(STM32F7) || defined(STM32F746xx)
 		#undef 	LTDC_DMA_CACHE_FLUSH
-		#define	LTDC_DMA_CACHE_FLUSH	TRUE
+		#define	LTDC_DMA_CACHE_FLUSH	GFXON
 	#endif
 #endif
 

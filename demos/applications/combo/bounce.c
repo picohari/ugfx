@@ -48,11 +48,11 @@ static gfxThreadHandle	thread;
  * your processor.
  *
  * You can modify the implementation of invsqrt() by firstly defining
- * 		#define GMISC_INVSQRT_MIXED_ENDIAN	TRUE
+ * 		#define GMISC_INVSQRT_MIXED_ENDIAN	GFXON
  * in your gfxconf.h file.
  *
  * If it still doesn't work then instead define
- * 		#define GMISC_INVSQRT_REAL_SLOW		TRUE
+ * 		#define GMISC_INVSQRT_REAL_SLOW		GFXON
  * in your gfxconf.h file. This should always work although it will probably be slow.
  */
 #define BALLCOLOR1		Red

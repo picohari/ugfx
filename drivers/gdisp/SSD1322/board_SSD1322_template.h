@@ -12,7 +12,7 @@
 //#define SSD1322_USE_DMA
 
 #ifndef SSD1322_USE_DMA
-	#define SSD1322_USE_DMA			FALSE
+	#define SSD1322_USE_DMA			GFXOFF
 #endif
 
 static GFXINLINE void init_board(GDisplay *g) {

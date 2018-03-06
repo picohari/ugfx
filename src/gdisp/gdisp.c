@@ -42,7 +42,7 @@ GDisplay	*GDISP;
 	#define MUTEX_DEINIT(g)
 #endif
 
-#define NEED_CLIPPING	(GDISP_HARDWARE_CLIP != TRUE && (GDISP_NEED_VALIDATION || GDISP_NEED_CLIP))
+#define NEED_CLIPPING	(GDISP_HARDWARE_CLIP != GFXON && (GDISP_NEED_VALIDATION || GDISP_NEED_CLIP))
 
 #if !NEED_CLIPPING
 	#define TEST_CLIP_AREA(g)
@@ -119,7 +119,7 @@ static GFXINLINE void drawpixel(GDisplay *g) {
 	#endif
 
 	// Next best is cursor based streaming
-	#if GDISP_HARDWARE_DRAWPIXEL != TRUE && GDISP_HARDWARE_STREAM_POS && GDISP_HARDWARE_STREAM_WRITE
+	#if GDISP_HARDWARE_DRAWPIXEL != GFXON && GDISP_HARDWARE_STREAM_POS && GDISP_HARDWARE_STREAM_WRITE
 		#if GDISP_HARDWARE_STREAM_POS == HARDWARE_AUTODETECT
 			if (gvmt(g)->writepos)
 		#endif
@@ -133,7 +133,7 @@ static GFXINLINE void drawpixel(GDisplay *g) {
 	#endif
 
 	// Worst is general streaming
-	#if GDISP_HARDWARE_DRAWPIXEL != TRUE && GDISP_HARDWARE_STREAM_POS != TRUE && GDISP_HARDWARE_STREAM_WRITE
+	#if GDISP_HARDWARE_DRAWPIXEL != GFXON && GDISP_HARDWARE_STREAM_POS != GFXON && GDISP_HARDWARE_STREAM_WRITE
 		// The following test is unneeded because we are guaranteed to have streaming if we don't have drawpixel
 		//#if GDISP_HARDWARE_STREAM_WRITE == HARDWARE_AUTODETECT
 		//	if (gvmt(g)->writestart)
@@ -191,7 +191,7 @@ static GFXINLINE void fillarea(GDisplay *g) {
 	#endif
 
 	// Next best is hardware streaming
-	#if GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE
+	#if GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE
 		#if GDISP_HARDWARE_STREAM_WRITE == HARDWARE_AUTODETECT
 			if (gvmt(g)->writestart)
 		#endif
@@ -221,7 +221,7 @@ static GFXINLINE void fillarea(GDisplay *g) {
 	#endif
 
 	// Worst is pixel drawing
-	#if GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_HARDWARE_DRAWPIXEL
+	#if GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_HARDWARE_DRAWPIXEL
 		// The following test is unneeded because we are guaranteed to have draw pixel if we don't have streaming
 		//#if GDISP_HARDWARE_DRAWPIXEL == HARDWARE_AUTODETECT
 		//	if (gvmt(g)->pixel)
@@ -289,7 +289,7 @@ static void hline_clip(GDisplay *g) {
 	#endif
 
 	// Next best is cursor based streaming
-	#if GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_STREAM_POS && GDISP_HARDWARE_STREAM_WRITE
+	#if GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_STREAM_POS && GDISP_HARDWARE_STREAM_WRITE
 		#if GDISP_HARDWARE_STREAM_POS == HARDWARE_AUTODETECT
 			if (gvmt(g)->writepos)
 		#endif
@@ -304,7 +304,7 @@ static void hline_clip(GDisplay *g) {
 	#endif
 
 	// Next best is streaming
-	#if GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_STREAM_POS != TRUE && GDISP_HARDWARE_STREAM_WRITE
+	#if GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_STREAM_POS != GFXON && GDISP_HARDWARE_STREAM_WRITE
 		#if GDISP_HARDWARE_STREAM_WRITE == HARDWARE_AUTODETECT
 			if (gvmt(g)->writestart)
 		#endif
@@ -319,7 +319,7 @@ static void hline_clip(GDisplay *g) {
 	#endif
 
 	// Worst is drawing pixels
-	#if GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_HARDWARE_DRAWPIXEL
+	#if GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_HARDWARE_DRAWPIXEL
 		// The following test is unneeded because we are guaranteed to have draw pixel if we don't have streaming
 		//#if GDISP_HARDWARE_DRAWPIXEL == HARDWARE_AUTODETECT
 		//	if (gvmt(g)->pixel)
@@ -383,7 +383,7 @@ static void vline_clip(GDisplay *g) {
 	#endif
 
 	// Next best is streaming
-	#if GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE
+	#if GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE
 		#if GDISP_HARDWARE_STREAM_WRITE == HARDWARE_AUTODETECT
 			if (gvmt(g)->writestart)
 		#endif
@@ -410,7 +410,7 @@ static void vline_clip(GDisplay *g) {
 	#endif
 
 	// Worst is drawing pixels
-	#if GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_HARDWARE_DRAWPIXEL
+	#if GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_HARDWARE_DRAWPIXEL
 		// The following test is unneeded because we are guaranteed to have draw pixel if we don't have streaming
 		//#if GDISP_HARDWARE_DRAWPIXEL == HARDWARE_AUTODETECT
 		//	if (gvmt(g)->pixel)
@@ -770,7 +770,7 @@ void gdispGFlush(GDisplay *g) {
 		#endif
 
 		// Worst - save the parameters and use pixel drawing and/or area fills
-		#if GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_HARDWARE_DRAWPIXEL
+		#if GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_HARDWARE_DRAWPIXEL
 			// The following test is unneeded because we are guaranteed to have draw pixel if we don't have streaming
 			//#if GDISP_HARDWARE_DRAWPIXEL == HARDWARE_AUTODETECT
 			//	if (gvmt(g)->pixel)
@@ -816,7 +816,7 @@ void gdispGFlush(GDisplay *g) {
 		#endif
 
 		// Next best is to use bitfills with our line buffer
-		#if GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_LINEBUF_SIZE != 0 && GDISP_HARDWARE_BITFILLS
+		#if GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_LINEBUF_SIZE != 0 && GDISP_HARDWARE_BITFILLS
 			#if GDISP_HARDWARE_BITFILLS == HARDWARE_AUTODETECT
 				if (gvmt(g)->blit)
 			#endif
@@ -856,7 +856,7 @@ void gdispGFlush(GDisplay *g) {
 		#endif
 
 		// Only slightly better than drawing pixels is to look for runs and use fillarea
-		#if GDISP_HARDWARE_STREAM_WRITE != TRUE && (GDISP_LINEBUF_SIZE == 0 || GDISP_HARDWARE_BITFILLS != TRUE) && GDISP_HARDWARE_FILLS
+		#if GDISP_HARDWARE_STREAM_WRITE != GFXON && (GDISP_LINEBUF_SIZE == 0 || GDISP_HARDWARE_BITFILLS != GFXON) && GDISP_HARDWARE_FILLS
 			// We don't need to test for auto-detect on drawpixel as we know we have it because we don't have streaming.
 			#if GDISP_HARDWARE_FILLS == HARDWARE_AUTODETECT
 				if (gvmt(g)->fill)
@@ -892,7 +892,7 @@ void gdispGFlush(GDisplay *g) {
 		#endif
 
 		// Worst is using pixel drawing
-		#if GDISP_HARDWARE_STREAM_WRITE != TRUE && (GDISP_LINEBUF_SIZE == 0 || GDISP_HARDWARE_BITFILLS != TRUE) && GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_DRAWPIXEL
+		#if GDISP_HARDWARE_STREAM_WRITE != GFXON && (GDISP_LINEBUF_SIZE == 0 || GDISP_HARDWARE_BITFILLS != GFXON) && GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_DRAWPIXEL
 			// The following test is unneeded because we are guaranteed to have draw pixel if we don't have streaming
 			//#if GDISP_HARDWARE_DRAWPIXEL == HARDWARE_AUTODETECT
 			//	if (gvmt(g)->pixel)
@@ -934,7 +934,7 @@ void gdispGFlush(GDisplay *g) {
 			}
 		#endif
 
-		#if GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_LINEBUF_SIZE != 0 && GDISP_HARDWARE_BITFILLS
+		#if GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_LINEBUF_SIZE != 0 && GDISP_HARDWARE_BITFILLS
 			#if GDISP_HARDWARE_BITFILLS == HARDWARE_AUTODETECT
 				if (gvmt(g)->blit)
 			#endif
@@ -951,7 +951,7 @@ void gdispGFlush(GDisplay *g) {
 			}
 		#endif
 
-		#if GDISP_HARDWARE_STREAM_WRITE != TRUE && (GDISP_LINEBUF_SIZE == 0 || GDISP_HARDWARE_BITFILLS != TRUE) && GDISP_HARDWARE_FILLS
+		#if GDISP_HARDWARE_STREAM_WRITE != GFXON && (GDISP_LINEBUF_SIZE == 0 || GDISP_HARDWARE_BITFILLS != GFXON) && GDISP_HARDWARE_FILLS
 			// We don't need to test for auto-detect on drawpixel as we know we have it because we don't have streaming.
 			#if GDISP_HARDWARE_FILLS == HARDWARE_AUTODETECT
 				if (gvmt(g)->fill)
@@ -969,7 +969,7 @@ void gdispGFlush(GDisplay *g) {
 			}
 		#endif
 
-		#if GDISP_HARDWARE_STREAM_WRITE != TRUE && (GDISP_LINEBUF_SIZE == 0 || GDISP_HARDWARE_BITFILLS != TRUE) && GDISP_HARDWARE_FILLS != TRUE
+		#if GDISP_HARDWARE_STREAM_WRITE != GFXON && (GDISP_LINEBUF_SIZE == 0 || GDISP_HARDWARE_BITFILLS != GFXON) && GDISP_HARDWARE_FILLS != GFXON
 			{
 				autoflush_stopdone(g);
 				MUTEX_EXIT(g);
@@ -1019,7 +1019,7 @@ void gdispGClear(GDisplay *g, color_t color) {
 	#endif
 
 	// Next best is hardware accelerated area fill
-	#if GDISP_HARDWARE_CLEARS != TRUE && GDISP_HARDWARE_FILLS
+	#if GDISP_HARDWARE_CLEARS != GFXON && GDISP_HARDWARE_FILLS
 		#if GDISP_HARDWARE_FILLS == HARDWARE_AUTODETECT
 			if (gvmt(g)->fill)
 		#endif
@@ -1036,7 +1036,7 @@ void gdispGClear(GDisplay *g, color_t color) {
 	#endif
 
 	// Next best is streaming
-	#if GDISP_HARDWARE_CLEARS != TRUE && GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE
+	#if GDISP_HARDWARE_CLEARS != GFXON && GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE
 		#if GDISP_HARDWARE_STREAM_WRITE == HARDWARE_AUTODETECT
 			if (gvmt(g)->writestart)
 		#endif
@@ -1066,7 +1066,7 @@ void gdispGClear(GDisplay *g, color_t color) {
 	#endif
 
 	// Worst is drawing pixels
-	#if GDISP_HARDWARE_CLEARS != TRUE && GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_HARDWARE_DRAWPIXEL
+	#if GDISP_HARDWARE_CLEARS != GFXON && GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_HARDWARE_DRAWPIXEL
 		// The following test is unneeded because we are guaranteed to have draw pixel if we don't have streaming
 		//#if GDISP_HARDWARE_DRAWPIXEL == HARDWARE_AUTODETECT
 		//	if (gvmt(g)->pixel)
@@ -1137,7 +1137,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 	#endif
 
 	// Next best is hardware streaming
-	#if GDISP_HARDWARE_BITFILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE
+	#if GDISP_HARDWARE_BITFILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE
 		#if GDISP_HARDWARE_STREAM_WRITE == HARDWARE_AUTODETECT
 			if (gvmt(g)->writestart)
 		#endif
@@ -1173,7 +1173,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 	#endif
 
 	// Only slightly better than drawing pixels is to look for runs and use fill area
-	#if GDISP_HARDWARE_BITFILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_HARDWARE_FILLS
+	#if GDISP_HARDWARE_BITFILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_HARDWARE_FILLS
 		// We don't need to test for auto-detect on drawpixel as we know we have it because we don't have streaming.
 		#if GDISP_HARDWARE_FILLS == HARDWARE_AUTODETECT
 			if (gvmt(g)->fill)
@@ -1208,7 +1208,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 	#endif
 
 	// Worst is drawing pixels
-	#if GDISP_HARDWARE_BITFILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_DRAWPIXEL
+	#if GDISP_HARDWARE_BITFILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_DRAWPIXEL
 		// The following test is unneeded because we are guaranteed to have draw pixel if we don't have streaming
 		//#if GDISP_HARDWARE_DRAWPIXEL == HARDWARE_AUTODETECT
 		//	if (gvmt(g)->pixel)
@@ -1255,7 +1255,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 		#endif
 
 		// Worst is using software clipping
-		#if GDISP_HARDWARE_CLIP != TRUE
+		#if GDISP_HARDWARE_CLIP != GFXON
 			{
 				if (x < 0) { cx += x; x = 0; }
 				if (y < 0) { cy += y; y = 0; }
@@ -2603,7 +2603,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 				return c;
 			}
 		#endif
-		#if GDISP_HARDWARE_PIXELREAD != TRUE && GDISP_HARDWARE_STREAM_READ
+		#if GDISP_HARDWARE_PIXELREAD != GFXON && GDISP_HARDWARE_STREAM_READ
 			#if GDISP_HARDWARE_STREAM_READ == HARDWARE_AUTODETECT
 				if (gvmt(g)->readcolor)
 			#endif
@@ -2620,7 +2620,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 				return c;
 			}
 		#endif
-		#if GDISP_HARDWARE_PIXELREAD != TRUE && GDISP_HARDWARE_STREAM_READ != TRUE
+		#if GDISP_HARDWARE_PIXELREAD != GFXON && GDISP_HARDWARE_STREAM_READ != GFXON
 			#if !GDISP_HARDWARE_PIXELREAD && !GDISP_HARDWARE_STREAM_READ
 				// Worst is "not possible"
 				#error "GDISP: GDISP_NEED_PIXELREAD has been set but there is no hardware support for reading the display"
@@ -2634,7 +2634,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #if GDISP_NEED_SCROLL
 	void gdispGVerticalScroll(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, int lines, color_t bgcolor) {
 		coord_t		abslines;
-		#if GDISP_HARDWARE_SCROLL != TRUE
+		#if GDISP_HARDWARE_SCROLL != GFXON
 			coord_t 	fy, dy, ix, fx, i, j;
 		#endif
 
@@ -2682,7 +2682,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 			#endif
 
 			// Scroll Emulation
-			#if GDISP_HARDWARE_SCROLL != TRUE
+			#if GDISP_HARDWARE_SCROLL != GFXON
 				{
 					cy -= abslines;
 					if (lines < 0) {
@@ -2726,7 +2726,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 							#endif
 
 							// Next best line read is single pixel reads
-							#if GDISP_HARDWARE_STREAM_READ != TRUE && GDISP_HARDWARE_PIXELREAD
+							#if GDISP_HARDWARE_STREAM_READ != GFXON && GDISP_HARDWARE_PIXELREAD
 								#if GDISP_HARDWARE_PIXELREAD == HARDWARE_AUTODETECT
 									if (gvmt(g)->get)
 								#endif
@@ -2775,7 +2775,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 							#endif
 
 							// Next best line write is hardware streaming
-							#if GDISP_HARDWARE_BITFILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE
+							#if GDISP_HARDWARE_BITFILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE
 								#if GDISP_HARDWARE_STREAM_WRITE == HARDWARE_AUTODETECT
 									if (gvmt(g)->writestart)
 								#endif
@@ -2800,7 +2800,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 							#endif
 
 							// Next best line write is drawing pixels in combination with filling
-							#if GDISP_HARDWARE_BITFILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_HARDWARE_FILLS && GDISP_HARDWARE_DRAWPIXEL
+							#if GDISP_HARDWARE_BITFILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_HARDWARE_FILLS && GDISP_HARDWARE_DRAWPIXEL
 								// We don't need to test for auto-detect on drawpixel as we know we have it because we don't have streaming.
 								#if GDISP_HARDWARE_FILLS == HARDWARE_AUTODETECT
 									if (gvmt(g)->fill)
@@ -2832,7 +2832,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 							#endif
 
 							// Worst line write is drawing pixels
-							#if GDISP_HARDWARE_BITFILLS != TRUE && GDISP_HARDWARE_STREAM_WRITE != TRUE && GDISP_HARDWARE_FILLS != TRUE && GDISP_HARDWARE_DRAWPIXEL
+							#if GDISP_HARDWARE_BITFILLS != GFXON && GDISP_HARDWARE_STREAM_WRITE != GFXON && GDISP_HARDWARE_FILLS != GFXON && GDISP_HARDWARE_DRAWPIXEL
 								// The following test is unneeded because we are guaranteed to have draw pixel if we don't have streaming
 								//#if GDISP_HARDWARE_DRAWPIXEL == HARDWARE_AUTODETECT
 								//	if (gvmt(g)->pixel)
@@ -2906,7 +2906,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 					#endif
 
 					// Worst is software clipping
-					#if GDISP_HARDWARE_CLIP != TRUE
+					#if GDISP_HARDWARE_CLIP != GFXON
 						{
 							g->clipx0 = 0;
 							g->clipy0 = 0;

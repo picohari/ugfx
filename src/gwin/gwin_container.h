@@ -16,7 +16,7 @@
  * @details	A Container is a GWindow that supports child windows. It is also
  * 			a widget in its own right and therefore can accept user input directly.
  *
- * @pre		GFX_USE_GWIN and GWIN_NEED_CONTAINERS must be set to TRUE in your gfxconf.h
+ * @pre		GFX_USE_GWIN and GWIN_NEED_CONTAINERS must be set to GFXON in your gfxconf.h
  * @{
  */
 
@@ -173,7 +173,7 @@ void gwinContainerDraw_Transparent(GWidgetObject *gw, void *param);
 	 * @note				The image must be already opened before calling  @p gwinSetCustomDraw(). The handle is passed as the parameter
 	 *						to this function.
 	 *
-	 * @pre					GDISP_NEED_IMAGE must be set to TRUE
+	 * @pre					GDISP_NEED_IMAGE must be set to GFXON
 	 *
 	 * @api
 	 */

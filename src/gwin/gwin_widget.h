@@ -18,7 +18,7 @@
  * 				via an input device such as a mouse or toggle buttons. It is the
  * 				base class for widgets such as buttons and sliders.
  *
- * @pre		GFX_USE_GWIN and GWIN_NEED_WIDGET must be set to TRUE in your gfxconf.h
+ * @pre		GFX_USE_GWIN and GWIN_NEED_WIDGET must be set to GFXON in your gfxconf.h
  * @{
  */
 
@@ -234,7 +234,7 @@ const char *gwinGetText(GHandle gh);
 #if (GFX_USE_GFILE && GFILE_NEED_PRINTG && GFILE_NEED_STRINGS) || defined(__DOXYGEN__)
 	/**
 	 * @brief   Set the text of a widget using a printf style format.
-	 * @pre		GFX_USE_GFILE, GFILE_NEED_PRINTG and GFILE_NEED_STRINGS must all be TRUE
+	 * @pre		GFX_USE_GFILE, GFILE_NEED_PRINTG and GFILE_NEED_STRINGS must all be GFXON
 	 *
 	 * @param[in] gh		The widget handle
 	 * @param[in] fmt		The format string using a printf/g syntax. See @p vsnprintg()
@@ -269,7 +269,7 @@ bool_t gwinIsWidget(GHandle gh);
 	 *
 	 * @note				Non-widgets will ignore this call.
 	 *
-	 * @pre					Requires GWIN_WIDGET_TAGS to be TRUE
+	 * @pre					Requires GWIN_WIDGET_TAGS to be GFXON
 	 *
 	 * @api
 	 */
@@ -281,7 +281,7 @@ bool_t gwinIsWidget(GHandle gh);
 	 *
 	 * @param[in] gh		The widget handle
 	 *
-	 * @pre					Requires GWIN_WIDGET_TAGS to be TRUE
+	 * @pre					Requires GWIN_WIDGET_TAGS to be GFXON
 	 *
 	 * @api
 	 */

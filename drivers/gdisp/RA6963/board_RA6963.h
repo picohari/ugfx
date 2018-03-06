@@ -26,11 +26,11 @@
 #define _GDISP_LLD_BOARD_H
 
 // My Settings
-#define RA6963_NEED_READ                FALSE //works, but is very slow!
-#define RA6963_HAS_RESET                FALSE
-#define RA6963_NEED_FONT_SELECT         FALSE
-#define RA6963_NEED_BACKLIGHT           FALSE
-#define RA6963_NEED_PWMBACKLIGHT        FALSE
+#define RA6963_NEED_READ                GFXOFF //works, but is very slow!
+#define RA6963_HAS_RESET                GFXOFF
+#define RA6963_NEED_FONT_SELECT         GFXOFF
+#define RA6963_NEED_BACKLIGHT           GFXOFF
+#define RA6963_NEED_PWMBACKLIGHT        GFXOFF
 #define GDISP_SCREEN_HEIGHT             64
 #define GDISP_SCREEN_WIDTH              128
 #define GDISP_INITIAL_CONTRAST          50

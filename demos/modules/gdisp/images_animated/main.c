@@ -36,7 +36,7 @@
  * The ROMFS uses the file "romfs_files.h" to describe the set of files in the ROMFS.
  */
 
-#define USE_IMAGE_CACHE			FALSE						// Only if you want to get performance at the expense of RAM
+#define USE_IMAGE_CACHE			GFXOFF						// Only if you want to get performance at the expense of RAM
 #define MY_BG_COLOR				RGB2COLOR(220, 220, 255)	// Pale blue so we can see the transparent parts
 
 static gdispImage myImage;

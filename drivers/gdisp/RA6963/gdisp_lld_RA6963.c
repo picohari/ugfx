@@ -117,16 +117,16 @@
 #define RA6963_TEXT_HOME       (RA6963_GRAPHIC_HOME + RA6963_GRAPHIC_SIZE)
 //#define RA6963_OFFSET_REGISTER   2
 
-#if (RA6963_NEED_READ == FALSE)
-#define BUFFSZ (RA6963_GRAPHIC_SIZE)
-#define RAM(g) ((uint8_t *)g->priv)
-#define POS (((g->p.x) / RA6963_FONT_WIDTH) + ((g->p.y) * RA6963_GRAPHIC_AREA))
+#if !RA6963_NEED_READ
+	#define BUFFSZ (RA6963_GRAPHIC_SIZE)
+	#define RAM(g) ((uint8_t *)g->priv)
+	#define POS (((g->p.x) / RA6963_FONT_WIDTH) + ((g->p.y) * RA6963_GRAPHIC_AREA))
 #endif
 #ifndef GDISP_INITIAL_CONTRAST
-#define GDISP_INITIAL_CONTRAST	50
+	#define GDISP_INITIAL_CONTRAST	50
 #endif
 #ifndef GDISP_INITIAL_BACKLIGHT
-#define GDISP_INITIAL_BACKLIGHT	100
+	#define GDISP_INITIAL_BACKLIGHT	100
 #endif
 
 
@@ -142,11 +142,11 @@
 /*===========================================================================*/
 
 LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
-#if (RA6963_NEED_READ == FALSE)
+#if RA6963_NEED_READ
+  g->priv = 0;
+#else
   // The private area is the display surface.
   g->priv = gfxAlloc(BUFFSZ);
-#else
-  g->priv = 0;
 #endif
   // Initialise the board interface
   init_board(g);
@@ -228,10 +228,10 @@ static void set_viewport(GDisplay *g) {
 LLDSPEC void gdisp_lld_write_color(GDisplay *g) {
   uint8_t temp;
 
-#if (RA6963_NEED_READ == FALSE)
-  temp = RAM(g)[POS];
-#else
+#if RA6963_NEED_READ
   temp = read_data(g);
+#else
+  temp = RAM(g)[POS];
 #endif
 
   if (g->p.color != White) {
@@ -242,7 +242,7 @@ LLDSPEC void gdisp_lld_write_color(GDisplay *g) {
   }
 
   write_data(g, temp);
-#if (RA6963_NEED_READ == FALSE)
+#if !RA6963_NEED_READ
   RAM(g)[POS] = temp;
 #endif
   //write_cmd(g, RA6963_DATA_WRITE_AND_INCREMENT);

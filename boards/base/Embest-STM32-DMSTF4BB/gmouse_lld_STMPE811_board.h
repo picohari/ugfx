@@ -20,16 +20,16 @@
 #define GMOUSE_STMPE811_BOARD_DATA_SIZE			0
 
 // Options - Leave these commented to make it user configurable in the gfxconf.h
-//#define GMOUSE_STMPE811_READ_PRESSURE		FALSE
-//#define GMOUSE_STMPE811_SELF_CALIBRATE	FALSE
-//#define GMOUSE_STMPE811_TEST_MODE			FALSE
+//#define GMOUSE_STMPE811_READ_PRESSURE		GFXOFF
+//#define GMOUSE_STMPE811_SELF_CALIBRATE	GFXOFF
+//#define GMOUSE_STMPE811_TEST_MODE			GFXOFF
 
-// If TRUE this board has the STMPE811 IRQ pin connected to a GPIO.
+// If GFXON this board has the STMPE811 IRQ pin connected to a GPIO.
 // Note: Although this board has such a pin its reliability has not been tested on this board!!!!!
-#define GMOUSE_STMPE811_GPIO_IRQPIN				FALSE
+#define GMOUSE_STMPE811_GPIO_IRQPIN				GFXOFF
 
-// If TRUE this is a really slow CPU and we should always clear the FIFO between reads.
-#define GMOUSE_STMPE811_SLOW_CPU				FALSE
+// If GFXON this is a really slow CPU and we should always clear the FIFO between reads.
+#define GMOUSE_STMPE811_SLOW_CPU				GFXOFF
 
 // Slave address
 #define STMPE811_ADDR				(0x82 >> 1)

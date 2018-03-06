@@ -17,8 +17,8 @@
  * @details		GWIN allows it to create a console/terminal like window.
  *				You can simply use chprintf() to print to the terminal.
  *
- * @pre			GFX_USE_GWIN must be set to TRUE in your gfxconf.h
- * @pre			GWIN_NEED_CONSOLE must be set to TRUE in your gfxconf.h
+ * @pre			GFX_USE_GWIN must be set to GFXON in your gfxconf.h
+ * @pre			GWIN_NEED_CONSOLE must be set to GFXON in your gfxconf.h
  *
  * @{
  */
@@ -99,7 +99,7 @@ GHandle gwinGConsoleCreate(GDisplay *g, GConsoleObject *gc, const GWindowInit *p
 #if GWIN_CONSOLE_USE_HISTORY
 	/**
 	 * @brief	Assign a buffer to keep track of the content while the widget is invisible.
-	 * @pre		GWIN_CONSOLE_USE_HISTORY must be set to TRUE in your gfxconf.h
+	 * @pre		GWIN_CONSOLE_USE_HISTORY must be set to GFXON in your gfxconf.h
 	 *
 	 * @param[in] gh		The window handle (must be a console window)
 	 * @param[in] onoff		If TRUE a buffer is allocated to maintain console text

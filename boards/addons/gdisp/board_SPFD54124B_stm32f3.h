@@ -31,7 +31,7 @@
 #define SET_RST				palSetPad(SPFD54124B_PIN_PORT, SPFD54124B_PIN_RST);
 #define CLR_RST				palClearPad(SPFD54124B_PIN_PORT, SPFD54124B_PIN_RST);
 
-#define USE_SOFT_SPI            TRUE
+#define USE_SOFT_SPI            GFXON
 #define USE_HARD_SPI            !(USE_SOFT_SPI)
 
 #if USE_HARD_SPI

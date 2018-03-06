@@ -15,7 +15,7 @@
  *
  * @details		The GDISP module provides high level abstraction to interface pixel oriented graphic displays.
  *
- * @pre			GFX_USE_GDISP must be set to TRUE in gfxconf.h
+ * @pre			GFX_USE_GDISP must be set to GFXON in gfxconf.h
  *
  * @note		Each drawing routine supports a gdispXXXX and a gdispGXXXX function. The difference is that the
  * 				gdispXXXX function does not require a display to be specified. Note there is a slight anomaly
@@ -30,7 +30,7 @@
 #include "../../gfx.h"
 
 /* This type definition is defined here as it gets used in other gfx sub-systems even
- * if GFX_USE_GDISP is FALSE.
+ * if GFX_USE_GDISP is GFXOFF.
  */
 
 /**
@@ -201,15 +201,15 @@ extern GDisplay	*GDISP;
 	 * @note	Packed pixels are not really supported at this point.
 	 */
 	#ifndef GDISP_PACKED_PIXELS
-		#define GDISP_PACKED_PIXELS			FALSE
+		#define GDISP_PACKED_PIXELS			GFXOFF
 	#endif
 
 	/**
 	 * @brief   Do lines of pixels require packing for a blit
-	 * @note	Ignored if GDISP_PACKED_PIXELS is FALSE
+	 * @note	Ignored if GDISP_PACKED_PIXELS is GFXOFF
 	 */
 	#ifndef GDISP_PACKED_LINES
-		#define GDISP_PACKED_LINES			FALSE
+		#define GDISP_PACKED_LINES			GFXOFF
 	#endif
 /** @} */
 
@@ -377,7 +377,7 @@ uint8_t gdispGGetContrast(GDisplay *g);
  * 			know your controller does not need to be flushed there is no
  * 			need to call it (which is in reality most controllers).
  * @note	Even for displays that require flushing, there is no need to
- * 			call this function if GDISP_NEED_AUTOFLUSH is TRUE.
+ * 			call this function if GDISP_NEED_AUTOFLUSH is GFXON.
  * 			Calling it again won't hurt though.
  *
  *
@@ -478,7 +478,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief   Start a streaming operation.
 	 * @details Stream data to a window on the display sequentially and very fast.
-	 * @pre		GDISP_NEED_STREAMING must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_STREAMING must be GFXON in your gfxconf.h
 	 * @note	While streaming is in operation - no other calls to GDISP functions
 	 * 			can be made (with the exception of @p gdispBlendColor() and streaming
 	 * 			functions). If a call is made (eg in a multi-threaded application) the other
@@ -505,7 +505,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief   Send pixel data to the stream.
 	 * @details Write a pixel to the next position in the streamed area and increment the position
-	 * @pre		GDISP_NEED_STREAMING must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_STREAMING must be GFXON in your gfxconf.h
 	 * @pre		@p gdispStreamStart() has been called.
 	 * @note	If the gdispStreamStart() has not been called (or failed due to clipping), the
 	 * 			data provided here is simply thrown away.
@@ -521,7 +521,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief   Finish the current streaming operation.
 	 * @details	Completes the current streaming operation and allows other GDISP calls to operate again.
-	 * @pre		GDISP_NEED_STREAMING must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_STREAMING must be GFXON in your gfxconf.h
 	 * @pre		@p gdispStreamStart() has been called.
 	 * @note	If the gdispStreamStart() has not been called (or failed due to clipping), this
 	 * 			call is simply ignored.
@@ -539,7 +539,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_CLIP || defined(__DOXYGEN__)
 	/**
 	 * @brief   Clip all drawing to the defined area.
-	 * @pre		GDISP_NEED_CLIP must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_CLIP must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The start position
@@ -556,7 +556,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_CIRCLE || defined(__DOXYGEN__)
 	/**
 	 * @brief   Draw a circle.
-	 * @pre		GDISP_NEED_CIRCLE must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_CIRCLE must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The center of the circle
@@ -570,7 +570,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief   Draw a filled circle.
-	 * @pre		GDISP_NEED_CIRCLE must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_CIRCLE must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The center of the circle
@@ -586,7 +586,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_DUALCIRCLE || defined(__DOXYGEN__)
 	/**
 	 * @brief   Draw two filled circles with the same centre.
-	 * @pre		GDISP_NEED_DUALCIRCLE must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_DUALCIRCLE must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The center of the circle
@@ -606,7 +606,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_ELLIPSE || defined(__DOXYGEN__)
 	/**
 	 * @brief   Draw an ellipse.
-	 * @pre		GDISP_NEED_ELLIPSE must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_ELLIPSE must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The center of the ellipse
@@ -620,7 +620,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief   Draw a filled ellipse.
-	 * @pre		GDISP_NEED_ELLIPSE must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_ELLIPSE must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The center of the ellipse
@@ -637,7 +637,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_ARCSECTORS || defined(__DOXYGEN__)
 	/**
 	 * @brief	Draw a selection of 45 degree arcs of a circle
-	 * @pre		GDISP_NEED_ARCSECTORS must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_ARCSECTORS must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The center of the circle
@@ -666,7 +666,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief	Fill a selection of 45 degree arcs of a circle
-	 * @pre		GDISP_NEED_ARCSECTORS must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_ARCSECTORS must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The center of the circle
@@ -697,7 +697,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_ARC || defined(__DOXYGEN__)
 	/**
 	 * @brief	Draw an arc.
-	 * @pre		GDISP_NEED_ARC must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_ARC must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 			The display to use
 	 * @param[in] x,y			The center point
@@ -722,7 +722,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief	Draw a thick arc.
-	 * @pre		GDISP_NEED_ARC must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_ARC must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 			The display to use
 	 * @param[in] xc,yc			The center point
@@ -747,7 +747,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	
 	/**
 	 * @brief	Draw a filled arc.
-	 * @pre		GDISP_NEED_ARC must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_ARC must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 			The display to use
 	 * @param[in] x,y			The center point
@@ -777,7 +777,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief   Get the color of a pixel.
 	 * @return  The color of the pixel.
-	 * @pre		GDISP_NEED_PIXELREAD must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_PIXELREAD must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The position of the pixel
@@ -793,7 +793,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_SCROLL || defined(__DOXYGEN__)
 	/**
 	 * @brief   Scroll vertically a section of the screen.
-	 * @pre		GDISP_NEED_SCROLL must be set to TRUE in gfxconf.h
+	 * @pre		GDISP_NEED_SCROLL must be set to GFXON in gfxconf.h
 	 * @note    Optional.
 	 * @note    If lines is >= cy, it is equivelent to an area fill with bgcolor.
 	 *
@@ -814,7 +814,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_CONTROL || defined(__DOXYGEN__)
 	/**
 	 * @brief   Control hardware specific parts of the display. eg powermodes, backlight etc
-	 * @pre		GDISP_NEED_CONTROL must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_CONTROL must be GFXON in your gfxconf.h
 	 * @note    Depending on the hardware implementation this function may not
 	 *          support some codes. They will be ignored.
 	 *
@@ -833,7 +833,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_QUERY || defined(__DOXYGEN__)
 	/**
 	 * @brief   Query a property of the display.
-	 * @pre		GDISP_NEED_QUERY must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_QUERY must be GFXON in your gfxconf.h
 	 * @note    The result must be typecast to the correct type.
 	 * @note    An unsupported query will return (void *)-1.
 	 *
@@ -849,7 +849,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_CONVEX_POLYGON || defined(__DOXYGEN__)
 	/**
 	 * @brief   Draw an enclosed polygon (convex, non-convex or complex).
-	 * @pre		GDISP_NEED_CONVEX_POLYGON must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_CONVEX_POLYGON must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] tx, ty	Transform all points in pntarray by tx, ty
@@ -865,7 +865,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief   Fill a convex polygon
 	 * @details Doesn't handle non-convex or complex polygons.
-	 * @pre		GDISP_NEED_CONVEX_POLYGON must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_CONVEX_POLYGON must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] tx, ty	Transform all points in pntarray by tx, ty
@@ -890,7 +890,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	 * @brief   Draw a line with a specified thickness
 	 * @details The line thickness is specified in pixels. The line ends can
 	 *          be selected to be either flat or round.
-	 * @pre		GDISP_NEED_CONVEX_POLYGON must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_CONVEX_POLYGON must be GFXON in your gfxconf.h
 	 * @note	Uses gdispGFillConvexPoly() internally to perform the drawing.
 	 *
 	 * @param[in] g			The display to use
@@ -911,7 +911,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_TEXT || defined(__DOXYGEN__)
 	/**
 	 * @brief   Draw a text character.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The position for the text
@@ -926,7 +926,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief   Draw a text character with a filled background.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The position for the text
@@ -942,7 +942,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief   Draw a text string.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The position for the text
@@ -957,7 +957,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief   Draw a text string.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The position for the text
@@ -973,7 +973,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief   Draw a text string vertically centered within the specified box.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The position for the text (need to define top-right or base-line - check code)
@@ -990,7 +990,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief   Draw a text string vertically centered within the specified box. The box background is filled with the specified background color.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 * @note    The entire box is filled
 	 *
 	 * @param[in] g 		The display to use
@@ -1010,7 +1010,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief   Get a metric of a font.
 	 * @return  The metric requested in pixels.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] font    The font to test
 	 * @param[in] metric  The metric to measure
@@ -1022,7 +1022,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief   Get the pixel width of a character.
 	 * @return  The width of the character in pixels. Does not include any between character padding.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] c       The character to draw
 	 * @param[in] font    The font to use
@@ -1034,7 +1034,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief   Get the pixel width of a string of a given character length.
 	 * @return  The width of the string in pixels.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @note	Passing 0 to count has the same effect as calling gdispGetStringWidt()
 	 *
@@ -1049,7 +1049,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief   Get the pixel width of an entire string.
 	 * @return  The width of the string in pixels.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] str     The string to measure
 	 * @param[in] font    The font to use
@@ -1062,7 +1062,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	 * @brief	Find a font and return it.
 	 * @details	The supplied name is matched against the font name. A '*' will replace 0 or more characters.
 	 * @return	Returns a font or NULL if no matching font could be found.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] name		The font name to find.
 	 *
@@ -1074,7 +1074,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief	Release a font after use.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] font		The font to release.
 	 *
@@ -1086,7 +1086,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	 * @brief	Make a scaled copy of an existing font.
 	 * @details	Allocates memory for new font metadata using gfxAlloc, remember to close font after use!
 	 * @return	A new font or NULL if out of memory.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 * @note	A scaled font should probably not be added to the font list as it will prevent the
 	 *			unscaled font of the same name being found as it will be the scaled version that will be found.
 	 *
@@ -1099,7 +1099,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief	Get the name of the specified font.
 	 * @returns	The name of the font.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] font		The font to get the name for.
 	 *
@@ -1110,7 +1110,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	/**
 	 * @brief	Add a font permanently to the font list.
 	 * @returns	TRUE on success. Reasons it may fail: out of memory, if it is already on the list, it is not a font loaded in RAM.
-	 * @pre		GDISP_NEED_TEXT must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] font		The font to add to the font list.
 	 *
@@ -1124,7 +1124,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 #if GDISP_NEED_ARC || GDISP_NEED_ARCSECTORS || defined(__DOXYGEN__)
 	/**
 	 * @brief   Draw a rectangular box with rounded corners
-	 * @pre		GDISP_NEED_ARC or GDISP_NEED_ARCSECTORS must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_ARC or GDISP_NEED_ARCSECTORS must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The start position
@@ -1139,7 +1139,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/**
 	 * @brief   Draw a filled rectangular box with rounded corners
-	 * @pre		GDISP_NEED_ARC or GDISP_NEED_ARCSECTORS must be TRUE in your gfxconf.h
+	 * @pre		GDISP_NEED_ARC or GDISP_NEED_ARCSECTORS must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g 		The display to use
 	 * @param[in] x,y		The start position

@@ -41,7 +41,7 @@
  * and method 1 for any extra displays.
  */
 
-#define USE_METHOD_1		FALSE
+#define USE_METHOD_1		GFXOFF
 
 #if USE_METHOD_1
 	int main(void) {

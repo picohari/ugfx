@@ -58,10 +58,10 @@ static GFXINLINE uint16_t read_data(GDisplay *g) {
 }
 
 //Optional define if your board interface supports it
-//#define GDISP_USE_DMA			TRUE
+//#define GDISP_USE_DMA			GFXON
 
-// Optional define - valid only when GDISP_USE_DMA is TRUE
-//#define GDISP_NO_DMA_FROM_STACK	FALSE
+// Optional define - valid only when GDISP_USE_DMA is GFXON
+//#define GDISP_NO_DMA_FROM_STACK	GFXOFF
 
 #if defined(GDISP_USE_DMA) && GDISP_USE_DMA
 

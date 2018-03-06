@@ -34,7 +34,7 @@
  *
  * Some of the more modern controllers have a broken command set. If you have one of these
  * you will recognise it by the colors being off on anything drawn after an odd (as opposed to
- * even) pixel count area being drawn. If so then set GDISP_GE8_BROKEN_CONTROLLER to TRUE
+ * even) pixel count area being drawn. If so then set GDISP_GE8_BROKEN_CONTROLLER to GFXON
  * on your gdisp_lld_board.h file. The price is that streaming calls that are completed
  * without exactly the window size write operations and where the number of write operations
  * is odd (rather than even), it will draw an extra pixel. If this is important to you, turn on
@@ -67,7 +67,7 @@
 
 // Set parameters if they are not already set
 #ifndef GDISP_GE8_BROKEN_CONTROLLER
-	#define GDISP_GE8_BROKEN_CONTROLLER		TRUE
+	#define GDISP_GE8_BROKEN_CONTROLLER		GFXON
 #endif
 #ifndef GDISP_SCREEN_HEIGHT
 	#define GDISP_SCREEN_HEIGHT		130

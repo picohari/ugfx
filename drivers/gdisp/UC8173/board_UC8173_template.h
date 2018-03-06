@@ -9,11 +9,11 @@
 #define _GDISP_LLD_BOARD_H
 
 // Define options for this driver
-#define UC8173_REVERSEAXIS_Y		FALSE
-#define UC8173_REVERSEAXIS_X		FALSE
-#define UC8173_USE_OTP_LUT			FALSE		/* Use the LUT in the OTP - untested */
+#define UC8173_REVERSEAXIS_Y		GFXOFF
+#define UC8173_REVERSEAXIS_X		GFXOFF
+#define UC8173_USE_OTP_LUT			GFXOFF		/* Use the LUT in the OTP - untested */
 #define UC8173_DEFAULT_MODE			0			/* Which entry in the mode table to start with */
-#define UC8173_CAN_READ				FALSE		/* Reading the controller chip is supported */
+#define UC8173_CAN_READ				GFXOFF		/* Reading the controller chip is supported */
 #define UC8173_VCOM_VOLTAGE			-2.80		/* Read this off the sticker on the back of the display or set UC8173_CAN_READ to have the chip read */
 #define UC8171_BORDER				0			/* 0 = Hi-Z, 1 = Black, 2 = White */
 

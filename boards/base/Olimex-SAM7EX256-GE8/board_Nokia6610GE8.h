@@ -17,7 +17,7 @@
  * Set various display properties. These properties mostly depend on the exact controller chip you get.
  * The defaults should work for most controllers.
  */
-//#define GDISP_GE8_BROKEN_CONTROLLER		FALSE	// Uncomment this out if you have a controller thats not window wrap broken.
+//#define GDISP_GE8_BROKEN_CONTROLLER		GFXOFF	// Uncomment this out if you have a controller thats not window wrap broken.
 //#define GDISP_SCREEN_HEIGHT				130		// The visible display height
 //#define GDISP_SCREEN_WIDTH				130		// The visible display width
 //#define GDISP_RAM_X_OFFSET				0		// The x offset of the visible area

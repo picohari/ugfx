@@ -32,10 +32,10 @@
 	#define GDISP_INITIAL_BACKLIGHT	100
 #endif
 #ifndef GDISP_USE_DMA
-	#define GDISP_USE_DMA			FALSE
+	#define GDISP_USE_DMA			GFXOFF
 #endif
 #ifndef GDISP_NO_DMA_FROM_STACK
-	#define GDISP_NO_DMA_FROM_STACK	FALSE
+	#define GDISP_NO_DMA_FROM_STACK	GFXOFF
 #endif
 
 /*===========================================================================*/

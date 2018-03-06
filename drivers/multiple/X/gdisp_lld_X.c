@@ -24,7 +24,7 @@
 
 // Configuration parameters for this driver
 #ifndef GDISP_FORCE_24BIT
-	#define GDISP_FORCE_24BIT			FALSE
+	#define GDISP_FORCE_24BIT			GFXOFF
 #endif
 #ifndef GDISP_SCREEN_WIDTH
 	#define GDISP_SCREEN_WIDTH			640
@@ -34,17 +34,17 @@
 #endif
 #ifndef GKEYBOARD_X_NO_LAYOUT
 	/**
-	 * Setting this to TRUE turns off the layout engine.
+	 * Setting this to GFXON turns off the layout engine.
 	 * In this situation "cooked" characters are returned but
 	 * shift states etc are lost.
 	 * As only a limited number of keyboard layouts are currently
 	 * defined for X in uGFX (currently none), setting this
-	 * to TRUE enables the X keyboard mapping to be pass non-English
+	 * to GFXON enables the X keyboard mapping to be pass non-English
 	 * characters to uGFX or to handle non-standard keyboard layouts at
 	 * the expense of losing special function keys etc.
 	 */
-	// We set this to TRUE by default as currently the X layout code is not complete!
-	#define GKEYBOARD_X_NO_LAYOUT		TRUE
+	// We set this to GFXON by default as currently the X layout code is not complete!
+	#define GKEYBOARD_X_NO_LAYOUT		GFXON
 #endif
 #ifndef GKEYBOARD_X_DEFAULT_LAYOUT
 	#define GKEYBOARD_X_DEFAULT_LAYOUT	KeyboardLayout_X_US
@@ -102,7 +102,7 @@
 
 	#if !GKEYBOARD_X_NO_LAYOUT
 		#if GKEYBOARD_LAYOUT_OFF
-			#error "The X keyboard driver is using the layout engine. Please set GKEYBOARD_LAYOUT_OFF=FALSE or GKEYBOARD_X_NO_LAYOUT=TRUE."
+			#error "The X keyboard driver is using the layout engine. Please set GKEYBOARD_LAYOUT_OFF=GFXOFF or GKEYBOARD_X_NO_LAYOUT=GFXON."
 		#endif
 
 		// Forward definitions
@@ -133,9 +133,9 @@
 		};
 	#elif !GKEYBOARD_LAYOUT_OFF
 		#if GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_DIRECT
-			#warning "The X keyboard driver is not using the layout engine. If no other keyboard is using it consider defining GKEYBOARD_LAYOUT_OFF=TRUE to save code size."
+			#warning "The X keyboard driver is not using the layout engine. If no other keyboard is using it consider defining GKEYBOARD_LAYOUT_OFF=GFXON to save code size."
 		#elif GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_MACRO
-			COMPILER_WARNING("The X keyboard driver is not using the layout engine. If no other keyboard is using it consider defining GKEYBOARD_LAYOUT_OFF=TRUE to save code size.")
+			COMPILER_WARNING("The X keyboard driver is not using the layout engine. If no other keyboard is using it consider defining GKEYBOARD_LAYOUT_OFF=GFXON to save code size.")
 		#endif
 	#endif
 

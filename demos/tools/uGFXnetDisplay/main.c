@@ -20,14 +20,14 @@
 // Do we wish to use old style socket calls. Some socket libraries only support the old version.
 // It is better to use the new version where possible however as it also supports IPv6.
 #ifndef OLD_STYLE_SOCKETS
-	#define OLD_STYLE_SOCKETS		FALSE
+	#define OLD_STYLE_SOCKETS		GFXOFF
 #endif
 
 // Which operating systems support a command line
 #if defined(WIN32) || GFX_USE_OS_WIN32 || GFX_USE_OS_OSX || GFX_USE_OS_LINUX
-	#define EMBEDED_OS	FALSE
+	#define EMBEDED_OS	GFXOFF
 #else
-	#define EMBEDED_OS	TRUE
+	#define EMBEDED_OS	GFXON
 #endif
 
 #if GNETCODE_VERSION != GNETCODE_VERSION_1_0
@@ -103,7 +103,7 @@
 			COMPILER_WARNING("GDISP: uGFXnet - LWIP sockets are not thread-safe. GDISP_GFXNET_UNSAFE_SOCKETS has been turned on for you.")
 		#endif
 		#undef GDISP_GFXNET_UNSAFE_SOCKETS
-		#define GDISP_GFXNET_UNSAFE_SOCKETS	TRUE
+		#define GDISP_GFXNET_UNSAFE_SOCKETS	GFXON
 	#endif
 #endif
 

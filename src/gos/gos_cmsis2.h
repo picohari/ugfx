@@ -61,7 +61,7 @@ extern "C" {
 
 #define gfxExit()					os_error(0)
 #define gfxHalt(msg)				os_error(1)
-#define gfxSystemTicks()			osKernelGetSysTimerCount()
+#define gfxSystemTicks()			osKernelGetTickCount()
 #define gfxMillisecondsToTicks(ms)	(1000*(ms)/osKernelGetTickFreq())
 #define gfxSystemLock()				osKernelLock()
 #define gfxSystemUnlock()			osKernelUnlock()
@@ -92,7 +92,7 @@ gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, threadpriority_
 /* Use the generic heap handling                                             */
 /*===========================================================================*/
 
-#define GOS_NEED_X_HEAP TRUE
+#define GOS_NEED_X_HEAP GFXON
 #include "gos_x_heap.h"
 
 #endif /* GFX_USE_OS_CMSIS */
