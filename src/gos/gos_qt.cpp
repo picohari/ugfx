@@ -13,6 +13,7 @@
 #include <QThread>
 #include <QElapsedTimer>
 
+extern "C" void _gosPostInit(void);
 
 class Thread : public QThread
 {
@@ -84,6 +85,12 @@ void gfxExit(void)
 void* gfxAlloc(size_t sz)
 {
     return malloc(sz);
+}
+
+void* gfxRealloc(void* ptr, size_t oldsz, size_t newsz)
+{
+    Q_UNUSED(oldsz)
+    return realloc(ptr, newsz);
 }
 
 void gfxFree(void* ptr)
