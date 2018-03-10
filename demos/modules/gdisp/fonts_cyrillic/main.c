@@ -39,7 +39,7 @@ int main(void) {
 	font1 = gdispOpenFont("Archangelsk Regular 12");
 
 	// Demonstrate our other fonts
-	gdispDrawString(10, 10, "привет мир", font1, Yellow);
+	gdispDrawString(10, 10, "привет мир", font1, GFX_YELLOW);
 
 	// Wait forever
     while(TRUE) {

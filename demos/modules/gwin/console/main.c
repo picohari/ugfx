@@ -62,12 +62,12 @@ int main(void) {
 	gwinSetFont(GW1, font2);
 
 	/* Set the fore- and background colors for each console */
-	gwinSetColor(GW1, Green);
-	gwinSetBgColor(GW1, Black);
-	gwinSetColor(GW2, White);
-	gwinSetBgColor(GW2, Blue);
-	gwinSetColor(GW3, Black);
-	gwinSetBgColor(GW3, Red);
+	gwinSetColor(GW1, GFX_GREEN);
+	gwinSetBgColor(GW1, GFX_BLACK);
+	gwinSetColor(GW2, GFX_WHITE);
+	gwinSetBgColor(GW2, GFX_BLUE);
+	gwinSetColor(GW3, GFX_BLACK);
+	gwinSetBgColor(GW3, GFX_RED);
 
 	/* clear all console windows - to set background */
 	gwinClear(GW1);

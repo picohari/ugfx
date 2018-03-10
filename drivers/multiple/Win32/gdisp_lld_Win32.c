@@ -61,9 +61,11 @@
 #define DISPLAY_Y_OFFSET		50
 
 // Oops - name clashes with Win32 symbols
-#undef Red
-#undef Green
-#undef Blue
+#if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
+	#undef Red
+	#undef Green
+	#undef Blue
+#endif
 
 #define WIN32_LEAN_AND_MEAN
 #include <stdio.h>

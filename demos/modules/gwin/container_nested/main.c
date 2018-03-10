@@ -118,7 +118,7 @@ int main(void) {
     // Set the widget defaults
     gwinSetDefaultFont(gdispOpenFont("*"));
     gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
-    gdispClear(White);
+    gdispClear(GFX_WHITE);
 
     // Create the widget
     createWidgets();

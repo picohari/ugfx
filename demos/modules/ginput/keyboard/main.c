@@ -59,8 +59,8 @@ int main(void) {
 		GW = gwinConsoleCreate(0, &wi);
 
 		/* Set the fore- and background colors for the console */
-		gwinSetColor(GW, Yellow);
-		gwinSetBgColor(GW, Black);
+		gwinSetColor(GW, GFX_YELLOW);
+		gwinSetBgColor(GW, GFX_BLACK);
 		gwinClear(GW);
 	}
 

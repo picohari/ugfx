@@ -425,7 +425,7 @@ LLDSPEC void gdisp_lld_draw_pixel (GDisplay *g)
         y = g->p.x;
         break;
     }
-    if (gdispColor2Native (g->p.color) != gdispColor2Native (Black))
+    if (gdispColor2Native (g->p.color) != gdispColor2Native (GFX_BLACK))
         RAM (g)[xyaddr (x, y)] |= xybit (y);
     else
         RAM (g)[xyaddr (x, y)] &= ~xybit(y);
@@ -461,7 +461,7 @@ LLDSPEC color_t gdisp_lld_get_pixel_color (GDisplay *g)
         y = g->p.x;
         break;
     }
-    return (RAM (g)[xyaddr (x, y)] & xybit (y)) ? White : Black;
+    return (RAM (g)[xyaddr (x, y)] & xybit (y)) ? GFX_WHITE : GFX_BLACK;
 }
 #endif
 

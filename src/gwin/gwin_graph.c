@@ -20,12 +20,12 @@
 #define GGRAPH_ARROW_SIZE					5
 
 static const GGraphStyle GGraphDefaultStyle = {
-	{ GGRAPH_POINT_DOT, 0, White },			// point
-	{ GGRAPH_LINE_DOT, 2, Gray },			// line
-	{ GGRAPH_LINE_SOLID, 0, White },		// x axis
-	{ GGRAPH_LINE_SOLID, 0, White },		// y axis
-	{ GGRAPH_LINE_NONE, 0, White, 0 },		// x grid
-	{ GGRAPH_LINE_NONE, 0, White, 0 },		// y grid
+	{ GGRAPH_POINT_DOT, 0, GFX_WHITE },			// point
+	{ GGRAPH_LINE_DOT, 2, GFX_GRAY },			// line
+	{ GGRAPH_LINE_SOLID, 0, GFX_WHITE },		// x axis
+	{ GGRAPH_LINE_SOLID, 0, GFX_WHITE },		// y axis
+	{ GGRAPH_LINE_NONE, 0, GFX_WHITE, 0 },		// x grid
+	{ GGRAPH_LINE_NONE, 0, GFX_WHITE, 0 },		// y grid
 	GWIN_GRAPH_STYLE_XAXIS_ARROWS|GWIN_GRAPH_STYLE_YAXIS_ARROWS		// flags
 };
 

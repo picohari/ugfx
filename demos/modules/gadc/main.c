@@ -160,8 +160,8 @@ int main(void) {
 			wi.height = sheight;
 			ghText = gwinConsoleCreate(&gTextWindow, &wi);
 		}
-		gwinSetBgColor(ghText, Black);
-		gwinSetColor(ghText, Yellow);
+		gwinSetBgColor(ghText, GFX_BLACK);
+		gwinSetColor(ghText, GFX_YELLOW);
 		gwinClear(ghText);
 
 		/* Start our timer for reading the dial */
@@ -195,8 +195,8 @@ int main(void) {
 		wi.height = SCOPE_CY;
 		ghScope = gwinScopeCreate(&gScopeWindow, &wi, MY_MIC_DEVICE, MY_MIC_FREQUENCY);
 	}
-	gwinSetBgColor(ghScope, White);
-	gwinSetColor(ghScope, Red);
+	gwinSetBgColor(ghScope, GFX_WHITE);
+	gwinSetColor(ghScope, GFX_RED);
 	gwinClear(ghScope);
 
 	/* Just keep displaying the scope traces */

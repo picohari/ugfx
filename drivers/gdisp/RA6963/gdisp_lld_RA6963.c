@@ -234,7 +234,7 @@ LLDSPEC void gdisp_lld_write_color(GDisplay *g) {
   temp = RAM(g)[POS];
 #endif
 
-  if (g->p.color != White) {
+  if (g->p.color != GFX_WHITE) {
     temp |= (1 << (RA6963_FONT_WIDTH - 1 - ((g->p.x) % RA6963_FONT_WIDTH)));
   }
   else {
@@ -292,7 +292,7 @@ LLDSPEC void gdisp_lld_fill_area(GDisplay *g) {
   uint8_t data, j;
   set_viewport(g);
 
-  if (g->p.color != White) {
+  if (g->p.color != GFX_WHITE) {
     data = 0xFF;              // set dot
   }
   else {

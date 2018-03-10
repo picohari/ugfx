@@ -1,7 +1,9 @@
 #include "../../../gfx.h"
-#undef Red
-#undef Green
-#undef Blue
+#if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
+	#undef Red
+	#undef Green
+	#undef Blue
+#endif
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
 

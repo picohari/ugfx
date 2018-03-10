@@ -56,7 +56,7 @@ int main(void) {
 	font = gdispOpenFont("UI2");
 	gwinSetDefaultFont(font);
 	bHeight = gdispGetFontMetric(font, fontHeight)+4;
-	gdispFillStringBox(0, 0, swidth, bHeight, "Touchscreen Calibration Grabber", font, Red, White, justifyCenter);
+	gdispFillStringBox(0, 0, swidth, bHeight, "Touchscreen Calibration Grabber", font, GFX_RED, GFX_WHITE, justifyCenter);
 
 	// Create our main display writing window
 	{

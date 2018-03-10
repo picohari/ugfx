@@ -115,7 +115,7 @@ gdispImageError gdispImageOpenGFile(gdispImage *img, GFILE *f) {
 	if (!f)
 		return GDISP_IMAGE_ERR_NOSUCHFILE;
 	img->f = f;
-	img->bgcolor = White;
+	img->bgcolor = GFX_WHITE;
 	for(img->fns = ImageHandlers; img->fns < ImageHandlers+sizeof(ImageHandlers)/sizeof(ImageHandlers[0]); img->fns++) {
 		err = img->fns->open(img);
 		if (err != GDISP_IMAGE_ERR_BADFORMAT) {

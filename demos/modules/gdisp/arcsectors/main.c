@@ -49,9 +49,9 @@ int main(void) {
 
 	while(1) {
 		// Draw the arc sectors
-		gdispClear(White);
-		gdispDrawArcSectors(cx, cy, r1, sectors, Blue);
-		gdispFillArcSectors(cx, cy, r2, sectors, Red);
+		gdispClear(GFX_WHITE);
+		gdispDrawArcSectors(cx, cy, r1, sectors, GFX_BLUE);
+		gdispFillArcSectors(cx, cy, r2, sectors, GFX_RED);
 
 		// Increase the sectors counter
 		sectors++;

@@ -159,7 +159,7 @@ LLDSPEC void gdisp_lld_write_color(GDisplay *g) {
 	uint16_t	data;
 
 	data = (g->p.x >> 6) << 8;		// Set the chip
-	if (g->p.color != White)
+	if (g->p.color != GFX_WHITE)
 		data |= 0x01;				// set dot
 	write_data(g, data);
 }
@@ -206,7 +206,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 		uint8_t data, j;
 		set_viewport(g);
 
-		if (g->p.color != White) {
+		if (g->p.color != GFX_WHITE) {
 			data = 0xFF;              // set dot
 		}
 		else {

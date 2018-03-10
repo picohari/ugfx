@@ -336,12 +336,12 @@ int main(proto_args) {
 	font = gdispOpenFont("UI2");
 
 	// Open the connection
-	gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetHeight(), "Connecting to host...", font, White, justifyCenter);
+	gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetHeight(), "Connecting to host...", font, GFX_WHITE, justifyCenter);
 	StartSockets();
 	netfd = doConnect(cmd_args);
 	if (netfd == (SOCKET_TYPE)-1)
 		gfxHalt("Could not connect to the specified server");
-	gdispClear(Black);
+	gdispClear(GFX_BLACK);
 
 	// Get the initial packet from the host
 	if (!getpkt(cmd, 2)) goto alldone;
@@ -395,7 +395,7 @@ int main(proto_args) {
 		#if GDISP_NEED_SCROLL
 			case GNETCODE_SCROLL:
 				if (!getpkt(cmd, 5)) goto alldone;				// cmd[] = x, y, cx, cy, lines
-				gdispVerticalScroll(cmd[0], cmd[1], cmd[2], cmd[3], cmd[4], Black);
+				gdispVerticalScroll(cmd[0], cmd[1], cmd[2], cmd[3], cmd[4], GFX_BLACK);
 				break;
 		#endif
 		case GNETCODE_CONTROL:

@@ -59,12 +59,12 @@ int main(void) {
     		surface[j*PIXMAP_WIDTH + i] = RGB2COLOR(0, 255-i*(256/PIXMAP_WIDTH), j*(256/PIXMAP_HEIGHT));
 
     // Secondly, show drawing a line on it like a virtual display
-    gdispGDrawLine(pixmap, 0, 0, gdispGGetWidth(pixmap)-1, gdispGGetHeight(pixmap)-1, White);
+    gdispGDrawLine(pixmap, 0, 0, gdispGGetWidth(pixmap)-1, gdispGGetHeight(pixmap)-1, GFX_WHITE);
     
     i = j = 0;
     while(TRUE) {
     	// Clear the old position
-    	gdispFillArea(i, j, PIXMAP_WIDTH, PIXMAP_HEIGHT, Black);
+    	gdispFillArea(i, j, PIXMAP_WIDTH, PIXMAP_HEIGHT, GFX_BLACK);
 
     	// Change the position
     	i += PIXMAP_WIDTH/2;

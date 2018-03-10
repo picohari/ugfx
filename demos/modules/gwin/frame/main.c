@@ -120,7 +120,7 @@ int main(void) {
     // Set the widget defaults
     gwinSetDefaultFont(gdispOpenFont("*"));
     gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
-    gdispClear(White);
+    gdispClear(GFX_WHITE);
 
     // create the widget
     _createWidgets();

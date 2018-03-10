@@ -17,7 +17,7 @@ int main(void) {
 
 	gwinSetDefaultFont(gdispOpenFont("UI2"));
 	gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
-	gdispClear(White);
+	gdispClear(GFX_WHITE);
 
 	_createWidget();
 

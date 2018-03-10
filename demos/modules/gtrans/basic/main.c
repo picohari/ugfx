@@ -30,8 +30,8 @@
 #include <stdio.h>
 #include "gfx.h"
 
-#define COLOR_BACKGROUND    Silver
-#define COLOR_TEXT          Black
+#define COLOR_BACKGROUND    GFX_SILVER
+#define COLOR_TEXT          GFX_BLACK
 
 font_t font;
 

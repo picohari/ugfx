@@ -46,19 +46,19 @@ static void DrawHeader(const char *title, bool_t btnNext, bool_t btnPrev, bool_t
 	#if GDISP_NEED_CLIP
 		gdispSetClip(0, 0, swidth, sheight);
 	#endif
-	gdispFillStringBox(0, 0, swidth, bHeight, "Touch Calibration", font, Red, White, justifyLeft);
+	gdispFillStringBox(0, 0, swidth, bHeight, "Touch Calibration", font, GFX_RED, GFX_WHITE, justifyLeft);
 	if (btnNext)
-		gdispFillStringBox(swidth-1*bWidth, 0, bWidth  , bHeight, "Next", font, Black, Gray, justifyCenter);
+		gdispFillStringBox(swidth-1*bWidth, 0, bWidth  , bHeight, "Next", font, GFX_BLACK, GFX_GRAY, justifyCenter);
 	if (btnPrev)
-		gdispFillStringBox(swidth-2*bWidth, 0, bWidth-1, bHeight, "Prev", font, Black, Gray, justifyCenter);
+		gdispFillStringBox(swidth-2*bWidth, 0, bWidth-1, bHeight, "Prev", font, GFX_BLACK, GFX_GRAY, justifyCenter);
 	if (btnPlusMinus) {
-		gdispFillStringBox(swidth-2*bWidth-1*bWidth2, 0, bWidth2-1, bHeight, "+", font, Black, Gray, justifyCenter);
-		gdispFillStringBox(swidth-2*bWidth-2*bWidth2, 0, bWidth2-1, bHeight, "-", font, Black, Gray, justifyCenter);
+		gdispFillStringBox(swidth-2*bWidth-1*bWidth2, 0, bWidth2-1, bHeight, "+", font, GFX_BLACK, GFX_GRAY, justifyCenter);
+		gdispFillStringBox(swidth-2*bWidth-2*bWidth2, 0, bWidth2-1, bHeight, "-", font, GFX_BLACK, GFX_GRAY, justifyCenter);
 	}
 	gwinClear(ghc);
-	gwinSetColor(ghc, Yellow);
+	gwinSetColor(ghc, GFX_YELLOW);
 	gwinPrintf(ghc, "\n%s\n\n", title);
-	gwinSetColor(ghc, White);
+	gwinSetColor(ghc, GFX_WHITE);
 }
 
 #define BTN_NONE	0
@@ -385,10 +385,10 @@ StepMovementJitter:
 
 StepClickJitter:
 	gwinClear(ghc);
-	gwinSetColor(ghc, Yellow);
+	gwinSetColor(ghc, GFX_YELLOW);
 	gwinPrintf(ghc, "\n6. Click Jitter\n\n");
 
-	gwinSetColor(ghc, White);
+	gwinSetColor(ghc, GFX_WHITE);
 	if (isTouch)
 		gwinPrintf(ghc, "Press and release the touch surface to \"click\".\nTry both short and long presses.\n");
 	else
@@ -416,11 +416,11 @@ StepClickJitter:
 			continue;
 		default:
 			if ((pem->buttons & GMETA_MOUSE_CLICK)) {
-				gwinSetColor(ghc, Yellow);
+				gwinSetColor(ghc, GFX_YELLOW);
 				gwinPrintf(ghc, "-");
 			}
 			if ((pem->buttons & GMETA_MOUSE_CXTCLICK)) {
-				gwinSetColor(ghc, Red);
+				gwinSetColor(ghc, GFX_RED);
 				gwinPrintf(ghc, "x");
 			}
 			continue;
@@ -434,10 +434,10 @@ StepClickJitter:
 
 StepDrawing:
 	gwinClear(ghc);
-	gwinSetColor(ghc, Yellow);
+	gwinSetColor(ghc, GFX_YELLOW);
 	gwinPrintf(ghc, "\n7. Drawing\n\n");
 
-	gwinSetColor(ghc, White);
+	gwinSetColor(ghc, GFX_WHITE);
 	gwinPrintf(ghc, "Press firmly on the surface (or press and hold the mouse button) and move around as if to draw.\n\n");
 	gwinPrintf(ghc, "A green line will follow your %s.\n\n", deviceText);
 	gwinPrintf(ghc, "Pressing Next will start the tests again but with the option of changing pen/finger mode.\n\n");
@@ -452,7 +452,7 @@ StepDrawing:
 				goto StepClickJitter;
 			}
 		}
-		gdispDrawPixel(pem->x, pem->y, Green);
+		gdispDrawPixel(pem->x, pem->y, GFX_GREEN);
 	}
 
 	// Can't let this really exit

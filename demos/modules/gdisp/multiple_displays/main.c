@@ -71,16 +71,16 @@
 			/* Draw draw draw */
 			sprintg(buf, "Display %u", display);
 			if (width < 128) {
-				gdispGDrawBox(g, 0, 0, width/2, height/2, Yellow);
-				gdispGFillStringBox(g, 0, height/2, width, height/2, buf, f, Black, Blue, justifyCenter);
+				gdispGDrawBox(g, 0, 0, width/2, height/2, GFX_YELLOW);
+				gdispGFillStringBox(g, 0, height/2, width, height/2, buf, f, GFX_BLACK, GFX_BLUE, justifyCenter);
 			} else {
-				gdispGDrawBox(g, 10, 10, width/2, height/2, Yellow);
-				gdispGFillStringBox(g, width/2, height/2, width/2-10, height/2-10, buf, f, White, Blue, justifyCenter);
+				gdispGDrawBox(g, 10, 10, width/2, height/2, GFX_YELLOW);
+				gdispGFillStringBox(g, width/2, height/2, width/2-10, height/2-10, buf, f, GFX_WHITE, GFX_BLUE, justifyCenter);
 			}
-			gdispGDrawLine(g, 5, 30, width-50, height-40, Red);
+			gdispGDrawLine(g, 5, 30, width-50, height-40, GFX_RED);
 
 			for(i = 5, j = 0; i < width && j < height; i += 7, j += i/20)
-				gdispGDrawPixel(g, i, j, White);
+				gdispGDrawPixel(g, i, j, GFX_WHITE);
 		}
 
 		while(TRUE) {
@@ -114,16 +114,16 @@
 			/* Draw draw draw */
 			sprintg(buf, "Display %u", display);
 			if (width < 128) {
-				gdispDrawBox(0, 0, width/2, height/2, Yellow);
-				gdispFillStringBox(0, height/2, width, height/2, buf, f, Black, Blue, justifyCenter);
+				gdispDrawBox(0, 0, width/2, height/2, GFX_YELLOW);
+				gdispFillStringBox(0, height/2, width, height/2, buf, f, GFX_BLACK, GFX_BLUE, justifyCenter);
 			} else {
-				gdispDrawBox(10, 10, width/2, height/2, Yellow);
-				gdispFillStringBox(width/2, height/2, width/2-10, height/2-10, buf, f, White, Blue, justifyCenter);
+				gdispDrawBox(10, 10, width/2, height/2, GFX_YELLOW);
+				gdispFillStringBox(width/2, height/2, width/2-10, height/2-10, buf, f, GFX_WHITE, GFX_BLUE, justifyCenter);
 			}
-			gdispDrawLine(5, 30, width-50, height-40, Red);
+			gdispDrawLine(5, 30, width-50, height-40, GFX_RED);
 
 			for(i = 5, j = 0; i < width && j < height; i += 7, j += i/20)
-				gdispDrawPixel(i, j, White);
+				gdispDrawPixel(i, j, GFX_WHITE);
 		}
 
 		while(TRUE) {

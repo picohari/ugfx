@@ -80,53 +80,53 @@ typedef uint16_t	colorformat;
  * @name   Some basic colors
  * @{
  */
-#define GFXWHITE		HTML2COLOR(0xFFFFFF)
-#define GFXBLACK		HTML2COLOR(0x000000)
-#define GFXGRAY			HTML2COLOR(0x808080)
-#define GFXGREY			GFXGRAY
-#define GFXBLUE			HTML2COLOR(0x0000FF)
-#define GFXRED			HTML2COLOR(0xFF0000)
-#define GFXFUCHSIA		HTML2COLOR(0xFF00FF)
-#define GFXMAGENTA		GFXFUCHSIA
-#define GFXGREEN		HTML2COLOR(0x008000)
-#define GFXYELLOW		HTML2COLOR(0xFFFF00)
-#define GFXAQUA			HTML2COLOR(0x00FFFF)
-#define GFXCYAN			GFXAQUA
-#define GFXLIME			HTML2COLOR(0x00FF00)
-#define GFXMAROON		HTML2COLOR(0x800000)
-#define GFXNAVY			HTML2COLOR(0x000080)
-#define GFXOLIVE		HTML2COLOR(0x808000)
-#define GFXPURPLE		HTML2COLOR(0x800080)
-#define GFXSILVER		HTML2COLOR(0xC0C0C0)
-#define GFXTEAL			HTML2COLOR(0x008080)
-#define GFXORANGE		HTML2COLOR(0xFFA500)
-#define GFXPINK			HTML2COLOR(0xFFC0CB)
-#define GFXSKYBLUE		HTML2COLOR(0x87CEEB)
+#define GFX_WHITE		HTML2COLOR(0xFFFFFF)
+#define GFX_BLACK		HTML2COLOR(0x000000)
+#define GFX_GRAY		HTML2COLOR(0x808080)
+#define GFX_GREY		GFXGRAY
+#define GFX_BLUE		HTML2COLOR(0x0000FF)
+#define GFX_RED			HTML2COLOR(0xFF0000)
+#define GFX_FUCHSIA		HTML2COLOR(0xFF00FF)
+#define GFX_MAGENTA		GFXFUCHSIA
+#define GFX_GREEN		HTML2COLOR(0x008000)
+#define GFX_YELLOW		HTML2COLOR(0xFFFF00)
+#define GFX_AQUA		HTML2COLOR(0x00FFFF)
+#define GFX_CYAN		GFXAQUA
+#define GFX_LIME		HTML2COLOR(0x00FF00)
+#define GFX_MAROON		HTML2COLOR(0x800000)
+#define GFX_NAVY		HTML2COLOR(0x000080)
+#define GFX_OLIVE		HTML2COLOR(0x808000)
+#define GFX_PURPLE		HTML2COLOR(0x800080)
+#define GFX_SILVER		HTML2COLOR(0xC0C0C0)
+#define GFX_TEAL		HTML2COLOR(0x008080)
+#define GFX_ORANGE		HTML2COLOR(0xFFA500)
+#define GFX_PINK		HTML2COLOR(0xFFC0CB)
+#define GFX_SKYBLUE		HTML2COLOR(0x87CEEB)
 /** @} */
 
 #if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
-	#define White			GFXWHITE
-	#define Black			GFXBLACK
-	#define Gray			GFXGRAY
-	#define Grey			GFXGREY
-	#define Blue			GFXBLUE
-	#define Red				GFXRED
-	#define Fuchsia			GFXFUCHSIA
-	#define Magenta			GFXMAGENTA
-	#define Green			GFXGREEN
-	#define Yellow			GFXYELLOW
-	#define Aqua			GFXAQUA
-	#define Cyan			GFXCYAN
-	#define Lime			GFXLIME
-	#define Maroon			GFXMAROON
-	#define Navy			GFXNAVY
-	#define Olive			GFXOLIVE
-	#define Purple			GFXPURPLE
-	#define Silver			GFXSILVER
-	#define Teal			GFXTEAL
-	#define Orange			GFXORANGE
-	#define Pink			GFXPINK
-	#define SkyBlue			GFXSKYBLUE
+	#define White			GFX_WHITE
+	#define Black			GFX_BLACK
+	#define Gray			GFX_GRAY
+	#define Grey			GFX_GREY
+	#define Blue			GFX_BLUE
+	#define Red				GFX_RED
+	#define Fuchsia			GFX_FUCHSIA
+	#define Magenta			GFX_MAGENTA
+	#define Green			GFX_GREEN
+	#define Yellow			GFX_YELLOW
+	#define Aqua			GFX_AQUA
+	#define Cyan			GFX_CYAN
+	#define Lime			GFX_LIME
+	#define Maroon			GFX_MAROON
+	#define Navy			GFX_NAVY
+	#define Olive			GFX_OLIVE
+	#define Purple			GFX_PURPLE
+	#define Silver			GFX_SILVER
+	#define Teal			GFX_TEAL
+	#define Orange			GFX_ORANGE
+	#define Pink			GFX_PINK
+	#define SkyBlue			GFX_SKYBLUE
 #endif
 
 #if defined(__DOXYGEN__)

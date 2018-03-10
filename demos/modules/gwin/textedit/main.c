@@ -50,8 +50,8 @@ static void guiCreate(void)
 	wi.g.width = gdispGetWidth()/2;
 	wi.g.height = gdispGetHeight();
 	ghConsole = gwinConsoleCreate(0, &wi.g);
-	gwinSetColor(ghConsole, Yellow);
-	gwinSetBgColor(ghConsole, Black);
+	gwinSetColor(ghConsole, GFX_YELLOW);
+	gwinSetBgColor(ghConsole, GFX_BLACK);
 	gwinSetFont(ghConsole, gdispOpenFont("UI2"));
 	gwinClear(ghConsole);
 
@@ -102,11 +102,11 @@ int main(void) {
 
 	gfxInit();
 
-	gdispClear(Silver);
+	gdispClear(GFX_SILVER);
 	gwinSetDefaultFont(gdispOpenFont("DejaVuSans16"));
 	gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
-	gwinSetDefaultColor(Black);
-	gwinSetDefaultBgColor(White);
+	gwinSetDefaultColor(GFX_BLACK);
+	gwinSetDefaultBgColor(GFX_WHITE);
 
 	geventListenerInit(&gl);
 	geventAttachSource(&gl, ginputGetKeyboard(0), GLISTEN_KEYTRANSITIONS|GLISTEN_KEYUP);

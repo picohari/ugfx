@@ -95,11 +95,11 @@ static void printStats(void)
 
     font_t font = gdispOpenFont("fixed_5x8");
     uitoa(MINES_MINE_COUNT, pps_str, sizeof(pps_str));
-    gdispFillString(minesStatusIconWidth+8, gdispGetHeight()-11, "    ", font, Black, Black);
-    gdispDrawString(minesStatusIconWidth+8, gdispGetHeight()-11, pps_str, font, White);
+    gdispFillString(minesStatusIconWidth+8, gdispGetHeight()-11, "    ", font, GFX_BLACK, GFX_BLACK);
+    gdispDrawString(minesStatusIconWidth+8, gdispGetHeight()-11, pps_str, font, GFX_WHITE);
     uitoa(minesFlags, pps_str, sizeof(pps_str));
-    gdispFillString(8+(minesStatusIconWidth*2)+gdispGetStringWidth("99999", font), gdispGetHeight()-11, "    ", font, Black, Black);
-    gdispDrawString(8+(minesStatusIconWidth*2)+gdispGetStringWidth("99999", font), gdispGetHeight()-11, pps_str, font, White);
+    gdispFillString(8+(minesStatusIconWidth*2)+gdispGetStringWidth("99999", font), gdispGetHeight()-11, "    ", font, GFX_BLACK, GFX_BLACK);
+    gdispDrawString(8+(minesStatusIconWidth*2)+gdispGetStringWidth("99999", font), gdispGetHeight()-11, pps_str, font, GFX_WHITE);
     gdispCloseFont(font);
 }
 
@@ -112,8 +112,8 @@ static void minesUpdateTime(void)
 
     font_t font = gdispOpenFont("digital_7__mono_20");
     uitoa(minesTime, pps_str, sizeof(pps_str));
-    gdispFillArea((MINES_FIELD_WIDTH*MINES_CELL_WIDTH)-gdispGetStringWidth("9999", font), gdispGetHeight()-15, gdispGetWidth(), 15, Black);
-    gdispDrawString((MINES_FIELD_WIDTH*MINES_CELL_WIDTH)-gdispGetStringWidth(pps_str, font), gdispGetHeight()-15, pps_str, font, Lime);
+    gdispFillArea((MINES_FIELD_WIDTH*MINES_CELL_WIDTH)-gdispGetStringWidth("9999", font), gdispGetHeight()-15, gdispGetWidth(), 15, GFX_BLACK);
+    gdispDrawString((MINES_FIELD_WIDTH*MINES_CELL_WIDTH)-gdispGetStringWidth(pps_str, font), gdispGetHeight()-15, pps_str, font, GFX_LIME);
     gdispCloseFont(font);
 }
 
@@ -141,7 +141,7 @@ static void showOne(int16_t x, int16_t y)
         minesFlags--;
     }
 
-    gdispFillArea((x*MINES_CELL_WIDTH)+1, (y*MINES_CELL_HEIGHT)+1, MINES_CELL_WIDTH-1, MINES_CELL_HEIGHT-1, Black);
+    gdispFillArea((x*MINES_CELL_WIDTH)+1, (y*MINES_CELL_HEIGHT)+1, MINES_CELL_WIDTH-1, MINES_CELL_HEIGHT-1, GFX_BLACK);
 
     if ((minesField[x][y].num > 0) && (minesField[x][y].num < 9)) {
         gdispImageOpenFile(&minesImage, minesGraph[minesField[x][y].num-1]);
@@ -253,13 +253,13 @@ static void printGameOver(void)
     if (minesGameOver) {
         font_t font = gdispOpenFont("DejaVuSans16");
         if (minesGameWinner) {
-            gdispDrawString((gdispGetWidth()-gdispGetStringWidth("You LIVE!", font))/2, gdispGetHeight()-15, "You LIVE!", font, White);
+            gdispDrawString((gdispGetWidth()-gdispGetStringWidth("You LIVE!", font))/2, gdispGetHeight()-15, "You LIVE!", font, GFX_WHITE);
         } else {
-            gdispDrawString((gdispGetWidth()-gdispGetStringWidth("You DIED!", font))/2, gdispGetHeight()-15, "You DIED!", font, White);
+            gdispDrawString((gdispGetWidth()-gdispGetStringWidth("You DIED!", font))/2, gdispGetHeight()-15, "You DIED!", font, GFX_WHITE);
         }
         gdispCloseFont(font);
     } else {
-        gdispFillArea(0, gdispGetHeight()-25, gdispGetWidth(), 25, Black);
+        gdispFillArea(0, gdispGetHeight()-25, gdispGetWidth(), 25, GFX_BLACK);
     }
 }
 
@@ -317,7 +317,7 @@ static void initField(void)
             for (y = 0; y < MINES_FIELD_HEIGHT; y++) {
                 i = minesField[x][y].fieldNum/MINES_FIELD_HEIGHT;
                 j = minesField[x][y].fieldNum-(i*MINES_FIELD_HEIGHT);
-                gdispFillArea((i*MINES_CELL_WIDTH)+1, (j*MINES_CELL_HEIGHT)+1, MINES_CELL_WIDTH, MINES_CELL_HEIGHT, Black);
+                gdispFillArea((i*MINES_CELL_WIDTH)+1, (j*MINES_CELL_HEIGHT)+1, MINES_CELL_WIDTH, MINES_CELL_HEIGHT, GFX_BLACK);
                 gfxSleepMilliseconds(2);
             }
         }
@@ -378,7 +378,7 @@ void minesStart(void)
 
 #if MINES_SHOW_SPLASH
     gtimerStop(&minesSplashBlink);
-    gdispClear(Black);
+    gdispClear(GFX_BLACK);
 #endif
 
     initField();
@@ -442,5 +442,5 @@ void minesInit(void)
 {
     initRng();
 
-    gdispClear(Black);
+    gdispClear(GFX_BLACK);
 }

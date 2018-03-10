@@ -9,9 +9,11 @@
 #define _GDISP_LLD_BOARD_H
 
 // Avoid naming collisions with CubeHAL
-#undef Red
-#undef Green
-#undef Blue
+#if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
+	#undef Red
+	#undef Green
+	#undef Blue
+#endif
 
 // Include CubeHAL
 #include "stm32f4xx_hal.h"

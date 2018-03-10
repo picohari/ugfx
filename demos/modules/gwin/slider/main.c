@@ -70,12 +70,12 @@ int main(void) {
 	// Set the widget defaults
 	gwinSetDefaultFont(gdispOpenFont("UI2"));
 	gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
-	gdispClear(White);
+	gdispClear(GFX_WHITE);
 
 	// create the widget
 	createWidgets();
-	gwinSetColor(ghConsole, Green);
-	gwinSetBgColor(ghConsole, White);
+	gwinSetColor(ghConsole, GFX_GREEN);
+	gwinSetBgColor(ghConsole, GFX_WHITE);
 	gwinClear(ghConsole);
 
 	// We want to listen for widget events

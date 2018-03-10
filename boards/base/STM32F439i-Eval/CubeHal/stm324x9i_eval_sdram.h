@@ -40,9 +40,11 @@
 #ifndef __STM324x9I_EVAL_SDRAM_H
 #define __STM324x9I_EVAL_SDRAM_H
 
-#undef Red
-#undef Green
-#undef Blue
+#if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
+	#undef Red
+	#undef Green
+	#undef Blue
+#endif
 
 #ifdef __cplusplus
  extern "C" {

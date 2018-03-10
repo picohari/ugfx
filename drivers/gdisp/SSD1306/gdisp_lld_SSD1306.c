@@ -209,7 +209,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 		mask = 0xff << (sy&7);
 		zpages = (ey / 8) - spage;
 
-		if (gdispColor2Native(g->p.color) == gdispColor2Native(Black)) {
+		if (gdispColor2Native(g->p.color) == gdispColor2Native(GFX_BLACK)) {
 			while (zpages--) {
 				for (col = sx; col <= ex; col++)
 					base[col] &= ~mask;
@@ -257,7 +257,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			y = g->p.x;
 			break;
 		}
-		if (gdispColor2Native(g->p.color) != gdispColor2Native(Black))
+		if (gdispColor2Native(g->p.color) != gdispColor2Native(GFX_BLACK))
 			RAM(g)[xyaddr(x, y)] |= xybit(y);
 		else
 			RAM(g)[xyaddr(x, y)] &= ~xybit(y);
@@ -288,7 +288,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			y = g->p.x;
 			break;
 		}
-		return (RAM(g)[xyaddr(x, y)] & xybit(y)) ? White : Black;
+		return (RAM(g)[xyaddr(x, y)] & xybit(y)) ? GFX_WHITE : GFX_BLACK;
 	}
 #endif
 

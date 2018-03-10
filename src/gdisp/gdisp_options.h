@@ -223,7 +223,7 @@
 	 * @brief	Define the initial background color for all displays in the system.
 	 */
 	#ifndef GDISP_STARTUP_COLOR
-		#define GDISP_STARTUP_COLOR				Black
+		#define GDISP_STARTUP_COLOR				GFX_BLACK
 	#endif
 	/**
 	 * @brief	Define the default orientation for all displays in the system.

@@ -48,7 +48,7 @@
 
 /* Our custom yellow style */
 static const GWidgetStyle YellowWidgetStyle = {
-	Yellow,							// window background
+	GFX_YELLOW,						// window background
 	HTML2COLOR(0x800000),			// focus
 
 	// enabled color set
@@ -225,7 +225,7 @@ static void createWidgets(void) {
 		wi.g.x = pagewidth;
 		wi.g.width = pagewidth;
 		ghConsole = gwinConsoleCreate(0, &wi.g);
-	    gwinSetColor(ghConsole, Black);
+	    gwinSetColor(ghConsole, GFX_BLACK);
 	    gwinSetBgColor(ghConsole, HTML2COLOR(0xF0F0F0));
 
 	#else
@@ -268,7 +268,7 @@ static void createWidgets(void) {
 		wi.g.x = ScrWidth/2+border;
 		wi.g.width = ScrWidth/2 - 2*border;
 		ghConsole = gwinConsoleCreate(0, &wi.g);
-	    gwinSetColor(ghConsole, Black);
+	    gwinSetColor(ghConsole, GFX_BLACK);
 	    gwinSetBgColor(ghConsole, HTML2COLOR(0xF0F0F0));
 
 	    pagewidth = gwinGetInnerWidth(ghPgButtons);
@@ -504,7 +504,7 @@ int main(void) {
 	font = gdispOpenFont("*");			// Get the first defined font.
 	gwinSetDefaultFont(font);
 	gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
-	gdispClear(White);
+	gdispClear(GFX_WHITE);
 
 	// Create the gwin windows/widgets
 	createWidgets();

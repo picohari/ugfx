@@ -15,7 +15,7 @@
 // Number of milliseconds for the startup logo - 0 means disabled.
 #if GDISP_NEED_STARTUP_LOGO
 	#define GDISP_STARTUP_LOGO_TIMEOUT		1000
-	#define GDISP_STARTUP_LOGO_COLOR		White
+	#define GDISP_STARTUP_LOGO_COLOR		GFX_WHITE
 #else
 	#define GDISP_STARTUP_LOGO_TIMEOUT		0
 #endif

@@ -13,7 +13,7 @@ FIX:		Fixed drawing of 3x3 pixel boxes
 FIX:		Fixed issue in RTX5/CMSIS2 port which resulted in hanging delays/threads
 FEATURE:	Added GFX_COMPAT_V2 to maintain source compatibility with V2.x programs. It is turned on by default.
 FEATURE:	Added GFX_COMPAT_OLDCOLORS to allow V2.x Red, Green, Blue color names. It is turned on by default.
-CHANGE:		Added GFXRED, GFXBLUE, GFXGREEN etc to replace V2.x Red, Gree, Blue color names
+CHANGE:		Added GFX_RED, GFX_BLUE, GFX_GREEN etc to replace V2.x Red, Gree, Blue color names
 CHANGE:		Added GFXON/GFXOFF to replace V2.x TRUE/FALSE for configuration options.
 
 

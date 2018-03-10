@@ -37,7 +37,7 @@ int main(void) {
 
     /* Initialize and clear the display */
     gfxInit();
-    gdispClear(White);
+    gdispClear(GFX_WHITE);
 
     /* Create two windows */
     {
@@ -51,10 +51,10 @@ int main(void) {
     }
 
     /* Set fore- and background colors for both windows */
-    gwinSetColor(GW1, Black);
-    gwinSetBgColor(GW1, White);
-    gwinSetColor(GW2, White);
-    gwinSetBgColor(GW2, Blue);
+    gwinSetColor(GW1, GFX_BLACK);
+    gwinSetBgColor(GW1, GFX_WHITE);
+    gwinSetColor(GW2, GFX_WHITE);
+    gwinSetBgColor(GW2, GFX_BLUE);
 
     /* Clear both windows - to set background color */
     gwinClear(GW1);

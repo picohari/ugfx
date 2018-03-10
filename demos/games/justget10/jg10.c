@@ -209,18 +209,18 @@ static bool_t checkForPossibleMove(void) {
 }
 
 static void printGameOver(void) {
-    gdispFillArea(JG10_TOTAL_FIELD_WIDTH, (gdispGetHeight()/2)-10, gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH, 80, Black);
+    gdispFillArea(JG10_TOTAL_FIELD_WIDTH, (gdispGetHeight()/2)-10, gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH, 80, GFX_BLACK);
     if (jg10GameOver) {
-        gdispDrawString(JG10_TOTAL_FIELD_WIDTH+((gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH)/2)-(gdispGetStringWidth("Game Over", font)/2), gdispGetHeight()/2, "Game Over", font, White);
+        gdispDrawString(JG10_TOTAL_FIELD_WIDTH+((gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH)/2)-(gdispGetStringWidth("Game Over", font)/2), gdispGetHeight()/2, "Game Over", font, GFX_WHITE);
     }
 }
 
 static void printCongrats(void) {
     char pps_str[3];
-    gdispFillArea(JG10_TOTAL_FIELD_WIDTH, (gdispGetHeight()/2)-10, gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH, 80, Black);
-    gdispDrawString(JG10_TOTAL_FIELD_WIDTH+((gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH)/2)-(gdispGetStringWidth("Congrats, now try to get", font)/2), gdispGetHeight()/2, "Congrats, now try to get", font, White);
+    gdispFillArea(JG10_TOTAL_FIELD_WIDTH, (gdispGetHeight()/2)-10, gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH, 80, GFX_BLACK);
+    gdispDrawString(JG10_TOTAL_FIELD_WIDTH+((gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH)/2)-(gdispGetStringWidth("Congrats, now try to get", font)/2), gdispGetHeight()/2, "Congrats, now try to get", font, GFX_WHITE);
     uitoa(jg10MaxVal+1, pps_str, sizeof(pps_str));
-    gdispDrawString(JG10_TOTAL_FIELD_WIDTH+((gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH)/2)-(gdispGetStringWidth(pps_str, font)/2), (gdispGetHeight()/2)+20, pps_str, font, Red);
+    gdispDrawString(JG10_TOTAL_FIELD_WIDTH+((gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH)/2)-(gdispGetStringWidth(pps_str, font)/2), (gdispGetHeight()/2)+20, pps_str, font, GFX_RED);
 }
 
 static DECLARE_THREAD_FUNCTION(thdJg10, msg) {
@@ -456,7 +456,7 @@ void guiCreate(void) {
 void jg10Start(void) {
 #if JG10_SHOW_SPLASH
     gtimerStop(&jg10SplashBlink);
-    gdispClear(Black);
+    gdispClear(GFX_BLACK);
 #endif
     initField();
     guiCreate();

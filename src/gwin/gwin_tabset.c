@@ -444,8 +444,8 @@ void gwinTabsetSetTab(GHandle gh) {
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->enabled : &gw->pstyle->disabled;
 
 		/* Fill the box blended from variants of the fill color */
-		tcol = gdispBlendColor(White, pcol->fill, GTABSET_TOP_FADE);
-		bcol = gdispBlendColor(Black, pcol->fill, GTABSET_BOTTOM_FADE);
+		tcol = gdispBlendColor(GFX_WHITE, pcol->fill, GTABSET_TOP_FADE);
+		bcol = gdispBlendColor(GFX_BLACK, pcol->fill, GTABSET_BOTTOM_FADE);
 		for(alpha = 0, i = 0; i < GWIN_TABSET_TABHEIGHT; i++, alpha += FIXED(255)/GWIN_TABSET_TABHEIGHT)
 			gdispGDrawLine(gw->g.display, gw->g.x+x, gw->g.y+y+i, gw->g.x+x+w-2, gw->g.y+y+i, gdispBlendColor(bcol, tcol, NONFIXED(alpha)));
 		gdispGDrawLine(gw->g.display, gw->g.x+x+w-1, gw->g.y+y, gw->g.x+x+w-1, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, pcol->edge);

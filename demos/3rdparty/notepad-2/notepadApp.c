@@ -63,9 +63,9 @@ static GButtonObject btnClose;
 // Image object
 static gdispImage toolbarImageFilmstrip;
 
-static color_t myColors[] = { Black, Red, Green, Blue, Cyan, Magenta, Yellow, White };
+static color_t myColors[] = { GFX_BLACK, GFX_RED, GFX_GREEN, GFX_BLUE, GFX_CYAN, GFX_MAGENTA, GFX_YELLOW, GFX_WHITE };
 
-static color_t selColor = Black;
+static color_t selColor = GFX_BLACK;
 static int selColorIndex = 0, selPenWidth = 1, tbMode = 1;
 
 static NColorScheme nCurColorScheme;
@@ -383,13 +383,13 @@ static DECLARE_THREAD_FUNCTION(notepadThread, param) {
                  0);
 
   gwinSetBgColor(ghc, nCurColorScheme.winBgColor);
-  gwinSetColor(ghc, Black);
+  gwinSetColor(ghc, GFX_BLACK);
 
   gstatusConsole = ghc;
 
   /* draw the buttons */
-  gwinSetColor(nDrawingArea, Black);
-  gwinSetBgColor(nDrawingArea, White);
+  gwinSetColor(nDrawingArea, GFX_BLACK);
+  gwinSetBgColor(nDrawingArea, GFX_WHITE);
 
   gwinClear(nDrawingArea);
   gwinClear(ghc);
@@ -414,8 +414,8 @@ static DECLARE_THREAD_FUNCTION(notepadThread, param) {
 		  selPenWidth = 0;
 		  ncoreSetMode(NCORE_MODE_DRAW);
 
-		  gwinSetColor(nDrawingArea, Black);
-		  gwinSetBgColor(nDrawingArea, White);
+		  gwinSetColor(nDrawingArea, GFX_BLACK);
+		  gwinSetBgColor(nDrawingArea, GFX_WHITE);
 
 		  // Refresh the buttons
 		  drawButtons();

@@ -62,9 +62,11 @@
 /** @addtogroup STM32F4xx_System_Private_Includes
   * @{
   */
-#undef Red
-#undef Green
-#undef Blue
+#if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
+	#undef Red
+	#undef Green
+	#undef Blue
+#endif
 
 #include "stm32f4xx.h"
 

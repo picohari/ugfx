@@ -98,10 +98,10 @@ void benchmark(void) {
 	height = gdispGetHeight();
     font = gdispOpenFont("UI2 Double");
 
-	gdispDrawStringBox(0, 0, width, 30, "ChibiOS/GFX - Benchmark", font, White, justifyCenter);
+	gdispDrawStringBox(0, 0, width, 30, "ChibiOS/GFX - Benchmark", font, GFX_WHITE, justifyCenter);
 
 	font = gdispOpenFont("UI2");
-	gdispDrawStringBox(0, height/2, width, 30, "5000 random rectangles", font, White, justifyCenter);
+	gdispDrawStringBox(0, height/2, width, 30, "5000 random rectangles", font, GFX_WHITE, justifyCenter);
 	
 	gfxSleepMilliseconds(3000);
 	
@@ -130,10 +130,10 @@ void benchmark(void) {
 	strcat(pps_str, " Pixels/s");
 
 	font = gdispOpenFont("UI2 Double");
-	gdispClear(Black);
-	gdispDrawStringBox(0, 0, width, 30, "ChibiOS/GFX - Benchmark", font, White, justifyCenter);
-	gdispDrawStringBox(0, height/2, width, 30, pps_str, font, White, justifyCenter);
-	//gdispDrawString(20, height/2, pps_str, font, White);
+	gdispClear(GFX_BLACK);
+	gdispDrawStringBox(0, 0, width, 30, "ChibiOS/GFX - Benchmark", font, GFX_WHITE, justifyCenter);
+	gdispDrawStringBox(0, height/2, width, 30, pps_str, font, GFX_WHITE, justifyCenter);
+	//gdispDrawString(20, height/2, pps_str, font, GFX_WHITE);
 }
 
 int main(void) {

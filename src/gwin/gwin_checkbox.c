@@ -267,8 +267,8 @@ void gwinCheckboxDraw_CheckOnRight(GWidgetObject *gw, void *param) {
 		#endif
 
 		/* Fill the box blended from variants of the fill color */
-		tcol = gdispBlendColor(White, pcol->fill, CHK_TOP_FADE);
-		bcol = gdispBlendColor(Black, pcol->fill, CHK_BOTTOM_FADE);
+		tcol = gdispBlendColor(GFX_WHITE, pcol->fill, CHK_TOP_FADE);
+		bcol = gdispBlendColor(GFX_BLACK, pcol->fill, CHK_BOTTOM_FADE);
 		dalpha = FIXED(255)/gw->g.height;
 		for(alpha = 0, i = 0; i < gw->g.height; i++, alpha += dalpha)
 			gdispGDrawLine(gw->g.display, gw->g.x, gw->g.y+i, gw->g.x+gw->g.width-2, gw->g.y+i, gdispBlendColor(bcol, tcol, NONFIXED(alpha)));

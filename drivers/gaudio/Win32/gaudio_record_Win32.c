@@ -15,9 +15,11 @@
 /* Include the driver defines */
 #include "../../../src/gaudio/gaudio_driver_record.h"
 
-#undef Red
-#undef Green
-#undef Blue
+#if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
+	#undef Red
+	#undef Green
+	#undef Blue
+#endif
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <stdio.h>

@@ -59,15 +59,19 @@ void _gosDeinit(void)
 	#ifndef _WIN32_WINNT
 		#define _WIN32_WINNT 0x0501			// Windows XP and up
 	#endif
-	#undef Red
-	#undef Green
-	#undef Blue
+	#if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
+		#undef Red
+		#undef Green
+		#undef Blue
+	#endif
 	#define WIN32_LEAN_AND_MEAN
 	#include <windows.h>
 	#undef WIN32_LEAN_AND_MEAN
-	#define Blue			HTML2COLOR(0x0000FF)
-	#define Red				HTML2COLOR(0xFF0000)
-	#define Green			HTML2COLOR(0x008000)
+	#if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
+		#define Red			GFX_RED
+		#define Green		GFX_GREEN
+		#define Blue		GFX_BLUE
+	#endif
 
 	#include <stdio.h>
 	systemticks_t gfxSystemTicks(void)						{ return GetTickCount(); }

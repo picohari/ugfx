@@ -249,8 +249,8 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 		pcol = getDrawColors(gw);
 	
 		/* Fill the box blended from variants of the fill color */
-		tcol = gdispBlendColor(White, pcol->fill, GRADIO_TOP_FADE);
-		bcol = gdispBlendColor(Black, pcol->fill, GRADIO_BOTTOM_FADE);
+		tcol = gdispBlendColor(GFX_WHITE, pcol->fill, GRADIO_TOP_FADE);
+		bcol = gdispBlendColor(GFX_BLACK, pcol->fill, GRADIO_BOTTOM_FADE);
 		dalpha = FIXED(255)/gw->g.height;
 		for(alpha = 0, i = 0; i < gw->g.height; i++, alpha += dalpha)
 			gdispGDrawLine(gw->g.display, gw->g.x, gw->g.y+i, gw->g.x+gw->g.width-2, gw->g.y+i, gdispBlendColor(bcol, tcol, NONFIXED(alpha)));
@@ -278,8 +278,8 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 			gdispGDrawLine(gw->g.display, gw->g.x+gw->g.width-1, gw->g.y+GRADIO_TAB_CNR, gw->g.x+gw->g.width-1, gw->g.y+gw->g.height-1, tcol);
 		} else {
 			/* Fill the box blended from variants of the fill color */
-			tcol = gdispBlendColor(White, pcol->fill, GRADIO_TOP_FADE);
-			bcol = gdispBlendColor(Black, pcol->fill, GRADIO_BOTTOM_FADE);
+			tcol = gdispBlendColor(GFX_WHITE, pcol->fill, GRADIO_TOP_FADE);
+			bcol = gdispBlendColor(GFX_BLACK, pcol->fill, GRADIO_BOTTOM_FADE);
 			dalpha = FIXED(255)/gw->g.height;
 			for(alpha = 0, i = 0; i < gw->g.height; i++, alpha += dalpha)
 				gdispGDrawLine(gw->g.display, gw->g.x, gw->g.y+i, gw->g.x+gw->g.width-2, gw->g.y+i, gdispBlendColor(bcol, tcol, NONFIXED(alpha)));
