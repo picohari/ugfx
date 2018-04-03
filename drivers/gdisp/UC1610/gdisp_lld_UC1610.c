@@ -96,6 +96,12 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	// The private area is the display surface + flush window structure.
 	g->priv = gfxAlloc(sizeof(UC1610_Window) + GDISP_SCREEN_WIDTH * GDISP_SCREEN_HEIGHT / UC1610_PAGE_HEIGHT);
 
+	// Clear the initial flush region
+	PRIV(g)->x1 = GDISP_SCREEN_WIDTH;
+	PRIV(g)->y1 = GDISP_SCREEN_HEIGHT;
+	PRIV(g)->x2 = -1;
+	PRIV(g)->y2 = -1;
+
 	// Initialise the board interface
 	init_board(g);
 
@@ -176,7 +182,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 		x2 = PRIV(g)->x2;
 		y2 = PRIV(g)->y2;
 		cx = x2 - x1 + 1;
-		
+
 		// Clear the 'need-flushing' flag and reset the window
 		g->flags &= ~GDISP_FLG_NEEDFLUSH;
 		PRIV(g)->x1 = GDISP_SCREEN_WIDTH;
@@ -195,10 +201,10 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 		cmdBuffer[7] = UC1610_SET_WP_ENDING_PA;
 		cmdBuffer[8] = y2 >> 2;
 		cmdBuffer[9] = UC1610_SET_WINDOW_PROGRAM_ENABLE | 1;	// entering window programming
-		
+
 		acquire_bus(g);
 		write_cmd (g, cmdBuffer, 10);
-		
+
 		// write each page segment from RAM(g) to display RAM
 		for (c = RAM(g) + xyaddr(x1, y1) ; y1 <= y2 ; c += GDISP_SCREEN_WIDTH, y1 += UC1610_PAGE_HEIGHT) {
 			write_data(g, c, cx);
