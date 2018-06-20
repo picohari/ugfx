@@ -21,14 +21,36 @@
 #include "gdisp_lld_config.h"
 #include "src/gdisp/gdisp_driver.h"
 
+#define BOARD_TYPE_B      1
+#define BOARD_TYPE_R      2
+#define BOARD_TYPE_R144   3
+                
 #include "board_ST7735.h"
+
+#if !defined(ST7735_TYPE)
+// Backward compatibility:
+  #if defined(ST7735_TYPE_R)
+    #define ST7735_TYPE BOARD_TYPE_R
+  #elif defined(ST7735_TYPE_B)
+    #define ST7735_TYPE BOARD_TYPE_B
+  #endif
+#endif
+
+#if !defined(ST7735_TYPE)
+  // It seems all modern boards is 7735R
+  #define ST7735_TYPE BOARD_TYPE_R
+#endif
 
 /*===========================================================================*/
 /* Driver local definitions.                                                 */
 /*===========================================================================*/
 
 #ifndef GDISP_SCREEN_HEIGHT
-	#define GDISP_SCREEN_HEIGHT		160
+  #if ST7735_TYPE == BOARD_TYPE_R144
+    #define GDISP_SCREEN_HEIGHT		128
+  #else
+    #define GDISP_SCREEN_HEIGHT		160
+  #endif
 #endif
 #ifndef GDISP_SCREEN_WIDTH
     #define GDISP_SCREEN_WIDTH		128
@@ -40,22 +62,14 @@
 	#define GDISP_INITIAL_BACKLIGHT	100
 #endif
 
-// Define one of supported type, if not defined yet
-#if !defined(ST7735_TYPE_R) && !defined(ST7735_TYPE_B)
-	// It seems all modern boards is 7735R
-	#define ST7735_TYPE_R GFXON
-#endif
-
 // Define one of supported color packing, if not defined yet
 #if !defined(ST7735_COLOR_RGB) && !defined(ST7735_COLOR_BRG)
-	// It seems all modern boards is RGB
+	// It seems most modern boards are RGB
+#if ST7735_TYPE == BOARD_TYPE_R144
+	#define ST7735_COLOR_RGB GFXOFF
+#else
 	#define ST7735_COLOR_RGB GFXON
 #endif
-
-
-// Strange boars with shifted coords
-#if !defined (ST7735_SHIFTED_COORDS)
-	#define ST7735_SHIFTED_COORDS GFXOFF
 #endif
 
 
@@ -65,7 +79,10 @@
 	#define ST7735_MADCTRL_COLOR 0x08
 #endif
 
-#if ST7735_SHIFTED_COORDS
+#if ST7735_TYPE == BOARD_TYPE_R144
+	#define ST7735_COL_SHIFT 2
+	#define ST7735_ROW_SHIFT 3
+#elif defined(ST7735_SHIFTED_COORDS) && ST7735_SHIFTED_COORDS
 	#define ST7735_COL_SHIFT 2
 	#define ST7735_ROW_SHIFT 1
 #else
@@ -88,7 +105,7 @@
 // Commands list copied from https://github.com/adafruit/Adafruit-ST7735-Library
 #define DELAY 0x80
 
-#if ST7735_TYPE_B
+#if ST7735_TYPE == BOARD_TYPE_B
 static const unsigned char  
 	init_cmds[] = {                  // Initialization commands for 7735B screens
     16,                       // 16 commands in list:
@@ -142,7 +159,7 @@ static const unsigned char
       10,                     //     10 ms delay
     ST7735_DISPON ,   DELAY,  // 18: Main screen turn on, no args, w/delay
       255 };                  //     255 = 500 ms delay
-#elif ST7735_TYPE_R
+#elif (ST7735_TYPE == BOARD_TYPE_R) || (ST7735_TYPE == BOARD_TYPE_R144)
 static const unsigned char
   init_cmds[] = {                 // Init for 7735R, part 1 (red or green tab)
     19,                       // 19 commands in list:
@@ -180,12 +197,12 @@ static const unsigned char
       0xC0|ST7735_MADCTRL_COLOR, //     row addr/col addr, bottom to top refresh
     ST7735_COLMOD , 1      ,  // 15: set color mode, 1 arg, no delay:
       0x05,                   //     16-bit color
-    ST7735_GMCTRP1, 16      , //  1: Magical unicorn dust, 16 args, no delay:
+    ST7735_GMCTRP1, 16      , //  1: Gamma + Correction, 16 args, no delay:
       0x02, 0x1c, 0x07, 0x12,
       0x37, 0x32, 0x29, 0x2d,
       0x29, 0x25, 0x2B, 0x39,
       0x00, 0x01, 0x03, 0x10,
-    ST7735_GMCTRN1, 16      , //  2: Sparkles and rainbows, 16 args, no delay:
+    ST7735_GMCTRN1, 16      , //  2: Gamma - Correction, 16 args, no delay:
       0x03, 0x1d, 0x07, 0x06,
       0x2E, 0x2C, 0x29, 0x2D,
       0x2E, 0x2E, 0x37, 0x3F,
