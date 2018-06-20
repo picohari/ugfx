@@ -74,7 +74,7 @@
 #endif
 
 
-#include "drivers/gdisp/ST7735/ST7735.h"
+#include "drivers/gdisp/ST7735/st7735.h"
 
 // Some common routines and macros
 #define dummy_read(g)				{ volatile uint16_t dummy; dummy = read_data(g); (void) dummy; }
@@ -82,7 +82,7 @@
 
 // Serial write data for fast fill.
 #ifndef write_data_repeat
-#define write_data_repeat(g, data, count) { int i; for (i = 0; i < count; ++i) write_data (g, data) }
+#define write_data_repeat(g, data, count) { int i; for (i = 0; i < count; ++i) write_data (g, data); }
 #endif
 
 // Commands list copied from https://github.com/adafruit/Adafruit-ST7735-Library
@@ -304,7 +304,7 @@ LLDSPEC void gdisp_lld_control(GDisplay *g) {
 			case powerOff:
 				acquire_bus(g);
 				// not implemented
-				release_bus();
+				release_bus(g);
 				set_backlight(g, 0);
 				break;
 			case powerSleep:
