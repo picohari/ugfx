@@ -501,7 +501,7 @@ static void line_clip(GDisplay *g) {
 }
 
 #if GDISP_STARTUP_LOGO_TIMEOUT > 0
-	static bool_t	gdispInitDone;
+	static gBool	gdispInitDone;
 	static void StartupLogoDisplay(GDisplay *g) {
 		coord_t			x, y, w;
 		const coord_t *	p;
@@ -604,14 +604,14 @@ void _gdispInit(void)
 				#endif
 			}
 
-			gdispInitDone = TRUE;
+			gdispInitDone = gTrue;
 		}
 	#endif
 
 	// Start the automatic timer flush (if required)
 	#if GDISP_NEED_TIMERFLUSH
 		gtimerInit(&FlushTimer);
-		gtimerStart(&FlushTimer, FlushTimerFn, 0, TRUE, GDISP_NEED_TIMERFLUSH);
+		gtimerStart(&FlushTimer, FlushTimerFn, 0, gTrue, GDISP_NEED_TIMERFLUSH);
 	#endif
 }
 
@@ -620,9 +620,9 @@ void _gdispDeinit(void)
 	/* ToDo */
 }
 
-bool_t _gdispInitDriver(GDriver *g, void *param, unsigned driverinstance, unsigned systeminstance) {
+gBool _gdispInitDriver(GDriver *g, void *param, unsigned driverinstance, unsigned systeminstance) {
 	#define		gd		((GDisplay *)g)
-	bool_t		ret;
+	gBool		ret;
 
 	// Intialise fields
 	gd->systemdisplay = systeminstance;
@@ -3150,7 +3150,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		return;
 	}
 
-	void gdispGDrawThickLine(GDisplay *g, coord_t x0, coord_t y0, coord_t x1, coord_t y1, color_t color, coord_t width, bool_t round) {
+	void gdispGDrawThickLine(GDisplay *g, coord_t x0, coord_t y0, coord_t x1, coord_t y1, color_t color, coord_t width, gBool round) {
 		coord_t dx, dy, nx = 0, ny = 0;
 
 		/* Compute the direction vector for the line */
@@ -3345,21 +3345,21 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 			(void) count;
 
 			((coord_t*)state)[0]++;
-			return TRUE;
+			return gTrue;
 		}
 		static bool mf_drawline_callback(mf_str line, uint16_t count, void *state) {
 			#define GD	((GDisplay *)state)
 				mf_render_aligned(GD->t.font, GD->t.wrapx, GD->t.wrapy, GD->t.lrj, line, count, drawcharglyph, state);
 				GD->t.wrapy += GD->t.font->line_height;
 			#undef GD
-			return TRUE;
+			return gTrue;
 		}
 		static bool mf_fillline_callback(mf_str line, uint16_t count, void *state) {
 			#define GD	((GDisplay *)state)
 				mf_render_aligned(GD->t.font, GD->t.wrapx, GD->t.wrapy, GD->t.lrj, line, count, fillcharglyph, state);
 				GD->t.wrapy += GD->t.font->line_height;
 			#undef GD
-			return TRUE;
+			return gTrue;
 		}
 	#endif
 
@@ -3638,9 +3638,9 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 		// No mutex required as we only read static data
 		#if GDISP_NEED_TEXT_KERNING
-			return mf_get_string_width(font, str, count, TRUE);
+			return mf_get_string_width(font, str, count, gTrue);
 		#else
-			return mf_get_string_width(font, str, count, FALSE);
+			return mf_get_string_width(font, str, count, gFalse);
 		#endif
 	}
 

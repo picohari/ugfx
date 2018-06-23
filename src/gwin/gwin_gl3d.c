@@ -35,7 +35,7 @@ static const gwinVMT gl3dVMT = {
 		0,						// The after-clear routine
 };
 
-static bool_t	haveGLwindow = FALSE;
+static gBool	haveGLwindow = gFalse;
 
 GHandle gwinGGL3DCreate(GDisplay *g, GGL3DObject *gl, const GWindowInit *pInit) {
 	ZBuffer *	zb;
@@ -71,7 +71,7 @@ GHandle gwinGGL3DCreate(GDisplay *g, GGL3DObject *gl, const GWindowInit *pInit) 
 
     glViewport(0, 0, gl->g.width, gl->g.height);
 
-    haveGLwindow = TRUE;
+    haveGLwindow = gTrue;
 	gwinSetVisible((GHandle)gl, pInit->show);
 	return (GHandle)gl;
 }
@@ -79,7 +79,7 @@ GHandle gwinGGL3DCreate(GDisplay *g, GGL3DObject *gl, const GWindowInit *pInit) 
 static void gl3dDestroy(GWindowObject *gh) {
 	(void) gh;
     glClose();
-    haveGLwindow = FALSE;
+    haveGLwindow = gFalse;
 }
 
 static void gl3dRedraw(GWindowObject *gh) {

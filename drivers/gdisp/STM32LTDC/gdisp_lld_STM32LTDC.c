@@ -233,7 +233,7 @@ static void _ltdc_init(void) {
 	_ltdc_reload();
 }
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay* g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 	// Initialize the private structure
 	g->priv = 0;
 	g->board = 0;
@@ -252,7 +252,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay* g) {
 		#endif
 
 		if (!(driverCfg.bglayer.layerflags & LTDC_LEF_ENABLE))
-			return FALSE;
+			return gFalse;
 
 		g->priv = (void *)&driverCfg.bglayer;
 
@@ -267,7 +267,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay* g) {
 	case 1:			// Display 1 is the foreground layer
 
 		if (!(driverCfg.fglayer.layerflags & LTDC_LEF_ENABLE))
-			return FALSE;
+			return gFalse;
 
 		// Load the foreground layer
 		_ltdc_layer_init(LTDC_Layer2, &driverCfg.fglayer);
@@ -281,7 +281,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay* g) {
 		break;
 
 	default:		// There is only 1 LTDC in the CPU and only the 2 layers in the LTDC.
-		return FALSE;
+		return gFalse;
 	}
 
 	// Initialise the GDISP structure
@@ -292,7 +292,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay* g) {
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
 
-	return TRUE;
+	return gTrue;
 }
 
 LLDSPEC void gdisp_lld_draw_pixel(GDisplay* g) {

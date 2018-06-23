@@ -64,7 +64,7 @@ void gfxSemDestroy(gfxSem *psem)
 	cyg_semaphore_destroy(&psem->sem);
 }
 
-bool_t gfxSemWait(gfxSem *psem, delaytime_t ms)
+gBool gfxSemWait(gfxSem *psem, delaytime_t ms)
 {
 	switch(ms) {
 	case TIME_IMMEDIATE:	return cyg_semaphore_trywait(&psem->sem);
@@ -73,7 +73,7 @@ bool_t gfxSemWait(gfxSem *psem, delaytime_t ms)
 	}
 }
 
-bool_t gfxSemWaitI(gfxSem *psem)
+gBool gfxSemWaitI(gfxSem *psem)
 {
 	return cyg_semaphore_trywait(&psem->sem);
 }

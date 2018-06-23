@@ -42,8 +42,8 @@
 	#include "../../../src/ginput/ginput_driver_mouse.h"
 
 	// Forward definitions
-	static bool_t NMouseInit(GMouse *m, unsigned driverinstance);
-	static bool_t NMouseRead(GMouse *m, GMouseReading *prd);
+	static gBool NMouseInit(GMouse *m, unsigned driverinstance);
+	static gBool NMouseRead(GMouse *m, GMouseReading *prd);
 
 	const GMouseVMT const GMOUSE_DRIVER_VMT[1] = {{
 		{
@@ -182,9 +182,9 @@ static gfxThreadHandle	hThread;
  * Send a whole packet of data.
  * Len is specified in the number of uint16_t's we want to send as our protocol only talks uint16_t's.
  * Note that contents of the packet are modified to ensure it will cross the wire in the correct format.
- * If the connection closes before we send all the data - the call returns FALSE.
+ * If the connection closes before we send all the data - the call returns gFalse.
  */
-static bool_t sendpkt(SOCKET_TYPE netfd, uint16_t *pkt, int len) {
+static gBool sendpkt(SOCKET_TYPE netfd, uint16_t *pkt, int len) {
 	int		i;
 
 	// Convert each uint16_t to network order
@@ -196,7 +196,7 @@ static bool_t sendpkt(SOCKET_TYPE netfd, uint16_t *pkt, int len) {
 	return send(netfd, (const char *)pkt, len, 0) == len;
 }
 
-static bool_t newconnection(SOCKET_TYPE clientfd) {
+static gBool newconnection(SOCKET_TYPE clientfd) {
 	GDisplay *	g;
     netPriv *	priv;
 
@@ -213,7 +213,7 @@ static bool_t newconnection(SOCKET_TYPE clientfd) {
 
 	// Was anything found?
 	if (!g)
-		return FALSE;
+		return gFalse;
 
 	// Reset the priv area
 	priv = g->priv;
@@ -240,13 +240,13 @@ static bool_t newconnection(SOCKET_TYPE clientfd) {
 	// Send a redraw all
 	#if GFX_USE_GWIN && GWIN_NEED_WINDOWMANAGER
 		gdispGClear(g, gwinGetDefaultBgColor());
-		gwinRedrawDisplay(g, FALSE);
+		gwinRedrawDisplay(g, gFalse);
 	#endif
 
-	return TRUE;
+	return gTrue;
 }
 
-static bool_t rxdata(SOCKET_TYPE fd) {
+static gBool rxdata(SOCKET_TYPE fd) {
 	GDisplay *	g;
     netPriv *	priv;
     int			len;
@@ -269,7 +269,7 @@ static bool_t rxdata(SOCKET_TYPE fd) {
 		// The higher level is still processing the previous data.
 		//	Give it a chance to run by coming back to this data.
 		gfxSleepMilliseconds(1);
-		return TRUE;
+		return gTrue;
 	}
 
 	/* handle data from a client */
@@ -278,14 +278,14 @@ static bool_t rxdata(SOCKET_TYPE fd) {
 		// Socket closed or in error state
 		MUTEX_EXIT;
 		g->flags &= ~GDISP_FLG_CONNECTED;
-		return FALSE;
+		return gFalse;
 	}
 	MUTEX_EXIT;
 
 	// Do we have a full reply yet
 	priv->databytes += len;
 	if (priv->databytes < sizeof(priv->data))
-		return TRUE;
+		return gTrue;
 	priv->databytes = 0;
 
 	// Convert network byte or to host byte order
@@ -315,7 +315,7 @@ static bool_t rxdata(SOCKET_TYPE fd) {
 		// Just ignore unrecognised data
 		break;
 	}
-	return TRUE;
+	return gTrue;
 }
 
 static DECLARE_THREAD_STACK(waNetThread, 512);
@@ -429,7 +429,7 @@ static DECLARE_THREAD_FUNCTION(NetThread, param) {
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	netPriv	*	priv;
 
 	// Initialise the receiver thread (if it hasn't been done already)
@@ -459,7 +459,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
 
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_FLUSH
@@ -636,7 +636,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	LLDSPEC void gdisp_lld_control(GDisplay *g) {
 		netPriv	*	priv;
 		uint16_t	buf[3];
-		bool_t		allgood;
+		gBool		allgood;
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
 			if (!(g->flags & GDISP_FLG_CONNECTED))
@@ -680,7 +680,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			gfxSleepMilliseconds(1);
 
 		// Extract the return status
-		allgood = priv->data[1] ? TRUE : FALSE;
+		allgood = priv->data[1] ? gTrue : gFalse;
 		g->flags &= ~GDISP_FLG_HAVEDATA;
 
 		// Do nothing more if the operation failed
@@ -716,12 +716,12 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 #endif
 
 #if GINPUT_NEED_MOUSE
-	static bool_t NMouseInit(GMouse *m, unsigned driverinstance) {
+	static gBool NMouseInit(GMouse *m, unsigned driverinstance) {
 		(void)	m;
 		(void)	driverinstance;
-		return TRUE;
+		return gTrue;
 	}
-	static bool_t NMouseRead(GMouse *m, GMouseReading *pt) {
+	static gBool NMouseRead(GMouse *m, GMouseReading *pt) {
 		GDisplay *	g;
 		netPriv	*	priv;
 
@@ -732,7 +732,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 		pt->y = priv->mousey;
 		pt->z = (priv->mousebuttons & GINPUT_MOUSE_BTN_LEFT) ? 1 : 0;
 		pt->buttons = priv->mousebuttons;
-		return TRUE;
+		return gTrue;
 	}
 #endif /* GINPUT_NEED_MOUSE */
 

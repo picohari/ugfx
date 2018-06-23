@@ -15,7 +15,6 @@
 
 #if GFX_USE_OS_CMSIS2
 
-#include <stdbool.h>
 #include "cmsis_os2.h"
 
 #ifndef GFX_OS_HEAP_SIZE
@@ -25,8 +24,6 @@
 /*===========================================================================*/
 /* Type definitions                                                          */
 /*===========================================================================*/
-
-typedef bool				bool_t;
 
 #define TIME_IMMEDIATE		0
 #define TIME_INFINITE		osWaitForever
@@ -55,10 +52,6 @@ typedef osThreadId_t		gfxThreadHandle;
 /* Function declarations.                                                    */
 /*===========================================================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define gfxExit()					os_error(0)
 #define gfxHalt(msg)				os_error(1)
 #define gfxSystemTicks()			osKernelGetTickCount()
@@ -74,7 +67,7 @@ void gfxMutexInit(gfxMutex* pmutex);
 
 void gfxSemInit(gfxSem* psem, semcount_t val, semcount_t limit);
 #define gfxSemDestroy(psem)		osSemaphoreDelete(*(psem))
-bool_t gfxSemWait(gfxSem* psem, delaytime_t ms);
+gBool gfxSemWait(gfxSem* psem, delaytime_t ms);
 #define gfxSemWaitI(psem)		gfxSemWait((psem), 0)
 #define gfxSemSignal(psem)		osSemaphoreRelease(*(psem))
 #define gfxSemSignalI(psem)		osSemaphoreRelease(*(psem))
@@ -83,10 +76,6 @@ gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, threadpriority_
 #define gfxYield()					osThreadYield()
 #define gfxThreadMe()				osThreadGetId()
 #define gfxThreadClose(thread)		{}
-
-#ifdef __cplusplus
-}
-#endif
 
 /*===========================================================================*/
 /* Use the generic heap handling                                             */

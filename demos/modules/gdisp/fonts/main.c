@@ -88,7 +88,7 @@ int main(void) {
 	gdispFillStringBox(0, y, width,  fheight1, buf, font1, GFX_RED, GFX_WHITE, justifyCenter);
 	
 	// Wait forever
-    while(TRUE) {
+    while(1) {
     	gfxSleepMilliseconds(500);
     }   
 }

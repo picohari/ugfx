@@ -69,10 +69,6 @@ typedef struct GSliderObject {
 	int					pos;
 } GSliderObject;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief   Create a slider window.
  * @return  NULL if there is no resultant drawing area, otherwise a window handle.
@@ -143,14 +139,14 @@ void gwinSliderSetPosition(GHandle gh, int pos);
  * @brief   Should the slider send extended events.
  *
  * @param[in] gh		The window handle (must be a slider window)
- * @param[in] enabled	TRUE to enable extended events, FALSE to disable them
+ * @param[in] enabled	gTrue to enable extended events, gFalse to disable them
  *
  * @note	The slider by default will only send slider events with an action of GSLIDER_EVENT_SET.
  * 			This call can be used to enable other slider action's to be sent as events
  *
  * @api
  */
-void gwinSliderSendExtendedEvents(GHandle gh, bool_t enabled);
+void gwinSliderSendExtendedEvents(GHandle gh, gBool enabled);
 
 /**
  * @defgroup Renderings_Slider Renderings
@@ -198,10 +194,6 @@ void gwinSliderDraw_Std(GWidgetObject *gw, void *param);
 void gwinSliderDraw_Image(GWidgetObject *gw, void *param);
 #endif /* GDISP_NEED_IMAGE */
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _GWIN_SLIDER_H */
 /** @} */

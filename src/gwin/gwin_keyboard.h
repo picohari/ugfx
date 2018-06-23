@@ -64,10 +64,6 @@ typedef struct GKeyboardObject {
 	uint32_t				key;
 } GKeyboardObject;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief   Create a keyboard widget.
  * @return  NULL if there is no resultant drawing area, otherwise a window handle.
@@ -137,10 +133,6 @@ void gwinKeyboardSetLayout(GHandle gh, const struct GVKeyTable *layout);
 void gwinKeyboardDraw_Normal(GWidgetObject *gw, void *param);
 
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _GWIN_KEYBOARD_H */
 /** @} */

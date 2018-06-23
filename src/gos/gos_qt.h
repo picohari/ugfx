@@ -10,10 +10,6 @@
 
 #if GFX_USE_OS_QT
 
-#include <stdint.h>
-#include <stddef.h>
-#include <stdbool.h>
-
 #define DECLARE_THREAD_FUNCTION(fnName, param)	threadreturn_t fnName(void *param)
 #define DECLARE_THREAD_STACK(name, sz)          uint8_t name[0]
 #define THREAD_RETURN(retval)					return retval
@@ -25,7 +21,6 @@
 #define NORMAL_PRIORITY				3
 #define HIGH_PRIORITY				4
 
-typedef bool bool_t;
 typedef int systemticks_t;
 typedef int delaytime_t;
 typedef void* gfxMutex;
@@ -34,10 +29,6 @@ typedef int semcount_t;
 typedef int threadreturn_t;
 typedef int threadpriority_t;
 typedef void* gfxThreadHandle;
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 void _gosInit();
 void _gosDeinit();
@@ -60,18 +51,14 @@ void gfxMutexEnter(gfxMutex *pmutex);
 void gfxMutexExit(gfxMutex *pmutex);
 void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit);
 void gfxSemDestroy(gfxSem *psem);
-bool_t gfxSemWait(gfxSem *psem, delaytime_t ms);
-bool_t gfxSemWaitI(gfxSem *psem);
+gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
+gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
 gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 threadreturn_t gfxThreadWait(gfxThreadHandle thread);
 gfxThreadHandle gfxThreadMe(void);
 void gfxThreadClose(gfxThreadHandle thread);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GFX_USE_OS_QT */
 #endif /* _GOS_QT_H */

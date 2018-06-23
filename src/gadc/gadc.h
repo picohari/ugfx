@@ -94,10 +94,6 @@ typedef void (*GADCISRCallbackFunction)(void);
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief				Initialise the high speed ADC.
  * @details				Initialises but does not start the conversions.
@@ -219,14 +215,14 @@ void gadcLowSpeedGet(uint32_t physdev, adcsample_t *buffer);
 
 /**
  * @brief	Perform a low speed ADC conversion with callback (in a thread context)
- * @details	Returns FALSE if internal memory allocation fails
+ * @details	Returns gFalse if internal memory allocation fails
  *
  * @param[in] physdev		A value passed to describe which physical ADC devices/channels to use.
  * @param[in] buffer		The static buffer to put the ADC samples into.
  * @param[in] fn			The callback function to call when the conversion is complete.
  * @param[in] param			A parameter to pass to the callback function.
  *
- * @return					FALSE if no free low speed ADC slots.
+ * @return					gFalse if no free low speed ADC slots.
  *
  * @note	This may be safely called from within a GTimer callback.
  * @note	The callback may take a while to occur if the high speed ADC is running as the
@@ -240,11 +236,7 @@ void gadcLowSpeedGet(uint32_t physdev, adcsample_t *buffer);
  *
  * @api
  */
-bool_t gadcLowSpeedStart(uint32_t physdev, adcsample_t *buffer, GADCCallbackFunction fn, void *param);
-
-#ifdef __cplusplus
-}
-#endif
+gBool gadcLowSpeedStart(uint32_t physdev, adcsample_t *buffer, GADCCallbackFunction fn, void *param);
 
 #endif /* GFX_USE_GADC */
 

@@ -21,17 +21,17 @@
 #include "UC8173_waveform_examples.h"
 static UC8173Lut	UC8173_ModeTable[] = {
 	// 32 bytes,				512 bytes,			128 bytes,	regal
-	{ _lut_KWvcom_DC_A2_240ms,	_lut_kw_A2_240ms,	_lut_ft, 	FALSE },
-	{ _lut_KWvcom_DC_A2_120ms,	_lut_kw_A2_120ms,	_lut_ft, 	FALSE },
-	{ _lut_KWvcom_DC_GU,		_lut_kw_GU,			_lut_ft, 	TRUE  },
-	{ _lut_KWvcom_GC,			_lut_kw_GC,			_lut_ft, 	FALSE }
+	{ _lut_KWvcom_DC_A2_240ms,	_lut_kw_A2_240ms,	_lut_ft, 	gFalse },
+	{ _lut_KWvcom_DC_A2_120ms,	_lut_kw_A2_120ms,	_lut_ft, 	gFalse },
+	{ _lut_KWvcom_DC_GU,		_lut_kw_GU,			_lut_ft, 	gTrue  },
+	{ _lut_KWvcom_GC,			_lut_kw_GC,			_lut_ft, 	gFalse }
 	// Add extra lines for other waveforms
 	};
 
-static GFXINLINE bool_t init_board(GDisplay* g)
+static GFXINLINE gBool init_board(GDisplay* g)
 {
 	(void) g;
-	return TRUE;
+	return gTrue;
 }
 
 static GFXINLINE void post_init_board(GDisplay* g)
@@ -39,16 +39,16 @@ static GFXINLINE void post_init_board(GDisplay* g)
 	(void) g;
 }
 
-static GFXINLINE void setpin_reset(GDisplay* g, bool_t state)
+static GFXINLINE void setpin_reset(GDisplay *g, gBool state)
 {
 	(void) g;
 	(void) state;
 }
 
-static GFXINLINE bool_t getpin_busy(GDisplay* g)
+static GFXINLINE gBool getpin_busy(GDisplay* g)
 {
 	(void)g;
-	return FALSE;
+	return gFalse;
 }
 
 static GFXINLINE void acquire_bus(GDisplay* g)

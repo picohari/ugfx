@@ -135,7 +135,7 @@ GFILE *_gfileFindSlot(const char *mode) {
  * IO routines
  ********************************************************/
 
-bool_t gfileExists(const char *fname) {
+gBool gfileExists(const char *fname) {
 	const GFILEVMT * const *p;
 
 	#if GFILE_ALLOW_DEVICESPECIFIC
@@ -144,18 +144,18 @@ bool_t gfileExists(const char *fname) {
 				if (p[0]->prefix == fname[0])
 					return p[0]->exists && p[0]->exists(fname+2);
 			}
-			return FALSE;
+			return gFalse;
 		}
 	#endif
 
 	for(p = FsArray; p < &FsArray[sizeof(FsArray)/sizeof(FsArray[0])]; p++) {
 		if (p[0]->exists && p[0]->exists(fname))
-			return TRUE;
+			return gTrue;
 	}
-	return FALSE;
+	return gFalse;
 }
 
-bool_t gfileDelete(const char *fname) {
+gBool gfileDelete(const char *fname) {
 	const GFILEVMT **p;
 
 	#if GFILE_ALLOW_DEVICESPECIFIC
@@ -164,15 +164,15 @@ bool_t gfileDelete(const char *fname) {
 				if (p[0]->prefix == fname[0])
 					return p[0]->del && p[0]->del(fname+2);
 			}
-			return FALSE;
+			return gFalse;
 		}
 	#endif
 
 	for(p = FsArray; p < &FsArray[sizeof(FsArray)/sizeof(FsArray[0])]; p++) {
 		if (p[0]->del && p[0]->del(fname))
-			return TRUE;
+			return gTrue;
 	}
-	return FALSE;
+	return gFalse;
 }
 
 long int gfileGetFilesize(const char *fname) {
@@ -196,7 +196,7 @@ long int gfileGetFilesize(const char *fname) {
 	return -1;
 }
 
-bool_t gfileRename(const char *oldname, const char *newname) {
+gBool gfileRename(const char *oldname, const char *newname) {
 	const GFILEVMT * const *p;
 
 	#if GFILE_ALLOW_DEVICESPECIFIC
@@ -209,7 +209,7 @@ bool_t gfileRename(const char *oldname, const char *newname) {
 				if (newname[0] && newname[1] == '|') {
 					if (newname[0] != ch)
 						// Both oldname and newname are fs specific but different ones.
-						return FALSE;
+						return gFalse;
 					newname += 2;
 				}
 			} else {
@@ -220,25 +220,25 @@ bool_t gfileRename(const char *oldname, const char *newname) {
 				if (p[0]->prefix == ch)
 					return p[0]->ren && p[0]->ren(oldname, newname);
 			}
-			return FALSE;
+			return gFalse;
 		}
 	#endif
 
 	for(p = FsArray; p < &FsArray[sizeof(FsArray)/sizeof(FsArray[0])]; p++) {
 		if (p[0]->ren && p[0]->ren(oldname,newname))
-			return TRUE;
+			return gTrue;
 	}
-	return FALSE;
+	return gFalse;
 }
 
-static bool_t testopen(const GFILEVMT *p, GFILE *f, const char *fname) {
+static gBool testopen(const GFILEVMT *p, GFILE *f, const char *fname) {
 	// If we want write but the fs doesn't allow it then return
 	if ((f->flags & GFILEFLG_WRITE) && !(p->flags & GFSFLG_WRITEABLE))
-		return FALSE;
+		return gFalse;
 
 	// Try to open
 	if (!p->open || !p->open(f, fname))
-		return FALSE;
+		return gFalse;
 
 	// File is open - fill in all the details
 	f->vmt = p;
@@ -246,7 +246,7 @@ static bool_t testopen(const GFILEVMT *p, GFILE *f, const char *fname) {
 	f->flags |= GFILEFLG_OPEN;
 	if (p->flags & GFSFLG_SEEKABLE)
 		f->flags |= GFILEFLG_CANSEEK;
-	return TRUE;
+	return gTrue;
 }
 
 GFILE *gfileOpen(const char *fname, const char *mode) {
@@ -318,13 +318,13 @@ long int gfileGetPos(GFILE *f) {
 	return f->pos;
 }
 
-bool_t gfileSetPos(GFILE *f, long int pos) {
+gBool gfileSetPos(GFILE *f, long int pos) {
 	if (!f || !(f->flags & GFILEFLG_OPEN))
-		return FALSE;
+		return gFalse;
 	if (!f->vmt->setpos || !f->vmt->setpos(f, pos))
-		return FALSE;
+		return gFalse;
 	f->pos = pos;
-	return TRUE;
+	return gTrue;
 }
 
 long int gfileGetSize(GFILE *f) {
@@ -335,50 +335,50 @@ long int gfileGetSize(GFILE *f) {
 	return f->vmt->getsize(f);
 }
 
-bool_t gfileEOF(GFILE *f) {
+gBool gfileEOF(GFILE *f) {
 	if (!f || !(f->flags & GFILEFLG_OPEN))
-		return TRUE;
+		return gTrue;
 	if (!f->vmt->eof)
-		return FALSE;
+		return gFalse;
 	return f->vmt->eof(f);
 }
 
-bool_t gfileMount(char fs, const char* drive) {
+gBool gfileMount(char fs, const char* drive) {
 	const GFILEVMT * const *p;
 
 	// Find the correct VMT
 	for(p = FsArray; p < &FsArray[sizeof(FsArray)/sizeof(FsArray[0])]; p++) {
 		if (p[0]->prefix == fs) {
 			if (!p[0]->mount)
-				return FALSE;
+				return gFalse;
 			return p[0]->mount(drive);
 		}
 	}
-	return FALSE;
+	return gFalse;
 }
 
-bool_t gfileUnmount(char fs, const char* drive) {
+gBool gfileUnmount(char fs, const char* drive) {
 	const GFILEVMT * const *p;
 
 	// Find the correct VMT
 	for(p = FsArray; p < &FsArray[sizeof(FsArray)/sizeof(FsArray[0])]; p++) {
 		if (p[0]->prefix == fs) {
 			if (!p[0]->mount)
-				return FALSE;
+				return gFalse;
 			return p[0]->unmount(drive);
 		}
 	}
-	return FALSE;
+	return gFalse;
 }
 
-bool_t gfileSync(GFILE *f) {
+gBool gfileSync(GFILE *f) {
 	if (!f->vmt->sync)
-		return FALSE;
+		return gFalse;
 	return f->vmt->sync(f);
 }
 
 #if GFILE_NEED_FILELISTS
-	gfileList *gfileOpenFileList(char fs, const char *path, bool_t dirs) {
+	gfileList *gfileOpenFileList(char fs, const char *path, gBool dirs) {
 		const GFILEVMT * const *p;
 		gfileList *		pfl;
 

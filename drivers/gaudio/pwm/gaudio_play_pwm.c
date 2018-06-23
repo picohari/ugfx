@@ -65,19 +65,19 @@ static void gaudio_play_pwm_timer_callbackI(void) {
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-bool_t gaudio_play_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
+gBool gaudio_play_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
 	(void) channel;
 
 	if (format != ARRAY_DATA_8BITUNSIGNED && format != ARRAY_DATA_10BITUNSIGNED)
-		return FALSE;
+		return gFalse;
 
 	playfmt = format;
 	return gaudio_play_pwm_setup(frequency, format);
 }
 
-bool_t gaudio_play_lld_set_volume(uint8_t vol) {
+gBool gaudio_play_lld_set_volume(uint8_t vol) {
 	(void) vol;
-	return FALSE;
+	return gFalse;
 }
 
 void gaudio_play_lld_start(void) {

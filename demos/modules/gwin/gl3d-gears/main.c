@@ -270,7 +270,7 @@ int main(void) {
     	GWindowInit	wi;
 
 		gwinClearInit(&wi);
-    	wi.show = TRUE; wi.x = (gdispGetWidth()-GL3D_WINDOW_SIZE)/2; wi.y = (gdispGetHeight()-GL3D_WINDOW_SIZE)/2; wi.width = GL3D_WINDOW_SIZE; wi.height = GL3D_WINDOW_SIZE;
+    	wi.show = gTrue; wi.x = (gdispGetWidth()-GL3D_WINDOW_SIZE)/2; wi.y = (gdispGetHeight()-GL3D_WINDOW_SIZE)/2; wi.width = GL3D_WINDOW_SIZE; wi.height = GL3D_WINDOW_SIZE;
         gh = gwinGL3DCreate(0, &wi);
     }
 
@@ -278,7 +278,7 @@ int main(void) {
     setup();
     init();
 
-    while(TRUE) {
+    while(1) {
 
     	// rate control
     	gfxSleepMilliseconds(FRAME_DELAY);

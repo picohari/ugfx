@@ -11,13 +11,9 @@
 #if GFX_USE_OS_OSX
 
 #include <sys/types.h>
-#include <stdint.h>
 #include <pthread.h>
 #include <stdlib.h>
 
-/* Already defined int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, size_t */
-
-typedef int8_t				bool_t;
 typedef unsigned long		systemticks_t;
 typedef void *				threadreturn_t;
 typedef unsigned long		delaytime_t;
@@ -63,10 +59,6 @@ typedef struct gfxSem {
 /* Function declarations.                                                    */
 /*===========================================================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 void gfxHalt(const char *msg);
 void gfxSleepMilliseconds(delaytime_t ms);
 void gfxSleepMicroseconds(delaytime_t ms);
@@ -75,14 +67,10 @@ void gfxSystemLock(void);
 void gfxSystemUnlock(void);
 void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit);
 void gfxSemDestroy(gfxSem *psem);
-bool_t gfxSemWait(gfxSem *psem, delaytime_t ms);
+gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
 void gfxSemSignal(gfxSem *psem);
 gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 threadreturn_t gfxThreadWait(gfxThreadHandle thread);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GFX_USE_OS_OSX */
 #endif /* _GOS_OSX_H */

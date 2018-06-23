@@ -141,7 +141,7 @@ int main(void) {
 	
 	benchmark();
     
-	while(TRUE) {
+	while(1) {
 		gfxSleepMilliseconds(500);
 	}
 

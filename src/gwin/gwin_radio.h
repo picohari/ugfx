@@ -65,10 +65,6 @@ typedef struct GRadioObject {
 	uint16_t			group;
 } GRadioObject;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief   Create a radio widget.
  * @return  NULL if there is no resultant drawing area, otherwise a window handle.
@@ -106,13 +102,13 @@ void gwinRadioPress(GHandle gh);
 
 /**
  * @brief	Is the radio button currently pressed
- * @return	TRUE if the button is pressed
+ * @return	gTrue if the button is pressed
  *
  * @param[in] gh	The window handle (must be a radio widget)
  *
  * @api
  */
-bool_t gwinRadioIsPressed(GHandle gh);
+gBool gwinRadioIsPressed(GHandle gh);
 
 /**
  * @brief	Find the currently pressed radio button in the specified group
@@ -176,10 +172,6 @@ void gwinRadioDraw_Button(GWidgetObject *gw, void *param);
  */
 void gwinRadioDraw_Tab(GWidgetObject *gw, void *param);
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _GWIN_RADIO_H */
 /** @} */

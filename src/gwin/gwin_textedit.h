@@ -40,10 +40,6 @@ typedef struct GTexteditObject {
 	uint16_t		cursorPos;
 } GTexteditObject;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief				Create a TextEdit widget
  * @details				A TextEdit widget is a rectangular box which allows the user to input data through a keyboard.
@@ -115,10 +111,6 @@ void gwinTextEditSendKey(GHandle gh, char *pkey, unsigned len);
 void gwinTexteditDefaultDraw(GWidgetObject* gw, void* param);
 
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // _GWIN_TEXTEDIT_H
 /** @} */

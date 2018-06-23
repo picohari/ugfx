@@ -154,11 +154,11 @@ void gwinRadioPress(GHandle gh) {
 	SendRadioEvent((GWidgetObject *)gh);
 }
 
-bool_t gwinRadioIsPressed(GHandle gh) {
+gBool gwinRadioIsPressed(GHandle gh) {
 	if (gh->vmt != (gwinVMT *)&radioVMT)
-		return FALSE;
+		return gFalse;
 
-	return (gh->flags & GRADIO_FLG_PRESSED) ? TRUE : FALSE;
+	return (gh->flags & GRADIO_FLG_PRESSED) ? gTrue : gFalse;
 }
 
 GHandle gwinRadioGetActive(uint16_t group) {
@@ -224,7 +224,7 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 
 		#if GWIN_NEED_FLASHING
 			// Flash only the on state.
-			pcol = _gwinGetFlashedColor(gw, pcol, FALSE);
+			pcol = _gwinGetFlashedColor(gw, pcol, gFalse);
 		#endif
 
 		gdispGFillStringBox(gw->g.display, gw->g.x, gw->g.y, gw->g.width-1, gw->g.height-1, gw->text, gw->g.font, pcol->text, pcol->fill, justifyCenter);
@@ -243,7 +243,7 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 
 		#if GWIN_NEED_FLASHING
 			// Flash only the on state.
-			pcol = _gwinGetFlashedColor(gw, pcol, FALSE);
+			pcol = _gwinGetFlashedColor(gw, pcol, gFalse);
 		#endif
 
 		if ((gw->g.flags & GRADIO_FLG_PRESSED)) {

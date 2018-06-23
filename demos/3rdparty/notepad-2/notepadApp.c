@@ -73,7 +73,7 @@ static NColorScheme nCurColorScheme;
 static DECLARE_THREAD_FUNCTION(notepadThread, param);
 
 // Custom drawing functions for the buttons
-static void nbtnColorBarDraw(GHandle gh, bool_t enabled, bool_t isdown, const char *txt, const GButtonDrawStyle *pstyle, void *param) {
+static void nbtnColorBarDraw(GHandle gh, gBool enabled, gBool isdown, const char *txt, const GButtonDrawStyle *pstyle, void *param) {
   #define ccs nCurColorScheme
 
   int i, j, k;
@@ -152,7 +152,7 @@ static void nbtnColorBarDraw(GHandle gh, bool_t enabled, bool_t isdown, const ch
   #undef ccs
 }
 
-static void nbtnColorBarSelDraw(GHandle gh, bool_t enabled, bool_t isdown, const char *txt, const GButtonDrawStyle *pstyle, void *param) {
+static void nbtnColorBarSelDraw(GHandle gh, gBool enabled, gBool isdown, const char *txt, const GButtonDrawStyle *pstyle, void *param) {
 #define ccs nCurColorScheme
 
   int i, j = 0, k;
@@ -215,7 +215,7 @@ static void nbtnColorBarSelDraw(GHandle gh, bool_t enabled, bool_t isdown, const
   #undef ccs
 }
 
-static void nToolbarImageButtonDraw(GHandle gh, bool_t isenabled, bool_t isdown, const char *txt, const GButtonDrawStyle *pstyle, void *param) {
+static void nToolbarImageButtonDraw(GHandle gh, gBool isenabled, gBool isdown, const char *txt, const GButtonDrawStyle *pstyle, void *param) {
   (void)txt;  (void)pstyle; (void)isenabled;
 
   color_t cl = isdown ? nCurColorScheme.toolbarBgActive : nCurColorScheme.toolbarBgUnsel;
@@ -228,7 +228,7 @@ static void nToolbarImageButtonDraw(GHandle gh, bool_t isenabled, bool_t isdown,
 	gdispDrawBox(gh->x, gh->y, gh->width, gh->height, nCurColorScheme.toolbarSeparator);
 }
 
-static void nCloseButtonDraw(GHandle gh, bool_t isenabled, bool_t isdown, const char *txt, const GButtonDrawStyle *pstyle, void *param) {
+static void nCloseButtonDraw(GHandle gh, gBool isenabled, gBool isdown, const char *txt, const GButtonDrawStyle *pstyle, void *param) {
   (void) isenabled;
   (void) isdown;
   (void) txt;
@@ -401,7 +401,7 @@ static DECLARE_THREAD_FUNCTION(notepadThread, param) {
 
   ncoreSpawnDrawThread(nDrawingArea, gstatusConsole);
 
-  while(TRUE) {
+  while(1) {
 	  pem = (GEventMouse *) geventEventWait(&gl, TIME_INFINITE);
 
 	  /* button pressed... */

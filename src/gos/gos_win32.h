@@ -25,21 +25,6 @@
 
 #include <malloc.h>
 
-/* Stop cygwin from defining these types */
-#define __int8_t_defined
-
-/**
- * size_t
- * TRUE, FALSE
- * are already defined by Win32
- */
-typedef __int8				bool_t;
-typedef __int8				int8_t;
-typedef unsigned __int8		uint8_t;
-typedef __int16				int16_t;
-typedef unsigned __int16	uint16_t;
-typedef __int32				int32_t;
-typedef unsigned __int32	uint32_t;
 typedef DWORD				delaytime_t;
 typedef DWORD				systemticks_t;
 typedef LONG				semcount_t;
@@ -85,21 +70,13 @@ typedef HANDLE gfxThreadHandle;
 /* Function declarations.                                                    */
 /*===========================================================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 void gfxHalt(const char *msg);
 void gfxSleepMicroseconds(delaytime_t ms);
-bool_t gfxSemWait(gfxSem *psem, delaytime_t ms);
+gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
 void gfxSystemLock(void);
 void gfxSystemUnlock(void);
 gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param);
 threadreturn_t gfxThreadWait(gfxThreadHandle thread);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GFX_USE_OS_WIN32 */
 #endif /* _GOS_WIN32_H */

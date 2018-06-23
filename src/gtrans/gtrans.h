@@ -31,10 +31,6 @@ typedef struct transTable {
 	const char** strings;	/**< The translated strings */
 } transTable;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief A wrapper macro to make writing and reading translatable applications easier.
  */
@@ -83,10 +79,6 @@ void gtransSetBaseLanguage(const transTable* const translation);
  * @param[in] translation The translation table
  */
 void gtransSetLanguage(const transTable* const translation);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GFX_USE_GTRANS */
 

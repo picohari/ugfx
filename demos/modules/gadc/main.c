@@ -154,7 +154,7 @@ int main(void) {
 			GWindowInit	wi;
 
 			gwinClearInit(&wi);
-			wi.show = TRUE;
+			wi.show = gTrue;
 			wi.x = wi.y = 0;
 			wi.width = swidth-SCOPE_CX;
 			wi.height = sheight;
@@ -166,7 +166,7 @@ int main(void) {
 
 		/* Start our timer for reading the dial */
 		gtimerInit(&lsTimer);
-		gtimerStart(&lsTimer, LowSpeedTimer, ghText, TRUE, MY_LS_DELAY);
+		gtimerStart(&lsTimer, LowSpeedTimer, ghText, gTrue, MY_LS_DELAY);
 	#endif
 
 	/**
@@ -188,7 +188,7 @@ int main(void) {
 		GWindowInit	wi;
 
 		gwinClearInit(&wi);
-		wi.show = TRUE;
+		wi.show = gTrue;
 		wi.x = swidth-SCOPE_CX;
 		wi.y = 0;
 		wi.width = SCOPE_CX;
@@ -200,7 +200,7 @@ int main(void) {
 	gwinClear(ghScope);
 
 	/* Just keep displaying the scope traces */
-	while (TRUE) {
+	while (1) {
 		/**
 		 * The function below internally performs a wait thus giving the timer thread a
 		 * chance to run.

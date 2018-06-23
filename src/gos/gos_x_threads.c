@@ -50,7 +50,7 @@ void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit) {
 	psem->limit = limit;
 }
 
-bool_t gfxSemWait(gfxSem *psem, delaytime_t ms) {
+gBool gfxSemWait(gfxSem *psem, delaytime_t ms) {
 	systemticks_t	starttm, delay;
 
 	// Convert our delay to ticks
@@ -74,12 +74,12 @@ bool_t gfxSemWait(gfxSem *psem, delaytime_t ms) {
 		// Check if we have exceeded the defined delay
 		switch (delay) {
 		case TIME_IMMEDIATE:
-			return FALSE;
+			return gFalse;
 		case TIME_INFINITE:
 			break;
 		default:
 			if (gfxSystemTicks() - starttm >= delay)
-				return FALSE;
+				return gFalse;
 			break;
 		}
 		gfxYield();
@@ -87,14 +87,14 @@ bool_t gfxSemWait(gfxSem *psem, delaytime_t ms) {
 	}
 	psem->cnt--;
 	INTERRUPTS_ON();
-	return TRUE;
+	return gTrue;
 }
 
-bool_t gfxSemWaitI(gfxSem *psem) {
+gBool gfxSemWaitI(gfxSem *psem) {
 	if (psem->cnt <= 0)
-		return FALSE;
+		return gFalse;
 	psem->cnt--;
-	return TRUE;
+	return gTrue;
 }
 
 void gfxSemSignal(gfxSem *psem) {
@@ -243,7 +243,7 @@ static thread		mainthread;				// The main thread context
 	 * MACROS:
 	 *
 	 *	AUTO_DETECT_STACKFRAME	GFXON/GFXOFF			- GFXON to auto-detect stack frame structure
-	 *	STACK_DIR_UP			Macro/bool_t		- GFXON if the stack grows up instead of down
+	 *	STACK_DIR_UP			Macro/gBool		- GFXON if the stack grows up instead of down
 	 *	MASK1					Macro/uint32_t		- The 1st mask of jmp_buf elements that need relocation
 	 *	MASK2					Macro/uint32_t		- The 2nd mask of jmp_buf elements that need relocation
 	 *	STACK_BASE				Macro/size_t		- The base of the stack frame relative to the local variables
@@ -275,7 +275,7 @@ static thread		mainthread;				// The main thread context
 			jmp_buf		cxt;
 		} saveloc;
 
-		static bool_t		stackdirup;
+		static gBool		stackdirup;
 		static uint32_t		jmpmask1;
 		static uint32_t		jmpmask2;
 		static size_t		stackbase;
@@ -384,7 +384,7 @@ static thread		mainthread;				// The main thread context
 			}
 		#endif
 	}
-	static void _gfxXSwitch(thread *oldt, thread *newt, bool_t doBuildFrame) {
+	static void _gfxXSwitch(thread *oldt, thread *newt, gBool doBuildFrame) {
 
 		// Save the old context
 		if (CXT_SAVE(oldt->cxt)) return;
@@ -415,8 +415,8 @@ static thread		mainthread;				// The main thread context
 		CXT_RESTORE(newt->cxt, 1);
 	}
 
-	#define _gfxTaskSwitch(oldt, newt)		_gfxXSwitch(oldt, newt, FALSE)
-	#define _gfxStartThread(oldt, newt)		_gfxXSwitch(oldt, newt, TRUE)
+	#define _gfxTaskSwitch(oldt, newt)		_gfxXSwitch(oldt, newt, gFalse)
+	#define _gfxStartThread(oldt, newt)		_gfxXSwitch(oldt, newt, gTrue)
 #endif
 #undef GFX_THREADS_DONE
 

@@ -58,10 +58,6 @@ typedef struct GButtonObject {
 	#endif
 } GButtonObject;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief   Create a button widget.
  * @return  NULL if there is no resultant drawing area, otherwise a window handle.
@@ -87,13 +83,13 @@ GHandle gwinGButtonCreate(GDisplay *g, GButtonObject *gb, const GWidgetInit *pIn
 
 /**
  * @brief	Is the button current pressed
- * @return	TRUE if the button is pressed
+ * @return	gTrue if the button is pressed
  *
  * @param[in] gh	The window handle (must be a button widget)
  *
  * @api
  */
-bool_t gwinButtonIsPressed(GHandle gh);
+gBool gwinButtonIsPressed(GHandle gh);
 
 /**
  * @defgroup Renderings_Button Renderings
@@ -221,10 +217,6 @@ void gwinButtonDraw_Normal(GWidgetObject *gw, void *param);
 	void gwinButtonDraw_Image(GWidgetObject *gw, void *param);
 #endif
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _GWIN_BUTTON_H */
 /** @} */

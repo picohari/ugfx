@@ -44,7 +44,7 @@ static void guiCreate(void)
 	gwinWidgetClearInit(&wi);
 
 	// Console
-	wi.g.show = TRUE;
+	wi.g.show = gTrue;
 	wi.g.x = 0;
 	wi.g.y = 0;
 	wi.g.width = gdispGetWidth()/2;
@@ -56,7 +56,7 @@ static void guiCreate(void)
 	gwinClear(ghConsole);
 
 	// TextEdit1
-	wi.g.show = TRUE;
+	wi.g.show = gTrue;
 	wi.g.x = gdispGetWidth()/2 + 10;
 	wi.g.y = 20;
 	wi.g.width = 200;
@@ -65,28 +65,28 @@ static void guiCreate(void)
 	ghTextedit1 = gwinTexteditCreate(0, &wi, 100);
 
 	// TextEdit2
-	wi.g.show = TRUE;
+	wi.g.show = gTrue;
 	wi.g.x = gdispGetWidth()/2 + 10;
 	wi.g.y = 100;
 	wi.g.width = 200;
 	wi.g.height = 35;
 	wi.text = "to switch between";
 	ghTextedit2 = gwinTexteditCreate(0, &wi, 20);
-	//gwinTexteditSetBorder(ghTextedit2, FALSE);
+	//gwinTexteditSetBorder(ghTextedit2, gFalse);
 
 	// TextEdit3
-	wi.g.show = TRUE;
+	wi.g.show = gTrue;
 	wi.g.x = gdispGetWidth()/2 + 10;
 	wi.g.y = 180;
 	wi.g.width = 200;
 	wi.g.height = 35;
 	wi.text = "the different widgets";
 	ghTextedit3 = gwinTexteditCreate(0, &wi, 100);
-	//gwinTexteditSetBorder(ghTextedit3, TRUE);
+	//gwinTexteditSetBorder(ghTextedit3, gTrue);
 
 	// Virtual keyboard
 #if GWIN_NEED_KEYBOARD
-	wi.g.show = TRUE;
+	wi.g.show = gTrue;
 	wi.g.x = 0;
 	wi.g.y = gdispGetHeight()*3/4;
 	wi.g.width = gdispGetWidth();
@@ -104,7 +104,7 @@ int main(void) {
 
 	gdispClear(GFX_SILVER);
 	gwinSetDefaultFont(gdispOpenFont("DejaVuSans16"));
-	gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
+	gwinSetDefaultStyle(&WhiteWidgetStyle, gFalse);
 	gwinSetDefaultColor(GFX_BLACK);
 	gwinSetDefaultBgColor(GFX_WHITE);
 

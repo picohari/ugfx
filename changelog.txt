@@ -15,8 +15,16 @@ FEATURE:	Added GFX_COMPAT_V2 to maintain source compatibility with V2.x programs
 FEATURE:	Added GFX_COMPAT_OLDCOLORS to allow V2.x Red, Green, Blue color names. It is turned on by default.
 CHANGE:		Added GFX_RED, GFX_BLUE, GFX_GREEN etc to replace V2.x Red, Gree, Blue color names
 CHANGE:		Added GFXON/GFXOFF to replace V2.x TRUE/FALSE for configuration options.
+CHANGE:		Added gBool type and gTrue/gFalse to replace TRUE/FALSE for booleans.
+CHANGE:		Added types gI8, gU8 .. gI32, gU32 to replace V2.x int8_t etc
+CHANGE:		Added types gPtr and gPtrDiff
+FEATURE:	Added gI64 and gU64 when the compiler supports it. GFX_TYPE_64 macro is defined as GFXON if it does.
+FEATURE:	Fixed headers to ensure size_t, NULL are always defined. size_t is not used as it may be 64bit.
 FIX:		Added gfxRealloc() to Qt port
 FIX:		Fixed UC1610 driver private area initialisation
+FIX:		Fixed ST7735 driver and added kapacuk changes
+FEATURE:	Added keyboard support to radio buttons (by Steffan)
+FEATURE:	Added internal use only GFX_COMPILESTAGE (used to control compilation)
 
 
 *** Release 2.8 ***

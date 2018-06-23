@@ -116,14 +116,14 @@ static void set_viewport (GDisplay* g)
  * 128 * 128 / 8 = 2048 bytes.
  */
 
-LLDSPEC bool_t gdisp_lld_init (GDisplay *g)
+LLDSPEC gBool gdisp_lld_init (GDisplay *g)
 {
     uint8_t temp [5] = { 0 };
 
     /* The private area is the display surface. */
     g->priv = gfxAlloc (sizeof(DisplayData) + GDISP_SCREEN_WIDTH / 8 * GDISP_SCREEN_HEIGHT);
 	if (!g->priv)
-		return FALSE;
+		return gFalse;
     memset (g->priv, 0, sizeof(DisplayData) + GDISP_SCREEN_WIDTH / 8 * GDISP_SCREEN_HEIGHT);
 
     /* Initialise the board interface */
@@ -131,11 +131,11 @@ LLDSPEC bool_t gdisp_lld_init (GDisplay *g)
 
     /* Init LCD */
     /* Hardware reset */
-    setpin_reset (g, FALSE);
+    setpin_reset (g, gFalse);
     gfxSleepMilliseconds (50);
-    setpin_reset (g, TRUE);
+    setpin_reset (g, gTrue);
     gfxSleepMilliseconds (50);
-    setpin_reset (g, FALSE);
+    setpin_reset (g, gFalse);
 
 
     acquire_bus (g);
@@ -217,7 +217,7 @@ LLDSPEC bool_t gdisp_lld_init (GDisplay *g)
     g->g.Powermode   = powerOn;
     g->g.Backlight   = GDISP_INITIAL_BACKLIGHT;
     g->g.Contrast    = GDISP_INITIAL_CONTRAST;
-    return TRUE;
+    return gTrue;
 }
 
 #if GDISP_HARDWARE_STREAM_WRITE

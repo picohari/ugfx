@@ -90,10 +90,6 @@ typedef int32_t	fixed;
 
 #if GFX_USE_GMISC || defined(__DOXYGEN__)
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #if GMISC_NEED_ARRAYOPS || defined(__DOXYGEN__)
 	/**
 	 * @brief				Convert from one array format to another array format.
@@ -476,16 +472,12 @@ extern "C" {
 	 * @param[in] cnt			The number of points in the point array @p pntarray
 	 * @param[in] p				The point to test
 	 *
-	 * @return	@p TRUE if the point @p p is inside or on the edge of the polygon @p pntarray, @p FALSE otherwise.
+	 * @return	@p gTrue if the point @p p is inside or on the edge of the polygon @p pntarray, @p gFalse otherwise.
 	 *
 	 * @api
 	 */
-	bool_t gmiscHittestPoly(const point *pntarray, unsigned cnt, const point *p);
+	gBool gmiscHittestPoly(const point *pntarray, unsigned cnt, const point *p);
 #endif // GMISC_NEED_HITTEST_POLY
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GFX_USE_MISC */
 

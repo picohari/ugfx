@@ -53,10 +53,6 @@ typedef struct GLabelObject {
 	#endif
 } GLabelObject;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief				Create a label widget.
  * @details				A label widget is a simple window which has a static text.
@@ -80,7 +76,7 @@ GHandle gwinGLabelCreate(GDisplay *g, GLabelObject *widget, GWidgetInit *pInit);
  *
  * @api
  */
-void gwinLabelSetBorder(GHandle gh, bool_t border);
+void gwinLabelSetBorder(GHandle gh, gBool border);
 
 #if GWIN_LABEL_ATTRIBUTE || defined(__DOXYGEN__)
 	/**
@@ -158,10 +154,6 @@ void gwinLabelDrawJustifiedRight(GWidgetObject *gw, void *param);
 void gwinLabelDrawJustifiedCenter(GWidgetObject *gw, void *param);
 
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // _GWIN_LABEL_H
 /** @} */

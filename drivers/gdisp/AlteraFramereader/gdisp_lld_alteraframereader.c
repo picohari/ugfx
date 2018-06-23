@@ -46,7 +46,7 @@ typedef struct fbPriv {
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay* g)
+LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 {
 	// Allocate the frame buffers
 	PRIV(g)->frame0 = gfxAlloc(SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(LLDCOLOR_TYPE));
@@ -94,7 +94,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay* g)
 	// Start the framebuffer reader
 	IOWR(ALT_VIP_VFR_0_BASE, 0x00, 0x01);
 
-	return TRUE;
+	return gTrue;
 }
 
 LLDSPEC void gdisp_lld_draw_pixel(GDisplay* g)

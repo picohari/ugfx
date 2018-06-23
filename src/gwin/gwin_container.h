@@ -46,10 +46,6 @@ typedef GWidgetObject GContainerObject;
  * won't support it even with special flags.
  */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief	Get the first child window
  *
@@ -181,10 +177,6 @@ void gwinContainerDraw_Transparent(GWidgetObject *gw, void *param);
 #endif /* GDISP_NEED_IMAGE */
 
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 /* Include extra container types */
 #if GWIN_NEED_FRAME || defined(__DOXYGEN__)

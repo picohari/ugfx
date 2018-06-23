@@ -34,7 +34,7 @@
 
 static WiFiServer	server(GDISP_GFXNET_PORT);
 static GTimer		poller;
-static bool_t		uGFXInitDone;
+static gBool		uGFXInitDone;
 
 #ifndef GDISP_GFXNET_WIFI_INIT_FUNCTION
 	#define GDISP_GFXNET_WIFI_INIT_FUNCTION	uGFXnetArduinoWifiInit
@@ -62,8 +62,8 @@ static bool_t		uGFXInitDone;
 	#include "../../../src/ginput/ginput_driver_mouse.h"
 
 	// Forward definitions
-	static bool_t NMouseInit(GMouse *m, unsigned driverinstance);
-	static bool_t NMouseRead(GMouse *m, GMouseReading *prd);
+	static gBool NMouseInit(GMouse *m, unsigned driverinstance);
+	static gBool NMouseRead(GMouse *m, GMouseReading *prd);
 
 	const GMouseVMT const GMOUSE_DRIVER_VMT[1] = {{
 		{
@@ -150,9 +150,9 @@ static void endcon(GDisplay *g) {
  * Send a whole packet of data.
  * Len is specified in the number of uint16_t's we want to send as our protocol only talks uint16_t's.
  * Note that contents of the packet are modified to ensure it will cross the wire in the correct format.
- * If the connection closes before we send all the data - the call returns FALSE.
+ * If the connection closes before we send all the data - the call returns gFalse.
  */
-static bool_t sendpkt(CLIENTFD fd, uint16_t *pkt, int len) {
+static gBool sendpkt(CLIENTFD fd, uint16_t *pkt, int len) {
 	// Convert each uint16_t to network order
 	#if GFX_CPU_ENDIAN == GFX_CPU_ENDIAN_LITTLE
 		{
@@ -284,7 +284,7 @@ void uGFXnetClientPoller(void *param) {
 				// Send a redraw all
 				#if GFX_USE_GWIN && GWIN_NEED_WINDOWMANAGER
 					gdispGClear(g, gwinGetDefaultBgColor());
-					gwinRedrawDisplay(g, FALSE);
+					gwinRedrawDisplay(g, gFalse);
 				#endif
 				break;
 			}
@@ -307,7 +307,7 @@ void uGFXnetClientPoller(void *param) {
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	netPriv	*	priv;
 
 	// Initialise the receiver thread (if it hasn't been done already)
@@ -318,8 +318,8 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 
 		// Initialise the poller
 		gtimerInit(&poller);
-		gtimerStart(&poller, uGFXnetClientPoller, 0, TRUE, 50);
-		uGFXInitDone = TRUE;
+		gtimerStart(&poller, uGFXnetClientPoller, 0, gTrue, 50);
+		uGFXInitDone = gTrue;
 	}
 
 	// Create a private area for this window
@@ -342,7 +342,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
 
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_FLUSH
@@ -519,7 +519,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	LLDSPEC void gdisp_lld_control(GDisplay *g) {
 		netPriv	*	priv;
 		uint16_t	buf[3];
-		bool_t		allgood;
+		gBool		allgood;
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
 			if (!(g->flags & GDISP_FLG_CONNECTED))
@@ -563,7 +563,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			gfxSleepMilliseconds(1);
 
 		// Extract the return status
-		allgood = priv->data[1] ? TRUE : FALSE;
+		allgood = priv->data[1] ? gTrue : gFalse;
 		g->flags &= ~GDISP_FLG_HAVEDATA;
 
 		// Do nothing more if the operation failed
@@ -599,12 +599,12 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 #endif
 
 #if GINPUT_NEED_MOUSE
-	static bool_t NMouseInit(GMouse *m, unsigned driverinstance) {
+	static gBool NMouseInit(GMouse *m, unsigned driverinstance) {
 		(void)	m;
 		(void)	driverinstance;
-		return TRUE;
+		return gTrue;
 	}
-	static bool_t NMouseRead(GMouse *m, GMouseReading *pt) {
+	static gBool NMouseRead(GMouse *m, GMouseReading *pt) {
 		GDisplay *	g;
 		netPriv	*	priv;
 
@@ -615,7 +615,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 		pt->y = priv->mousey;
 		pt->z = (priv->mousebuttons & GINPUT_MOUSE_BTN_LEFT) ? 1 : 0;
 		pt->buttons = priv->mousebuttons;
-		return TRUE;
+		return gTrue;
 	}
 #endif /* GINPUT_NEED_MOUSE */
 

@@ -146,18 +146,18 @@ static void createWidgets(void) {
 	border = ScrWidth < 450 ? 1 : 5;
 
 	// Create the Tabs
-	wi.g.show = TRUE;
+	wi.g.show = gTrue;
 	wi.g.x = border; wi.g.y = 0;
 	wi.g.width = ScrWidth - 2*border; wi.g.height = ScrHeight-wi.g.y-border;
 	ghTabset			= gwinTabsetCreate(0, &wi, GWIN_TABSET_BORDER);
-	ghPgControls		= gwinTabsetAddTab(ghTabset, "Controls", FALSE);
-	ghPgSliders			= gwinTabsetAddTab(ghTabset, "Sliders", FALSE);
-	ghPgRadios			= gwinTabsetAddTab(ghTabset, "Radios", FALSE);
-	ghPgLists			= gwinTabsetAddTab(ghTabset, "Lists", FALSE);
-	ghPgLabels			= gwinTabsetAddTab(ghTabset, "Labels", FALSE);
-	ghPgImages			= gwinTabsetAddTab(ghTabset, "Images", FALSE);
-	ghPgBounce			= gwinTabsetAddTab(ghTabset, "Bounce", FALSE);
-	ghPgMandelbrot		= gwinTabsetAddTab(ghTabset, "Mandelbrot", FALSE);
+	ghPgControls		= gwinTabsetAddTab(ghTabset, "Controls", gFalse);
+	ghPgSliders			= gwinTabsetAddTab(ghTabset, "Sliders", gFalse);
+	ghPgRadios			= gwinTabsetAddTab(ghTabset, "Radios", gFalse);
+	ghPgLists			= gwinTabsetAddTab(ghTabset, "Lists", gFalse);
+	ghPgLabels			= gwinTabsetAddTab(ghTabset, "Labels", gFalse);
+	ghPgImages			= gwinTabsetAddTab(ghTabset, "Images", gFalse);
+	ghPgBounce			= gwinTabsetAddTab(ghTabset, "Bounce", gFalse);
+	ghPgMandelbrot		= gwinTabsetAddTab(ghTabset, "Mandelbrot", gFalse);
 
 	pagewidth = gwinGetInnerWidth(ghTabset)/2;
 
@@ -266,62 +266,62 @@ static void createWidgets(void) {
 	wi.g.parent = ghPgLists;
 	wi.g.width = LIST_WIDTH; wi.g.height = LIST_HEIGHT; wi.g.y = border;
 	wi.g.x = border; wi.text = "L1";
-	ghList1 = gwinListCreate(0, &wi, FALSE);
-	gwinListAddItem(ghList1, "Item 0", FALSE);
-	gwinListAddItem(ghList1, "Item 1", FALSE);
-	gwinListAddItem(ghList1, "Item 2", FALSE);
-	gwinListAddItem(ghList1, "Item 3", FALSE);
-	gwinListAddItem(ghList1, "Item 4", FALSE);
-	gwinListAddItem(ghList1, "Item 5", FALSE);
-	gwinListAddItem(ghList1, "Item 6", FALSE);
-	gwinListAddItem(ghList1, "Item 7", FALSE);
-	gwinListAddItem(ghList1, "Item 8", FALSE);
-	gwinListAddItem(ghList1, "Item 9", FALSE);
-	gwinListAddItem(ghList1, "Item 10", FALSE);
-	gwinListAddItem(ghList1, "Item 11", FALSE);
-	gwinListAddItem(ghList1, "Item 12", FALSE);
-	gwinListAddItem(ghList1, "Item 13", FALSE);
+	ghList1 = gwinListCreate(0, &wi, gFalse);
+	gwinListAddItem(ghList1, "Item 0", gFalse);
+	gwinListAddItem(ghList1, "Item 1", gFalse);
+	gwinListAddItem(ghList1, "Item 2", gFalse);
+	gwinListAddItem(ghList1, "Item 3", gFalse);
+	gwinListAddItem(ghList1, "Item 4", gFalse);
+	gwinListAddItem(ghList1, "Item 5", gFalse);
+	gwinListAddItem(ghList1, "Item 6", gFalse);
+	gwinListAddItem(ghList1, "Item 7", gFalse);
+	gwinListAddItem(ghList1, "Item 8", gFalse);
+	gwinListAddItem(ghList1, "Item 9", gFalse);
+	gwinListAddItem(ghList1, "Item 10", gFalse);
+	gwinListAddItem(ghList1, "Item 11", gFalse);
+	gwinListAddItem(ghList1, "Item 12", gFalse);
+	gwinListAddItem(ghList1, "Item 13", gFalse);
 	wi.text = "L2"; wi.g.x += LIST_WIDTH+border; if (wi.g.x + LIST_WIDTH > pagewidth) { wi.g.x = border; wi.g.y += LIST_HEIGHT+border; }
-	ghList2 = gwinListCreate(0, &wi, TRUE);
-	gwinListAddItem(ghList2, "Item 0", FALSE);
-	gwinListAddItem(ghList2, "Item 1", FALSE);
-	gwinListAddItem(ghList2, "Item 2", FALSE);
-	gwinListAddItem(ghList2, "Item 3", FALSE);
-	gwinListAddItem(ghList2, "Item 4", FALSE);
-	gwinListAddItem(ghList2, "Item 5", FALSE);
-	gwinListAddItem(ghList2, "Item 6", FALSE);
-	gwinListAddItem(ghList2, "Item 7", FALSE);
-	gwinListAddItem(ghList2, "Item 8", FALSE);
-	gwinListAddItem(ghList2, "Item 9", FALSE);
-	gwinListAddItem(ghList2, "Item 10", FALSE);
-	gwinListAddItem(ghList2, "Item 11", FALSE);
-	gwinListAddItem(ghList2, "Item 12", FALSE);
-	gwinListAddItem(ghList2, "Item 13", FALSE);
+	ghList2 = gwinListCreate(0, &wi, gTrue);
+	gwinListAddItem(ghList2, "Item 0", gFalse);
+	gwinListAddItem(ghList2, "Item 1", gFalse);
+	gwinListAddItem(ghList2, "Item 2", gFalse);
+	gwinListAddItem(ghList2, "Item 3", gFalse);
+	gwinListAddItem(ghList2, "Item 4", gFalse);
+	gwinListAddItem(ghList2, "Item 5", gFalse);
+	gwinListAddItem(ghList2, "Item 6", gFalse);
+	gwinListAddItem(ghList2, "Item 7", gFalse);
+	gwinListAddItem(ghList2, "Item 8", gFalse);
+	gwinListAddItem(ghList2, "Item 9", gFalse);
+	gwinListAddItem(ghList2, "Item 10", gFalse);
+	gwinListAddItem(ghList2, "Item 11", gFalse);
+	gwinListAddItem(ghList2, "Item 12", gFalse);
+	gwinListAddItem(ghList2, "Item 13", gFalse);
 	wi.text = "L3"; wi.g.x += LIST_WIDTH+border; if (wi.g.x + LIST_WIDTH > pagewidth) { wi.g.x = border; wi.g.y += LIST_HEIGHT+border; }
-	ghList3 = gwinListCreate(0, &wi, TRUE);
-	gwinListAddItem(ghList3, "Item 0", FALSE);
-	gwinListAddItem(ghList3, "Item 1", FALSE);
-	gwinListAddItem(ghList3, "Item 2", FALSE);
-	gwinListAddItem(ghList3, "Item 3", FALSE);
+	ghList3 = gwinListCreate(0, &wi, gTrue);
+	gwinListAddItem(ghList3, "Item 0", gFalse);
+	gwinListAddItem(ghList3, "Item 1", gFalse);
+	gwinListAddItem(ghList3, "Item 2", gFalse);
+	gwinListAddItem(ghList3, "Item 3", gFalse);
 	gdispImageOpenFile(&imgYesNo, "image_yesno.gif");
 	gwinListItemSetImage(ghList3, 1, &imgYesNo);
 	gwinListItemSetImage(ghList3, 3, &imgYesNo);
 	wi.text = "L4"; wi.g.x += LIST_WIDTH+border; if (wi.g.x + LIST_WIDTH > pagewidth) { wi.g.x = border; wi.g.y += LIST_HEIGHT+border; }
-	ghList4 = gwinListCreate(0, &wi, TRUE);
-	gwinListAddItem(ghList4, "Item 0", FALSE);
-	gwinListAddItem(ghList4, "Item 1", FALSE);
-	gwinListAddItem(ghList4, "Item 2", FALSE);
-	gwinListAddItem(ghList4, "Item 3", FALSE);
-	gwinListAddItem(ghList4, "Item 4", FALSE);
-	gwinListAddItem(ghList4, "Item 5", FALSE);
-	gwinListAddItem(ghList4, "Item 6", FALSE);
-	gwinListAddItem(ghList4, "Item 7", FALSE);
-	gwinListAddItem(ghList4, "Item 8", FALSE);
-	gwinListAddItem(ghList4, "Item 9", FALSE);
-	gwinListAddItem(ghList4, "Item 10", FALSE);
-	gwinListAddItem(ghList4, "Item 11", FALSE);
-	gwinListAddItem(ghList4, "Item 12", FALSE);
-	gwinListAddItem(ghList4, "Item 13", FALSE);
+	ghList4 = gwinListCreate(0, &wi, gTrue);
+	gwinListAddItem(ghList4, "Item 0", gFalse);
+	gwinListAddItem(ghList4, "Item 1", gFalse);
+	gwinListAddItem(ghList4, "Item 2", gFalse);
+	gwinListAddItem(ghList4, "Item 3", gFalse);
+	gwinListAddItem(ghList4, "Item 4", gFalse);
+	gwinListAddItem(ghList4, "Item 5", gFalse);
+	gwinListAddItem(ghList4, "Item 6", gFalse);
+	gwinListAddItem(ghList4, "Item 7", gFalse);
+	gwinListAddItem(ghList4, "Item 8", gFalse);
+	gwinListAddItem(ghList4, "Item 9", gFalse);
+	gwinListAddItem(ghList4, "Item 10", gFalse);
+	gwinListAddItem(ghList4, "Item 11", gFalse);
+	gwinListAddItem(ghList4, "Item 12", gFalse);
+	gwinListAddItem(ghList4, "Item 13", gFalse);
 	gwinListSetScroll(ghList4, scrollSmooth);
 
 	// Image
@@ -339,25 +339,25 @@ static void setLabels(void) {
 
 	// The sliders
 	snprintg(tmp, sizeof(tmp), "%d%%", gwinSliderGetPosition(ghSlider1));
-	gwinSetText(ghLabelSlider1, tmp, TRUE);
+	gwinSetText(ghLabelSlider1, tmp, gTrue);
 	snprintg(tmp, sizeof(tmp), "%d%%", gwinSliderGetPosition(ghSlider2));
-	gwinSetText(ghLabelSlider2, tmp, TRUE);
+	gwinSetText(ghLabelSlider2, tmp, gTrue);
 	snprintg(tmp, sizeof(tmp), "%d%%", gwinSliderGetPosition(ghSlider3));
-	gwinSetText(ghLabelSlider3, tmp, TRUE);
+	gwinSetText(ghLabelSlider3, tmp, gTrue);
 	snprintg(tmp, sizeof(tmp), "%d%%", gwinSliderGetPosition(ghSlider4));
-	gwinSetText(ghLabelSlider4, tmp, TRUE);
+	gwinSetText(ghLabelSlider4, tmp, gTrue);
 
 	// The radio buttons
 	if (gwinRadioIsPressed(ghRadio1))
-		gwinSetText(ghLabelRadio1, "Yes", TRUE);
+		gwinSetText(ghLabelRadio1, "Yes", gTrue);
 	else if (gwinRadioIsPressed(ghRadio2))
-		gwinSetText(ghLabelRadio1, "No", TRUE);
+		gwinSetText(ghLabelRadio1, "No", gTrue);
 }
 
 /**
  * Control the progress bar auto-increment
  */
-static void setProgressbar(bool_t onoff) {
+static void setProgressbar(gBool onoff) {
 	if (onoff)
 		gwinProgressbarStart(ghProgressbar1, 500);
 	else {
@@ -369,7 +369,7 @@ static void setProgressbar(bool_t onoff) {
 /**
  * Set the enabled state of every widget (except the tabs etc)
  */
-static void setEnabled(bool_t ena) {
+static void setEnabled(gBool ena) {
 	//gwinSetEnabled(ghPgControls, ena);
 	gwinSetEnabled(ghPgSliders, ena);
 	gwinSetEnabled(ghPgLabels, ena);
@@ -386,7 +386,7 @@ static void setEnabled(bool_t ena) {
 	gwinSetEnabled(ghCheckbox1, ena);
 	gwinSetEnabled(ghCheckbox2, ena);
 	gwinSetEnabled(ghCheckbox3, ena);
-	//gwinSetEnabled(ghCheckDisableAll, TRUE);
+	//gwinSetEnabled(ghCheckDisableAll, gTrue);
 }
 
 static void FlashOffFn(void *param) {
@@ -404,7 +404,7 @@ int main(void) {
 	// Set the widget defaults
 	font = gdispOpenFont("*");			// Get the first defined font.
 	gwinSetDefaultFont(font);
-	gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
+	gwinSetDefaultStyle(&WhiteWidgetStyle, gFalse);
 	gdispClear(GFX_WHITE);
 
 	// Create the gwin windows/widgets
@@ -458,7 +458,7 @@ int main(void) {
 			// If it is the toggle button checkbox start the flash.
 			} else if (((GEventGWinCheckbox *)pe)->gwin == ghCheckbox3) {
 				gwinFlash(ghCheckbox3);
-				gtimerStart(&FlashTimer, FlashOffFn, 0, FALSE, 3000);
+				gtimerStart(&FlashTimer, FlashOffFn, 0, gFalse, 3000);
 			}
 			break;
 
@@ -501,7 +501,7 @@ int main(void) {
 					gdispClear(pstyle->background);
 
 					// Update the style on all controls
-					gwinSetDefaultStyle(pstyle, TRUE);
+					gwinSetDefaultStyle(pstyle, gTrue);
 				}
 				break;
 			}

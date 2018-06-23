@@ -35,15 +35,15 @@ static GPTConfig gptcfg = {
 
 static uint16_t		lastvalue;
 
-static bool gaudio_play_pwm_setup(uint32_t frequency, ArrayDataFormat format) {
+static gBool gaudio_play_pwm_setup(uint32_t frequency, ArrayDataFormat format) {
 	if (format == ARRAY_DATA_10BITUNSIGNED)
 		pwmcfg.period = 1024;
 	else if (format == ARRAY_DATA_8BITUNSIGNED)
 		pwmcfg.period = 256;
 	else
-		return FALSE;
+		return gFalse;
 	gptcfg.frequency = frequency;
-	return TRUE;
+	return gTrue;
 }
 
 static void gaudio_play_pwm_start(void) {

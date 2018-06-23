@@ -24,29 +24,8 @@
 /* Type definitions                                                          */
 /*===========================================================================*/
 
-/* Additional types are required when FreeRTOS 7.x is used */
-#if !defined(tskKERNEL_VERSION_MAJOR) && !tskKERNEL_VERSION_MAJOR == 8
-	typedef signed char					int8_t
-	typedef unsigned char				uint8_t
-	typedef signed int					int16_t
-	typedef unsigned int				uint16_t
-	typedef signed long int				int32_t
-	typedef unsigned long int			uint32_t
-	typedef signed long long int		int64_t
-	typedef unsigned long long int		uint64_t
-#endif
-
-/**
- * bool_t,
- * int8_t, uint8_t,
- * int16_t, uint16_t,
- * int32_t, uint32_t,
- * size_t
- * are already defined by FreeRTOS
- */
 #define TIME_IMMEDIATE		0
 #define TIME_INFINITE		((delaytime_t)-1)
-typedef int8_t				bool_t;
 typedef uint32_t			delaytime_t;
 typedef portTickType		systemticks_t;
 typedef int32_t				semcount_t;
@@ -71,10 +50,6 @@ typedef xTaskHandle				gfxThreadHandle;
 /* Function declarations.                                                    */
 /*===========================================================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define gfxHalt(msg)				{while(1);}
 #define gfxExit()					{while(1);}
 #define gfxAlloc(sz)				pvPortMalloc(sz)
@@ -96,8 +71,8 @@ void gfxSleepMicroseconds(delaytime_t ms);
 
 void gfxSemInit(gfxSem* psem, semcount_t val, semcount_t limit);
 #define gfxSemDestroy(psem)			vSemaphoreDelete(*(psem))
-bool_t gfxSemWait(gfxSem* psem, delaytime_t ms);
-bool_t gfxSemWaitI(gfxSem* psem);
+gBool gfxSemWait(gfxSem* psem, delaytime_t ms);
+gBool gfxSemWaitI(gfxSem* psem);
 void gfxSemSignal(gfxSem* psem);
 void gfxSemSignalI(gfxSem* psem);
 gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
@@ -107,10 +82,6 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_
 	threadreturn_t gfxThreadWait(gfxThreadHandle thread);
 #endif
 #define gfxThreadClose(thread)
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GFX_USE_OS_FREERTOS */
 #endif /* _GOS_CHIBIOS_H */

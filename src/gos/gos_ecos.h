@@ -18,15 +18,6 @@
 /* Type definitions                                                          */
 /*===========================================================================*/
 
-typedef cyg_bool_t			bool_t;
-typedef cyg_int8			int8_t;
-typedef cyg_uint8	 		uint8_t;
-typedef cyg_int16	 		int16_t;
-typedef cyg_uint16	 		uint16_t;
-typedef cyg_int32 			int32_t;
-typedef cyg_uint32 			uint32_t;
-typedef cyg_uint32 			size_t;
-
 #define TIME_IMMEDIATE		0
 #define TIME_INFINITE		0xFFFFFFFF
 
@@ -58,10 +49,6 @@ typedef cyg_mutex_t		gfxMutex;
 /* Function declarations.                                                    */
 /*===========================================================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define gfxSystemTicks()			cyg_current_time()
 #define gfxExit()					exit(0)
 #define gfxHalt(msg)				exit(-1)
@@ -85,8 +72,8 @@ void gfxSleepMicroseconds(delaytime_t ms);
 
 void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit);
 void gfxSemDestroy(gfxSem *psem);
-bool_t gfxSemWait(gfxSem *psem, delaytime_t ms);
-bool_t gfxSemWaitI(gfxSem *psem);
+gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
+gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
 
@@ -94,10 +81,6 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_
 #define gfxThreadWait(thread)		NOTIMPLEMENTED_YET
 #define gfxThreadMe()				cyg_thread_self()
 #define gfxThreadClose(thread)		(void)thread
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GFX_USE_OS_ECOS */
 #endif /* _GOS_ECOS_H */

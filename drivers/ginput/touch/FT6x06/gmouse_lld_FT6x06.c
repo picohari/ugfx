@@ -18,9 +18,9 @@
 // Hardware definitions
 #include "ft6x06.h"
 
-static bool_t MouseInit(GMouse* m, unsigned driverinstance) {
+static gBool MouseInit(GMouse* m, unsigned driverinstance) {
 	if (!init_board(m, driverinstance))
-		return FALSE;
+		return gFalse;
 
 	aquire_bus(m);
 
@@ -53,10 +53,10 @@ static bool_t MouseInit(GMouse* m, unsigned driverinstance) {
 	write_reg(m, FT6x06_ID_G_PERIODMONITOR, 0x28);
 
 	release_bus(m);
-	return TRUE;
+	return gTrue;
 }
 
-static bool_t read_xyz(GMouse* m, GMouseReading* pdr)
+static gBool read_xyz(GMouse* m, GMouseReading* pdr)
 {
 	// Assume not touched.
 	pdr->buttons = 0;
@@ -96,7 +96,7 @@ static bool_t read_xyz(GMouse* m, GMouseReading* pdr)
 	}
 
 	release_bus(m);
-	return TRUE;
+	return gTrue;
 }
 
 const GMouseVMT const GMOUSE_DRIVER_VMT[1] = {{

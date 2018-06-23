@@ -33,7 +33,7 @@
 
 #include "tasks.h"
 
-static volatile bool_t	run;
+static volatile gBool	run;
 static GHandle			gh;
 static gfxThreadHandle	thread;
 
@@ -149,13 +149,13 @@ static DECLARE_THREAD_FUNCTION(task, param) {
 	return 0;
 }
 
-void doBounce(GHandle parent, bool_t start) {
+void doBounce(GHandle parent, gBool start) {
 	if (start) {
-		run = TRUE;
+		run = gTrue;
 		gh = parent;
 		thread = gfxThreadCreate(0, 0x200, LOW_PRIORITY, task, 0);
 	} else if (run) {
-		run = FALSE;
+		run = gFalse;
 		gfxThreadWait(thread);
 		gfxYield();
 	}

@@ -31,29 +31,8 @@
 /* Type definitions                                                          */
 /*===========================================================================*/
 
-typedef unsigned char	bool_t;
-
-#if 0
-	// Already defined by Arduino
-	typedef signed char		int8_t;
-	typedef unsigned char	uint8_t;
-	typedef signed short	int16_t;
-	typedef unsigned short	uint16_t;
-	typedef signed int		int32_t;
-	typedef unsigned int	uint32_t;
-	typedef uint32_t		size_t;
-#endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-	void gfxHalt(const char *msg);
-	void gfxExit(void);
-
-#ifdef __cplusplus
-}
-#endif
+void gfxHalt(const char *msg);
+void gfxExit(void);
 
 /*===========================================================================*/
 /* Use the generic thread handling and heap handling                         */

@@ -38,10 +38,6 @@ typedef struct GGL3DObject {
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief   Create a gl3d window.
  * @return  NULL if there is no resultant drawing area, otherwise a window handle.
@@ -63,10 +59,6 @@ GHandle gwinGGL3DCreate(GDisplay *g, GGL3DObject *gg, const GWindowInit *pInit);
 
 /* Include the gl interface */
 #include "../../3rdparty/tinygl-0.4-ugfx/include/GL/gl.h"
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif	/* _GWIN_GL3D_H */
 /** @} */

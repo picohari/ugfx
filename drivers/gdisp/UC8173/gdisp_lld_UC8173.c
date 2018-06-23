@@ -28,7 +28,7 @@ typedef struct UC8173Lut {
 	uint8_t const *lutVCOM;				// 32 bytes
 	uint8_t const *lutFW;				// 512 bytes
 	uint8_t const *lutFT;				// 128 bytes
-	bool_t	regal;
+	gBool	regal;
 	} UC8173Lut;
 
 #include "board_UC8173.h"
@@ -125,14 +125,14 @@ typedef struct UC8173_Private {
 	};	
 #endif
 	
-LLDSPEC bool_t gdisp_lld_init(GDisplay* g)
+LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 {
 	UC8173_Private	*priv;
 	
 	// Allocate the private area
 	g->priv = gfxAlloc(sizeof(UC8173_Private));
 	if (!g->priv)
-		return FALSE;
+		return gFalse;
 	priv = (UC8173_Private *)g->priv;
 
 	// Initialize the private area
@@ -142,12 +142,12 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay* g)
 
 	// Initialise the board interface
 	if (!init_board(g))
-		return FALSE;
+		return gFalse;
 
 	// Hardware reset
-	setpin_reset(g, FALSE);
+	setpin_reset(g, gTrue);
 	gfxSleepMilliseconds(100);
-	setpin_reset(g, TRUE);
+	setpin_reset(g, gFalse);
 	gfxSleepMilliseconds(300);
 
 	// Acquire the bus
@@ -303,7 +303,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay* g)
 	g->g.Backlight = 0;
 	g->g.Contrast = 0;
 
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_FLUSH

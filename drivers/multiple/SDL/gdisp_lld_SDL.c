@@ -40,8 +40,8 @@
 	#include "../../../src/ginput/ginput_driver_mouse.h"
 
 	// Forward definitions
-	static bool_t SDL_MouseInit(GMouse *m, unsigned driverinstance);
-	static bool_t SDL_MouseRead(GMouse *m, GMouseReading *prd);
+	static gBool SDL_MouseInit(GMouse *m, unsigned driverinstance);
+	static gBool SDL_MouseRead(GMouse *m, GMouseReading *prd);
 	const GMouseVMT GMOUSE_DRIVER_VMT[1] = {{
 		{
 			GDRIVER_TYPE_MOUSE,
@@ -78,7 +78,7 @@
 	#include "../../../src/ginput/ginput_driver_keyboard.h"
 
 	// Forward definitions
-	static bool_t SDL_KeyboardInit(GKeyboard *k, unsigned driverinstance);
+	static gBool SDL_KeyboardInit(GKeyboard *k, unsigned driverinstance);
 	static int SDL_KeyboardGetData(GKeyboard *k, uint8_t *pch, int sz);
 
 	const GKeyboardVMT GKEYBOARD_DRIVER_VMT[1] = {{
@@ -366,7 +366,7 @@ void sdl_driver_init (void) {
 }
 
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	g->board = 0;					// No board interface for this driver
 
 #if GINPUT_NEED_MOUSE
@@ -380,7 +380,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
 
-	return TRUE;
+	return gTrue;
 }
 
 
@@ -433,29 +433,29 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g)
 #endif
 
 #if GINPUT_NEED_MOUSE
-	static bool_t SDL_MouseInit(GMouse *m, unsigned driverinstance) {
+	static gBool SDL_MouseInit(GMouse *m, unsigned driverinstance) {
 		mouse = m;
 		(void)	driverinstance;
-		return TRUE;
+		return gTrue;
 	}
 
-	static bool_t SDL_MouseRead(GMouse *m, GMouseReading *pt) {
+	static gBool SDL_MouseRead(GMouse *m, GMouseReading *pt) {
 		(void)	m;
 		if (!context)
-			return FALSE;
+			return gFalse;
 		pt->x = context->mousex;
 		pt->y = context->mousey;
 		pt->z = (context->buttons & GINPUT_MOUSE_BTN_LEFT) ? 1 : 0;
 		pt->buttons = context->buttons;
-		return TRUE;
+		return gTrue;
 	}
 #endif /* GINPUT_NEED_MOUSE */
 
 #if GINPUT_NEED_KEYBOARD
-	static bool_t SDL_KeyboardInit(GKeyboard *k, unsigned driverinstance) {
+	static gBool SDL_KeyboardInit(GKeyboard *k, unsigned driverinstance) {
 		keyboard = k;
 		(void)	driverinstance;
-		return TRUE;
+		return gTrue;
 	}
 
 	static int SDL_KeyboardGetData(GKeyboard *k, uint8_t *pch, int sz) {

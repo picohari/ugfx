@@ -165,7 +165,7 @@ static GFXINLINE void post_init_board(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE void setpin_reset(GDisplay *g, bool_t state) {
+static GFXINLINE void setpin_reset(GDisplay *g, gBool state) {
 	(void) g;
 #if RA6963_HAS_RESET  //Make Hardware Reset
 	if (state)
@@ -199,7 +199,7 @@ static GFXINLINE void release_bus(GDisplay *g) {
 
 
 #if RA6963_NEED_READ
-static GFXINLINE uint8_t RA6963_busy_wait(uint8_t pattern, bool_t lh){
+static GFXINLINE uint8_t RA6963_busy_wait(uint8_t pattern, gBool lh){
 
   uint8_t data;
   int ii;

@@ -72,7 +72,7 @@ int main(void) {
 	cx = -0.086f;
 	cy = 0.85f;
 
-	while(TRUE) {
+	while(1) {
 		mandelbrot(-2.0f*zoom+cx, -1.5f*zoom+cy, 2.0f*zoom+cx, 1.5f*zoom+cy);
 
 		zoom *= 0.7f;

@@ -225,10 +225,6 @@ extern GDisplay	*GDISP;
  */
 typedef color_t		pixel_t;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* Color Utility Functions */
 
 /**
@@ -445,7 +441,7 @@ void gdispGFillArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
  *			non-byte boundary (no end-of-line padding).
  * @note	If GDISP_NEED_ASYNC is defined then the buffer must be static
  * 			or at least retained until this call has finished the blit. You can
- * 			tell when all graphics drawing is finished by @p gdispIsBusy() going FALSE.
+ * 			tell when all graphics drawing is finished by @p gdispIsBusy() going gFalse.
  *
  * @param[in] g 		The display to use
  * @param[in] x,y		The start position
@@ -902,7 +898,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	 *
 	 * @api
 	 */
-	void gdispGDrawThickLine(GDisplay *g, coord_t x0, coord_t y0, coord_t x1, coord_t y1, color_t color, coord_t width, bool_t round);
+	void gdispGDrawThickLine(GDisplay *g, coord_t x0, coord_t y0, coord_t x1, coord_t y1, color_t color, coord_t width, gBool round);
 	#define gdispDrawThickLine(x0,y0,x1,y1,c,w,r)			gdispGDrawThickLine(GDISP,x0,y0,x1,y1,c,w,r)
 #endif
 
@@ -1109,14 +1105,14 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	
 	/**
 	 * @brief	Add a font permanently to the font list.
-	 * @returns	TRUE on success. Reasons it may fail: out of memory, if it is already on the list, it is not a font loaded in RAM.
+	 * @returns	gTrue on success. Reasons it may fail: out of memory, if it is already on the list, it is not a font loaded in RAM.
 	 * @pre		GDISP_NEED_TEXT must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] font		The font to add to the font list.
 	 *
 	 * @api
 	 */
-	bool_t gdispAddFont(font_t font);
+	gBool gdispAddFont(font_t font);
 #endif
 
 /* Extra Arc Functions */
@@ -1224,10 +1220,6 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
  */
 #define gdispGUnsetClip(g)							gdispGSetClip((g),0,0,gdispGGetWidth(g),gdispGGetHeight(g))
 #define gdispUnsetClip()							gdispGUnsetClip(GDISP)
-
-#ifdef __cplusplus
-}
-#endif
 
 #if GDISP_NEED_IMAGE || defined(__DOXYGEN__)
 	#include "gdisp_image.h"

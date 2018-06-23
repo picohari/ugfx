@@ -145,13 +145,13 @@ threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
 	void gfxSemDestroy(gfxSem *pSem) {
 		sem_destroy(&pSem->sem);
 	}
-	bool_t gfxSemWait(gfxSem *pSem, delaytime_t ms) {
+	gBool gfxSemWait(gfxSem *pSem, delaytime_t ms) {
 		switch (ms) {
 		case TIME_INFINITE:
-			return sem_wait(&pSem->sem) ? FALSE : TRUE;
+			return sem_wait(&pSem->sem) ? gFalse : gTrue;
 
 		case TIME_IMMEDIATE:
-			return sem_trywait(&pSem->sem) ? FALSE : TRUE;
+			return sem_trywait(&pSem->sem) ? gFalse : gTrue;
 
 		default:
 			{
@@ -160,7 +160,7 @@ threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
 				clock_gettime(CLOCK_REALTIME, &tm);
 				tm.tv_sec += ms / 1000;
 				tm.tv_nsec += (ms % 1000) * 1000000;
-				return sem_timedwait(&pSem->sem, &tm) ? FALSE : TRUE;
+				return sem_timedwait(&pSem->sem, &tm) ? gFalse : gTrue;
 			}
 		}
 	}
@@ -185,7 +185,7 @@ threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
 		pthread_mutex_destroy(&pSem->mtx);
 		pthread_cond_destroy(&pSem->cond);
 	}
-	bool_t gfxSemWait(gfxSem *pSem, delaytime_t ms) {
+	gBool gfxSemWait(gfxSem *pSem, delaytime_t ms) {
 		pthread_mutex_lock(&pSem->mtx);
 
 		switch (ms) {
@@ -197,7 +197,7 @@ threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
 			case TIME_IMMEDIATE:
 				if (!pSem->cnt) {
 					pthread_mutex_unlock(&pSem->mtx);
-					return FALSE;
+					return gFalse;
 				}
 				break;
 
@@ -211,11 +211,11 @@ threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
 					while (!pSem->cnt) {
 						// We used to test the return value for ETIMEDOUT. This doesn't
 						//	work in some current pthread libraries which return -1 instead
-						//	and set errno to ETIMEDOUT. So, we will return FALSE on any error
+						//	and set errno to ETIMEDOUT. So, we will return gFalse on any error
 						//	including a ETIMEDOUT.
 						if (pthread_cond_timedwait(&pSem->cond, &pSem->mtx, &tm)) {
 							pthread_mutex_unlock(&pSem->mtx);
-							return FALSE;
+							return gFalse;
 						}
 					}
 				}
@@ -224,7 +224,7 @@ threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
 
 		pSem->cnt--;
 		pthread_mutex_unlock(&pSem->mtx);
-		return TRUE;
+		return gTrue;
 	}
 	void gfxSemSignal(gfxSem *pSem) {
 		pthread_mutex_lock(&pSem->mtx);

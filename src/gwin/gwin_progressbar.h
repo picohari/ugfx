@@ -36,10 +36,6 @@ typedef struct GProgressbarObject {
 	#endif
 } GProgressbarObject;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief   Create a progressbar window.
  * @return  NULL if there is no resultant drawing area, otherwise a window handle.
@@ -220,10 +216,6 @@ void gwinProgressbarDraw_Std(GWidgetObject *gw, void *param);
 	void gwinProgressbarDraw_Image(GWidgetObject *gw, void *param);
 #endif /* GDISP_NEED_IMAGE */
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _GWIN_PROGRESSBAR_H */
 /** @} */

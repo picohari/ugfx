@@ -53,7 +53,7 @@
 
 #define GDISP_SCREEN_BYTES ((GDISP_TLS8204_WIDTH * GDISP_TLS8204_HEIGHT) / 8)
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	// The private area is the display surface.
 	if (!(g->priv = gfxAlloc(GDISP_SCREEN_BYTES)))
 		gfxHalt("GDISP TLS8204: Failed to allocate private memory");
@@ -62,9 +62,9 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	init_board(g);
 
 	// Hardware reset
-	setpin_reset(g, TRUE);
+	setpin_reset(g, gTrue);
 	gfxSleepMilliseconds(100);
-	setpin_reset(g, FALSE);
+	setpin_reset(g, gFalse);
 	gfxSleepMilliseconds(100);
 
 	acquire_bus(g);
@@ -105,7 +105,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
 
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_FLUSH

@@ -139,7 +139,7 @@ repeatplay:
 	len += 20;
 
 	// Read RIFF blocks until we get to the data RIFF block (contains the audio)
-	while(TRUE) {
+	while(1) {
 		if (gfileRead(f, whdr, 8) != 8) {
 			errmsg = "Err: Read block";
 			goto theend;
@@ -196,6 +196,6 @@ theend:
 	if (errmsg)
 		gdispDrawString(0, gdispGetHeight()/2, errmsg, font, GFX_RED);
 
-	while(TRUE)
+	while(1)
 		gfxSleepMilliseconds(1000);
 }

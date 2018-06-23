@@ -85,11 +85,11 @@ typedef struct GMouseVMT {
 	GMouseJitter	pen_jitter;								// PEN MODE: Jitter settings
 	GMouseJitter	finger_jitter;							// FINGER MODE: Jitter settings
 
-	bool_t	(*init)(GMouse *m, unsigned driverinstance);	// Required
+	gBool	(*init)(GMouse *m, unsigned driverinstance);	// Required
 	void	(*deinit)(GMouse *m);							// Optional
-	bool_t	(*get)(GMouse *m, GMouseReading *prd);			// Required
+	gBool	(*get)(GMouse *m, GMouseReading *prd);			// Required
 	void	(*calsave)(GMouse *m, const void *buf, size_t sz);	// Optional
-	bool_t	(*calload)(GMouse *m, void *buf, size_t sz);	// Optional
+	gBool	(*calload)(GMouse *m, void *buf, size_t sz);	// Optional
 } GMouseVMT;
 
 #define gmvmt(m)		((const GMouseVMT const *)((m)->d.vmt))
@@ -115,13 +115,13 @@ extern "C" {
 	 * @param[in] driverinstance	The driver instance		ToDo: Add some more details
 	 * @param[in] systeminstance	The mouse instance		ToDo: Add some more details
 	 *
-	 * @return	TRUE on success, FALSE otherwise
+	 * @return	gTrue on success, gFalse otherwise
 	 * @note	This routine is provided by the high level code for
 	 * 			use in the driver VMT's GMouseVMT.d structure.
 	 *
 	 * @notapi
 	 */
-	bool_t _gmouseInitDriver(GDriver *g, void *display, unsigned driverinstance, unsigned systeminstance);
+	gBool _gmouseInitDriver(GDriver *g, void *display, unsigned driverinstance, unsigned systeminstance);
 
 	/**
 	 * @brief	Routine that is called after initialization

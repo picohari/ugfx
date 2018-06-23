@@ -105,7 +105,7 @@ GHandle gwinGLabelCreate(GDisplay *g, GLabelObject *widget, GWidgetInit *pInit) 
 	return (GHandle)widget;
 }
 
-void gwinLabelSetBorder(GHandle gh, bool_t border) {
+void gwinLabelSetBorder(GHandle gh, gBool border) {
 	// is it a valid handle?
 	if (gh->vmt != (gwinVMT *)&labelVMT)
 		return;

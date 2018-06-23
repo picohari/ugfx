@@ -58,7 +58,7 @@ void gfxEmulatorSetParentWindow(void *hwnd);
 	void gfxEmulatorMouseInject(GDisplay *g, uint16_t buttons, coord_t x, coord_t y);
 
 	// This function enables you to turn on/off normal mouse functions on a ugfx Win32 display window.
-	void gfxEmulatorMouseEnable(GDisplay *g, bool_t enabled);
+	void gfxEmulatorMouseEnable(GDisplay *g, gBool enabled);
 
 	// This function enables you to capture mouse events on a ugfx Win32 display window.
 	// Passing NULL turns off the capture

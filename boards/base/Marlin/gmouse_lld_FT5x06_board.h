@@ -32,13 +32,13 @@ static const I2CConfig i2ccfg2 = {
     FAST_DUTY_CYCLE_2,
 };
 
-static bool_t init_board(GMouse* m, unsigned driverinstance) {
+static gBool init_board(GMouse* m, unsigned driverinstance) {
 	(void)		m;
 
 	// We only support one of these on this board
 	if (driverinstance)
-		return FALSE;
-	return TRUE;
+		return gFalse;
+	return gTrue;
 }
 
 static GFXINLINE void aquire_bus(GMouse* m) {

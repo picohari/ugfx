@@ -89,10 +89,10 @@ void gwinScopeWaitForTrace(GHandle gh) {
 	GDataBuffer		*pd;
 	uint8_t			shr;
 #if TRIGGER_METHOD == TRIGGER_POSITIVERAMP
-	bool_t			rdytrigger;
+	gBool			rdytrigger;
 	int				flsamples;
 #elif TRIGGER_METHOD == TRIGGER_MINVALUE
-	bool_t			rdytrigger;
+	gBool			rdytrigger;
 	int				flsamples;
 	coord_t			scopemin;
 #endif
@@ -116,10 +116,10 @@ void gwinScopeWaitForTrace(GHandle gh) {
 	pc = gs->lastscopetrace+x;
 	pa = (adcsample_t *)(pd+1);
 #if TRIGGER_METHOD == TRIGGER_POSITIVERAMP
-	rdytrigger = FALSE;
+	rdytrigger = gFalse;
 	flsamples = 0;
 #elif TRIGGER_METHOD == TRIGGER_MINVALUE
-	rdytrigger = FALSE;
+	rdytrigger = gFalse;
 	flsamples = 0;
 	scopemin = 0;
 #endif
@@ -144,7 +144,7 @@ void gwinScopeWaitForTrace(GHandle gh) {
 			#if TRIGGER_METHOD == TRIGGER_MINVALUE
 				/* Arm when we reach the sample minimum (y value maximum) of the previous trace */
 				if (!rdytrigger && y >= gs->scopemin)
-					rdytrigger = TRUE;
+					rdytrigger = gTrue;
 			#endif
 
 			if (y == gs->lasty) {
@@ -157,7 +157,7 @@ void gwinScopeWaitForTrace(GHandle gh) {
 				flsamples = 0;
 				#if TRIGGER_METHOD == TRIGGER_POSITIVERAMP
 					/* Arm the trigger when samples fall (y increases) ie. negative slope */
-					rdytrigger = TRUE;
+					rdytrigger = gTrue;
 				#endif
 				continue;
 			} else {
@@ -169,7 +169,7 @@ void gwinScopeWaitForTrace(GHandle gh) {
 			}
 
 			/* Ready for a the next trigger cycle */
-			rdytrigger = FALSE;
+			rdytrigger = gFalse;
 #endif
 
 			/* Prepare for a scope trace */

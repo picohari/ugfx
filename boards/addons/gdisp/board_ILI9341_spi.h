@@ -83,14 +83,14 @@ static GFXINLINE void post_init_board(GDisplay *g) {
  * @brief   Set or clear the lcd reset pin.
  *
  * @param[in] g			The GDisplay structure
- * @param[in] state		TRUE = lcd in reset, FALSE = normal operation
+ * @param[in] state		gTrue = lcd in reset, gFalse = normal operation
  * 
  * @notapi
  */
-static GFXINLINE void setpin_reset(GDisplay *g, bool_t state) {
+static GFXINLINE void setpin_reset(GDisplay *g, gBool state) {
 	(void) g;
 
-	if (state == TRUE) {
+	if (state) {
 		palClearPad(LCD_PORT, LCD_RES);
 	} else {
 		palSetPad(LCD_PORT, LCD_RES);

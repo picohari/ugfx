@@ -44,9 +44,9 @@ int main(void) {
     	GWindowInit	wi;
 
 		gwinClearInit(&wi);
-    	wi.show = TRUE; wi.x = 20; wi.y = 10; wi.width = 200; wi.height = 150;
+    	wi.show = gTrue; wi.x = 20; wi.y = 10; wi.width = 200; wi.height = 150;
         GW1 = gwinWindowCreate(0, &wi);
-    	wi.show = TRUE; wi.x = 50; wi.y = 190; wi.width = 150; wi.height = 100;
+    	wi.show = gTrue; wi.x = 50; wi.y = 190; wi.width = 150; wi.height = 100;
         GW2 = gwinWindowCreate(0, &wi);
     }
 
@@ -72,7 +72,7 @@ int main(void) {
     gwinFillCircle(GW1, 20, 20, 15);
     gwinFillCircle(GW2, 20, 20, 15);
 
-    while(TRUE) {
+    while(1) {
     	gfxSleepMilliseconds(500);
     }   
 }

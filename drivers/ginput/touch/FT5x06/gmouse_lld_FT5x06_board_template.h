@@ -25,7 +25,7 @@
 //			It requires the active area of the touch panel to exactly match the display size.
 #define GMOUSE_FT5x06_SELF_CALIBRATE			GFXOFF
 
-static bool_t init_board(GMouse* m, unsigned driverinstance) {
+static gBool init_board(GMouse* m, unsigned driverinstance) {
 }
 
 static GFXINLINE void aquire_bus(GMouse* m) {

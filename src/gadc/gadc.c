@@ -214,7 +214,7 @@ void gadcHighSpeedInit(uint32_t physdev, uint32_t frequency)
 #if GFX_USE_GEVENT
 	GSourceHandle gadcHighSpeedGetSource(void) {
 		if (!gtimerIsActive(&hsGTimer))
-			gtimerStart(&hsGTimer, HighSpeedGTimerCallback, 0, TRUE, TIME_INFINITE);
+			gtimerStart(&hsGTimer, HighSpeedGTimerCallback, 0, gTrue, TIME_INFINITE);
 		hsFlags |= GADC_HSADC_GTIMER;
 		return (GSourceHandle)&hsGTimer;
 	}
@@ -319,16 +319,16 @@ void gadcLowSpeedGet(uint32_t physdev, adcsample_t *buffer) {
 	gfxSemDestroy(&ndata.sigdone);
 }
 
-bool_t gadcLowSpeedStart(uint32_t physdev, adcsample_t *buffer, GADCCallbackFunction fn, void *param) {
+gBool gadcLowSpeedStart(uint32_t physdev, adcsample_t *buffer, GADCCallbackFunction fn, void *param) {
 	NonTimerData *pdata;
 
 	/* Start the Low Speed Timer */
 	if (!gtimerIsActive(&lsGTimer))
-		gtimerStart(&lsGTimer, LowSpeedGTimerCallback, 0, TRUE, TIME_INFINITE);
+		gtimerStart(&lsGTimer, LowSpeedGTimerCallback, 0, gTrue, TIME_INFINITE);
 
 	// Prepare the job
 	if (!(pdata = gfxAlloc(sizeof(NonTimerData))))
-		return FALSE;
+		return gFalse;
 	pdata->job.physdev = physdev;
 	pdata->job.buffer = buffer;
 	pdata->callback = fn;
@@ -347,7 +347,7 @@ bool_t gadcLowSpeedStart(uint32_t physdev, adcsample_t *buffer, GADCCallbackFunc
 		gfxQueueGSyncPutI(&lsListToDo, (gfxQueueGSyncItem *)pdata);
 	}
 	gfxSystemUnlock();
-	return TRUE;
+	return gTrue;
 }
 
 #endif /* GFX_USE_GADC */

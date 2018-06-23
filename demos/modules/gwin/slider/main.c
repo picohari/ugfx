@@ -37,7 +37,7 @@ static void createWidgets(void) {
 
 	// Apply some default values for GWIN
 	gwinWidgetClearInit(&wi);
-	wi.g.show = TRUE;
+	wi.g.show = gTrue;
 
 	// create Slider1
 	wi.g.y = 10; wi.g.x = 10; wi.g.width = gdispGetWidth()-20; wi.g.height = 20; wi.text = "S1";
@@ -48,7 +48,7 @@ static void createWidgets(void) {
 	ghSlider2 = gwinSliderCreate(0, &wi);
 
 	// Set slider 2 to return extended events
-	gwinSliderSendExtendedEvents(ghSlider2, TRUE);
+	gwinSliderSendExtendedEvents(ghSlider2, gTrue);
 
 	// Some options to try
 	//gwinSliderSetRange(ghSlider1, 0, 70000);
@@ -69,7 +69,7 @@ int main(void) {
 
 	// Set the widget defaults
 	gwinSetDefaultFont(gdispOpenFont("UI2"));
-	gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
+	gwinSetDefaultStyle(&WhiteWidgetStyle, gFalse);
 	gdispClear(GFX_WHITE);
 
 	// create the widget

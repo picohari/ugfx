@@ -53,7 +53,7 @@ static gfxThreadHandle			nThd;
 static GHandle					ncoreDrawingArea = NULL;
 static GHandle					nStatusConsole = NULL;
 
-static volatile bool_t			doExit;
+static volatile gBool			doExit;
 
 static void draw_point(coord_t x, coord_t y) {
   color_t c = ncoreDrawingArea->color;
@@ -204,7 +204,7 @@ void ncoreSpawnDrawThread(GHandle drawingArea, GHandle statusConsole) {
 
   ncoreDrawingArea = drawingArea;
   nStatusConsole = statusConsole;
-  doExit = FALSE;
+  doExit = gFalse;
 
   nThd = gfxThreadCreate(waDrawThread,
                            sizeof(waDrawThread),
@@ -216,7 +216,7 @@ void ncoreSpawnDrawThread(GHandle drawingArea, GHandle statusConsole) {
 
 /* Terminate the core thread, wait for control release */
 void ncoreTerminateDrawThread(void) {
-  doExit = TRUE;
+  doExit = gTrue;
   gfxThreadWait(nThd);
   nThd = 0;
 }

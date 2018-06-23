@@ -35,7 +35,7 @@ typedef struct fbPriv {
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 	// Initialize the private structure
 	if (!(g->priv = gfxAlloc(sizeof(fbPriv))))
@@ -49,7 +49,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->board = 0;							// preinitialize
 	board_init(g, &((fbPriv *)g->priv)->fbi);
 
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_FLUSH

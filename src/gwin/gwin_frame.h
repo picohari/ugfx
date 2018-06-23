@@ -50,10 +50,6 @@
 
 typedef GContainerObject GFrameObject;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief				Create a frame widget
  *
@@ -137,10 +133,6 @@ void gwinFrameDraw_Transparent(GWidgetObject *gw, void *param);
 	void gwinFrameDraw_Image(GWidgetObject *gw, void *param);
 #endif /* GDISP_NEED_IMAGE */
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _GWIN_FRAME_H */
 /** @} */

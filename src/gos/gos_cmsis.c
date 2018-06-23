@@ -61,16 +61,16 @@ void gfxSemDestroy(gfxSem* psem)
 	osSemaphoreDelete(psem->id);
 }
 
-bool_t gfxSemWait(gfxSem* psem, delaytime_t ms)
+gBool gfxSemWait(gfxSem* psem, delaytime_t ms)
 {
 	if (osSemaphoreWait(psem->id, ms) > 0) {
 		psem->available++;
-		return TRUE;
+		return gTrue;
 	}
-	return FALSE;
+	return gFalse;
 }
 
-bool_t gfxSemWaitI(gfxSem* psem)
+gBool gfxSemWaitI(gfxSem* psem)
 {
 	return gfxSemWait(psem, 0);
 }

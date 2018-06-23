@@ -77,10 +77,6 @@ typedef struct GSourceListener_t {
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* How to listen for events (act as a Listener)...
 	1. Get handles for all the event sources you are interested in.
 	2. Initialise a listener
@@ -97,7 +93,7 @@ extern "C" {
 			For each listener	- check the flags to see if an event should be sent.
 								- use geventGetEventBuffer() to get the event buffer supplied by the listener
 									and then call geventSendEvent() to send the event.
-								- Note: geventGetEventBuffer() may return FALSE to indicate the listener is currently not listening and
+								- Note: geventGetEventBuffer() may return gFalse to indicate the listener is currently not listening and
 									therefore no event should be sent. This situation enables the source to (optionally) flag
 									to the listener on its next wait that there have been missed events.
 								- Note: The GSourceListener pointer (and the GEvent buffer) are only valid between
@@ -121,16 +117,16 @@ void geventListenerInit(GListener *pl);
  * @brief 	Attach a source to a listener
  * @details	Flags are interpreted by the source when generating events for each listener.
  *			If this source is already assigned to the listener it will update the flags.
- *			If insufficient resources are available it will either assert or return FALSE
+ *			If insufficient resources are available it will either assert or return gFalse
  *			depending on the value of GEVENT_ASSERT_NO_RESOURCE.
  *
  * @param[in] pl	The listener
  * @param[in] gsh	The source which has to be attached to the listener
  * @param[in] flags	The flags
  *
- * @return TRUE if succeeded, FALSE otherwise
+ * @return gTrue if succeeded, gFalse otherwise
  */
-bool_t geventAttachSource(GListener *pl, GSourceHandle gsh, uint32_t flags);
+gBool geventAttachSource(GListener *pl, GSourceHandle gsh, uint32_t flags);
 
 /**
  * @brief	Detach a source from a listener
@@ -235,10 +231,6 @@ void geventSendEvent(GSourceListener *psl);
  * @param[in] gsh	The source handle
  */
 void geventDetachSourceListeners(GSourceHandle gsh);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GFX_USE_GEVENT */
 

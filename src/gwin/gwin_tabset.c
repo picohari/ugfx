@@ -108,7 +108,7 @@ static const gcontainerVMT tabpageVMT = {
 	0,									// A child has been deleted (optional)
 };
 
-void gwinTabsetSetTitle(GHandle gh, const char *title, bool_t useAlloc) {
+void gwinTabsetSetTitle(GHandle gh, const char *title, gBool useAlloc) {
 	if (gh->vmt != (gwinVMT *)&tabpageVMT)
 		return;
 
@@ -305,7 +305,7 @@ GHandle gwinGTabsetCreate(GDisplay *g, GTabsetObject *fo, GWidgetInit *pInit, ui
 // API calls
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-GHandle gwinTabsetAddTab(GHandle gh, const char *title, bool_t useAlloc) {
+GHandle gwinTabsetAddTab(GHandle gh, const char *title, gBool useAlloc) {
 	GWidgetInit		wi;
 
 	if (gh->vmt != (gwinVMT *)&tabsetVMT)

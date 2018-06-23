@@ -74,7 +74,7 @@ int main(void) {
 		GWindowInit	wi;
 
 		gwinClearInit(&wi);
-		wi.show = TRUE;
+		wi.show = gTrue;
 		wi.x = wi.y = 0;
 		wi.width = swidth; wi.height = sheight;
 		ghScope = gwinScopeCreate(&gScopeWindow, &wi, MY_AUDIO_CHANNEL, MY_AUDIO_FREQUENCY, MY_AUDIO_FORMAT);
@@ -84,7 +84,7 @@ int main(void) {
 	gwinClear(ghScope);
 
 	/* Just keep displaying the scope traces */
-	while (TRUE) {
+	while (1) {
 		gwinScopeWaitForTrace(ghScope);
 	}
 }

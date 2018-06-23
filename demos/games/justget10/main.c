@@ -21,7 +21,7 @@ int main(void)
     gdispCloseFont(font);
 #endif
 
-    while (TRUE) {
+    while (1) {
         ginputGetMouseStatus(0, &ev);
         if (ev.buttons & GINPUT_MOUSE_BTN_LEFT) {
             while (ev.buttons & GINPUT_MOUSE_BTN_LEFT) {            // Wait until release

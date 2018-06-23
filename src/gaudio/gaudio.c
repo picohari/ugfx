@@ -76,13 +76,13 @@ void _gaudioDeinit(void)
 
 #if GAUDIO_NEED_PLAY
 
-	bool_t gaudioPlayInit(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
+	gBool gaudioPlayInit(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
 		gaudioPlayStop();
 		playFlags &= ~PLAYFLG_ISINIT;
 		if (!gaudio_play_lld_init(channel, frequency, format))
-			return FALSE;
+			return gFalse;
 		playFlags |= PLAYFLG_ISINIT;
-		return TRUE;
+		return gTrue;
 	}
 
 	void gaudioPlay(GDataBuffer *pd) {
@@ -115,13 +115,13 @@ void _gaudioDeinit(void)
 			gfxBufferRelease(pd);
 	}
 
-	bool_t gaudioPlaySetVolume(uint8_t vol) {
+	gBool gaudioPlaySetVolume(uint8_t vol) {
 		return gaudio_play_lld_set_volume(vol);
 	}
 
-	bool_t gaudioPlayWait(delaytime_t ms) {
+	gBool gaudioPlayWait(delaytime_t ms) {
 		if (!(playFlags & PLAYFLG_PLAYING))
-			return TRUE;
+			return gTrue;
 		return gfxSemWait(&playComplete, ms);
 	}
 
@@ -152,7 +152,7 @@ void _gaudioDeinit(void)
 
 		GSourceHandle gaudioPlayGetSource(void) {
 			if (!gtimerIsActive(&playTimer))
-				gtimerStart(&playTimer, PlayTimerCallback, 0, TRUE, TIME_INFINITE);
+				gtimerStart(&playTimer, PlayTimerCallback, 0, gTrue, TIME_INFINITE);
 			playFlags |= PLAYFLG_USEEVENTS;
 			return (GSourceHandle)&playTimer;
 		}
@@ -185,13 +185,13 @@ void _gaudioDeinit(void)
 #endif
 
 #if GAUDIO_NEED_RECORD
-	bool_t gaudioRecordInit(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
+	gBool gaudioRecordInit(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
 		gaudioRecordStop();
 		recordFlags &= ~RECORDFLG_ISINIT;
 		if (!gaudio_record_lld_init(channel, frequency, format))
-			return FALSE;
+			return gFalse;
 		recordFlags |= RECORDFLG_ISINIT;
-		return TRUE;
+		return gTrue;
 	}
 
 	void gaudioRecordStart(void) {
@@ -245,7 +245,7 @@ void _gaudioDeinit(void)
 
 		GSourceHandle gaudioRecordGetSource(void) {
 			if (!gtimerIsActive(&recordTimer))
-				gtimerStart(&recordTimer, RecordTimerCallback, 0, TRUE, TIME_INFINITE);
+				gtimerStart(&recordTimer, RecordTimerCallback, 0, gTrue, TIME_INFINITE);
 			recordFlags |= RECORDFLG_USEEVENTS;
 			return (GSourceHandle)&recordTimer;
 		}

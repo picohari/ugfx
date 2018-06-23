@@ -135,9 +135,9 @@ static font_t					font;
 /**
  * Get a whole packet of data.
  * Len is specified in the number of uint16_t's we want as our protocol only talks uint16_t's.
- * If the connection closes before we get all the data - the call returns FALSE.
+ * If the connection closes before we get all the data - the call returns gFalse.
  */
-static bool_t getpkt(uint16_t *pkt, int len) {
+static gBool getpkt(uint16_t *pkt, int len) {
 	int		got;
 	int		have;
 
@@ -149,22 +149,22 @@ static bool_t getpkt(uint16_t *pkt, int len) {
 		len -= got;
 	}
 	if (len)
-		return FALSE;
+		return gFalse;
 
 	// Convert each uint16_t to host order
 	for(got = 0, have /= 2; got < have; got++)
 		pkt[got] = ntohs(pkt[got]);
 
-	return TRUE;
+	return gTrue;
 }
 
 /**
  * Send a whole packet of data.
  * Len is specified in the number of uint16_t's we want to send as our protocol only talks uint16_t's.
  * Note that contents of the packet are modified to ensure it will cross the wire in the correct format.
- * If the connection closes before we send all the data - the call returns FALSE.
+ * If the connection closes before we send all the data - the call returns gFalse.
  */
-static bool_t sendpkt(uint16_t *pkt, int len) {
+static gBool sendpkt(uint16_t *pkt, int len) {
 	int		i;
 
 	// Convert each uint16_t to network order

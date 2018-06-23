@@ -71,7 +71,7 @@
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
     
 	// The private area is the display surface.
 	if (!(g->priv = gfxAlloc(GDISP_SCREEN_BYTES)))
@@ -85,9 +85,9 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	init_board(g);
 
 	// Hardware reset
-	setpin_reset(g, TRUE);
+	setpin_reset(g, gTrue);
 	gfxSleepMilliseconds(5);
-	setpin_reset(g, FALSE);
+	setpin_reset(g, gFalse);
 
 	acquire_bus(g);
 
@@ -111,7 +111,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Powermode = powerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_FLUSH

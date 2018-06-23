@@ -60,10 +60,6 @@ typedef struct GTabsetObject {
 	coord_t				border_top;
 	} GTabsetObject;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief				Create a tabset widget
  *
@@ -89,11 +85,11 @@ GHandle gwinGTabsetCreate(GDisplay *g, GTabsetObject *fo, GWidgetInit *pInit, ui
  *
  * @param[in] gh		The tabset handle
  * @param[in] title		The text to set. This must be a constant string unless useAlloc is set.
- * @param[in] useAlloc	If TRUE the string specified will be copied into dynamically allocated memory.
+ * @param[in] useAlloc	If gTrue the string specified will be copied into dynamically allocated memory.
  *
  * @api
  */
-GHandle gwinTabsetAddTab(GHandle gh, const char *title, bool_t useAlloc);
+GHandle gwinTabsetAddTab(GHandle gh, const char *title, gBool useAlloc);
 
 /**
  * @brief   			Delete a tab-page.
@@ -144,14 +140,14 @@ GHandle gwinTabsetGetTabByTitle(GHandle gh, const char *title);
  *
  * @param[in] gh		The tab-page handle (NB: Use the page handle NOT the tabset handle)
  * @param[in] title		The text to set. This must be a constant string unless useAlloc is set.
- * @param[in] useAlloc	If TRUE the string specified will be copied into dynamically allocated memory.
+ * @param[in] useAlloc	If gTrue the string specified will be copied into dynamically allocated memory.
  *
  * @note				This function should be used to change the text associated with a tab-page
  * 						rather than @p gwinSetText().
  *
  * @api
  */
-void gwinTabsetSetTitle(GHandle gh, const char *title, bool_t useAlloc);
+void gwinTabsetSetTitle(GHandle gh, const char *title, gBool useAlloc);
 
 /**
  * @brief   Get the title of a tab-page.
@@ -231,10 +227,6 @@ void gwinTabsetDraw_Transparent(GWidgetObject *gw, void *param);
 	void gwinTabsetDraw_Image(GWidgetObject *gw, void *param);
 #endif /* GDISP_NEED_IMAGE */
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _GWIN_TABSET_H */
 /** @} */

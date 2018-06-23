@@ -56,7 +56,7 @@
 //#define GDISP_SCREEN_BYTES ((GDISP_SCREEN_WIDTH * GDISP_SCREEN_HEIGHT) / 8)
 #define GDISP_MATRIX_BYTES ((GDISP_MATRIX_WIDTH * GDISP_MATRIX_HEIGHT) / 8) // real height 65 pixels, this fix 65 / 8 != 9
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	// The private area is the display surface.
 	if (!(g->priv = gfxAlloc(GDISP_MATRIX_BYTES)))
 		gfxHalt("GDISP PCF8812: Failed to allocate private memory");
@@ -65,9 +65,9 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	init_board(g);
 
 	// Hardware reset
-	setpin_reset(g, TRUE);
+	setpin_reset(g, gTrue);
 	gfxSleepMilliseconds(100);
-	setpin_reset(g, FALSE);
+	setpin_reset(g, gFalse);
 	gfxSleepMilliseconds(100);
 
 	acquire_bus(g);
@@ -101,7 +101,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
 
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_FLUSH

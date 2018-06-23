@@ -45,8 +45,8 @@ typedef struct LCD_Parameters {
 		#define LCD_PANEL_TYPE_SERIAL_RGB_MODE			((1<<6) << 8)				// Serial RGB mode
 		#define LCD_PANEL_TYPE_SERIAL_RGB_DUMMY_MODE	(((1<<5) | (1<<6)) << 8)	// Serial RGB+dummy mode
 
-	bool_t		flipHorz;						// Flipping the display horizontally
-	bool_t		flipVert;						// Flipping the display vertically
+	gBool		flipHorz;						// Flipping the display horizontally
+	gBool		flipVert;						// Flipping the display vertically
 } LCD_Parameters;
 
 #include "board_SSD1963.h"
@@ -149,7 +149,7 @@ static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	LCD_Parameters *	lcdp;
 
 /*
@@ -168,9 +168,9 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 
 	#if !GDISP_SSD1963_NO_INIT
 		// Hardware reset
-		setpin_reset(g, TRUE);
+		setpin_reset(g, gTrue);
 		gfxSleepMilliseconds(200);
-		setpin_reset(g, FALSE);
+		setpin_reset(g, gFalse);
 		gfxSleepMilliseconds(200);
 	#endif
 
@@ -271,7 +271,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Powermode = powerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_STREAM_WRITE

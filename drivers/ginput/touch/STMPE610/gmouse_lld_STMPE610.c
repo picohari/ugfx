@@ -57,9 +57,9 @@
  * 		The settling times. We have set these conservatively at 1ms.
  * 		The reading window. We set this to 16 just to reduce noise. High-res panels may need a lower value.
  */
-static bool_t MouseInit(GMouse* m, unsigned driverinstance) {
+static gBool MouseInit(GMouse* m, unsigned driverinstance) {
 	if (!init_board(m, driverinstance))
-		return FALSE;
+		return gFalse;
 
 	aquire_bus(m);
 
@@ -95,10 +95,10 @@ static bool_t MouseInit(GMouse* m, unsigned driverinstance) {
 	write_reg(m, STMPE610_REG_INT_CTRL, 0x01);		// Level interrupt, enable interrupts
 
 	release_bus(m);
-	return TRUE;
+	return gTrue;
 }
 
-static bool_t read_xyz(GMouse* m, GMouseReading* pdr)
+static gBool read_xyz(GMouse* m, GMouseReading* pdr)
 {
 	#if GMOUSE_STMPE610_TEST_MODE
 		static GMouseReading n;
@@ -133,14 +133,14 @@ static bool_t read_xyz(GMouse* m, GMouseReading* pdr)
 				write_reg(m, STMPE610_REG_INT_STA, 0xFF);
 			#endif
 			release_bus(m);
-			return TRUE;
+			return gTrue;
 		}
 
 	#else
 		// Is there a new sample or a touch transition
 		#if GMOUSE_STMPE610_GPIO_IRQPIN
 			if(!getpin_irq(m))
-				return FALSE;
+				return gFalse;
 		#endif
 
 		// Is there something in the fifo
@@ -157,7 +157,7 @@ static bool_t read_xyz(GMouse* m, GMouseReading* pdr)
 					write_reg(m, STMPE610_REG_INT_STA, 0xFF);
 				#endif
 				release_bus(m);
-				return TRUE;
+				return gTrue;
 			}
 
 			// No new result
@@ -165,7 +165,7 @@ static bool_t read_xyz(GMouse* m, GMouseReading* pdr)
 				write_reg(m, STMPE610_REG_INT_STA, 0xFF);
 			#endif
 			release_bus(m);
-			return FALSE;
+			return gFalse;
 		}
 
 	#endif
@@ -229,7 +229,7 @@ static bool_t read_xyz(GMouse* m, GMouseReading* pdr)
 		#endif
 	#endif
 
-	return TRUE;
+	return gTrue;
 }
 
 const GMouseVMT const GMOUSE_DRIVER_VMT[1] = {{

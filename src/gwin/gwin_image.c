@@ -108,7 +108,7 @@ static void ImageRedraw(GHandle gh) {
 			// Fall through
 		default:
 			// Start the timer to draw the next frame of the animation
-			gtimerStart(&gw->timer, ImageTimer, (void*)gh, FALSE, delay);
+			gtimerStart(&gw->timer, ImageTimer, (void*)gh, gFalse, delay);
 			break;
 		}
 	#endif
@@ -139,20 +139,20 @@ GHandle gwinGImageCreate(GDisplay *g, GImageObject *gobj, GWindowInit *pInit) {
 	return (GHandle)gobj;
 }
 
-bool_t gwinImageOpenGFile(GHandle gh, GFILE *f) {
+gBool gwinImageOpenGFile(GHandle gh, GFILE *f) {
 	// is it a valid handle?
 	if (gh->vmt != (gwinVMT *)&imageVMT)
-		return FALSE;
+		return gFalse;
 
 	if (gdispImageIsOpen(&gw->image))
 		gdispImageClose(&gw->image);
 
 	if ((gdispImageOpenGFile(&gw->image, f) & GDISP_IMAGE_ERR_UNRECOVERABLE))
-		return FALSE;
+		return gFalse;
 
 	_gwinUpdate(gh);
 
-	return TRUE;
+	return gTrue;
 }
 
 gdispImageError gwinImageCache(GHandle gh) {

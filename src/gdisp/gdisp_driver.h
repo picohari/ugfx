@@ -383,7 +383,7 @@ typedef struct GDISPVMT {
 	GDriverVMT	d;
 		#define GDISP_VFLG_DYNAMICONLY		0x0001		// This display should never be statically initialised
 		#define GDISP_VFLG_PIXMAP			0x0002		// This is a pixmap display
-	bool_t (*init)(GDisplay *g);
+	gBool (*init)(GDisplay *g);
 	void (*deinit)(GDisplay *g);
 	void (*writestart)(GDisplay *g);				// Uses p.x,p.y  p.cx,p.cy
 	void (*writepos)(GDisplay *g);					// Uses p.x,p.y
@@ -421,11 +421,11 @@ typedef struct GDISPVMT {
 
 	/**
 	 * @brief   Initialize the driver.
-	 * @return	TRUE if successful.
+	 * @return	gTrue if successful.
 	 * @param[in]	g					The driver structure
 	 * @param[out]	g->g				The driver must fill in the GDISPControl structure
 	 */
-	LLDSPEC	bool_t gdisp_lld_init(GDisplay *g);
+	LLDSPEC	gBool gdisp_lld_init(GDisplay *g);
 
 	#if GDISP_HARDWARE_DEINIT || defined(__DOXYGEN__)
 		/**
@@ -724,7 +724,7 @@ typedef struct GDISPVMT {
 	#ifdef __cplusplus
 	extern "C" {
 	#endif
-		bool_t _gdispInitDriver(GDriver *g, void *param, unsigned driverinstance, unsigned systeminstance);
+		gBool _gdispInitDriver(GDriver *g, void *param, unsigned driverinstance, unsigned systeminstance);
 		void _gdispPostInitDriver(GDriver *g);
 		void _gdispDeInitDriver(GDriver *g);
 	#ifdef __cplusplus

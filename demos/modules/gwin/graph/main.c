@@ -71,7 +71,7 @@ int main(void) {
     {
         GWindowInit wi;
  
-        wi.show = TRUE;
+        wi.show = gTrue;
         wi.x = wi.y = 0;
         wi.width = gdispGetWidth();
         wi.height = gdispGetHeight();
@@ -105,7 +105,7 @@ int main(void) {
     // Draw a set of points
     gwinGraphDrawPoints(gh, data, sizeof(data)/sizeof(data[0]));
 
-    while(TRUE) {
+    while(1) {
         gfxSleepMilliseconds(100);
     }
 }

@@ -75,7 +75,7 @@ static void set_viewport(GDisplay* g) {
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	// No private area for this controller
 	g->priv = 0;
 
@@ -83,11 +83,11 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	init_board(g);
 
 	/* Hardware reset */
-	setpin_reset(g, TRUE);
+	setpin_reset(g, gTrue);
 	gfxSleepMilliseconds(2);
-  setpin_reset(g, FALSE);
+  setpin_reset(g, gFalse);
   gfxSleepMilliseconds(10);
-  setpin_reset(g, TRUE);
+  setpin_reset(g, gTrue);
   gfxSleepMilliseconds(120);
 
 	/* Get the bus for the following initialisation commands */
@@ -194,7 +194,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
 
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_STREAM_WRITE

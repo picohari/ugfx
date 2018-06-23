@@ -33,11 +33,11 @@
 // If GFXON this is a really slow CPU and we should always clear the FIFO between reads.
 #define GMOUSE_STMPE610_SLOW_CPU				GFXOFF
 
-static bool_t init_board(GMouse* m, unsigned driverinstance) {
+static gBool init_board(GMouse* m, unsigned driverinstance) {
 }
 
 #if GMOUSE_STMPE610_GPIO_IRQPIN
-	static bool_t getpin_irq(GMouse* m) {
+	static gBool getpin_irq(GMouse* m) {
 
 	}
 #endif

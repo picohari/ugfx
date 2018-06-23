@@ -326,7 +326,7 @@ void gwinSliderSetPosition(GHandle gh, int pos) {
 	#undef gsw
 }
 
-void gwinSliderSendExtendedEvents(GHandle gh, bool_t enabled) {
+void gwinSliderSendExtendedEvents(GHandle gh, gBool enabled) {
 	if (gh->vmt != (gwinVMT *)&sliderVMT)
 		return;
 

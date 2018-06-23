@@ -26,19 +26,9 @@
 /*===========================================================================*/
 
 /**
- * bool_t,
- * int8_t, uint8_t,
- * int16_t, uint16_t,
- * int32_t, uint32_t,
- * size_t
- * TRUE, FALSE
  * TIME_IMMEDIATE, TIME_INFINITE
  * are already defined by ChibiOS
  */
-
-#if (CH_KERNEL_MAJOR == 3) || (CH_KERNEL_MAJOR == 4)
-	typedef char	bool_t;
-#endif
 
 typedef systime_t	delaytime_t;
 typedef systime_t	systemticks_t;
@@ -66,7 +56,7 @@ typedef tprio_t		threadpriority_t;
 #elif (CH_KERNEL_MAJOR == 3) || (CH_KERNEL_MAJOR == 4)
 	#undef DECLARE_THREAD_STACK
 	#define DECLARE_THREAD_STACK(a, b)  THD_WORKING_AREA(a, b)
-	
+
 	typedef struct {
 		semaphore_t	sem;
 		semcount_t	limit;
@@ -80,10 +70,6 @@ typedef tprio_t		threadpriority_t;
 /*===========================================================================*/
 /* Function declarations.                                                    */
 /*===========================================================================*/
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 // First the kernel version specific ones
 #if CH_KERNEL_MAJOR == 2
@@ -113,18 +99,14 @@ void gfxSleepMilliseconds(delaytime_t ms);
 void gfxSleepMicroseconds(delaytime_t ms);
 void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit);
 void gfxSemDestroy(gfxSem *psem);
-bool_t gfxSemWait(gfxSem *psem, delaytime_t ms);
-bool_t gfxSemWaitI(gfxSem *psem);
+gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
+gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
 gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadWait(thread)		chThdWait(thread)
 #define gfxThreadMe()				chThdSelf()
 #define gfxThreadClose(thread)		(void)thread
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GFX_USE_OS_CHIBIOS */
 #endif /* _GOS_CHIBIOS_H */

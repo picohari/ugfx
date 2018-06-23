@@ -53,7 +53,7 @@ static void TextEditRemoveChar(GHandle gh) {
 	gh2obj->w.text = p;
 }
 
-static bool_t TextEditAddChars(GHandle gh, unsigned cnt) {
+static gBool TextEditAddChars(GHandle gh, unsigned cnt) {
 	char		*p;
 	const char	*q;
 	unsigned	sz;
@@ -65,21 +65,21 @@ static bool_t TextEditAddChars(GHandle gh, unsigned cnt) {
 
 	if (!(gh->flags & GWIN_FLG_ALLOCTXT)) {
 		if (!(p = gfxAlloc(sz+cnt)))
-			return FALSE;
+			return gFalse;
 		memcpy(p, gh2obj->w.text, pos);
 		memcpy(p+pos+cnt, gh2obj->w.text+pos, sz-pos);
 		gh->flags |= GWIN_FLG_ALLOCTXT;
 		gh2obj->w.text = p;
 	} else {
 		if (!(p = gfxRealloc((char *)gh2obj->w.text, sz, sz+cnt)))
-			return FALSE;
+			return gFalse;
 		gh2obj->w.text = p;
 		q = p+pos;
 		p += sz;
 		while(--p >= q)
 			p[cnt] = p[0];
 	}
-	return TRUE;
+	return gTrue;
 }
 
 // Function that allows to set the cursor to any position in the string

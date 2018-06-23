@@ -85,10 +85,6 @@ typedef struct GGraphObject {
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief   Create a graph window.
  * @return  NULL if there is no resultant drawing area, otherwise a window handle.
@@ -179,10 +175,6 @@ void gwinGraphDrawPoint(GHandle gh, coord_t x, coord_t y);
  * @api
  */
 void gwinGraphDrawPoints(GHandle gh, const point *points, unsigned count);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif	/* _GWIN_GRAPH_H */
 /** @} */

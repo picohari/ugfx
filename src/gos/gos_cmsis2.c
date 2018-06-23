@@ -69,11 +69,11 @@ void gfxSemInit(gfxSem* psem, semcount_t val, semcount_t limit)
 	*psem = osSemaphoreNew(limit, val, NULL);
 }
 
-bool_t gfxSemWait(gfxSem* psem, delaytime_t ms)
+gBool gfxSemWait(gfxSem* psem, delaytime_t ms)
 {
 	if (osSemaphoreAcquire(*psem, gfxMillisecondsToTicks(ms)) == osOK)
-		return TRUE;
-	return FALSE;
+		return gTrue;
+	return gFalse;
 }
 
 gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)

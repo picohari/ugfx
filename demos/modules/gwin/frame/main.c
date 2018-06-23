@@ -23,7 +23,7 @@ static void _createWidgets(void) {
 
     // Apply some default values for GWIN
     gwinWidgetClearInit(&wi);
-    wi.g.show = TRUE;
+    wi.g.show = gTrue;
 
     // Create a surprise label behind the frame window
     wi.g.width = 100;
@@ -119,7 +119,7 @@ int main(void) {
 
     // Set the widget defaults
     gwinSetDefaultFont(gdispOpenFont("*"));
-    gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
+    gwinSetDefaultStyle(&WhiteWidgetStyle, gFalse);
     gdispClear(GFX_WHITE);
 
     // create the widget

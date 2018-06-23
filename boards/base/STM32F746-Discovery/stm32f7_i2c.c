@@ -34,7 +34,7 @@ static void _i2cResetCr2(I2C_TypeDef* i2c)
 	i2c->CR2 &= (uint32_t) ~((uint32_t) (I2C_CR2_SADD | I2C_CR2_HEAD10R | I2C_CR2_NBYTES | I2C_CR2_RELOAD | I2C_CR2_RD_WRN));
 }
 
-bool_t i2cInit(I2C_TypeDef* i2c)
+gBool i2cInit(I2C_TypeDef* i2c)
 {
 	// Enable I2Cx peripheral clock.
 	// Select APB1 as clock source
@@ -51,7 +51,7 @@ bool_t i2cInit(I2C_TypeDef* i2c)
 		RCC->DCKCFGR2 &= ~RCC_DCKCFGR2_I2C4SEL;
 		RCC->APB1ENR |= RCC_APB1ENR_I2C4EN;
 	} else {
-		return FALSE;
+		return gFalse;
 	}
 
 	// Disable the I2Cx peripheral
@@ -76,7 +76,7 @@ bool_t i2cInit(I2C_TypeDef* i2c)
 	// Enable the I2Cx peripheral
 	i2c->CR1 |= I2C_CR1_PE;
 
-	return TRUE;
+	return gTrue;
 }
 
 void i2cSend(I2C_TypeDef* i2c, uint8_t slaveAddr, uint8_t* data, uint16_t length)

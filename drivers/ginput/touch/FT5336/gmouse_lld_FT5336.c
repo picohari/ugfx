@@ -18,11 +18,11 @@
 // Hardware definitions
 #include "drivers/ginput/touch/FT5336/ft5336.h"
 
-static bool_t ft5336Init(GMouse* m, unsigned driverinstance)
+static gBool ft5336Init(GMouse* m, unsigned driverinstance)
 {
 	// Initialize the board stuff
 	if (!init_board(m, driverinstance)) {
-		return FALSE;
+		return gFalse;
 	}
 
 	// We need at least 200 ms worth of delay here...
@@ -30,7 +30,7 @@ static bool_t ft5336Init(GMouse* m, unsigned driverinstance)
 
 	// Check Chip ID
 	if (read_byte(m, FT5336_CHIP_ID_REG) != FT5336_ID_VALUE) {
-		return FALSE;
+		return gFalse;
 	}
 
 	// Disable interrupts. We use this chip in polling mode
@@ -53,10 +53,10 @@ static bool_t ft5336Init(GMouse* m, unsigned driverinstance)
 	// Timer to enter 'idle' when in 'Monitor' (ms)
 	write_reg(m, FT5336_PERIODMONITOR_REG, 0x28);
 */
-	return TRUE;
+	return gTrue;
 }
 
-static bool_t ft5336ReadXYZ(GMouse* m, GMouseReading* pdr)
+static gBool ft5336ReadXYZ(GMouse* m, GMouseReading* pdr)
 {
 	// Assume not touched.
 	pdr->buttons = 0;
@@ -70,7 +70,7 @@ static bool_t ft5336ReadXYZ(GMouse* m, GMouseReading* pdr)
 		pdr->z = 1;
 	}
 
-	return TRUE;
+	return gTrue;
 }
 
 const GMouseVMT const GMOUSE_DRIVER_VMT[1] = {{

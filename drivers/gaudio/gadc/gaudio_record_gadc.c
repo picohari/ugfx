@@ -30,10 +30,10 @@ static void gadcCallbackI(void) {
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-bool_t gaudio_record_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
+gBool gaudio_record_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
 	/* Check the parameters */
 	if (channel >= GAUDIO_RECORD_NUM_CHANNELS || frequency > GAUDIO_RECORD_MAX_SAMPLE_FREQUENCY || format != GAUDIO_RECORD_FORMAT1)
-		return FALSE;
+		return gFalse;
 
 	/* Setup the high speed GADC */
 	gadcHighSpeedInit(gaudio_gadc_physdevs[channel], frequency);
@@ -41,7 +41,7 @@ bool_t gaudio_record_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFor
 	/* Register ourselves for ISR callbacks */
 	gadcHighSpeedSetISRCallback(gadcCallbackI);
 
-	return TRUE;
+	return gTrue;
 }
 
 void gaudio_record_lld_start(void) {

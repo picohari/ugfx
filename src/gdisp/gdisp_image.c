@@ -35,7 +35,7 @@
 	extern delaytime_t gdispImageNext_BMP(gdispImage *img);
 	extern uint16_t gdispImageGetPaletteSize_BMP(gdispImage *img);
 	extern color_t gdispImageGetPalette_BMP(gdispImage *img, uint16_t index);
-	extern bool_t gdispImageAdjustPalette_BMP(gdispImage *img, uint16_t index, color_t newColor);
+	extern gBool gdispImageAdjustPalette_BMP(gdispImage *img, uint16_t index, color_t newColor);
 #endif
 
 #if GDISP_NEED_IMAGE_JPG
@@ -67,7 +67,7 @@ typedef struct gdispImageHandlers {
 	delaytime_t		(*next)(gdispImage *img);					/* The next frame function */
 	uint16_t		(*getPaletteSize)(gdispImage *img);			/* Retrieve the size of the palette (number of entries) */
 	color_t			(*getPalette)(gdispImage *img, uint16_t index);							/* Retrieve a specific color value of the palette */
-	bool_t			(*adjustPalette)(gdispImage *img, uint16_t index, color_t newColor);	/* Replace a color value in the palette */
+	gBool			(*adjustPalette)(gdispImage *img, uint16_t index, color_t newColor);	/* Replace a color value in the palette */
 } gdispImageHandlers;
 
 static gdispImageHandlers ImageHandlers[] = {
@@ -154,7 +154,7 @@ void gdispImageClose(gdispImage *img) {
 	img->priv = 0;
 }
 
-bool_t gdispImageIsOpen(gdispImage *img) {
+gBool gdispImageIsOpen(gdispImage *img) {
 	return img && img->type != GDISP_IMAGE_TYPE_UNKNOWN && img->fns != 0;
 }
 
@@ -204,9 +204,9 @@ color_t gdispImageGetPalette(gdispImage *img, uint16_t index) {
 	return img->fns->getPalette(img, index);
 }
 
-bool_t gdispImageAdjustPalette(gdispImage *img, uint16_t index, color_t newColor) {
-	if (!img || !img->fns) return FALSE;
-	if (!img->fns->adjustPalette) return FALSE;
+gBool gdispImageAdjustPalette(gdispImage *img, uint16_t index, color_t newColor) {
+	if (!img || !img->fns) return gFalse;
+	if (!img->fns->adjustPalette) return gFalse;
 	return img->fns->adjustPalette(img, index, newColor);
 }
 

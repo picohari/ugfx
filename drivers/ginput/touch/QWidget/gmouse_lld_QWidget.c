@@ -19,16 +19,16 @@ coord_t qwidgetMouseY;
 coord_t qwidgetMouseZ;
 uint16_t qwidgetMouseButtons;
 
-static bool_t _init(GMouse* m, unsigned driverinstance)
+static gBool _init(GMouse* m, unsigned driverinstance)
 {
     (void)driverinstance;
 
     qwidgetMouse = m;
 
-	return TRUE;
+	return gTrue;
 }
 
-static bool_t _read(GMouse* m, GMouseReading* pdr)
+static gBool _read(GMouse* m, GMouseReading* pdr)
 {
     (void)m;
 
@@ -37,7 +37,7 @@ static bool_t _read(GMouse* m, GMouseReading* pdr)
     pdr->z = qwidgetMouseZ;
     pdr->buttons = qwidgetMouseButtons;
 
-	return TRUE;
+	return gTrue;
 }
 
 const GMouseVMT GMOUSE_DRIVER_VMT[1] = {{

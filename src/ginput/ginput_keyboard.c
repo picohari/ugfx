@@ -492,7 +492,7 @@ void _gkeyboardDeinit(void) {
 	gtimerDeinit(&KeyboardTimer);
 }
 
-bool_t _gkeyboardInitDriver(GDriver *g, void *param, unsigned driverinstance, unsigned systeminstance) {
+gBool _gkeyboardInitDriver(GDriver *g, void *param, unsigned driverinstance, unsigned systeminstance) {
 	#define k   ((GKeyboard *)g)
 	(void) param;
 	(void) systeminstance;
@@ -502,13 +502,13 @@ bool_t _gkeyboardInitDriver(GDriver *g, void *param, unsigned driverinstance, un
 
 	// Init the mouse
 	if (!gkvmt(k)->init((GKeyboard *)g, driverinstance))
-		return FALSE;
+		return gFalse;
 
 	// Ensure the Poll timer is started
 	if (!gtimerIsActive(&KeyboardTimer))
-		gtimerStart(&KeyboardTimer, KeyboardPoll, 0, TRUE, GINPUT_KEYBOARD_POLL_PERIOD);
+		gtimerStart(&KeyboardTimer, KeyboardPoll, 0, gTrue, GINPUT_KEYBOARD_POLL_PERIOD);
 
-	return TRUE;
+	return gTrue;
 
 	#undef k
 }
@@ -532,7 +532,7 @@ GSourceHandle ginputGetKeyboard(unsigned instance) {
 	return (GSourceHandle)gdriverGetInstance(GDRIVER_TYPE_KEYBOARD, instance);
 }
 
-bool_t ginputGetKeyboardStatus(unsigned instance, GEventKeyboard *pe) {
+gBool ginputGetKeyboardStatus(unsigned instance, GEventKeyboard *pe) {
 	GKeyboard *k;
 
 	// Win32 threads don't seem to recognise priority and/or pre-emption
@@ -540,26 +540,26 @@ bool_t ginputGetKeyboardStatus(unsigned instance, GEventKeyboard *pe) {
 	gfxSleepMilliseconds(1);
 
 	if (!(k = (GKeyboard *)gdriverGetInstance(GDRIVER_TYPE_KEYBOARD, instance)))
-		return FALSE;
+		return gFalse;
 
 	pe->type = GEVENT_KEYBOARD;
 	// TODO
-	return TRUE;
+	return gTrue;
 }
 
 #if !GKEYBOARD_LAYOUT_OFF
-	bool_t ginputSetKeyboardLayout(unsigned instance, const void *pLayout) {
+	gBool ginputSetKeyboardLayout(unsigned instance, const void *pLayout) {
 		GKeyboard *k;
 
 		if (!(k = (GKeyboard *)gdriverGetInstance(GDRIVER_TYPE_KEYBOARD, instance)))
-			return FALSE;
+			return gFalse;
 
 		if (pLayout)
 			k->pLayout = pLayout;
 		else
 			k->pLayout = gkvmt(k)->defLayout;
 
-		return TRUE;
+		return gTrue;
 	}
 #endif
 

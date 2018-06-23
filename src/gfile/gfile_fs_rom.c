@@ -42,16 +42,16 @@ typedef struct ROMFileList {
 } ROMFileList;
 
 
-static bool_t ROMExists(const char *fname);
+static gBool ROMExists(const char *fname);
 static long int	ROMFilesize(const char *fname);
-static bool_t ROMOpen(GFILE *f, const char *fname);
+static gBool ROMOpen(GFILE *f, const char *fname);
 static void ROMClose(GFILE *f);
 static int ROMRead(GFILE *f, void *buf, int size);
-static bool_t ROMSetpos(GFILE *f, long int pos);
+static gBool ROMSetpos(GFILE *f, long int pos);
 static long int ROMGetsize(GFILE *f);
-static bool_t ROMEof(GFILE *f);
+static gBool ROMEof(GFILE *f);
 #if GFILE_NEED_FILELISTS
-	static gfileList *ROMFlOpen(const char *path, bool_t dirs);
+	static gfileList *ROMFlOpen(const char *path, gBool dirs);
 	static const char *ROMFlRead(gfileList *pfl);
 	static void ROMFlClose(gfileList *pfl);
 #endif
@@ -79,7 +79,7 @@ static const ROMFS_DIRENTRY *ROMFindFile(const char *fname)
 	return p;
 }
 
-static bool_t ROMExists(const char *fname)
+static gBool ROMExists(const char *fname)
 {
 	return ROMFindFile(fname) != 0;
 }
@@ -92,13 +92,13 @@ static long int	ROMFilesize(const char *fname)
 	return p->size;
 }
 
-static bool_t ROMOpen(GFILE *f, const char *fname)
+static gBool ROMOpen(GFILE *f, const char *fname)
 {
 	const ROMFS_DIRENTRY *p;
 
-	if (!(p = ROMFindFile(fname))) return FALSE;
+	if (!(p = ROMFindFile(fname))) return gFalse;
 	f->obj = (void *)p;
-	return TRUE;
+	return gTrue;
 }
 
 static void ROMClose(GFILE *f)
@@ -118,7 +118,7 @@ static int ROMRead(GFILE *f, void *buf, int size)
 	return size;
 }
 
-static bool_t ROMSetpos(GFILE *f, long int pos)
+static gBool ROMSetpos(GFILE *f, long int pos)
 {
 	return pos <= ((const ROMFS_DIRENTRY *)f->obj)->size;
 }
@@ -128,13 +128,13 @@ static long int ROMGetsize(GFILE *f)
 	return ((const ROMFS_DIRENTRY *)f->obj)->size;
 }
 
-static bool_t ROMEof(GFILE *f)
+static gBool ROMEof(GFILE *f)
 {
 	return f->pos >= ((const ROMFS_DIRENTRY *)f->obj)->size;
 }
 
 #if GFILE_NEED_FILELISTS
-	static gfileList *ROMFlOpen(const char *path, bool_t dirs) {
+	static gfileList *ROMFlOpen(const char *path, gBool dirs) {
 		ROMFileList *	p;
 		(void)			path;
 

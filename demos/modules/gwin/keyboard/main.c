@@ -43,7 +43,7 @@ static void createWidgets(void) {
 	gwinWidgetClearInit(&wi);
 
 	// Create the console - set colors before making it visible
-	wi.g.show = FALSE;
+	wi.g.show = gFalse;
 	wi.g.x = 0; wi.g.y = 0;
 	wi.g.width = gdispGetWidth(); wi.g.height = gdispGetHeight()/2;
 	ghConsole = gwinConsoleCreate(0, &wi.g);
@@ -53,7 +53,7 @@ static void createWidgets(void) {
 	gwinClear(ghConsole);
 
 	// Create the keyboard
-	wi.g.show = TRUE;
+	wi.g.show = gTrue;
 	wi.g.x = 0; wi.g.y = gdispGetHeight()/2;
 	wi.g.width = gdispGetWidth(); wi.g.height = gdispGetHeight()/2;
 	ghKeyboard = gwinKeyboardCreate(0, &wi);
@@ -70,7 +70,7 @@ int main(void) {
 	// Set the widget defaults
 	font = gdispOpenFont("*");			// Get the first defined font.
 	gwinSetDefaultFont(font);
-	gwinSetDefaultStyle(&WhiteWidgetStyle, FALSE);
+	gwinSetDefaultStyle(&WhiteWidgetStyle, gFalse);
 	gdispClear(GFX_WHITE);
 
 	// Create the gwin windows/widgets

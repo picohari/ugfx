@@ -16,7 +16,7 @@
 
 static SPI_HandleTypeDef _hspi;
 
-static bool_t init_board(GMouse* m, unsigned driverinstance)
+static gBool init_board(GMouse* m, unsigned driverinstance)
 {
   GPIO_InitTypeDef GPIO_InitStruct;
 
@@ -93,20 +93,20 @@ static bool_t init_board(GMouse* m, unsigned driverinstance)
   _hspi.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
   _hspi.Init.CRCPolynomial = 10;
   if (HAL_SPI_Init(&_hspi) != HAL_OK) {
-    return FALSE;
+    return gFalse;
   }
 
-  return TRUE;
+  return gTrue;
 }
 
-static GFXINLINE bool_t getpin_pressed(GMouse* m)
+static GFXINLINE gBool getpin_pressed(GMouse* m)
 {
   (void)m;
 
   if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_4) == GPIO_PIN_RESET)
-    return TRUE;
+    return gTrue;
 
-  return FALSE;
+  return gFalse;
 }
 
 static GFXINLINE void aquire_bus(GMouse* m)

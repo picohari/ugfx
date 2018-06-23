@@ -94,7 +94,7 @@
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	#if !KS0108_NEED_READ
 		// The private area is the display surface.
 		g->priv = gfxAlloc(BUFFSZ);
@@ -105,9 +105,9 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	init_board(g);
 
 	#if KS0108_HAS_RESET  //Make Hardware Reset
-		setpin_reset(g, TRUE);
+		setpin_reset(g, gTrue);
 		gfxSleepMilliseconds(120);
-		setpin_reset(g, FALSE);
+		setpin_reset(g, gFalse);
 	#endif
 	gfxSleepMilliseconds(120);
 	write_cmd(g, KS0108_DISP1OFF);
@@ -139,7 +139,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
 
-	return TRUE;
+	return gTrue;
 }
 
 GFXINLINE void KS0108_goto(GDisplay* g, ) {

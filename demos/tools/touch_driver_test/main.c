@@ -42,7 +42,7 @@ static coord_t					bWidth, bWidth2, bHeight;
 static GHandle					ghc;
 static coord_t					swidth, sheight;
 
-static void DrawHeader(const char *title, bool_t btnNext, bool_t btnPrev, bool_t btnPlusMinus) {
+static void DrawHeader(const char *title, gBool btnNext, gBool btnPrev, gBool btnPlusMinus) {
 	#if GDISP_NEED_CLIP
 		gdispSetClip(0, 0, swidth, sheight);
 	#endif
@@ -87,10 +87,10 @@ static int CheckButtons(GEventMouse *pem) {
 int main(void) {
 	GSourceHandle			gs;
 	GEventMouse				*pem;
-	bool_t					isFirstTime;
-	bool_t					isCalibrated;
-	bool_t					isTouch;
-	bool_t					isFinger;
+	gBool					isFirstTime;
+	gBool					isCalibrated;
+	gBool					isTouch;
+	gBool					isFinger;
 	const char *			isFingerText;
 	const char *			deviceText;
 	GMouse *				m;
@@ -122,7 +122,7 @@ int main(void) {
 		GWindowInit				wi;
 
 		gwinClearInit(&wi);
-		wi.show = TRUE; wi.x = 0; wi.y = bHeight; wi.width = swidth; wi.height = sheight-bHeight;
+		wi.show = gTrue; wi.x = 0; wi.y = bHeight; wi.width = swidth; wi.height = sheight-bHeight;
 		ghc = gwinConsoleCreate(&gc, &wi);
 	}
 
@@ -144,8 +144,8 @@ int main(void) {
 	geventAttachSource(&gl, gs, GLISTEN_MOUSEDOWNMOVES|GLISTEN_MOUSEMETA);
 
 	// Get initial display settings for buttons
-	isFirstTime = TRUE;
-	isCalibrated = (vmt->d.flags & GMOUSE_VFLG_CALIBRATE) ? FALSE : TRUE;
+	isFirstTime = gTrue;
+	isCalibrated = (vmt->d.flags & GMOUSE_VFLG_CALIBRATE) ? gFalse : gTrue;
 	calerr = 0;
 
 	/*
@@ -156,8 +156,8 @@ StepDeviceType:
 	DrawHeader("1. Device Type", isCalibrated, isCalibrated && !isFirstTime, isCalibrated);
 
 	// Get the type of device and the current mode
-	isTouch = (vmt->d.flags & GMOUSE_VFLG_TOUCH) ? TRUE : FALSE;
-	isFinger = (m->flags & GMOUSE_FLG_FINGERMODE) ? TRUE : FALSE;
+	isTouch = (vmt->d.flags & GMOUSE_VFLG_TOUCH) ? gTrue : gFalse;
+	isFinger = (m->flags & GMOUSE_FLG_FINGERMODE) ? gTrue : gFalse;
 	pjit = isFinger ? &vmt->finger_jitter : &vmt->pen_jitter;
 	isFingerText = isFinger ? "finger" : "pen";
 	deviceText = isTouch ? isFingerText : "mouse";
@@ -205,7 +205,7 @@ StepDeviceType:
 	 */
 
 StepRawReading:
-	DrawHeader("2. Raw Mouse Output", FALSE, FALSE, FALSE);
+	DrawHeader("2. Raw Mouse Output", gFalse, gFalse, gFalse);
 	if (isTouch)
 		gwinPrintf(ghc, "Press and hold on the surface.\n\n");
 	else
@@ -292,7 +292,7 @@ StepCalibrate:
 		calerr = ginputCalibrateMouse(0);
 		if (calerr)
 			goto StepCalibrate;
-		isCalibrated = TRUE;
+		isCalibrated = gTrue;
 	}
 
 	/*
@@ -300,7 +300,7 @@ StepCalibrate:
 	 */
 
 StepMouseCoords:
-	DrawHeader("4. Show Mouse Coordinates", TRUE, TRUE, TRUE);
+	DrawHeader("4. Show Mouse Coordinates", gTrue, gTrue, gTrue);
 	if (isTouch)
 		gwinPrintf(ghc, "Press and hold on the surface.\n\n");
 	else
@@ -345,7 +345,7 @@ StepMouseCoords:
 	 */
 
 StepMovementJitter:
-	DrawHeader("5. Movement Jitter", TRUE, TRUE, TRUE);
+	DrawHeader("5. Movement Jitter", gTrue, gTrue, gTrue);
 	if (isTouch)
 		gwinPrintf(ghc, "Press firmly on the surface and move around as if to draw.\n\n");
 	else
@@ -456,6 +456,6 @@ StepDrawing:
 	}
 
 	// Can't let this really exit
-	isFirstTime = FALSE;
+	isFirstTime = gFalse;
 	goto StepDeviceType;
 }

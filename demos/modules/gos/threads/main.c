@@ -26,7 +26,7 @@ threadreturn_t heartbeat1(void* param)
 {
     (void)param;
 
-    while (TRUE) {
+    while (1) {
     	DEBUGWRITE("thread 1\n");
         gfxSleepMilliseconds(500);
     }
@@ -38,7 +38,7 @@ threadreturn_t heartbeat2(void* param)
 {
     (void)param;
 
-    while (TRUE) {
+    while (1) {
     	DEBUGWRITE("thread 2\n");
         gfxSleepMilliseconds(900);
     }
@@ -54,7 +54,7 @@ int main(void)
     gfxThreadCreate(0, 2048, NORMAL_PRIORITY, heartbeat1, 0);
     gfxThreadCreate(0, 2048, NORMAL_PRIORITY, heartbeat2, 0);
 
-    while (TRUE) {
+    while (1) {
     	DEBUGWRITE("thread main\n");
         gfxSleepMilliseconds(1400);
     }

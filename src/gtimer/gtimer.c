@@ -136,7 +136,7 @@ void gtimerDeinit(GTimer* pt)
 	gtimerStop(pt);
 }
 
-void gtimerStart(GTimer *pt, GTimerFunction fn, void *param, bool_t periodic, delaytime_t millisec) {
+void gtimerStart(GTimer *pt, GTimerFunction fn, void *param, gBool periodic, delaytime_t millisec) {
 	gfxMutexEnter(&mutex);
 	
 	// Start our thread if not already going
@@ -205,8 +205,8 @@ void gtimerStop(GTimer *pt) {
 	gfxMutexExit(&mutex);
 }
 
-bool_t gtimerIsActive(GTimer *pt) {
-	return (pt->flags & GTIMER_FLG_SCHEDULED) ? TRUE : FALSE;
+gBool gtimerIsActive(GTimer *pt) {
+	return (pt->flags & GTIMER_FLG_SCHEDULED) ? gTrue : gFalse;
 }
 
 void gtimerJab(GTimer *pt) {

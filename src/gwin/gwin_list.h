@@ -104,11 +104,6 @@ typedef struct ListItem {
 	#endif
 } ListItem;
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief				Create a list widget
  *
@@ -127,13 +122,13 @@ extern "C" {
  * @param[in] g			The GDisplay to display this window on
  * @param[in] widget	The GListObject structure to initialize. If this is NULL, the structure is dynamically allocated.
  * @param[in] pInit		The initialization parameters to use
- * @param[in] multiselect	If TRUE the list is multi-select instead of single-select.
+ * @param[in] multiselect	If gTrue the list is multi-select instead of single-select.
  *
  * @return				NULL if there is no resulting drawing area, otherwise a window handle.
  *
  * @api
  */
-GHandle gwinGListCreate(GDisplay *g, GListObject *widget, GWidgetInit *pInit, bool_t multiselect);
+GHandle gwinGListCreate(GDisplay *g, GListObject *widget, GWidgetInit *pInit, gBool multiselect);
 #define gwinListCreate(w, pInit, m)			gwinGListCreate(GDISP, w, pInit, m)
 
 /**
@@ -144,11 +139,11 @@ GHandle gwinGListCreate(GDisplay *g, GListObject *widget, GWidgetInit *pInit, bo
  *						by temporarely disabling the render using this function.
  *
  * @param[in] gh		The widget handle (must be a list handle)
- * @param[in] ena		TRUE or FALSE
+ * @param[in] ena		gTrue or gFalse
  *
  * @api
  */
-void gwinListEnableRender(GHandle gh, bool_t ena);
+void gwinListEnableRender(GHandle gh, gBool ena);
 
 /**
  * @brief				Change the behaviour of the scroll bar
@@ -170,13 +165,13 @@ void gwinListSetScroll(GHandle gh, scroll_t flag);
  *
  * @param[in] gh		The widget handle (must be a list handle)
  * @param[in] text		The string which shall be displayed in the list afterwards
- * @param[in] useAlloc	If set to TRUE, the string will be dynamically allocated. A static buffer must be passed otherwise
+ * @param[in] useAlloc	If set to gTrue, the string will be dynamically allocated. A static buffer must be passed otherwise
  *
  * @return				The current ID of the item. The ID might change if you remove items from the middle of the list
  *
  * @api
  */
-int gwinListAddItem(GHandle gh, const char* text, bool_t useAlloc);
+int gwinListAddItem(GHandle gh, const char* text, gBool useAlloc);
 
 /**
  * @brief				Set the custom parameter of an item with a given ID
@@ -184,11 +179,11 @@ int gwinListAddItem(GHandle gh, const char* text, bool_t useAlloc);
  * @param[in] gh		The widget handle (must be a list handle)
  * @param[in] item		The item ID
  * @param[in] text		The text to replace the existing text
- * @param[in] useAlloc	If set to TRUE, the string will be dynamically allocated. A static buffer must be passed otherwise
+ * @param[in] useAlloc	If set to gTrue, the string will be dynamically allocated. A static buffer must be passed otherwise
  *
  * @api
  */
-void gwinListItemSetText(GHandle gh, int item, const char* text, bool_t useAlloc);
+void gwinListItemSetText(GHandle gh, int item, const char* text, gBool useAlloc);
 
 /**
  * @brief				Get the name behind an item with a given ID
@@ -273,11 +268,11 @@ int gwinListItemCount(GHandle gh);
  * @param[in] gh		The widget handle (must be a list handle)
  * @param[in] item		The item ID
  *
- * @return				TRUE if the item is selected, FALSE otherwise
+ * @return				gTrue if the item is selected, gFalse otherwise
  *
  * @api
  */
-bool_t gwinListItemIsSelected(GHandle gh, int item);
+gBool gwinListItemIsSelected(GHandle gh, int item);
 
 /**
  * @brief				Get the ID of the selected item
@@ -312,7 +307,7 @@ const char* gwinListGetSelectedText(GHandle gh);
  *
  * @param[in] gh		The widget handle (must be a list handle)
  * @param[in] item		The item ID
- * @param[in] doSelect	TRUE to select the item or FALSE to deselect the item
+ * @param[in] doSelect	gTrue to select the item or gFalse to deselect the item
  *
  * @note				Changing the selection using this api call will NOT send the list selection
  * 						change event.
@@ -323,7 +318,7 @@ const char* gwinListGetSelectedText(GHandle gh);
  * 						are selected, even in single-select mode.
  * @api
  */
-void gwinListSetSelected(GHandle gh, int item, bool_t doSelect);
+void gwinListSetSelected(GHandle gh, int item, gBool doSelect);
 
 /**
  * @brief				Scroll the list so the specified item is in view
@@ -395,10 +390,6 @@ void gwinListViewItem(GHandle gh, int item);
 void gwinListDefaultDraw(GWidgetObject* gw, void* param);
 
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // _GWIN_LIST_H
 /** @} */

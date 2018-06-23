@@ -30,7 +30,7 @@
 	#define AFRH	AFR[1]
 #endif
 
-static bool_t init_board(GMouse* m, unsigned instance)
+static gBool init_board(GMouse* m, unsigned instance)
 {
 	(void)m;
 	(void)instance;
@@ -51,10 +51,10 @@ static bool_t init_board(GMouse* m, unsigned instance)
 
 	// Initialize the I2C3 peripheral
 	if (!(i2cInit(I2C3))) {
-		return FALSE;
+		return gFalse;
 	}
 
-	return TRUE;
+	return gTrue;
 }
 
 static void write_reg(GMouse* m, uint8_t reg, uint8_t val)

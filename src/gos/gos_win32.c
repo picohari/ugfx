@@ -74,7 +74,7 @@ void gfxSystemUnlock(void) {
 	ReleaseMutex(SystemMutex);
 }
 
-bool_t gfxSemWait(gfxSem *psem, delaytime_t ms) {
+gBool gfxSemWait(gfxSem *psem, delaytime_t ms) {
 	return WaitForSingleObject(*psem, ms) == WAIT_OBJECT_0;
 }
 

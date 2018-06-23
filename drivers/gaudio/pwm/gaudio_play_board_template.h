@@ -15,10 +15,10 @@
  *
  */
 
-static bool gaudio_play_pwm_setup(uint32_t frequency, ArrayDataFormat format) {
+static gBool gaudio_play_pwm_setup(uint32_t frequency, ArrayDataFormat format) {
 	/* Initialise the PWM - use a midpoint value for the initial PWM value */
 	/* Initialise the timer interrupt @ frequency */
-	/* Return FALSE if any parameter invalid */
+	/* Return gFalse if any parameter invalid */
 }
 
 static void gaudio_play_pwm_start(void) {

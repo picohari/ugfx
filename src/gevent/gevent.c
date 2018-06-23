@@ -68,13 +68,13 @@ void geventListenerInit(GListener *pl) {
 	pl->flags = 0;
 }
 
-bool_t geventAttachSource(GListener *pl, GSourceHandle gsh, uint32_t flags) {
+gBool geventAttachSource(GListener *pl, GSourceHandle gsh, uint32_t flags) {
 	GSourceListener *psl, *pslfree;
 
 	// Safety first
 	if (!pl || !gsh) {
-		GEVENT_ASSERT(FALSE);
-		return FALSE;
+		GEVENT_ASSERT(gFalse);
+		return gFalse;
 	}
 
 	gfxMutexEnter(&geventMutex);
@@ -87,7 +87,7 @@ bool_t geventAttachSource(GListener *pl, GSourceHandle gsh, uint32_t flags) {
 			// Just update the flags
 			psl->listenflags = flags;
 			gfxMutexExit(&geventMutex);
-			return TRUE;
+			return gTrue;
 		}
 		if (!pslfree && !psl->pListener)
 			pslfree = psl;

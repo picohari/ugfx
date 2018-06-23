@@ -49,7 +49,7 @@ int main(void) {
 		GWindowInit		wi;
 
 		gwinClearInit(&wi);
-		wi.show = TRUE;
+		wi.show = gTrue;
 		wi.x = 0; wi.y = 0; wi.width = gdispGetWidth(); wi.height = gdispGetHeight()/2;
 		GW1 = gwinConsoleCreate(0, &wi);
 		wi.y = gdispGetHeight()/2; wi.width = gdispGetWidth()/2; wi.height = gdispGetHeight();
@@ -92,13 +92,13 @@ int main(void) {
 
 	/* Make console 3 invisible and then visible again to demonstrate the history buffer */
 	gwinPrintf(GW2, "Making red window \033uinvisible\033U\n");
-	gwinSetVisible(GW3, FALSE);
+	gwinSetVisible(GW3, gFalse);
 	gfxSleepMilliseconds(1000);
 	gwinPrintf(GW2, "Making red window \033uvisible\033U\n");
-	gwinSetVisible(GW3, TRUE);
+	gwinSetVisible(GW3, gTrue);
 	gwinPrintf(GW3, "\033bI'm back!!!\033B\n", i+1);
 
-	while(TRUE) {
+	while(1) {
 		gfxSleepMilliseconds(500);
 	}
 }

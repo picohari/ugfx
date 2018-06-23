@@ -40,7 +40,7 @@
 
 static I2C_HandleTypeDef _i2cHandle;
 
-static bool_t init_board(GMouse* m, unsigned driverinstance)
+static gBool init_board(GMouse* m, unsigned driverinstance)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
 	
@@ -79,17 +79,17 @@ static bool_t init_board(GMouse* m, unsigned driverinstance)
 	_i2cHandle.Init.NoStretchMode   = I2C_NOSTRETCH_DISABLED;  
 	HAL_I2C_Init(&_i2cHandle);
 	
-	return TRUE;
+	return gTrue;
 }
 
-static bool_t read_bytes(GMouse* m, uint8_t reg, uint8_t* buffer, uint8_t nbrBytes)
+static gBool read_bytes(GMouse* m, uint8_t reg, uint8_t* buffer, uint8_t nbrBytes)
 {
 	(void)m;
 
 	HAL_I2C_Master_Transmit(&_i2cHandle, (uint16_t)EXC7200_SLAVE_ADDR, (uint8_t*)&reg, 1, 10000);
 	HAL_I2C_Master_Receive(&_i2cHandle, (uint16_t)EXC7200_SLAVE_ADDR, buffer, nbrBytes, 10000);
 	
-	return TRUE;
+	return gTrue;
 }
 
 #endif /* _GINPUT_LLD_MOUSE_BOARD_H */

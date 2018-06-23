@@ -66,14 +66,14 @@ static unsigned int device_read_16(unsigned char device_address, unsigned char s
 	return (0xFFFF & ((rdata_h << 8) | rdata_l));
 }
 
-static bool_t init_board(GMouse* m, unsigned instance)
+static gBool init_board(GMouse* m, unsigned instance)
 {
 	(void)m;
 	(void)instance;
 
 	I2C_init(I2C_OPENCORES_0_BASE, 50000000, 400000);
 
-	return TRUE;
+	return gTrue;
 }
 
 static void write_reg(GMouse* m, uint8_t reg, uint8_t val)

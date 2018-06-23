@@ -132,7 +132,7 @@ void gfxSemDestroy(gfxSem *pSem) {
 	pthread_cond_destroy(&pSem->cond);
 }
 
-bool_t gfxSemWait(gfxSem *pSem, delaytime_t ms) {
+gBool gfxSemWait(gfxSem *pSem, delaytime_t ms) {
 	pthread_mutex_lock(&pSem->mtx);
 	switch (ms) {
 	case TIME_INFINITE:
@@ -142,7 +142,7 @@ bool_t gfxSemWait(gfxSem *pSem, delaytime_t ms) {
 	case TIME_IMMEDIATE:
 		if (!pSem->cnt) {
 			pthread_mutex_unlock(&pSem->mtx);
-			return FALSE;
+			return gFalse;
 		}
 		break;
 	default:
@@ -156,11 +156,11 @@ bool_t gfxSemWait(gfxSem *pSem, delaytime_t ms) {
 			while (!pSem->cnt) {
 				// We used to test the return value for ETIMEDOUT. This doesn't
 				//	work in some current pthread libraries which return -1 instead
-				//	and set errno to ETIMEDOUT. So, we will return FALSE on any error
+				//	and set errno to ETIMEDOUT. So, we will return gFalse on any error
 				//	including a ETIMEDOUT.
 				if (pthread_cond_timedwait(&pSem->cond, &pSem->mtx, &tm)) {
 					pthread_mutex_unlock(&pSem->mtx);
-					return FALSE;
+					return gFalse;
 				}
 			}
 		}
@@ -168,7 +168,7 @@ bool_t gfxSemWait(gfxSem *pSem, delaytime_t ms) {
 	}
 	pSem->cnt--;
 	pthread_mutex_unlock(&pSem->mtx);
-	return TRUE;
+	return gTrue;
 }
 
 void gfxSemSignal(gfxSem *pSem) {

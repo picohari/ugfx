@@ -297,7 +297,7 @@ static const gwidgetVMT listVMT = {
 	#endif
 };
 
-GHandle gwinGListCreate(GDisplay *g, GListObject* gobj, GWidgetInit* pInit, bool_t multiselect) {
+GHandle gwinGListCreate(GDisplay *g, GListObject* gobj, GWidgetInit* pInit, gBool multiselect) {
 	if (!(gobj = (GListObject *)_gwidgetCreate(g, &gobj->w, pInit, &listVMT)))
 		return 0;
 
@@ -315,7 +315,7 @@ GHandle gwinGListCreate(GDisplay *g, GListObject* gobj, GWidgetInit* pInit, bool
 	return (GHandle)gobj;
 }
 
-void gwinListEnableRender(GHandle gh, bool_t ena) {
+void gwinListEnableRender(GHandle gh, gBool ena) {
 	// is it a valid handle?
 	if (gh->vmt != (gwinVMT *)&listVMT)
 		return;
@@ -348,7 +348,7 @@ void gwinListSetScroll(GHandle gh, scroll_t flag) {
 	}
 }
 
-int gwinListAddItem(GHandle gh, const char* text, bool_t useAlloc) {
+int gwinListAddItem(GHandle gh, const char* text, gBool useAlloc) {
 	ListItem	*newItem;
 
 	// is it a valid handle?
@@ -391,7 +391,7 @@ int gwinListAddItem(GHandle gh, const char* text, bool_t useAlloc) {
 	return gh2obj->cnt-1;
 }
 
-void gwinListItemSetText(GHandle gh, int item, const char* text, bool_t useAlloc) {
+void gwinListItemSetText(GHandle gh, int item, const char* text, gBool useAlloc) {
 	const gfxQueueASyncItem		*qi;
 	int							i;
 	ListItem					*newItem;
@@ -578,23 +578,23 @@ uint16_t gwinListItemGetParam(GHandle gh, int item) {
 	return 0;
 }
 
-bool_t gwinListItemIsSelected(GHandle gh, int item) {
+gBool gwinListItemIsSelected(GHandle gh, int item) {
 	const gfxQueueASyncItem	*	qi;
 	int							i;
 
 	// is it a valid handle?
 	if (gh->vmt != (gwinVMT *)&listVMT)
-		return FALSE;
+		return gFalse;
 
 	// watch out for an invalid item
 	if (item < 0 || item > (gh2obj->cnt) - 1)
-		return FALSE;
+		return gFalse;
 
 	for(qi = gfxQueueASyncPeek(&gh2obj->list_head), i = 0; qi; qi = gfxQueueASyncNext(qi), i++) {
 		if (i == item)
-			return (qi2li->flags &  GLIST_FLG_SELECTED) ? TRUE : FALSE;
+			return (qi2li->flags &  GLIST_FLG_SELECTED) ? gTrue : gFalse;
 	}
-	return FALSE;
+	return gFalse;
 }
 
 int gwinListItemCount(GHandle gh) {
@@ -617,7 +617,7 @@ const char* gwinListGetSelectedText(GHandle gh) {
 	return gwinListItemGetText(gh, gwinListGetSelected(gh));
 }
 
-void gwinListSetSelected(GHandle gh, int item, bool_t doSelect) {
+void gwinListSetSelected(GHandle gh, int item, gBool doSelect) {
 	const gfxQueueASyncItem   *   qi;
 	int                     i;
 

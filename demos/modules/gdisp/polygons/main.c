@@ -103,7 +103,7 @@ int main(void) {
     transmaxy = INT2MTYPE(height - 15);
     transminy = INT2MTYPE(15);
 
-    while(TRUE) {
+    while(1) {
 
     	// Move to the new location, rotation and scale
 		scalex += scaleincx;

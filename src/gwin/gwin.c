@@ -121,7 +121,7 @@ void _gwinDestroy(GHandle gh, GRedrawMethod how) {
 		return;
 
 	// Make the window invisible
-	gwinSetVisible(gh, FALSE);
+	gwinSetVisible(gh, gFalse);
 
 	// Make sure it is flushed first - must be REDRAW_WAIT or REDRAW_INSESSION
 	_gwinFlushRedraws(how);
@@ -209,12 +209,12 @@ const char *gwinGetClassName(GHandle gh) {
 	return gh->vmt->classname;
 }
 
-bool_t gwinGetVisible(GHandle gh) {
-	return (gh->flags & GWIN_FLG_SYSVISIBLE) ? TRUE : FALSE;
+gBool gwinGetVisible(GHandle gh) {
+	return (gh->flags & GWIN_FLG_SYSVISIBLE) ? gTrue : gFalse;
 }
 
-bool_t gwinGetEnabled(GHandle gh) {
-	return (gh->flags & GWIN_FLG_SYSENABLED) ? TRUE : FALSE;
+gBool gwinGetEnabled(GHandle gh) {
+	return (gh->flags & GWIN_FLG_SYSENABLED) ? gTrue : gFalse;
 }
 
 #if GDISP_NEED_TEXT
@@ -395,7 +395,7 @@ void gwinBlitArea(GHandle gh, coord_t x, coord_t y, coord_t cx, coord_t cy, coor
 		gdispGFillConvexPoly(gh->display, tx+gh->x, ty+gh->y, pntarray, cnt, gh->color);
 		_gwinDrawEnd(gh);
 	}
-	void gwinDrawThickLine(GHandle gh, coord_t x0, coord_t y0, coord_t x1, coord_t y1, coord_t width, bool_t round) {
+	void gwinDrawThickLine(GHandle gh, coord_t x0, coord_t y0, coord_t x1, coord_t y1, coord_t width, gBool round) {
 		if (!_gwinDrawStart(gh)) return;
 		gdispGDrawThickLine(gh->display, gh->x+x0, gh->y+y0, gh->x+x1, gh->y+y1, gh->color, width, round);
 		_gwinDrawEnd(gh);

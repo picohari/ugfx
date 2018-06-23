@@ -28,16 +28,28 @@
 
 	/**
 	 * @name	Various integer sizes
-	 * @note	Your platform may use slightly different definitions to these
+	 * @note	Your platform may define these differently to these.
+	 * @note	These sizes are guaranteed minimum sizes for the type. It might actually be larger.
+	 *			eg gI8 may actually be 9 bits.
 	 * @{
 	 */
-	typedef unsigned char	bool_t;
-	typedef char			int8_t;
-	typedef unsigned char	uint8_t;
-	typedef short			int16_t;
-	typedef unsigned short	uint16_t;
-	typedef long			int32_t;
-	typedef unsigned long	uint32_t;
+	typedef unsigned char	gBool;
+	typedef signed char		gI8;
+	typedef unsigned char	gU8;
+	typedef short			gI16;
+	typedef unsigned short	gU16;
+	typedef long			gI32;
+	typedef unsigned long	gU32;
+	/** @} */
+	
+	/**
+	 * @name	More integer sizes
+	 * @pre		These are only available if GFX_TYPE_64 is GFXON as not all compilers support 64 bit.
+	 * @note	GFX_TYPE_64 is set to GFXON or GFXOFF by the compiler detector. It is not a user configuration macro.
+	 * @{
+	 */
+	typedef long long		gI64;
+	typedef unsigned long long	gU64;
 	/** @} */
 
 	/**
@@ -45,7 +57,6 @@
 	 * @note	Your platform may use slightly different definitions to these
 	 * @{
 	 */
-	typedef unsigned long	size_t;
 	typedef unsigned long	delaytime_t;
 	typedef unsigned long	systemticks_t;
 	typedef short			semcount_t;
@@ -117,10 +128,6 @@
 	/*===========================================================================*/
 	/* Function declarations.                                                    */
 	/*===========================================================================*/
-
-	#ifdef __cplusplus
-	extern "C" {
-	#endif
 
 	/**
 	 * @brief	Halt the GFX application due to an error.
@@ -354,26 +361,26 @@
 	 * @brief	Wait on a semaphore
 	 * @details	The semaphore counter is decreased and if the result becomes negative the thread waits for it to become
 	 * 				non-negative again
-	 * @return	FALSE if the wait timeout occurred otherwise TRUE
+	 * @return	gFalse if the wait timeout occurred otherwise gTrue
 	 *
 	 * @param[in] psem		A pointer to the semaphore
 	 * @param[in] ms		The maximum time to wait for the semaphore
 	 *
 	 * @api
 	 */
-	bool_t gfxSemWait(gfxSem *psem, delaytime_t ms);
+	gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
 
 	/**
 	 * @brief	Test if a wait on a semaphore can be satisfied immediately
 	 * @details	Equivalent to @p gfxSemWait(psem, TIME_IMMEDIATE) except it can be called at interrupt level
-	 * @return	FALSE if the wait would occur occurred otherwise TRUE
+	 * @return	gFalse if the wait would occur occurred otherwise gTrue
 	 *
 	 * @param[in] psem		A pointer to the semaphore
 	 *
 	 * @iclass
 	 * @api
 	 */
-	bool_t gfxSemWaitI(gfxSem *psem);
+	gBool gfxSemWaitI(gfxSem *psem);
 
 	/**
 	 * @brief	Signal a semaphore
@@ -445,10 +452,6 @@
 	 * @api
 	 */
 	void gfxThreadClose(gfxThreadHandle thread);
-
-	#ifdef __cplusplus
-	}
-	#endif
 
 /**
  * All the above was just for the doxygen documentation. All the implementation of the above

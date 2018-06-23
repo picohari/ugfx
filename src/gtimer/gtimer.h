@@ -63,10 +63,6 @@ typedef struct GTimer_t {
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief   Initialise a timer
  *
@@ -91,7 +87,7 @@ void gtimerDeinit(GTimer* pt);
  * @param[in] pt	Pointer to a GTimer structure
  * @param[in] fn		The callback function
  * @param[in] param		The parameter to pass to the callback function
- * @param[in] periodic	Is the timer a periodic timer? FALSE is a once-only timer.
+ * @param[in] periodic	Is the timer a periodic timer? gFalse is a once-only timer.
  * @param[in] millisec	The timer period. The following special values are allowed:
  *							TIME_IMMEDIATE	causes the callback function to be called asap.
  *											A periodic timer with this value will fire once only.
@@ -114,7 +110,7 @@ void gtimerDeinit(GTimer* pt);
  *
  * @api
  */
-void gtimerStart(GTimer *pt, GTimerFunction fn, void *param, bool_t periodic, delaytime_t millisec);
+void gtimerStart(GTimer *pt, GTimerFunction fn, void *param, gBool periodic, delaytime_t millisec);
 
 /**
  * @brief   Stop a timer (periodic or otherwise)
@@ -132,11 +128,11 @@ void gtimerStop(GTimer *pt);
  *
  * @param[in] pt		Pointer to a GTimer structure
  *
- * @return	TRUE if active, FALSE otherwise
+ * @return	gTrue if active, gFalse otherwise
  *
  * @api
  */
-bool_t gtimerIsActive(GTimer *pt);
+gBool gtimerIsActive(GTimer *pt);
 
 /**
  * @brief   			Jab a timer causing the current period to immediate expire
@@ -168,10 +164,6 @@ void gtimerJab(GTimer *pt);
  * @api
  */
 void gtimerJabI(GTimer *pt);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GFX_USE_GTIMER */
 

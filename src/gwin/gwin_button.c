@@ -145,11 +145,11 @@ GHandle gwinGButtonCreate(GDisplay *g, GButtonObject *gw, const GWidgetInit *pIn
 	return (GHandle)gw;
 }
 
-bool_t gwinButtonIsPressed(GHandle gh) {
+gBool gwinButtonIsPressed(GHandle gh) {
 	if (gh->vmt != (gwinVMT *)&buttonVMT)
-		return FALSE;
+		return gFalse;
 
-	return (gh->flags & GBUTTON_FLG_PRESSED) ? TRUE : FALSE;
+	return (gh->flags & GBUTTON_FLG_PRESSED) ? gTrue : gFalse;
 }
 
 /*----------------------------------------------------------

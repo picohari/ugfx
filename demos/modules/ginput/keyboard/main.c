@@ -54,7 +54,7 @@ int main(void) {
 		GWindowInit		wi;
 
 		gwinClearInit(&wi);
-		wi.show = TRUE;
+		wi.show = gTrue;
 		wi.x = 0; wi.y = 0; wi.width = gdispGetWidth(); wi.height = gdispGetHeight();
 		GW = gwinConsoleCreate(0, &wi);
 

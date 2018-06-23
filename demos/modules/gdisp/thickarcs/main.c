@@ -43,7 +43,7 @@ int main(void)
     // Initialize the uGFX library
     gfxInit();
 
-	while(TRUE) {
+	while(1) {
 		// Clear the entire screen
 		gdispClear(GFX_BLACK);
 

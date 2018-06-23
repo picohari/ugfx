@@ -86,9 +86,9 @@ int             tetrisOldShape[4][2];
 int             tetrisNextShapeNum, tetrisOldShapeNum;
 unsigned long   tetrisLines                                           = 0;
 unsigned long   tetrisScore                                           = 0;
-bool_t          tetrisKeysPressed[5]                                  = {FALSE, FALSE, FALSE, FALSE, FALSE}; // left/down/right/up/pause
-bool_t          tetrisPaused                                          = FALSE;
-bool_t          tetrisGameOver                                        = FALSE;
+gBool          tetrisKeysPressed[5]                                  = {gFalse, gFalse, gFalse, gFalse, gFalse}; // left/down/right/up/pause
+gBool          tetrisPaused                                          = gFalse;
+gBool          tetrisGameOver                                        = gFalse;
 font_t          font16;
 font_t          font12;
 
@@ -274,34 +274,34 @@ static void printTouchAreas(void) {
   gdispDrawLine(gdispGetWidth()-(gdispGetWidth()/4), gdispGetHeight()-gdispGetHeight()/4, gdispGetWidth()-(gdispGetWidth()/4), gdispGetHeight()-1, GFX_GRAY);
 }
 
-static bool_t stay(bool_t down) {
+static gBool stay(gBool down) {
   int sk, k;
-  bool_t stay;
-  if (down == TRUE) sk = 1; else sk = 0;
-  stay = FALSE;
+  gBool stay;
+  if (down) sk = 1; else sk = 0;
+  stay = gFalse;
   for (k = 0; k <= 3; k++) {
     if (tetrisCurrentShape[k][1] == 0) {
-      return TRUE;
+      return gTrue;
     }
   }
   for (k = 0; k <= 3; k++) {
-    if ((tetrisCurrentShape[k][0] < 0) || (tetrisCurrentShape[k][0] > 9)) return TRUE;
+    if ((tetrisCurrentShape[k][0] < 0) || (tetrisCurrentShape[k][0] > 9)) return gTrue;
     if (tetrisCurrentShape[k][1] <= 16)
-      if (tetrisField[tetrisCurrentShape[k][1]-sk][tetrisCurrentShape[k][0]] != 0) return TRUE;
+      if (tetrisField[tetrisCurrentShape[k][1]-sk][tetrisCurrentShape[k][0]] != 0) return gTrue;
   }
   return stay;
 }
 
 static void clearCompleteLines(void) {
-  bool_t t;
+  gBool t;
   uint8_t reiz = 0;
   int l,k,j;
   l = 0;
   while (l <= 16) {
-    t = TRUE;
+    t = gTrue;
     for (j = 0; j <= 9; j++)
-      if (tetrisField[l][j] == 0) t = FALSE;
-    if (t == TRUE) {
+      if (tetrisField[l][j] == 0) t = gFalse;
+    if (t) {
       for (j = 4; j >= 0; j--) { // cheap & dirty line removal animation :D
         drawCell(j,l, 0);
         drawCell(9-j,l, 0);
@@ -331,7 +331,7 @@ static void clearCompleteLines(void) {
 
 static void goDown(void) {
   int i;
-  if (stay(TRUE) == FALSE) {
+  if (!stay(gTrue)) {
     drawShape(0);
     for (i = 0; i <= 3; i++) {
       tetrisCurrentShape[i][1]--;
@@ -340,7 +340,7 @@ static void goDown(void) {
   } else {
     for (i = 0; i <= 3; i++) {
       if (tetrisCurrentShape[i][1] >=17) {
-        tetrisGameOver = TRUE;
+        tetrisGameOver = gTrue;
         return;
       } else {
        tetrisField[tetrisCurrentShape[i][1]][tetrisCurrentShape[i][0]] = tetrisOldShapeNum+1;
@@ -348,8 +348,8 @@ static void goDown(void) {
     }
     clearCompleteLines();
     createShape();
-    if (stay(FALSE) == TRUE) {
-      tetrisGameOver = TRUE;
+    if (stay(gFalse)) {
+      tetrisGameOver = gTrue;
       return;
     }
     drawShape(tetrisOldShapeNum+1);
@@ -383,7 +383,7 @@ static void rotateShape(void) {
     tetrisCurrentShape[i][0] = ox+(round((tx-ox)*cos(90*(3.14/180))-(ty-oy)*sin(90*(3.14/180))));
     tetrisCurrentShape[i][1] = oy+(round((tx-ox)*sin(90*(3.14/180))+(ty-oy)*cos(90*(3.14/180))));
   }
-  if (stay(FALSE) == FALSE) {
+  if (!stay(gFalse)) {
     memcpy(tetrisNextShape, tetrisCurrentShape, sizeof(tetrisNextShape)); // tetrisNextShape = tetrisCurrentShape;
     memcpy(tetrisCurrentShape, tetrisOldShape, sizeof(tetrisCurrentShape)); // tetrisCurrentShape = tetrisOldShape;
     drawShape(0);
@@ -394,20 +394,20 @@ static void rotateShape(void) {
   }
 }
 
-static bool_t checkSides(bool_t left) {
+static gBool checkSides(gBool left) {
   int sk,k;
-  if (left == TRUE) sk = 1; else sk = -1;
+  if (left) sk = 1; else sk = -1;
   for (k = 0; k <= 3; k++) {
-    if ((tetrisCurrentShape[k][0]+sk < 0) || (tetrisCurrentShape[k][0]+sk > 9)) return TRUE;
+    if ((tetrisCurrentShape[k][0]+sk < 0) || (tetrisCurrentShape[k][0]+sk > 9)) return gTrue;
     if (tetrisCurrentShape[k][1] <= 16)
-      if (tetrisField[tetrisCurrentShape[k][1]][tetrisCurrentShape[k][0]+sk] != 0) return TRUE;
+      if (tetrisField[tetrisCurrentShape[k][1]][tetrisCurrentShape[k][0]+sk] != 0) return gTrue;
   }
-  return FALSE;
+  return gFalse;
 }
 
 static void goRight(void) {
   int i;
-  if (checkSides(TRUE) == FALSE) {
+  if (!checkSides(gTrue)) {
     drawShape(0);
     for (i = 0; i <= 3; i++) {
       tetrisCurrentShape[i][0]++;
@@ -418,7 +418,7 @@ static void goRight(void) {
 
 static void goLeft(void) {
   int i;
-  if (checkSides(FALSE) == FALSE) {
+  if (!checkSides(gFalse)) {
     drawShape(0);
     for (i = 0; i <= 3; i++) {
       tetrisCurrentShape[i][0]--;
@@ -434,8 +434,8 @@ static DECLARE_THREAD_FUNCTION(thdTetris, arg) {
     // key handling
     if (gfxSystemTicks() - tetrisPreviousKeyTime >= gfxMillisecondsToTicks(tetrisKeySpeed) || gfxSystemTicks() <= gfxMillisecondsToTicks(tetrisKeySpeed)) {
       for (i = 0; i < sizeof(tetrisKeysPressed); i++) {
-        if (tetrisKeysPressed[i] == TRUE) {
-          tetrisKeysPressed[i] = FALSE;
+        if (tetrisKeysPressed[i]) {
+          tetrisKeysPressed[i] = gFalse;
         }
       }
       tetrisPreviousKeyTime = gfxSystemTicks();
@@ -447,28 +447,28 @@ static DECLARE_THREAD_FUNCTION(thdTetris, arg) {
       tetrisPreviousGameTime = gfxSystemTicks();
     }
     if (!(ev.buttons & GINPUT_MOUSE_BTN_LEFT)) continue;
-    if (ev.x <= gdispGetWidth()/4 && ev.y >= gdispGetHeight()-(gdispGetHeight()/4) && tetrisKeysPressed[0] == FALSE && !tetrisPaused) {
+    if (ev.x <= gdispGetWidth()/4 && ev.y >= gdispGetHeight()-(gdispGetHeight()/4) && !tetrisKeysPressed[0] && !tetrisPaused) {
       goLeft();
-      tetrisKeysPressed[0] = TRUE;
+      tetrisKeysPressed[0] = gTrue;
       tetrisPreviousKeyTime = gfxSystemTicks();
     }
-    if (ev.x > gdispGetWidth()-(gdispGetWidth()/4) && ev.y >= gdispGetHeight()-(gdispGetHeight()/4) && tetrisKeysPressed[2] == FALSE && !tetrisPaused) {
+    if (ev.x > gdispGetWidth()-(gdispGetWidth()/4) && ev.y >= gdispGetHeight()-(gdispGetHeight()/4) && !tetrisKeysPressed[2] && !tetrisPaused) {
       goRight();
-      tetrisKeysPressed[2] = TRUE;
+      tetrisKeysPressed[2] = gTrue;
       tetrisPreviousKeyTime = gfxSystemTicks();
     }
-    if (ev.y > gdispGetHeight()/4 && ev.y < gdispGetHeight()-(gdispGetHeight()/4) && tetrisKeysPressed[3] == FALSE && !tetrisPaused) {
+    if (ev.y > gdispGetHeight()/4 && ev.y < gdispGetHeight()-(gdispGetHeight()/4) && !tetrisKeysPressed[3] && !tetrisPaused) {
       rotateShape();
-      tetrisKeysPressed[3] = TRUE;
+      tetrisKeysPressed[3] = gTrue;
       tetrisPreviousKeyTime = gfxSystemTicks();
     }
-    if (ev.x > gdispGetWidth()/4 && ev.x <= gdispGetWidth()-(gdispGetWidth()/4) && ev.y >= gdispGetHeight()-(gdispGetHeight()/4) && tetrisKeysPressed[1] == FALSE && !tetrisPaused) {
+    if (ev.x > gdispGetWidth()/4 && ev.x <= gdispGetWidth()-(gdispGetWidth()/4) && ev.y >= gdispGetHeight()-(gdispGetHeight()/4) && !tetrisKeysPressed[1] && !tetrisPaused) {
       goDown();
-      tetrisKeysPressed[1] = TRUE;
+      tetrisKeysPressed[1] = gTrue;
       tetrisPreviousKeyTime = gfxSystemTicks();
     }
-    if (ev.y <= gdispGetHeight()/4 && tetrisKeysPressed[4] == FALSE) {
-      tetrisKeysPressed[4] = TRUE;
+    if (ev.y <= gdispGetHeight()/4 && !tetrisKeysPressed[4]) {
+      tetrisKeysPressed[4] = gTrue;
       tetrisPaused = !tetrisPaused;
       printPaused();
       tetrisPreviousKeyTime = gfxSystemTicks();
@@ -495,8 +495,8 @@ void tetrisStart(void) {
 
   // Away we go
   initField();
-  tetrisGameOver = FALSE;
-  printGameOver(); // removes "Game Over!" if tetrisGameOver == FALSE
+  tetrisGameOver = gFalse;
+  printGameOver(); // removes "Game Over!" if tetrisGameOver == gFalse
   tetrisPreviousGameTime = gfxSystemTicks();
   gfxThreadCreate(0, 1024, NORMAL_PRIORITY, thdTetris, 0);
   while (!tetrisGameOver) {

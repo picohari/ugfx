@@ -83,7 +83,7 @@
 				gdispGDrawPixel(g, i, j, GFX_WHITE);
 		}
 
-		while(TRUE) {
+		while(1) {
 			gfxSleepMilliseconds(500);
 		}
 	}
@@ -126,7 +126,7 @@
 				gdispDrawPixel(i, j, GFX_WHITE);
 		}
 
-		while(TRUE) {
+		while(1) {
 			gfxSleepMilliseconds(500);
 		}
 	}

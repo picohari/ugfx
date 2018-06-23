@@ -165,12 +165,12 @@ void gfxSemDestroy(gfxSem *psem)
     delete static_cast<QSemaphore*>(*psem);
 }
 
-bool_t gfxSemWait(gfxSem *psem, delaytime_t ms)
+gBool gfxSemWait(gfxSem *psem, delaytime_t ms)
 {
     return static_cast<QSemaphore*>(*psem)->tryAcquire(1, ms);
 }
 
-bool_t gfxSemWaitI(gfxSem *psem)
+gBool gfxSemWaitI(gfxSem *psem)
 {
     return static_cast<QSemaphore*>(*psem)->tryAcquire(1);
 }

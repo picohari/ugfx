@@ -49,8 +49,8 @@
 	int ff_req_grant(_SYNC_t sobj)
 	{
 		if (gfxSemWait( (gfxSem*)&sobj, (delaytime_t)_FS_TIMEOUT) )
-			return TRUE;
-		return FALSE;
+			return gTrue;
+		return gFalse;
 	}
 
 	/*------------------------------------------------------------------------*/

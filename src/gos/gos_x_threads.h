@@ -49,52 +49,44 @@ typedef struct {
 typedef uint32_t		gfxMutex;
 typedef void *			gfxThreadHandle;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+// Required timing functions - supplied by the user or the operating system
+systemticks_t gfxSystemTicks(void);
+systemticks_t gfxMillisecondsToTicks(delaytime_t ms);
 
-	// Required timing functions - supplied by the user or the operating system
-	systemticks_t gfxSystemTicks(void);
-	systemticks_t gfxMillisecondsToTicks(delaytime_t ms);
+// Sleep Functions
+void gfxSleepMilliseconds(delaytime_t ms);
+void gfxSleepMicroseconds(delaytime_t ms);
+void gfxYield(void);
 
-	// Sleep Functions
-	void gfxSleepMilliseconds(delaytime_t ms);
-	void gfxSleepMicroseconds(delaytime_t ms);
-	void gfxYield(void);
+// System Locking
+void gfxSystemLock(void);
+void gfxSystemUnlock(void);
 
-	// System Locking
-	void gfxSystemLock(void);
-	void gfxSystemUnlock(void);
+// Mutexes
+void gfxMutexInit(gfxMutex *pmutex);
+#define gfxMutexDestroy(pmutex)
+void gfxMutexEnter(gfxMutex *pmutex);
+void gfxMutexExit(gfxMutex *pmutex);
 
-	// Mutexes
-	void gfxMutexInit(gfxMutex *pmutex);
-	#define gfxMutexDestroy(pmutex)
-	void gfxMutexEnter(gfxMutex *pmutex);
-	void gfxMutexExit(gfxMutex *pmutex);
+// Semaphores
+void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit);
+#define gfxSemDestroy(psem)
+gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
+gBool gfxSemWaitI(gfxSem *psem);
+void gfxSemSignal(gfxSem *psem);
+void gfxSemSignalI(gfxSem *psem);
 
-	// Semaphores
-	void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit);
-	#define gfxSemDestroy(psem)
-	bool_t gfxSemWait(gfxSem *psem, delaytime_t ms);
-	bool_t gfxSemWaitI(gfxSem *psem);
-	void gfxSemSignal(gfxSem *psem);
-	void gfxSemSignalI(gfxSem *psem);
+// Threads
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+#define gfxThreadClose(thread)
+threadreturn_t gfxThreadWait(gfxThreadHandle thread);
+gfxThreadHandle gfxThreadMe(void);
 
-	// Threads
-	gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
-	#define gfxThreadClose(thread)
-	threadreturn_t gfxThreadWait(gfxThreadHandle thread);
-	gfxThreadHandle gfxThreadMe(void);
-
-	/** The following is not part of the public ugfx API as some operating systems
-	 * 	simply do not provide this capability.
-	 * 	For RAW32 we need it anyway so we might as well declare it here.
-	 */
-	void gfxThreadExit(threadreturn_t ret);
-
-#ifdef __cplusplus
-}
-#endif
+/** The following is not part of the public ugfx API as some operating systems
+ * 	simply do not provide this capability.
+ * 	For RAW32 we need it anyway so we might as well declare it here.
+ */
+void gfxThreadExit(threadreturn_t ret);
 
 #endif /* GOS_NEED_X_THREADS */
 #endif /* _GOS_X_THREADS_H */

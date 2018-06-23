@@ -154,7 +154,7 @@ typedef struct gwinVMT {
 	typedef struct gwmVMT {
 		void (*Init)		(void);									/**< The window manager has just been set as the current window manager */
 		void (*DeInit)		(void);									/**< The window manager has just been removed as the current window manager */
-		bool_t (*Add)		(GHandle gh, const GWindowInit *pInit);	/**< A window has been added */
+		gBool (*Add)		(GHandle gh, const GWindowInit *pInit);	/**< A window has been added */
 		void (*Delete)		(GHandle gh);							/**< A window has been deleted */
 		void (*Redraw)		(GHandle gh);							/**< A window needs to be redraw (or undrawn) */
 		void (*Size)		(GHandle gh, coord_t w, coord_t h);		/**< A window wants to be resized */
@@ -168,12 +168,8 @@ typedef struct gwinVMT {
 	 * @brief	The current window manager
 	 */
 	extern	GWindowManager	*_GWINwm;
-	extern	bool_t			_gwinFlashState;
+	extern	gBool			_gwinFlashState;
 
-#endif
-
-#ifdef __cplusplus
-extern "C" {
 #endif
 
 /**
@@ -220,7 +216,7 @@ typedef enum GRedrawMethod { REDRAW_WAIT, REDRAW_NOWAIT, REDRAW_INSESSION }	GRed
  * @note	This call will attempt to flush any pending redraws
  * 			in the system. The doWait parameter tells this call
  * 			how to handle someone already holding the drawing lock.
- * 			If doWait is TRUE it waits to obtain the lock. If FALSE
+ * 			If doWait is gTrue it waits to obtain the lock. If gFalse
  * 			and the drawing lock is free then the redraw is done
  * 			immediately. If the drawing lock was taken it will postpone the flush
  * 			on the basis that someone else will do it for us later.
@@ -231,13 +227,13 @@ void _gwinFlushRedraws(GRedrawMethod how);
 
 /**
  * @brief	Obtain a drawing session
- * @return	TRUE if the drawing session was obtained, FALSE if the window is not visible
+ * @return	gTrue if the drawing session was obtained, gFalse if the window is not visible
  *
  * @param[in]	gh		The window
  *
  * @note	This function blocks until a drawing session is available if the window is visible
  */
-bool_t _gwinDrawStart(GHandle gh);
+gBool _gwinDrawStart(GHandle gh);
 
 /**
  * @brief	Release a drawing session
@@ -261,12 +257,12 @@ void _gwinDestroy(GHandle gh, GRedrawMethod how);
 
 /**
  * @brief	Add a window to the window manager and set its position and size
- * @return	TRUE if successful
+ * @return	gTrue if successful
  *
  * @param[in]	gh		The window
  * @param[in]	pInit	The window init structure
  */
-bool_t _gwinWMAdd(GHandle gh, const GWindowInit *pInit);
+gBool _gwinWMAdd(GHandle gh, const GWindowInit *pInit);
 
 #if GWIN_NEED_WIDGET || defined(__DOXYGEN__)
 	/**
@@ -391,7 +387,7 @@ bool_t _gwinWMAdd(GHandle gh, const GWindowInit *pInit);
 		 * @param[in]	flashOffState	Whether the off-state should be flashed as well. If false, only the
 		 * 								pressed color set is flashed.
 		 */
-		const GColorSet *_gwinGetFlashedColor(GWidgetObject *gw, const GColorSet *pcol, bool_t flashOffState);
+		const GColorSet *_gwinGetFlashedColor(GWidgetObject *gw, const GColorSet *pcol, gBool flashOffState);
 	#endif
 #else
 	#define _gwinFixFocus(gh)
@@ -444,10 +440,6 @@ bool_t _gwinWMAdd(GHandle gh, const GWindowInit *pInit);
 	 */
 	void _gwinRippleVisibility(void);
 
-#endif
-
-#ifdef __cplusplus
-}
 #endif
 
 #endif /* GFX_USE_GWIN */

@@ -16,6 +16,7 @@
 #define write_cmd(g, cmd)		SSD1331_write_cmd(cmd)
 #define write_data(g, data)		SSD1331_write_data(data)
 
+/* This test is needed as this file is also included in the .cpp file providing the below functions */
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -59,8 +59,8 @@
 	#include "../../../src/ginput/ginput_driver_mouse.h"
 
 	// Forward definitions
-	static bool_t XMouseInit(GMouse *m, unsigned driverinstance);
-	static bool_t XMouseRead(GMouse *m, GMouseReading *prd);
+	static gBool XMouseInit(GMouse *m, unsigned driverinstance);
+	static gBool XMouseRead(GMouse *m, GMouseReading *prd);
 
 	const GMouseVMT const GMOUSE_DRIVER_VMT[1] = {{
 		{
@@ -140,7 +140,7 @@
 	#endif
 
 	// Forward definitions
-	static bool_t XKeyboardInit(GKeyboard *k, unsigned driverinstance);
+	static gBool XKeyboardInit(GKeyboard *k, unsigned driverinstance);
 	static int XKeyboardGetData(GKeyboard *k, uint8_t *pch, int sz);
 
 	const GKeyboardVMT const GKEYBOARD_DRIVER_VMT[1] = {{
@@ -167,7 +167,7 @@
 	static GKeyboard	*keyboard;
 #endif
 
-static bool_t			initdone;
+static gBool			initdone;
 static Display			*dis;
 static int				scr;
 static XEvent			evt;
@@ -294,7 +294,7 @@ static int FatalXIOError(Display *d) {
 	exit(0);
 }
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	XSizeHints				*pSH;
 	XSetWindowAttributes	xa;
 	XTextProperty			WindowTitle;
@@ -304,7 +304,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	if (!initdone) {
 		gfxThreadHandle			hth;
 
-		initdone = TRUE;
+		initdone = gTrue;
 		#if GFX_USE_OS_LINUX || GFX_USE_OS_OSX
 			XInitThreads();
 		#endif
@@ -319,7 +319,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			if (!XMatchVisualInfo(dis, scr, 24, TrueColor, &vis)) {
 				fprintf(stderr, "Your display has no TrueColor mode\n");
 				XCloseDisplay(dis);
-				return FALSE;
+				return gFalse;
 			}
 			cmap = XCreateColormap(dis, RootWindow(dis, scr),
 					vis.visual, AllocNone);
@@ -404,7 +404,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
     g->g.Width = GDISP_SCREEN_WIDTH;
     g->g.Height = GDISP_SCREEN_HEIGHT;
 
-    return TRUE;
+    return gTrue;
 }
 
 LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g)
@@ -480,12 +480,12 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g)
 #endif
 
 #if GINPUT_NEED_MOUSE
-	static bool_t XMouseInit(GMouse *m, unsigned driverinstance) {
+	static gBool XMouseInit(GMouse *m, unsigned driverinstance) {
 		(void)	m;
 		(void)	driverinstance;
-		return TRUE;
+		return gTrue;
 	}
-	static bool_t XMouseRead(GMouse *m, GMouseReading *pt) {
+	static gBool XMouseRead(GMouse *m, GMouseReading *pt) {
 		xPriv	*	priv;
 
 		priv = m->display->priv;
@@ -493,20 +493,20 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g)
 		pt->y = priv->mousey;
 		pt->z = (priv->buttons & GINPUT_MOUSE_BTN_LEFT) ? 1 : 0;
 		pt->buttons = priv->buttons;
-		return TRUE;
+		return gTrue;
 	}
 #endif /* GINPUT_NEED_MOUSE */
 
 #if GINPUT_NEED_KEYBOARD
-	static bool_t XKeyboardInit(GKeyboard *k, unsigned driverinstance) {
+	static gBool XKeyboardInit(GKeyboard *k, unsigned driverinstance) {
 		(void)	driverinstance;
 
 		// Only one please
 		if (keyboard)
-			return FALSE;
+			return gFalse;
 
 		keyboard = k;
-		return TRUE;
+		return gTrue;
 	}
 
 	static int XKeyboardGetData(GKeyboard *k, uint8_t *pch, int sz) {

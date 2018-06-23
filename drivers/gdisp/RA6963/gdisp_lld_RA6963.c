@@ -141,7 +141,7 @@
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if RA6963_NEED_READ
   g->priv = 0;
 #else
@@ -152,9 +152,9 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
   init_board(g);
 
 #if RA6963_HAS_RESET  //Make Hardware Reset
-  setpin_reset(g, TRUE);
+  setpin_reset(g, gTrue);
   gfxSleepMilliseconds(100);
-  setpin_reset(g, FALSE);
+  setpin_reset(g, gFalse);
 #endif
   gfxSleepMilliseconds(50);
   //RA6963 needs Data first THEN command!
@@ -207,7 +207,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
   g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
   g->g.Contrast = GDISP_INITIAL_CONTRAST;
 
-  return TRUE;
+  return gTrue;
 }
 
 static void set_viewport(GDisplay *g) {

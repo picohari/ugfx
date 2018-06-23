@@ -138,16 +138,16 @@ static void PNG_iInit(PNG_decode *d) {
 }
 
 // Load the next byte of image data from the PNG file
-static bool_t PNG_iLoadData(PNG_decode *d) {
+static gBool PNG_iLoadData(PNG_decode *d) {
 	uint32_t	sz;
 
 	// Is there data still left in the buffer?
 	if (d->i.buflen)
-		return TRUE;
+		return gTrue;
 
 	// If we are cached then we have no more data
 	if (!d->i.f)
-		return FALSE;
+		return gFalse;
 
 	// Have we finished the current chunk?
 	if (!d->i.chunklen) {
@@ -155,7 +155,7 @@ static bool_t PNG_iLoadData(PNG_decode *d) {
 			// Find a new chunk
 			gfileSetPos(d->i.f, d->i.chunknext);
 			if (gfileRead(d->i.f, d->i.buf, 8) != 8)
-				return FALSE;
+				return gFalse;
 
 			// Calculate the chunk length and next chunk
 			d->i.chunklen = gdispImageGetAlignedBE32(d->i.buf, 0);
@@ -168,7 +168,7 @@ static bool_t PNG_iLoadData(PNG_decode *d) {
 					break;
 				goto gotchunk;
 			case 0x49454E44:		// "IEND"	- All done
-				return FALSE;
+				return gFalse;
 			}
 		}
 	}
@@ -180,11 +180,11 @@ gotchunk:
 	if (sz > GDISP_IMAGE_PNG_FILE_BUFFER_SIZE)
 		sz = GDISP_IMAGE_PNG_FILE_BUFFER_SIZE;
 	if (gfileRead(d->i.f, d->i.buf, sz) != sz)
-		return FALSE;
+		return gFalse;
 	d->i.chunklen -= sz;
 	d->i.buflen = sz;
 	d->i.pbuf = d->i.buf;
-	return TRUE;
+	return gTrue;
 }
 
 // Get the last loaded byte of image data from the PNG file
@@ -222,12 +222,12 @@ static void PNG_oFlush(PNG_output *o) {
 }
 
 // Start a new image line
-static bool_t PNG_oStartY(PNG_output *o, coord_t y) {
+static gBool PNG_oStartY(PNG_output *o, coord_t y) {
 	if (y < o->sy || y >= o->sy+o->cy)
-		return FALSE;
+		return gFalse;
 	o->ix = 0;
 	o->iy = y;
-	return TRUE;
+	return gTrue;
 }
 
 // Feed a pixel color to the display buffer
@@ -283,18 +283,18 @@ static void PNG_zInit(PNG_zinflate *z) {
 }
 
 // Get the inflate header (slightly customized for PNG validity testing)
-static bool_t PNG_zGetHeader(PNG_decode *d) {
+static gBool PNG_zGetHeader(PNG_decode *d) {
 	if (!PNG_iLoadData(d))
-		return FALSE;
+		return gFalse;
 	d->z.tmp[0] = PNG_iGetByte(d);
 	if (!PNG_iLoadData(d))
-		return FALSE;
+		return gFalse;
 	d->z.tmp[1] = PNG_iGetByte(d);
 	if (gdispImageGetAlignedBE16(d->z.tmp, 0) % 31 != 0				// Must be modulo 31, the FCHECK value is made that way
 			|| (d->z.tmp[0] & 0x0F) != 8 || (d->z.tmp[0] & 0x80)	// only method 8: inflate 32k sliding window
 			|| (d->z.tmp[1] & 0x20))								// no preset dictionary
-		return FALSE;
-	return TRUE;
+		return gFalse;
+	return gTrue;
 }
 
 // Get a bit from the input (treated as a LSB first stream)
@@ -400,7 +400,7 @@ static void PNG_zBuildFixedTrees(PNG_decode *d) {
 }
 
 // Build inflate dynamic length and distance trees
-static bool_t PNG_zDecodeTrees(PNG_decode *d) {
+static gBool PNG_zDecodeTrees(PNG_decode *d) {
 	static const uint8_t IndexLookup[19] = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
 	unsigned	hlit, hdist, hclen;
 	unsigned	i, num;
@@ -412,7 +412,7 @@ static bool_t PNG_zDecodeTrees(PNG_decode *d) {
 	hclen	= PNG_zGetBits(d, 4) + 4;		// 4 - 19
 
 	if ((d->z.flags & PNG_ZFLG_EOF))
-		return FALSE;
+		return gFalse;
 
 	for (i = 0; i < 19; ++i)
 		d->z.tmp[i] = 0;
@@ -422,7 +422,7 @@ static bool_t PNG_zDecodeTrees(PNG_decode *d) {
 		d->z.tmp[IndexLookup[i]] = PNG_zGetBits(d, 3);
 
 	if ((d->z.flags & PNG_ZFLG_EOF))
-		return FALSE;
+		return gFalse;
 
 	// Build the code length tree
 	PNG_zBuildTree(&d->z.ltree, d->z.tmp, 19);
@@ -431,7 +431,7 @@ static bool_t PNG_zDecodeTrees(PNG_decode *d) {
 	for (num = 0; num < hlit + hdist; ) {
 		symbol = PNG_zGetSymbol(d, &d->z.ltree);
 		if ((d->z.flags & PNG_ZFLG_EOF))
-			return FALSE;
+			return gFalse;
 
 		switch(symbol) {
 		case 16:		// Copy the previous code length 3-6 times
@@ -456,33 +456,33 @@ static bool_t PNG_zDecodeTrees(PNG_decode *d) {
 	// Build the trees
 	PNG_zBuildTree(&d->z.ltree, d->z.tmp, hlit);
 	PNG_zBuildTree(&d->z.dtree, d->z.tmp + hlit, hdist);
-	return TRUE;
+	return gTrue;
 }
 
 // Copy bytes from the input stream. Completing the copy completes the block.
-static bool_t PNG_zCopyInput(PNG_decode *d, unsigned length) {
+static gBool PNG_zCopyInput(PNG_decode *d, unsigned length) {
 	// Copy the block
 	while(length--) {
 		if (!PNG_iLoadData(d)) {				// EOF?
 			d->z.flags |= PNG_ZFLG_EOF;
-			return FALSE;
+			return gFalse;
 		}
 		d->z.buf[d->z.bufend++] = PNG_iGetByte(d);
 		WRAP_ZBUF(d->z.bufend);
 		if (d->z.bufend == d->z.bufpos) {		// Buffer full?
 			d->z.flags = (d->z.flags & ~PNG_ZFLG_RESUME_MASK) | PNG_ZFLG_RESUME_COPY;
 			((unsigned *)d->z.tmp)[0] = length;
-			return TRUE;
+			return gTrue;
 		}
 	}
 
 	// The block is done
 	d->z.flags = (d->z.flags & ~PNG_ZFLG_RESUME_MASK) | PNG_ZFLG_RESUME_NEW;
-	return TRUE;
+	return gTrue;
 }
 
 // Copy an uncompressed inflate block into the output
-static bool_t PNG_zUncompressedBlock(PNG_decode *d) {
+static gBool PNG_zUncompressedBlock(PNG_decode *d) {
 	unsigned	length;
 
 	// This block works on byte boundaries
@@ -492,7 +492,7 @@ static bool_t PNG_zUncompressedBlock(PNG_decode *d) {
 	for (length = 0; length < 4; length++) {
 		if (!PNG_iLoadData(d)) {			// EOF?
 			d->z.flags |= PNG_ZFLG_EOF;
-			return FALSE;
+			return gFalse;
 		}
 		d->z.tmp[length] = PNG_iGetByte(d);
 	}
@@ -503,7 +503,7 @@ static bool_t PNG_zUncompressedBlock(PNG_decode *d) {
 	// Check length
 	if ((uint16_t)length != (uint16_t)~gdispImageGetAlignedLE16(d->z.tmp, 2)) {
 		d->z.flags |= PNG_ZFLG_EOF;
-		return FALSE;
+		return gFalse;
 	}
 
 	// Copy the block
@@ -511,7 +511,7 @@ static bool_t PNG_zUncompressedBlock(PNG_decode *d) {
 }
 
 // Inflate a compressed inflate block into the output
-static bool_t PNG_zInflateBlock(PNG_decode *d) {
+static gBool PNG_zInflateBlock(PNG_decode *d) {
 	static const uint8_t	lbits[30]	= { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 6 };
 	static const uint16_t	lbase[30]	= { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 323 };
 	static const uint8_t	dbits[30]	= { 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13 };
@@ -527,7 +527,7 @@ static bool_t PNG_zInflateBlock(PNG_decode *d) {
 		// Is the block done?
 		if (symbol == 256) {
 			d->z.flags = (d->z.flags & ~PNG_ZFLG_RESUME_MASK) | PNG_ZFLG_RESUME_NEW;
-			return TRUE;
+			return gTrue;
 		}
 
 		if (symbol < 256) {
@@ -536,7 +536,7 @@ static bool_t PNG_zInflateBlock(PNG_decode *d) {
 			WRAP_ZBUF(d->z.bufend);
 			if (d->z.bufend == d->z.bufpos) {								// Buffer full?
 				d->z.flags = (d->z.flags & ~PNG_ZFLG_RESUME_MASK) | PNG_ZFLG_RESUME_INFLATE;
-				return TRUE;
+				return gTrue;
 			}
 			continue;
 		}
@@ -576,21 +576,21 @@ static bool_t PNG_zInflateBlock(PNG_decode *d) {
 				d->z.flags = (d->z.flags & ~PNG_ZFLG_RESUME_MASK) | PNG_ZFLG_RESUME_OFFSET;
 				((unsigned *)d->z.tmp)[0] = length;
 				((unsigned *)d->z.tmp)[1] = offset;
-				return TRUE;
+				return gTrue;
 			}
 		}
 	}
 
 iserror:
 	d->z.flags |= PNG_ZFLG_EOF;
-	return FALSE;
+	return gFalse;
 }
 
 // Start a new uncompressed/inflate block
-static bool_t PNG_zStartBlock(PNG_decode *d) {
+static gBool PNG_zStartBlock(PNG_decode *d) {
 	// Check for previous error, EOF or no more blocks
 	if ((d->z.flags & (PNG_ZFLG_EOF|PNG_ZFLG_FINAL)))
-		return FALSE;
+		return gFalse;
 
 	// Is this the final inflate block?
 	if (PNG_zGetBit(d))
@@ -601,32 +601,32 @@ static bool_t PNG_zStartBlock(PNG_decode *d) {
 
 	case 0:			// Decompress uncompressed block
 		if (!PNG_zUncompressedBlock(d))
-			return FALSE;
+			return gFalse;
 		break;
 
 	case 1:			// Decompress block with fixed huffman trees
 		PNG_zBuildFixedTrees(d);
 		if (!PNG_zInflateBlock(d))
-			return FALSE;
+			return gFalse;
 		break;
 
 	case 2:			// Decompress block with dynamic huffman trees
 		if (!PNG_zDecodeTrees(d))
-			return FALSE;
+			return gFalse;
 		if (!PNG_zInflateBlock(d))
-			return FALSE;
+			return gFalse;
 		break;
 
 	default:		// Bad block type
 		// Mark it as an error
 		d->z.flags |= PNG_ZFLG_EOF;
-		return FALSE;
+		return gFalse;
 	}
-	return TRUE;
+	return gTrue;
 }
 
 // Resume an offset copy
-static bool_t PNG_zResumeOffset(PNG_decode *d, unsigned length, unsigned offset) {
+static gBool PNG_zResumeOffset(PNG_decode *d, unsigned length, unsigned offset) {
 	// Copy the matching string
 	while (length--) {
 		d->z.buf[d->z.bufend++] = d->z.buf[offset++];
@@ -636,7 +636,7 @@ static bool_t PNG_zResumeOffset(PNG_decode *d, unsigned length, unsigned offset)
 			d->z.flags = (d->z.flags & ~PNG_ZFLG_RESUME_MASK) | PNG_ZFLG_RESUME_OFFSET;
 			((unsigned *)d->z.tmp)[0] = length;
 			((unsigned *)d->z.tmp)[1] = offset;
-			return TRUE;
+			return gTrue;
 		}
 	}
 	return PNG_zInflateBlock(d);
@@ -720,14 +720,14 @@ static uint8_t PNG_fCalcPath(uint16_t a, uint16_t b, uint16_t c) {
 }
 
 // Scan-line filter type 0
-static bool_t PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
+static gBool PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
 	uint8_t		ft;
 	unsigned	i;
 
 	// Get the filter type and check for validity (eg not EOF)
 	ft = PNG_zGetByte(d);
 	if (ft > 0x04)
-		return FALSE;
+		return gFalse;
 
 	// Uncompress the scan line
 	for(i = 0; i < d->f.scanbytes; i++)
@@ -770,7 +770,7 @@ static bool_t PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
 		break;
 	}
 
-	return TRUE;
+	return gTrue;
 }
 
 /*-----------------------------------------------------------------

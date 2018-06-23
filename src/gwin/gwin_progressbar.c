@@ -201,7 +201,7 @@ void gwinProgressbarDecrement(GHandle gh) {
 		if (gh->vmt != (gwinVMT *)&progressbarVMT)
 			return;
 
-		gtimerStart(&gsw->gt, _progressbarCallback, gh, TRUE, delay);
+		gtimerStart(&gsw->gt, _progressbarCallback, gh, gTrue, delay);
 
 		#undef gsw
 	}

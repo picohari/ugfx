@@ -42,7 +42,7 @@ typedef struct GEventGWinCheckbox {
 	#if GWIN_WIDGET_TAGS
 		WidgetTag	tag;			// The checkbox tag
 	#endif
-	bool_t			isChecked;		// Is the checkbox currently checked or unchecked?
+	gBool			isChecked;		// Is the checkbox currently checked or unchecked?
 } GEventGWinCheckbox;
 
 /**
@@ -60,10 +60,6 @@ typedef struct GCheckboxObject {
 		uint16_t			toggle;
 	#endif
 } GCheckboxObject;
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /**
  * @brief				Create a checkbox window.
@@ -92,21 +88,21 @@ GHandle gwinGCheckboxCreate(GDisplay *g, GCheckboxObject *gb, const GWidgetInit 
  * @brief	Set the state of a checkbox
  *
  * @param[in] gh		The window handle (must be a checkbox window)
- * @param[in] isChecked	TRUE to set the check, FALSE to uncheck.
+ * @param[in] isChecked	gTrue to set the check, gFalse to uncheck.
  *
  * @api
  */
-void gwinCheckboxCheck(GHandle gh, bool_t isChecked);
+void gwinCheckboxCheck(GHandle gh, gBool isChecked);
 
 /**
  * @brief	Get the state of a checkbox
- * @return	TRUE if the checkbox is currently checked
+ * @return	gTrue if the checkbox is currently checked
  *
  * @param[in] gh	The window handle (must be a checkbox window)
  *
  * @api
  */
-bool_t gwinCheckboxIsChecked(GHandle gh);
+gBool gwinCheckboxIsChecked(GHandle gh);
 
 /**
  * @defgroup Renderings_Checkbox Renderings
@@ -155,10 +151,6 @@ void gwinCheckboxDraw_CheckOnRight(GWidgetObject *gw, void *param);
  */
 void gwinCheckboxDraw_Button(GWidgetObject *gw, void *param);
 /** @} */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _GWIN_CHECKBOX_H */
 /** @} */

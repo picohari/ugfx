@@ -676,7 +676,7 @@ void _gmouseDeinit(void) {
 	gtimerDeinit(&MouseTimer);
 }
 
-bool_t _gmouseInitDriver(GDriver *g, void *display, unsigned driverinstance, unsigned systeminstance) {
+gBool _gmouseInitDriver(GDriver *g, void *display, unsigned driverinstance, unsigned systeminstance) {
     #define m   ((GMouse *)g)
     (void) systeminstance;
 
@@ -691,13 +691,13 @@ bool_t _gmouseInitDriver(GDriver *g, void *display, unsigned driverinstance, uns
 
 	// Init the mouse
     if (!gmvmt(m)->init((GMouse *)g, driverinstance))
-        return FALSE;
+        return gFalse;
 
 	// Ensure the Poll timer is started
 	if (!gtimerIsActive(&MouseTimer))
-		gtimerStart(&MouseTimer, MousePoll, 0, TRUE, GINPUT_MOUSE_POLL_PERIOD);
+		gtimerStart(&MouseTimer, MousePoll, 0, gTrue, GINPUT_MOUSE_POLL_PERIOD);
 
-    return TRUE;
+    return gTrue;
 
     #undef m
 }
@@ -759,7 +759,7 @@ GDisplay *ginputGetMouseDisplay(unsigned instance) {
 	return m->display;
 }
 
-bool_t ginputGetMouseStatus(unsigned instance, GEventMouse *pe) {
+gBool ginputGetMouseStatus(unsigned instance, GEventMouse *pe) {
 	GMouse *m;
 
 	// Win32 threads don't seem to recognise priority and/or pre-emption
@@ -767,11 +767,11 @@ bool_t ginputGetMouseStatus(unsigned instance, GEventMouse *pe) {
 	gfxSleepMilliseconds(1);
 
 	if (!(m = (GMouse *)gdriverGetInstance(GDRIVER_TYPE_MOUSE, instance)))
-		return FALSE;
+		return gFalse;
 
 	#if !GINPUT_TOUCH_NOCALIBRATE_GUI
 		if ((m->flags & GMOUSE_FLG_IN_CAL))
-			return FALSE;
+			return gFalse;
 	#endif
 
 	#if !GINPUT_TOUCH_NOTOUCH
@@ -784,11 +784,11 @@ bool_t ginputGetMouseStatus(unsigned instance, GEventMouse *pe) {
 	pe->z = m->r.z;
 	pe->buttons = m->r.buttons;
 	pe->display = m->display;
-	return TRUE;
+	return gTrue;
 }
 
 #if !GINPUT_TOUCH_NOTOUCH
-	void ginputSetFingerMode(unsigned instance, bool_t on) {
+	void ginputSetFingerMode(unsigned instance, gBool on) {
 		GMouse *m;
 
 		if (!(m = (GMouse *)gdriverGetInstance(GDRIVER_TYPE_MOUSE, instance)))

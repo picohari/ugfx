@@ -92,7 +92,7 @@ static void GFXINLINE flush_screen(GDisplay* g) {
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	// The private area is the display surface + flush window structure.
 	g->priv = gfxAlloc(sizeof(UC1610_Window) + GDISP_SCREEN_WIDTH * GDISP_SCREEN_HEIGHT / UC1610_PAGE_HEIGHT);
 
@@ -128,7 +128,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Powermode = powerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_DRAWPIXEL

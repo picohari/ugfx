@@ -64,7 +64,7 @@
  * 64 * 128 / 2 = 4096 bytes.
  */
 
-LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
+LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	// The private area is the display surface.
 	g->priv = gfxAlloc(GDISP_SCREEN_HEIGHT * SSD1322_ROW_WIDTH);
 
@@ -73,9 +73,9 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	post_init_board(g);
 
 	// Hardware reset
-	setpin_reset(g, TRUE);
+	setpin_reset(g, gTrue);
 	gfxSleepMilliseconds(20);
-	setpin_reset(g, FALSE);
+	setpin_reset(g, gFalse);
 	gfxSleepMilliseconds(200);
 
 
@@ -152,7 +152,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	g->g.Powermode = powerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
-	return TRUE;
+	return gTrue;
 }
 
 #if GDISP_HARDWARE_FLUSH

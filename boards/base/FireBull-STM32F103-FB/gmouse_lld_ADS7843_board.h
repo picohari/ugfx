@@ -26,13 +26,13 @@ static const SPIConfig spicfg = {
     /* SPI_CR1_BR_2 |*/ SPI_CR1_BR_1 | SPI_CR1_BR_0,
 };
 
-static bool_t init_board(GMouse* m, unsigned driverinstance)
+static gBool init_board(GMouse* m, unsigned driverinstance)
 {
 	(void)m;
 
 	// Only one touch interface on this board
 	if (driverinstance)
-		return FALSE;
+		return gFalse;
 	
 	// Set the GPIO modes
 	palSetPadMode(GPIOC, 4, PAL_MODE_INPUT_PULLUP);
@@ -40,10 +40,10 @@ static bool_t init_board(GMouse* m, unsigned driverinstance)
 	// Start the SPI peripheral
 	spiStart(&SPID1, &spicfg);
 
-	return TRUE;
+	return gTrue;
 }
 
-static GFXINLINE bool_t getpin_pressed(GMouse* m)
+static GFXINLINE gBool getpin_pressed(GMouse* m)
 {
 	(void)	m;
 

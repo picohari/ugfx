@@ -54,10 +54,6 @@ typedef struct GConsoleObject {
 	
 } GConsoleObject;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * @brief   Create a console window.
  * @details	A console window allows text to be written.
@@ -102,15 +98,15 @@ GHandle gwinGConsoleCreate(GDisplay *g, GConsoleObject *gc, const GWindowInit *p
 	 * @pre		GWIN_CONSOLE_USE_HISTORY must be set to GFXON in your gfxconf.h
 	 *
 	 * @param[in] gh		The window handle (must be a console window)
-	 * @param[in] onoff		If TRUE a buffer is allocated to maintain console text
-	 * 						when the console is obscured or invisible. If FALSE, then
+	 * @param[in] onoff		If gTrue a buffer is allocated to maintain console text
+	 * 						when the console is obscured or invisible. If gFalse, then
 	 * 						any existing buffer is deallocated.
 	 * @note	When the history buffer is turned on, scrolling is implemented using the
 	 * 			history buffer.
 	 *
-	 * @return	TRUE if the history buffer is now turned on.
+	 * @return	gTrue if the history buffer is now turned on.
 	 */
-	bool_t gwinConsoleSetBuffer(GHandle gh, bool_t onoff);
+	gBool gwinConsoleSetBuffer(GHandle gh, gBool onoff);
 #endif
 
 /**
@@ -171,10 +167,6 @@ void gwinPutCharArray(GHandle gh, const char *str, size_t n);
  * @api
  */
 void gwinPrintf(GHandle gh, const char *fmt, ...);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _GWIN_CONSOLE_H */
 /** @} */

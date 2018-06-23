@@ -17,16 +17,16 @@
 
 #define EXC7200_READ_CMD 0x09
 
-static bool_t MouseInit(GMouse* m, unsigned driverinstance)
+static gBool MouseInit(GMouse* m, unsigned driverinstance)
 {
 	if (!init_board(m, driverinstance)) {
-		return FALSE;
+		return gFalse;
 	}
 	
-	return TRUE;
+	return gTrue;
 }
 
-static bool_t read_xyz(GMouse* m, GMouseReading* pdr)
+static gBool read_xyz(GMouse* m, GMouseReading* pdr)
 {
 	uint8_t rxbuf[10];
 	
@@ -35,7 +35,7 @@ static bool_t read_xyz(GMouse* m, GMouseReading* pdr)
 
 	// Read
 	if (!read_bytes(m, EXC7200_READ_CMD, rxbuf, 10)) {
-		return FALSE;
+		return gFalse;
 	}
 	
 	// Check if touched
@@ -47,7 +47,7 @@ static bool_t read_xyz(GMouse* m, GMouseReading* pdr)
 		pdr->z = 0;
 	}	
 
-	return TRUE;
+	return gTrue;
 }
 
 const GMouseVMT const GMOUSE_DRIVER_VMT[1] = {{

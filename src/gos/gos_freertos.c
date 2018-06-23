@@ -117,20 +117,20 @@ void gfxSemInit(gfxSem* psem, semcount_t val, semcount_t limit)
 	#endif
 }
 
-bool_t gfxSemWait(gfxSem* psem, delaytime_t ms)
+gBool gfxSemWait(gfxSem* psem, delaytime_t ms)
 {
 	if (xSemaphoreTake(*psem, gfxMillisecondsToTicks(ms)) == pdPASS)
-		return TRUE;
-	return FALSE;
+		return gTrue;
+	return gFalse;
 }
 
-bool_t gfxSemWaitI(gfxSem* psem)
+gBool gfxSemWaitI(gfxSem* psem)
 {
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
 	if (xSemaphoreTakeFromISR(*psem, &xHigherPriorityTaskWoken) == pdTRUE)
-		return TRUE;
-	return FALSE;
+		return gTrue;
+	return gFalse;
 }
 
 void gfxSemSignal(gfxSem* psem)
