@@ -26,6 +26,7 @@ FIX:		Fixed ST7735 driver and added kapacuk changes
 FEATURE:	Added keyboard support to radio buttons (by Steffan)
 FEATURE:	Added internal use only GFX_COMPILESTAGE (used to control compilation)
 FEATURE:	Added support for ChibiOS Kernel V5
+FEATURE:	Added WS29EPD WaveShare E-Paper display
 
 
 *** Release 2.8 ***
