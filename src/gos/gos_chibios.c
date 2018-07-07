@@ -11,38 +11,36 @@
 
 #include <string.h>
 
-#if CH_KERNEL_MAJOR == 2
+#if CH_KERNEL_MAJOR < 2 || CH_KERNEL_MAJOR > 5
+	#error "GOS: Unsupported version of ChibiOS"
+#endif
 
+#if CH_KERNEL_MAJOR <= 2
 	#if !CH_USE_MUTEXES
 		#error "GOS: CH_USE_MUTEXES must be defined in chconf.h"
 	#endif
 	#if !CH_USE_SEMAPHORES
 		#error "GOS: CH_USE_SEMAPHORES must be defined in chconf.h"
 	#endif
-	
-#elif (CH_KERNEL_MAJOR == 3) || (CH_KERNEL_MAJOR == 4)
-
+#else
 	#if !CH_CFG_USE_MUTEXES
 		#error "GOS: CH_CFG_USE_MUTEXES must be defined in chconf.h"
 	#endif
 	#if !CH_CFG_USE_SEMAPHORES
 		#error "GOS: CH_CFG_USE_SEMAPHORES must be defined in chconf.h"
 	#endif
-
-#else
-	#error "GOS: Unsupported version of ChibiOS"
 #endif
 
 void _gosInit(void)
 {
 	#if !GFX_OS_NO_INIT
 		/* Don't Initialize if the user already has */
-		#if CH_KERNEL_MAJOR == 2
+		#if CH_KERNEL_MAJOR <= 2
 			if (!chThdSelf()) {
 				halInit();
 				chSysInit();
 			}
-		#elif (CH_KERNEL_MAJOR == 3) || (CH_KERNEL_MAJOR == 4)
+		#else
 			if (!chThdGetSelfX()) {
 				halInit();
 				chSysInit();
@@ -108,9 +106,9 @@ void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit)
 
 	psem->limit = limit;
 	
-	#if CH_KERNEL_MAJOR == 2
+	#if CH_KERNEL_MAJOR <= 2
 		chSemInit(&psem->sem, val);
-	#elif (CH_KERNEL_MAJOR == 3) || (CH_KERNEL_MAJOR == 4)
+	#else
 		chSemObjectInit(&psem->sem, val);
 	#endif
 }
@@ -122,27 +120,27 @@ void gfxSemDestroy(gfxSem *psem)
 
 gBool gfxSemWait(gfxSem *psem, delaytime_t ms)
 {
-	#if CH_KERNEL_MAJOR == 2
+	#if CH_KERNEL_MAJOR <= 2
 		switch(ms) {
 		case TIME_IMMEDIATE:	return chSemWaitTimeout(&psem->sem, TIME_IMMEDIATE) != RDY_TIMEOUT;
 		case TIME_INFINITE:		chSemWait(&psem->sem);	return gTrue;
-		default:				return chSemWaitTimeout(&psem->sem, MS2ST(ms)) != RDY_TIMEOUT;
+		default:				return chSemWaitTimeout(&psem->sem, gfxMillisecondsToTicks(ms)) != RDY_TIMEOUT;
 		}
-	#elif (CH_KERNEL_MAJOR == 3) || (CH_KERNEL_MAJOR == 4)
+	#else
 		switch(ms) {
 		case TIME_IMMEDIATE:	return chSemWaitTimeout(&psem->sem, TIME_IMMEDIATE) != MSG_TIMEOUT;
 		case TIME_INFINITE:		chSemWait(&psem->sem);	return gTrue;
-		default:				return chSemWaitTimeout(&psem->sem, MS2ST(ms)) != MSG_TIMEOUT;
+		default:				return chSemWaitTimeout(&psem->sem, gfxMillisecondsToTicks(ms)) != MSG_TIMEOUT;
 		}
 	#endif
 }
 
 gBool gfxSemWaitI(gfxSem *psem)
 {
-	#if (CH_KERNEL_MAJOR == 2) || (CH_KERNEL_MAJOR == 3)
+	#if CH_KERNEL_MAJOR <= 3
 		if (psem->sem.s_cnt <= 0)
 			return gFalse;
-	#elif (CH_KERNEL_MAJOR == 4)
+	#else
 		if (psem->sem.cnt <= 0)
 			return gFalse;
 	#endif
@@ -154,10 +152,10 @@ void gfxSemSignal(gfxSem *psem)
 {
 	chSysLock();
 
-	#if (CH_KERNEL_MAJOR == 2) || (CH_KERNEL_MAJOR == 3)
+	#if CH_KERNEL_MAJOR <= 3
 		if (psem->sem.s_cnt < psem->limit)
 			chSemSignalI(&psem->sem);
-	#elif (CH_KERNEL_MAJOR == 4)
+	#else
 		if (psem->sem.cnt < psem->limit)
 			chSemSignalI(&psem->sem);
 	#endif
@@ -168,10 +166,10 @@ void gfxSemSignal(gfxSem *psem)
 
 void gfxSemSignalI(gfxSem *psem)
 {
-	#if (CH_KERNEL_MAJOR == 2) || (CH_KERNEL_MAJOR == 3)
+	#if CH_KERNEL_MAJOR <= 3
 		if (psem->sem.s_cnt < psem->limit)
 			chSemSignalI(&psem->sem);
-	#elif (CH_KERNEL_MAJOR == 4)
+	#else
 		if (psem->sem.cnt < psem->limit)
 			chSemSignalI(&psem->sem);
 	#endif
@@ -181,9 +179,9 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_
 {
 	if (!stackarea) {
 		if (!stacksz) stacksz = 256;
-		#if (CH_KERNEL_MAJOR == 2) || (CH_KERNEL_MAJOR == 3)
+		#if CH_KERNEL_MAJOR <= 3
 			return chThdCreateFromHeap(0, stacksz, prio, (tfunc_t)fn, param);
-		#elif CH_KERNEL_MAJOR == 4
+		#else
 			return chThdCreateFromHeap(0, stacksz, "ugfx", prio, (tfunc_t)fn, param);
 		#endif
 	}

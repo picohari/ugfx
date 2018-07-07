@@ -45,7 +45,7 @@ typedef tprio_t		threadpriority_t;
 #define DECLARE_THREAD_FUNCTION(fnName, param)	threadreturn_t fnName(void *param)
 #define THREAD_RETURN(retval)					return retval
 
-#if CH_KERNEL_MAJOR == 2
+#if CH_KERNEL_MAJOR <= 2
 	typedef struct {
 		Semaphore	sem;
 		semcount_t	limit;
@@ -53,7 +53,7 @@ typedef tprio_t		threadpriority_t;
 
 	typedef Mutex		gfxMutex;
 	typedef Thread*		gfxThreadHandle;
-#elif (CH_KERNEL_MAJOR == 3) || (CH_KERNEL_MAJOR == 4)
+#else
 	#undef DECLARE_THREAD_STACK
 	#define DECLARE_THREAD_STACK(a, b)  THD_WORKING_AREA(a, b)
 
@@ -72,24 +72,29 @@ typedef tprio_t		threadpriority_t;
 /*===========================================================================*/
 
 // First the kernel version specific ones
-#if CH_KERNEL_MAJOR == 2
+#if CH_KERNEL_MAJOR <= 2
 	#define gfxSystemTicks()			chTimeNow()
 	#define gfxMutexInit(pmutex)		chMtxInit(pmutex)
 	#define gfxMutexExit(pmutex)		chMtxUnlock()
 	#define gfxExit()					chSysHalt()
 	#define gfxHalt(msg)				{ chDbgPanic(msg); chSysHalt(); }
-#elif (CH_KERNEL_MAJOR == 3) || (CH_KERNEL_MAJOR == 4)
+#else
 	#define gfxSystemTicks()			chVTGetSystemTimeX()
 	#define gfxMutexInit(pmutex)		chMtxObjectInit(pmutex)
 	#define gfxMutexExit(pmutex)		chMtxUnlock(pmutex)
 	#define gfxExit()					osalSysHalt("gfx_exit")
-#define gfxHalt(msg)					{ chSysHalt(msg); }
+	#define gfxHalt(msg)				{ chSysHalt(msg); }
+#endif
+
+#if CH_KERNEL_MAJOR <= 4
+	#define gfxMillisecondsToTicks(ms)	MS2ST(ms)
+#else
+	#define gfxMillisecondsToTicks(ms)	TIME_MS2I(ms)
 #endif
 
 #define gfxAlloc(sz)				chHeapAlloc(0, sz)
 #define gfxFree(ptr)				chHeapFree(ptr)
 #define gfxYield()					chThdYield()
-#define gfxMillisecondsToTicks(ms)	MS2ST(ms)
 #define gfxSystemLock()				chSysLock()
 #define gfxSystemUnlock()			chSysUnlock()
 #define gfxMutexDestroy(pmutex)		(void)pmutex
