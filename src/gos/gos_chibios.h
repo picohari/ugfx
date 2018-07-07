@@ -30,7 +30,11 @@
  * are already defined by ChibiOS
  */
 
-typedef systime_t	delaytime_t;
+#if CH_KERNEL_MAJOR <= 4
+	typedef systime_t      delaytime_t;
+#else
+	typedef sysinterval_t  delaytime_t;
+#endif
 typedef systime_t	systemticks_t;
 typedef cnt_t		semcount_t;
 typedef msg_t		threadreturn_t;
