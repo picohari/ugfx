@@ -25,8 +25,8 @@
 /* Type definitions                                                          */
 /*===========================================================================*/
 
-#define TIME_IMMEDIATE		0
-#define TIME_INFINITE		osWaitForever
+#define gDelayNone			0
+#define gDelayForever		osWaitForever
 typedef uint32_t			gDelay;
 typedef uint32_t			gTicks;
 typedef uint16_t			gSemcount;
@@ -62,7 +62,7 @@ typedef osThreadId_t		gfxThreadHandle;
 
 void gfxMutexInit(gfxMutex* pmutex);
 #define gfxMutexDestroy(pmutex)		osMutexDelete(*(pmutex))
-#define gfxMutexEnter(pmutex)		osMutexAcquire(*(pmutex), TIME_INFINITE)
+#define gfxMutexEnter(pmutex)		osMutexAcquire(*(pmutex), gDelayForever)
 #define gfxMutexExit(pmutex)		osMutexRelease(*(pmutex))
 
 void gfxSemInit(gfxSem* psem, gSemcount val, gSemcount limit);

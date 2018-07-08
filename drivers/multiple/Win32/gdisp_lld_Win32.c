@@ -544,7 +544,7 @@ static LRESULT myWindowProc(HWND hWnd,	UINT Msg, WPARAM wParam, LPARAM lParam)
 					rect.bottom = GDISP_SCREEN_HEIGHT + WIN32_BUTTON_AREA;
 					InvalidateRect(hWnd, &rect, FALSE);
 					UpdateWindow(hWnd);
-					#if GINPUT_TOGGLE_POLL_PERIOD == TIME_INFINITE
+					#if GINPUT_TOGGLE_POLL_PERIOD == gDelayForever
 						ginputToggleWakeup();
 					#endif
 				}
@@ -567,7 +567,7 @@ static LRESULT myWindowProc(HWND hWnd,	UINT Msg, WPARAM wParam, LPARAM lParam)
 						rect.bottom = GDISP_SCREEN_HEIGHT + WIN32_BUTTON_AREA;
 						InvalidateRect(hWnd, &rect, FALSE);
 						UpdateWindow(hWnd);
-						#if GINPUT_TOGGLE_POLL_PERIOD == TIME_INFINITE
+						#if GINPUT_TOGGLE_POLL_PERIOD == gDelayForever
 							ginputToggleWakeup();
 						#endif
 					}

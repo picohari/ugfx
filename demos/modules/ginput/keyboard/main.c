@@ -70,7 +70,7 @@ int main(void) {
 
 	while(1) {
 		// Get an Event
-		pk = (GEventKeyboard *)geventEventWait(&gl, TIME_INFINITE);
+		pk = (GEventKeyboard *)geventEventWait(&gl, gDelayForever);
 
 		if (pk->type != GEVENT_KEYBOARD)
 			continue;

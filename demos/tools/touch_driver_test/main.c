@@ -176,7 +176,7 @@ StepDeviceType:
 	}
 
 	while(1) {
-		pem = (GEventMouse *)geventEventWait(&gl, TIME_INFINITE);
+		pem = (GEventMouse *)geventEventWait(&gl, gDelayForever);
 		if (isCalibrated) {
 			switch (CheckButtons(pem)) {
 			case BTN_NEXT:
@@ -225,7 +225,7 @@ StepRawReading:
 		// Always sleep a bit first to enable other events. We actually don't
 		// mind missing events for this test.
 		gfxSleepMilliseconds(100);
-		pem = (GEventMouse *)geventEventWait(&gl, TIME_INFINITE);
+		pem = (GEventMouse *)geventEventWait(&gl, gDelayForever);
 		gwinPrintf(ghc, "%u, %u z=%u b=0x%04x\n", pem->x, pem->y, pem->z, pem->buttons & ~GINPUT_MISSED_MOUSE_EVENT);
 		if ((pem->buttons & GMETA_MOUSE_UP))
 			break;
@@ -265,7 +265,7 @@ StepCalibrate:
 		gwinPrintf(ghc, "Press and release your %s to move on to start calibration.\n", deviceText);
 
 	while(1) {
-		pem = (GEventMouse *)geventEventWait(&gl, TIME_INFINITE);
+		pem = (GEventMouse *)geventEventWait(&gl, gDelayForever);
 		if (isCalibrated) {
 			switch (CheckButtons(pem)) {
 			case BTN_NEXT:
@@ -317,7 +317,7 @@ StepMouseCoords:
 		// Always sleep a bit first to enable other events. We actually don't
 		// mind missing events for this test.
 		gfxSleepMilliseconds(100);
-		pem = (GEventMouse *)geventEventWait(&gl, TIME_INFINITE);
+		pem = (GEventMouse *)geventEventWait(&gl, gDelayForever);
 
 		switch (CheckButtons(pem)) {
 		case BTN_NEXT:
@@ -359,7 +359,7 @@ StepMovementJitter:
 	gwinPrintf(ghc, "Press Next or Back to continue.\n\n");
 
 	while(1) {
-		pem = (GEventMouse *)geventEventWait(&gl, TIME_INFINITE);
+		pem = (GEventMouse *)geventEventWait(&gl, gDelayForever);
 		switch (CheckButtons(pem)) {
 		case BTN_NEXT:
 			break;
@@ -402,7 +402,7 @@ StepClickJitter:
 	gwinPrintf(ghc, "Press Next or Back to continue.\n\n");
 
 	while(1) {
-		pem = (GEventMouse *)geventEventWait(&gl, TIME_INFINITE);
+		pem = (GEventMouse *)geventEventWait(&gl, gDelayForever);
 		switch (CheckButtons(pem)) {
 		case BTN_NEXT:
 			break;
@@ -444,7 +444,7 @@ StepDrawing:
 	gwinPrintf(ghc, "Press Next or Back to continue.\n\n");
 
 	while(1) {
-		pem = (GEventMouse *)geventEventWait(&gl, TIME_INFINITE);
+		pem = (GEventMouse *)geventEventWait(&gl, gDelayForever);
 		if (pem->y < bHeight && pem->x >= swidth-2*bWidth) {
 			if ((pem->buttons & GMETA_MOUSE_UP)) {
 				if (pem->x >= swidth-bWidth)

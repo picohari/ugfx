@@ -5,8 +5,8 @@
 
 #include "raw_api.h"
 
-#define TIME_IMMEDIATE		(RAW_NO_WAIT)
-#define TIME_INFINITE		(RAW_WAIT_FOREVER)
+#define gDelayNone			(RAW_NO_WAIT)
+#define gDelayForever		(RAW_WAIT_FOREVER)
 typedef uint32_t			gDelay;
 typedef RAW_TICK_TYPE		gTicks;
 typedef int32_t				gSemcount;
@@ -38,7 +38,7 @@ typedef RAW_TASK_OBJ*		gfxThreadHandle;
 #define gfxSystemUnlock()				{}
 #define gfxMutexInit(pmutex)			raw_mutex_create(pmutex, (RAW_U8 *)"", RAW_MUTEX_INHERIT_POLICY, 3)
 #define gfxMutexDestroy(pmutex)			raw_mutex_delete(pmutex)
-#define gfxMutexEnter(pmutex) 			raw_mutex_get(pmutex, TIME_INFINITE)
+#define gfxMutexEnter(pmutex) 			raw_mutex_get(pmutex, gDelayForever)
 #define gfxMutexExit(pmutex)			raw_mutex_put(pmutex)
 #define gfxSemInit(psem, val, limit)	raw_semaphore_create(psem, "", val)
 #define gfxSemDestroy(psem)				raw_semaphore_delete(psem)

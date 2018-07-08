@@ -35,8 +35,8 @@ void _gosDeinit(void)
 void gfxSleepMilliseconds(gDelay ms)
 {
 	switch(ms) {
-		case TIME_IMMEDIATE:	cyg_thread_yield();								return;
-		case TIME_INFINITE:		cyg_thread_suspend(cyg_thread_self());			return;
+		case gDelayNone:	cyg_thread_yield();								return;
+		case gDelayForever:		cyg_thread_suspend(cyg_thread_self());			return;
 		default:				cyg_thread_delay(gfxMillisecondsToTicks(ms));	return;
 	}
 }
@@ -44,8 +44,8 @@ void gfxSleepMilliseconds(gDelay ms)
 void gfxSleepMicroseconds(gDelay ms)
 {
 	switch(ms) {
-		case TIME_IMMEDIATE:														return;
-		case TIME_INFINITE:		cyg_thread_suspend(cyg_thread_self());				return;
+		case gDelayNone:														return;
+		case gDelayForever:		cyg_thread_suspend(cyg_thread_self());				return;
 		default:				cyg_thread_delay(gfxMillisecondsToTicks(ms/1000));	return;
 	}
 }
@@ -67,8 +67,8 @@ void gfxSemDestroy(gfxSem *psem)
 gBool gfxSemWait(gfxSem *psem, gDelay ms)
 {
 	switch(ms) {
-	case TIME_IMMEDIATE:	return cyg_semaphore_trywait(&psem->sem);
-	case TIME_INFINITE:		return cyg_semaphore_wait(&psem->sem);
+	case gDelayNone:	return cyg_semaphore_trywait(&psem->sem);
+	case gDelayForever:		return cyg_semaphore_wait(&psem->sem);
 	default:				return cyg_semaphore_timed_wait(&psem->sem, gfxMillisecondsToTicks(ms)+cyg_current_time());
 	}
 }

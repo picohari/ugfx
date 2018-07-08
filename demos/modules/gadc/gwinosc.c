@@ -101,7 +101,7 @@ void gwinScopeWaitForTrace(GHandle gh) {
 		return;
 
 	/* Wait for a set of conversions */
-	pd = gadcHighSpeedGetData(TIME_INFINITE);
+	pd = gadcHighSpeedGetData(gDelayForever);
 
 	/* Ensure we are drawing in the right area */
 	#if GDISP_NEED_CLIP

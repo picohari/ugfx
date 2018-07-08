@@ -30,8 +30,8 @@ typedef int	gThreadpriority;
 
 #define THREAD_RETURN(retval)		return
 
-#define TIME_IMMEDIATE			K_NO_WAIT
-#define TIME_INFINITE			K_FOREVER
+#define gDelayNone				K_NO_WAIT
+#define gDelayForever			K_FOREVER
 #define MAX_SEMAPHORE_COUNT		((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
 #define LOW_PRIORITY			CONFIG_NUM_PREEMPT_PRIORITIES-1
 #define NORMAL_PRIORITY			1

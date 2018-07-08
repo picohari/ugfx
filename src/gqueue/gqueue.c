@@ -297,7 +297,7 @@ void _gqueueDeinit(void)
 		gfxSemInit(&pqueue->sem, 0, MAX_SEMAPHORE_COUNT);
 	}
 	void gfxQueueFSyncDeinit(gfxQueueGSync *pqueue) {
-		while(gfxQueueFSyncGet(pqueue, TIME_IMMEDIATE));
+		while(gfxQueueFSyncGet(pqueue, gDelayNone));
 		pqueue->head = pqueue->tail = 0;
 		gfxSemDestroy(&pqueue->sem);
 	}

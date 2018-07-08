@@ -202,7 +202,7 @@ gDelay gdispImageNext_JPG(gdispImage *img) {
 	(void) img;
 
 	/* No more frames/pages */
-	return TIME_INFINITE;
+	return gDelayForever;
 }
 
 /*----------------------------------------------------------------------------/

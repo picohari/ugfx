@@ -24,8 +24,8 @@
 /* Type definitions                                                          */
 /*===========================================================================*/
 
-#define TIME_IMMEDIATE		0
-#define TIME_INFINITE		((gDelay)-1)
+#define gDelayNone			0
+#define gDelayForever		((gDelay)-1)
 typedef uint32_t			gDelay;
 typedef portTickType		gTicks;
 typedef int32_t				gSemcount;

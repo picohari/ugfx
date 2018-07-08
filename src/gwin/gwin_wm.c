@@ -190,7 +190,7 @@ void _gwmInit(void)
 	#endif
 	#if !GWIN_REDRAW_IMMEDIATE
 		gtimerInit(&RedrawTimer);
-		gtimerStart(&RedrawTimer, RedrawTimerFn, 0, gTrue, TIME_INFINITE);
+		gtimerStart(&RedrawTimer, RedrawTimerFn, 0, gTrue, gDelayForever);
 	#endif
 	_GWINwm = (GWindowManager *)&GNullWindowManager;
 	_GWINwm->vmt->Init();
@@ -231,8 +231,8 @@ void _gwinFlushRedraws(GRedrawMethod how) {
 
 	// Obtain the drawing lock
 	if (how == REDRAW_WAIT)
-		gfxSemWait(&gwinsem, TIME_INFINITE);
-	else if (how == REDRAW_NOWAIT && !gfxSemWait(&gwinsem, TIME_IMMEDIATE))
+		gfxSemWait(&gwinsem, gDelayForever);
+	else if (how == REDRAW_NOWAIT && !gfxSemWait(&gwinsem, gDelayNone))
 		// Someone is drawing - They will do the redraw when they are finished
 		return;
 
@@ -373,7 +373,7 @@ gBool _gwinDrawStart(GHandle gh) {
 		return gFalse;
 
 	// Obtain the drawing lock
-	gfxSemWait(&gwinsem, TIME_INFINITE);
+	gfxSemWait(&gwinsem, gDelayForever);
 
 	// Re-test visibility as we may have waited a while
 	if (!(gh->flags & GWIN_FLG_SYSVISIBLE)) {
@@ -742,7 +742,7 @@ static gBool WM_Add(GHandle gh, const GWindowInit *pInit) {
 
 static void WM_Delete(GHandle gh) {
 	// Remove it from the window list
-	gfxSemWait(&gwinsem, TIME_INFINITE);
+	gfxSemWait(&gwinsem, gDelayForever);
 	gfxQueueASyncRemove(&_GWINList, &gh->wmq);
 	gfxSemSignal(&gwinsem);
 }
@@ -986,7 +986,7 @@ static void WM_Raise(GHandle gh) {
 	// Take it off the list and then put it back on top
 	// The order of the list then reflects the z-order.
 
-	gfxSemWait(&gwinsem, TIME_INFINITE);
+	gfxSemWait(&gwinsem, gDelayForever);
 	
 	gfxQueueASyncRemove(&_GWINList, &gh->wmq);
 	gfxQueueASyncPut(&_GWINList, &gh->wmq);

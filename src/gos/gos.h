@@ -99,8 +99,8 @@
 	 * @note	Your platform may use slightly different definitions to these
 	 * @{
 	 */
-	#define TIME_IMMEDIATE				0
-	#define TIME_INFINITE				((gDelay)-1)
+	#define gDelayNone				0
+	#define gDelayForever				((gDelay)-1)
 	#define MAX_SEMAPHORE_COUNT			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
 	#define LOW_PRIORITY				0
 	#define NORMAL_PRIORITY				1
@@ -215,9 +215,9 @@
 	 *
 	 * @param[in] ms	The number milliseconds to sleep
 	 *
-	 * @note		Specifying TIME_IMMEDIATE will yield the current thread but return
+	 * @note		Specifying gDelayNone will yield the current thread but return
 	 * 				on the next time slice.
-	 * @note		Specifying TIME_INFINITE will sleep forever.
+	 * @note		Specifying gDelayForever will sleep forever.
 	 *
 	 * @api
 	 */
@@ -228,8 +228,8 @@
 	 *
 	 * @param[in] us	The number microseconds to sleep
 	 *
-	 * @note		Specifying TIME_IMMEDIATE will return immediately (no sleeping)
-	 * @note		Specifying TIME_INFINITE will sleep forever.
+	 * @note		Specifying gDelayNone will return immediately (no sleeping)
+	 * @note		Specifying gDelayForever will sleep forever.
 	 *
 	 * @api
 	 */
@@ -372,7 +372,7 @@
 
 	/**
 	 * @brief	Test if a wait on a semaphore can be satisfied immediately
-	 * @details	Equivalent to @p gfxSemWait(psem, TIME_IMMEDIATE) except it can be called at interrupt level
+	 * @details	Equivalent to @p gfxSemWait(psem, gDelayNone) except it can be called at interrupt level
 	 * @return	gFalse if the wait would occur occurred otherwise gTrue
 	 *
 	 * @param[in] psem		A pointer to the semaphore
@@ -498,6 +498,11 @@
 	typedef gTicks			systemticks_t;
 	typedef gThreadreturn	threadreturn_t;
 	typedef gThreadpriority	threadpriority_t;
+	#if !GFX_USE_OS_CHIBIOS
+		// These are defined by ChibiOS itself
+		#define TIME_IMMEDIATE	gDelayNone
+		#define TIME_INFINITE	gDelayForever
+	#endif
 #endif
 
 #endif /* _GOS_H */

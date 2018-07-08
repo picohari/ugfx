@@ -819,7 +819,7 @@ gDelay gdispImageNext_BMP(gdispImage *img) {
 	(void) img;
 
 	/* No more frames/pages */
-	return TIME_INFINITE;
+	return gDelayForever;
 }
 
 uint16_t gdispImageGetPaletteSize_BMP(gdispImage *img) {

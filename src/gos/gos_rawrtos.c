@@ -70,7 +70,7 @@ gBool gfxSemWait(gfxSem* psem, gDelay ms)
 
 gBool gfxSemWaitI(gfxSem* psem)
 {
-	if(raw_semaphore_get((psem), TIME_IMMEDIATE)==RAW_SUCCESS)
+	if(raw_semaphore_get((psem), RAW_NO_WAIT)==RAW_SUCCESS)
 		return gTrue;
 	return gFalse;
 }

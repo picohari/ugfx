@@ -152,7 +152,7 @@ void _gaudioDeinit(void)
 
 		GSourceHandle gaudioPlayGetSource(void) {
 			if (!gtimerIsActive(&playTimer))
-				gtimerStart(&playTimer, PlayTimerCallback, 0, gTrue, TIME_INFINITE);
+				gtimerStart(&playTimer, PlayTimerCallback, 0, gTrue, gDelayForever);
 			playFlags |= PLAYFLG_USEEVENTS;
 			return (GSourceHandle)&playTimer;
 		}
@@ -209,7 +209,7 @@ void _gaudioDeinit(void)
 		if ((recordFlags & (RECORDFLG_RECORDING|RECORDFLG_STALLED)) == RECORDFLG_RECORDING)
 			gaudio_record_lld_stop();
 		recordFlags &= ~(RECORDFLG_RECORDING|RECORDFLG_STALLED);
-		while((pd = (GDataBuffer *)gfxQueueGSyncGet(&recordList, TIME_IMMEDIATE)))
+		while((pd = (GDataBuffer *)gfxQueueGSyncGet(&recordList, gDelayNone)))
 			gfxBufferRelease(pd);
 	}
 
@@ -245,7 +245,7 @@ void _gaudioDeinit(void)
 
 		GSourceHandle gaudioRecordGetSource(void) {
 			if (!gtimerIsActive(&recordTimer))
-				gtimerStart(&recordTimer, RecordTimerCallback, 0, gTrue, TIME_INFINITE);
+				gtimerStart(&recordTimer, RecordTimerCallback, 0, gTrue, gDelayForever);
 			recordFlags |= RECORDFLG_USEEVENTS;
 			return (GSourceHandle)&recordTimer;
 		}

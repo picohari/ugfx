@@ -64,11 +64,11 @@ void gfxSleepMilliseconds(gDelay ms) {
 	struct timespec	ts;
 
 	switch(ms) {
-		case TIME_IMMEDIATE:
+		case gDelayNone:
 			linuxyield();
 			return;
 
-		case TIME_INFINITE:
+		case gDelayForever:
 			while(1)
 				sleep(60);
 			return;
@@ -85,11 +85,11 @@ void gfxSleepMicroseconds(gDelay us) {
 	struct timespec	ts;
 
 	switch(us) {
-		case TIME_IMMEDIATE:
+		case gDelayNone:
 			linuxyield();
 			return;
 
-		case TIME_INFINITE:
+		case gDelayForever:
 			while(1)
 				sleep(60);
 			return;
@@ -147,10 +147,10 @@ gThreadreturn gfxThreadWait(gfxThreadHandle thread) {
 	}
 	gBool gfxSemWait(gfxSem *pSem, gDelay ms) {
 		switch (ms) {
-		case TIME_INFINITE:
+		case gDelayForever:
 			return sem_wait(&pSem->sem) ? gFalse : gTrue;
 
-		case TIME_IMMEDIATE:
+		case gDelayNone:
 			return sem_trywait(&pSem->sem) ? gFalse : gTrue;
 
 		default:
@@ -189,12 +189,12 @@ gThreadreturn gfxThreadWait(gfxThreadHandle thread) {
 		pthread_mutex_lock(&pSem->mtx);
 
 		switch (ms) {
-			case TIME_INFINITE:
+			case gDelayForever:
 				while (!pSem->cnt)
 					pthread_cond_wait(&pSem->cond, &pSem->mtx);
 				break;
 
-			case TIME_IMMEDIATE:
+			case gDelayNone:
 				if (!pSem->cnt) {
 					pthread_mutex_unlock(&pSem->mtx);
 					return gFalse;

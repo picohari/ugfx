@@ -124,7 +124,7 @@ void gfxQueueFSyncDeinit(gfxQueueFSync *pqueue);
  *
  * @param[in]	pqueue	A pointer to the queue
  * @param[in]	ms		The maxmimum time to wait for an item. For ASync queues this parameter is
- * 						not specified as TIME_IMMEDIATE is assumed.
+ * 						not specified as gDelayNone is assumed.
  *
  * @note		The routines ending in "I" are interrupt/system/iclass level routines.
  *
@@ -147,7 +147,7 @@ gfxQueueFSyncItem *gfxQueueFSyncGet(gfxQueueFSync *pqueue, gDelay ms);
  * @param[in]	pitem	A pointer to the queue item
  * @param[in]	ms		The maxmimum time to wait for an item to be removed from the queue (only for FSync queues)
  *
- * @note		FSync: Use a delay time of TIME_IMMEDIATE if you don't want to wait until the
+ * @note		FSync: Use a delay time of gDelayNone if you don't want to wait until the
  * 				item is removed from the queue. Note that even if the timeout occurs - the item
  * 				remains in the queue.
  * @note		The routines ending in "I" are interrupt/system/iclass level routines.
@@ -185,7 +185,7 @@ gBool gfxQueueFSyncPut(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gDelay m
  * @param[in]	pitem	A pointer to the queue item
  * @param[in]	ms		The maxmimum time to wait for an item to be popped (only for FSync queues)
  *
- * @note		FSync: Use a delay time of TIME_IMMEDIATE if you don't want to wait until the
+ * @note		FSync: Use a delay time of gDelayNone if you don't want to wait until the
  * 				item is removed from the queue. Note that even if the timeout occurs - the item
  * 				remains in the queue.
  * @note		The routines ending in "I" are interrupt/system/iclass level routines.
@@ -211,7 +211,7 @@ gBool gfxQueueFSyncPush(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gDelay 
  * 							pafter can't be found in the queue, it puts the new item at the end of the queue.
  * @param[in]	ms		The maxmimum time to wait for an item to be removed from the queue (only for FSync queues)
  *
- * @note		FSync: Use a delay time of TIME_IMMEDIATE if you don't want to wait until the
+ * @note		FSync: Use a delay time of gDelayNone if you don't want to wait until the
  * 				item is removed from the queue. Note that even if the timeout occurs - the item
  * 				remains in the queue.
  * @note		The routines ending in "I" are interrupt/system/iclass level routines.

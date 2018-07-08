@@ -25,10 +25,8 @@
 /* Type definitions                                                          */
 /*===========================================================================*/
 
-/**
- * TIME_IMMEDIATE, TIME_INFINITE
- * are already defined by ChibiOS
- */
+#define gDelayNone		TIME_IMMEDIATE
+#define gDelayForever	TIME_INFINITE
 
 #if CH_KERNEL_MAJOR <= 4
 	typedef systime_t      gDelay;

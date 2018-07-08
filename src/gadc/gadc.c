@@ -214,7 +214,7 @@ void gadcHighSpeedInit(uint32_t physdev, uint32_t frequency)
 #if GFX_USE_GEVENT
 	GSourceHandle gadcHighSpeedGetSource(void) {
 		if (!gtimerIsActive(&hsGTimer))
-			gtimerStart(&hsGTimer, HighSpeedGTimerCallback, 0, gTrue, TIME_INFINITE);
+			gtimerStart(&hsGTimer, HighSpeedGTimerCallback, 0, gTrue, gDelayForever);
 		hsFlags |= GADC_HSADC_GTIMER;
 		return (GSourceHandle)&hsGTimer;
 	}
@@ -285,7 +285,7 @@ static void LowSpeedGTimerCallback(void *param) {
 	NonTimerData		*pdata;
 
 	// Look for completed non-timer jobs and call the call-backs for each
-	while ((pdata = (NonTimerData *)gfxQueueGSyncGet(&lsListDone, TIME_IMMEDIATE))) {
+	while ((pdata = (NonTimerData *)gfxQueueGSyncGet(&lsListDone, gDelayNone))) {
 		pdata->callback(pdata->job.buffer, pdata->param);
 		gfxFree(pdata);
 	}
@@ -315,7 +315,7 @@ void gadcLowSpeedGet(uint32_t physdev, adcsample_t *buffer) {
 	gfxSystemUnlock();
 
 	// Wait for it to complete
-	gfxSemWait(&ndata.sigdone, TIME_INFINITE);
+	gfxSemWait(&ndata.sigdone, gDelayForever);
 	gfxSemDestroy(&ndata.sigdone);
 }
 
@@ -324,7 +324,7 @@ gBool gadcLowSpeedStart(uint32_t physdev, adcsample_t *buffer, GADCCallbackFunct
 
 	/* Start the Low Speed Timer */
 	if (!gtimerIsActive(&lsGTimer))
-		gtimerStart(&lsGTimer, LowSpeedGTimerCallback, 0, gTrue, TIME_INFINITE);
+		gtimerStart(&lsGTimer, LowSpeedGTimerCallback, 0, gTrue, gDelayForever);
 
 	// Prepare the job
 	if (!(pdata = gfxAlloc(sizeof(NonTimerData))))

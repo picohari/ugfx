@@ -43,10 +43,10 @@ void gfxSleepMicroseconds(gDelay ms) {
     LARGE_INTEGER t1, t2, tdiff;
 
     switch(ms) {
-		case TIME_IMMEDIATE:
+		case gDelayNone:
 			return;
 
-		case TIME_INFINITE:
+		case gDelayForever:
 			while(1)
 				Sleep(1000);
 			return;

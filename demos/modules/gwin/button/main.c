@@ -76,7 +76,7 @@ int main(void) {
 
 	while(1) {
 		// Get an Event
-		pe = geventEventWait(&gl, TIME_INFINITE);
+		pe = geventEventWait(&gl, gDelayForever);
 
 		switch(pe->type) {
 			case GEVENT_GWIN_BUTTON:

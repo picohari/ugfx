@@ -16,7 +16,7 @@ CHANGE:		Added GFX_RED, GFX_BLUE, GFX_GREEN etc to replace V2.x Red, Gree, Blue 
 CHANGE:		Added GFXON/GFXOFF to replace V2.x TRUE/FALSE for configuration options.
 CHANGE:		Added types gI8, gU8 .. gI32, gU32 to replace V2.x int8_t etc
 CHANGE:		Added type gBool           to replace V2.x bool_t,        and values gTrue/gFalse to replace TRUE/FALSE
-CHANGE:		Added type gDelay          to replace V2.x delaytime_t
+CHANGE:		Added type gDelay          to replace V2.x delaytime_t    and values gDelayNone/gDelayForever to replace TIME_IMMEDIATE/TIME_INFINITE
 CHANGE:		Added type gTicks          to replace V2.x systemticks_t
 CHANGE:		Added type gThreadreturn   to replace V2.x threadreturn_t
 CHANGE:		Added type gThreadpriority to replace V2.x threadpriority_t

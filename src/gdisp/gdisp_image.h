@@ -227,20 +227,20 @@ gdispImageError gdispGImageDraw(GDisplay *g, gdispImage *img, gCoord x, gCoord y
 /**
  * @brief	Prepare for the next frame/page in the image file.
  * @return	A time in milliseconds to keep displaying the current frame before trying to draw
- * 			the next frame. Watch out for the special values TIME_IMMEDIATE and TIME_INFINITE.
+ * 			the next frame. Watch out for the special values gDelayNone and gDelayForever.
  *
  * @param[in] img   The image structure
  *
  * @pre		gdispImageOpen() must have returned successfully.
  *
- * @note	It will return TIME_IMMEDIATE if the first frame/page hasn't been drawn or if the next frame
+ * @note	It will return gDelayNone if the first frame/page hasn't been drawn or if the next frame
  * 			should be drawn immediately.
- * @note	It will return TIME_INFINITE if another image frame doesn't exist or an error has occurred.
- * @note	Images that support multiple pages (eg TIFF files) will return TIME_IMMEDIATE between pages
- * 			and then TIME_INFINITE when there are no more pages.
- * @note	An image that displays a looped animation will never return TIME_INFINITE unless it
+ * @note	It will return gDelayForever if another image frame doesn't exist or an error has occurred.
+ * @note	Images that support multiple pages (eg TIFF files) will return gDelayNone between pages
+ * 			and then gDelayForever when there are no more pages.
+ * @note	An image that displays a looped animation will never return gDelayForever unless it
  * 			gets an error.
- * @note	Calling gdispImageDraw() after getting a TIME_INFINITE will go back to drawing the first
+ * @note	Calling gdispImageDraw() after getting a gDelayForever will go back to drawing the first
  * 			frame/page.
  */
 gDelay gdispImageNext(gdispImage *img);

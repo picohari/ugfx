@@ -56,11 +56,11 @@ gBool gfxSemWait(gfxSem *psem, gDelay ms) {
 	// Convert our delay to ticks
 	starttm = 0;
 	switch (ms) {
-	case TIME_IMMEDIATE:
-		delay = TIME_IMMEDIATE;
+	case gDelayNone:
+		delay = gDelayNone;
 		break;
-	case TIME_INFINITE:
-		delay = TIME_INFINITE;
+	case gDelayForever:
+		delay = gDelayForever;
 		break;
 	default:
 		delay = gfxMillisecondsToTicks(ms);
@@ -73,9 +73,9 @@ gBool gfxSemWait(gfxSem *psem, gDelay ms) {
 		INTERRUPTS_ON();
 		// Check if we have exceeded the defined delay
 		switch (delay) {
-		case TIME_IMMEDIATE:
+		case gDelayNone:
 			return gFalse;
-		case TIME_INFINITE:
+		case gDelayForever:
 			break;
 		default:
 			if (gfxSystemTicks() - starttm >= delay)
@@ -117,9 +117,9 @@ void gfxSleepMilliseconds(gDelay ms) {
 
 	// Safety first
 	switch (ms) {
-	case TIME_IMMEDIATE:
+	case gDelayNone:
 		return;
-	case TIME_INFINITE:
+	case gDelayForever:
 		while(1)
 			gfxYield();
 		return;
@@ -139,9 +139,9 @@ void gfxSleepMicroseconds(gDelay ms) {
 
 	// Safety first
 	switch (ms) {
-	case TIME_IMMEDIATE:
+	case gDelayNone:
 		return;
-	case TIME_INFINITE:
+	case gDelayForever:
 		while(1)
 			gfxYield();
 		return;

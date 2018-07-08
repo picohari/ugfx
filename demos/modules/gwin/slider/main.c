@@ -84,7 +84,7 @@ int main(void) {
 
 	while(1) {
 		// Get an Event (assume it is a slider event)
-		pe = (GEventGWinSlider *)geventEventWait(&gl, TIME_INFINITE);
+		pe = (GEventGWinSlider *)geventEventWait(&gl, gDelayForever);
 
 		switch(pe->type) {
 			case GEVENT_GWIN_SLIDER:

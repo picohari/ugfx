@@ -18,8 +18,8 @@
 /* Type definitions                                                          */
 /*===========================================================================*/
 
-#define TIME_IMMEDIATE		0
-#define TIME_INFINITE		0xFFFFFFFF
+#define gDelayNone			0
+#define gDelayForever		0xFFFFFFFF
 
 typedef cyg_ucount32		gDelay;
 typedef cyg_tick_count_t	gTicks;

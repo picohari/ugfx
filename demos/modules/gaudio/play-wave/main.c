@@ -165,7 +165,7 @@ repeatplay:
 	gdispDrawString(0, gdispGetHeight()/2, "Playing...", font, GFX_YELLOW);
 	while(toplay) {
 		// Get a buffer to put the data into
-		pd = gfxBufferGet(TIME_INFINITE);		// This should never fail as we are waiting forever
+		pd = gfxBufferGet(gDelayForever);		// This should never fail as we are waiting forever
 
 		// How much data can we put in
 		len = toplay > pd->size ? pd->size : toplay;
@@ -183,7 +183,7 @@ repeatplay:
 	gfileClose(f);
 
 	// Wait for the play to finish
-	gaudioPlayWait(TIME_INFINITE);
+	gaudioPlayWait(gDelayForever);
 	gdispDrawString(0, gdispGetHeight()/2+10, "Done", font, GFX_GREEN);
 
 	// Repeat the whole thing

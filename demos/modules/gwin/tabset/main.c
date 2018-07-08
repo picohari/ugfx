@@ -87,7 +87,7 @@ int main(void) {
 
 	while(1) {
 		// Get an Event
-		pe = geventEventWait(&gl, TIME_INFINITE);
+		pe = geventEventWait(&gl, gDelayForever);
 
 		(void)pe;
 	}

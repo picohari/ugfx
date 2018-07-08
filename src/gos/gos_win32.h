@@ -35,8 +35,8 @@ typedef int					gThreadpriority;
 #define DECLARE_THREAD_STACK(name, sz)			uint8_t name[1];
 #define THREAD_RETURN(retval)					return retval
 
-#define TIME_IMMEDIATE				0
-#define TIME_INFINITE				INFINITE
+#define gDelayNone					0
+#define gDelayForever				INFINITE
 #define MAX_SEMAPHORE_COUNT			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
 #define LOW_PRIORITY				THREAD_PRIORITY_BELOW_NORMAL
 #define NORMAL_PRIORITY				THREAD_PRIORITY_NORMAL
@@ -60,7 +60,7 @@ typedef HANDLE gfxThreadHandle;
 #define gfxMutexExit(pmutex)			ReleaseMutex(*(pmutex))
 #define gfxSemInit(psem, val, limit)	*(psem) = CreateSemaphore(0, val, limit, 0)
 #define gfxSemDestroy(psem)				CloseHandle(*(psem))
-#define gfxSemWaitI(psem)				gfxSemWait((psem), TIME_IMMEDIATE)
+#define gfxSemWaitI(psem)				gfxSemWait((psem), gDelayNone)
 #define gfxSemSignal(psem)				ReleaseSemaphore(*(psem), 1, 0)
 #define gfxSemSignalI(psem)				ReleaseSemaphore(*(psem), 1, 0)
 #define gfxThreadMe()					GetCurrentThread()

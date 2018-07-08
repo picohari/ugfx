@@ -34,8 +34,8 @@ typedef int				gThreadpriority;
 #define DECLARE_THREAD_STACK(name, sz)			uint8_t name[(sz) & ~3];
 #define THREAD_RETURN(retval)					return retval
 
-#define TIME_IMMEDIATE				0
-#define TIME_INFINITE				((gDelay)-1)
+#define gDelayNone					0
+#define gDelayForever				((gDelay)-1)
 #define MAX_SEMAPHORE_COUNT			0x7FFF
 #define LOW_PRIORITY				0
 #define NORMAL_PRIORITY				1

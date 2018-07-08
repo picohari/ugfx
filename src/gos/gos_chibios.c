@@ -84,8 +84,8 @@ void *gfxRealloc(void *ptr, size_t oldsz, size_t newsz)
 void gfxSleepMilliseconds(gDelay ms)
 {
 	switch(ms) {
-		case TIME_IMMEDIATE:	chThdYield();				return;
-		case TIME_INFINITE:		chThdSleep(TIME_INFINITE);	return;
+		case gDelayNone:		chThdYield();				return;
+		case gDelayForever:		chThdSleep(TIME_INFINITE);	return;
 		default:				chThdSleepMilliseconds(ms);	return;
 	}
 }
@@ -93,8 +93,8 @@ void gfxSleepMilliseconds(gDelay ms)
 void gfxSleepMicroseconds(gDelay ms)
 {
 	switch(ms) {
-		case TIME_IMMEDIATE:								return;
-		case TIME_INFINITE:		chThdSleep(TIME_INFINITE);	return;
+		case gDelayNone:									return;
+		case gDelayForever:		chThdSleep(TIME_INFINITE);	return;
 		default:				chThdSleepMicroseconds(ms);	return;
 	}
 }
@@ -122,14 +122,14 @@ gBool gfxSemWait(gfxSem *psem, gDelay ms)
 {
 	#if CH_KERNEL_MAJOR <= 2
 		switch(ms) {
-		case TIME_IMMEDIATE:	return chSemWaitTimeout(&psem->sem, TIME_IMMEDIATE) != RDY_TIMEOUT;
-		case TIME_INFINITE:		chSemWait(&psem->sem);	return gTrue;
+		case gDelayNone:		return chSemWaitTimeout(&psem->sem, TIME_IMMEDIATE) != RDY_TIMEOUT;
+		case gDelayForever:		chSemWait(&psem->sem);	return gTrue;
 		default:				return chSemWaitTimeout(&psem->sem, gfxMillisecondsToTicks(ms)) != RDY_TIMEOUT;
 		}
 	#else
 		switch(ms) {
-		case TIME_IMMEDIATE:	return chSemWaitTimeout(&psem->sem, TIME_IMMEDIATE) != MSG_TIMEOUT;
-		case TIME_INFINITE:		chSemWait(&psem->sem);	return gTrue;
+		case gDelayNone:		return chSemWaitTimeout(&psem->sem, TIME_IMMEDIATE) != MSG_TIMEOUT;
+		case gDelayForever:		chSemWait(&psem->sem);	return gTrue;
 		default:				return chSemWaitTimeout(&psem->sem, gfxMillisecondsToTicks(ms)) != MSG_TIMEOUT;
 		}
 	#endif

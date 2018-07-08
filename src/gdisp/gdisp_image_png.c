@@ -1625,7 +1625,7 @@ gDelay gdispImageNext_PNG(gdispImage *img) {
 	(void) img;
 
 	/* No more frames/pages */
-	return TIME_INFINITE;
+	return gDelayForever;
 }
 
 #endif /* GFX_USE_GDISP && GDISP_NEED_IMAGE && GDISP_NEED_IMAGE_PNG */

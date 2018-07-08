@@ -89,9 +89,9 @@ void gtimerDeinit(GTimer* pt);
  * @param[in] param		The parameter to pass to the callback function
  * @param[in] periodic	Is the timer a periodic timer? gFalse is a once-only timer.
  * @param[in] millisec	The timer period. The following special values are allowed:
- *							TIME_IMMEDIATE	causes the callback function to be called asap.
+ *							gDelayNone	causes the callback function to be called asap.
  *											A periodic timer with this value will fire once only.
- *							TIME_INFINITE	never timeout (unless triggered by gtimerJab or gtimerJabI)
+ *							gDelayForever	never timeout (unless triggered by gtimerJab or gtimerJabI)
  *
  * @note				If the timer is already active its properties are updated with the new parameters.
  *						The current period will be immediately canceled (without the callback function being

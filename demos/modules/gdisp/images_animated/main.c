@@ -89,12 +89,12 @@ int main(void) {
 				break;
 			}
 			delay = gdispImageNext(&myImage);
-			if (delay == TIME_INFINITE) {
+			if (delay == gDelayForever) {
 				SHOW_ERROR(GFX_GREEN);
 				break;
 			}
 			SHOW_ERROR(GFX_YELLOW);
-			if (delay != TIME_IMMEDIATE)
+			if (delay != gDelayNone)
 				gfxSleepMilliseconds(delay);
 		}
 		gdispImageClose(&myImage);

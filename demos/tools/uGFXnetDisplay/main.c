@@ -198,7 +198,7 @@ static gBool sendpkt(uint16_t *pkt, int len) {
 
 		while(1) {
 			// Get a (mouse) event
-			pem = (GEventMouse *)geventEventWait(&gl, TIME_INFINITE);
+			pem = (GEventMouse *)geventEventWait(&gl, gDelayForever);
 			if (pem->type != GEVENT_MOUSE && pem->type != GEVENT_TOUCH)
 				continue;
 

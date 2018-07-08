@@ -101,7 +101,7 @@ int main(void) {
 	geventAttachSource(&gl, gs, GLISTEN_MOUSEDOWNMOVES|GLISTEN_MOUSEUPMOVES|GLISTEN_MOUSEMETA|GLISTEN_MOUSENOFILTER);
 
 	while(1) {
-		pem = (GEventMouse *)geventEventWait(&gl, TIME_INFINITE);
+		pem = (GEventMouse *)geventEventWait(&gl, gDelayForever);
 		gwinPrintf(ghc, "%u, %u z=%u b=0x%04x\n", pem->x, pem->y, pem->z, pem->buttons & ~GINPUT_MISSED_MOUSE_EVENT);
 
 		// Always sleep a bit first to enable other events. We actually don't mind missing events.

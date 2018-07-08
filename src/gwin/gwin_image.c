@@ -99,10 +99,10 @@ static void ImageRedraw(GHandle gh) {
 
 		// Wait for that delay if required
 		switch(delay) {
-		case TIME_INFINITE:
+		case gDelayForever:
 			// Everything is done
 			break;
-		case TIME_IMMEDIATE:
+		case gDelayNone:
 			// We can't allow a continuous loop here as it would lock the system up so we delay for the minimum period
 			delay = 1;
 			// Fall through

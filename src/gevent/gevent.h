@@ -142,8 +142,8 @@ void geventDetachSource(GListener *pl, GSourceHandle gsh);
  * @brief	Wait for an event on a listener from an assigned source.
  * @details	The type of the event should be checked (pevent->type) and then pevent should
  *			be typecast to the actual event type if it needs to be processed.
- *			TIME_INFINITE means no timeout - wait forever for an event.
- *			TIME_IMMEDIATE means return immediately
+ *			gDelayForever means no timeout - wait forever for an event.
+ *			gDelayNone means return immediately
  * @note	The returned GEvent is released when this routine is called again
  * 			or when optionally @p geventEventComplete() is called. Calling @p geventEventComplete()
  * 			allows the GEvent object to be reused earlier which can reduce missed events. The GEvent

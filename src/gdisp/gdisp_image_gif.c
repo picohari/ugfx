@@ -1122,7 +1122,7 @@ gDelay gdispImageNext_GIF(gdispImage *img) {
 		gfileSetPos(img->f, priv->frame.posimg+1);				// Skip the code size byte too
 		while(1) {
 			if (gfileRead(img->f, &blocksz, 1) != 1)
-				return TIME_INFINITE;
+				return gDelayForever;
 			if (!blocksz)
 				break;
 			gfileSetPos(img->f, gfileGetPos(img->f) + blocksz);
@@ -1145,10 +1145,10 @@ gDelay gdispImageNext_GIF(gdispImage *img) {
 		case GDISP_IMAGE_ERR_NOMEMORY:				// Out of Memory
 		case GDISP_IMAGE_ERR_UNSUPPORTED:			// Unsupported
 		default:
-			return TIME_INFINITE;
+			return gDelayForever;
 		}
 	}
-	return TIME_INFINITE;
+	return gDelayForever;
 }
 
 #endif /* GFX_USE_GDISP && GDISP_NEED_IMAGE && GDISP_NEED_IMAGE_GIF */
