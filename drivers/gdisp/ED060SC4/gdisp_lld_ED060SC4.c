@@ -449,7 +449,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
 	g->g.Orientation = GDISP_ROTATE_0;
-	g->g.Powermode = powerOn;
+	g->g.Powermode = gPowerOn;
 	g->g.Backlight = 100;
 	g->g.Contrast = 100;
 	return gTrue;
@@ -532,22 +532,22 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	LLDSPEC void gdisp_lld_control(GDisplay *g) {
 		switch(g->p.x) {
 		case GDISP_CONTROL_POWER:
-			if (g->g.Powermode == (powermode_t)g->p.ptr)
+			if (g->g.Powermode == (gPowermode)g->p.ptr)
 				return;
-			switch((powermode_t)g->p.ptr) {
-			case powerOff:
-			case powerSleep:
-			case powerDeepSleep:
+			switch((gPowermode)g->p.ptr) {
+			case gPowerOff:
+			case gPowerSleep:
+			case gPowerDeepSleep:
 				gdisp_lld_flush(g);
 				power_off(g);
 				break;
-			case powerOn:
+			case gPowerOn:
 				power_on(g);
 				break;
 			default:
 				return;
 			}
-			g->g.Powermode = (powermode_t)g->p.ptr;
+			g->g.Powermode = (gPowermode)g->p.ptr;
 			return;
 
 		case GDISP_CONTROL_ORIENTATION:

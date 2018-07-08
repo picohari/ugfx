@@ -711,7 +711,7 @@ unsigned gdispGetDisplayCount(void) {
 
 gCoord gdispGGetWidth(GDisplay *g)				{ return g->g.Width; }
 gCoord gdispGGetHeight(GDisplay *g)			{ return g->g.Height; }
-powermode_t gdispGGetPowerMode(GDisplay *g)		{ return g->g.Powermode; }
+gPowermode gdispGGetPowerMode(GDisplay *g)		{ return g->g.Powermode; }
 orientation_t gdispGGetOrientation(GDisplay *g)	{ return g->g.Orientation; }
 uint8_t gdispGGetBacklight(GDisplay *g)			{ return g->g.Backlight; }
 uint8_t gdispGGetContrast(GDisplay *g)			{ return g->g.Contrast; }

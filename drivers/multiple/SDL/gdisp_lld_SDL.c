@@ -373,7 +373,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	gdriverRegister((const GDriverVMT *)GMOUSE_DRIVER_VMT, g);
 #endif
 	g->g.Orientation = GDISP_ROTATE_0;
-	g->g.Powermode = powerOn;
+	g->g.Powermode = gPowerOn;
 	g->g.Backlight = 100;
 
 	g->g.Contrast = 50;

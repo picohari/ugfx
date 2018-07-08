@@ -288,7 +288,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 	g->g.Width = ((ltdcLayerConfig *)g->priv)->width;
 	g->g.Height = ((ltdcLayerConfig *)g->priv)->height;
 	g->g.Orientation = GDISP_ROTATE_0;
-	g->g.Powermode = powerOn;
+	g->g.Powermode = gPowerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
 

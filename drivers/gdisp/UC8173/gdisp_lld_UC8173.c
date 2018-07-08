@@ -299,7 +299,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 	g->g.Width = UC8173_WIDTH;
 	g->g.Height = UC8173_HEIGHT;
 	g->g.Orientation = GDISP_ROTATE_0;
-	g->g.Powermode = powerOn;
+	g->g.Powermode = gPowerOn;
 	g->g.Backlight = 0;
 	g->g.Contrast = 0;
 

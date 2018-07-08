@@ -61,7 +61,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 	g->g.Backlight = 100;
 	g->g.Contrast = 50;
 	g->g.Orientation = GDISP_ROTATE_0;
-	g->g.Powermode = powerOn;
+	g->g.Powermode = gPowerOn;
 	g->board = 0;
 	PRIV(g)->linelen = g->g.Width * sizeof(LLDCOLOR_TYPE);	// bytes per line
 	PRIV(g)->pixels = PRIV(g)->frame0;
@@ -158,16 +158,16 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g)
 	{
 		switch(g->p.x) {
 		case GDISP_CONTROL_POWER:
-			if (g->g.Powermode == (powermode_t)g->p.ptr)
+			if (g->g.Powermode == (gPowermode)g->p.ptr)
 				return;
-			switch((powermode_t)g->p.ptr) {
-			case powerOff: case powerOn: case powerSleep: case powerDeepSleep:
-				board_power(g, (powermode_t)g->p.ptr);
+			switch((gPowermode)g->p.ptr) {
+			case gPowerOff: case gPowerOn: case gPowerSleep: case gPowerDeepSleep:
+				board_power(g, (gPowermode)g->p.ptr);
 				break;
 			default:
 				return;
 			}
-			g->g.Powermode = (powermode_t)g->p.ptr;
+			g->g.Powermode = (gPowermode)g->p.ptr;
 			return;
 
 		case GDISP_CONTROL_ORIENTATION:

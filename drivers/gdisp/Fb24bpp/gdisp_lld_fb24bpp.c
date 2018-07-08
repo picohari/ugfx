@@ -49,7 +49,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 	// Initialize the GDISP structure
 	g->g.Orientation = GDISP_ROTATE_0;
-	g->g.Powermode = powerOn;
+	g->g.Powermode = gPowerOn;
 	g->board = 0;							// preinitialize
 	board_init(g, &((fbPriv *)g->priv)->fbi);
 
@@ -136,16 +136,16 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay *g) {
 	LLDSPEC void gdisp_lld_control(GDisplay *g) {
 		switch(g->p.x) {
 		case GDISP_CONTROL_POWER:
-			if (g->g.Powermode == (powermode_t)g->p.ptr)
+			if (g->g.Powermode == (gPowermode)g->p.ptr)
 				return;
-			switch((powermode_t)g->p.ptr) {
-			case powerOff: case powerOn: case powerSleep: case powerDeepSleep:
-				board_power(g, (powermode_t)g->p.ptr);
+			switch((gPowermode)g->p.ptr) {
+			case gPowerOff: case gPowerOn: case gPowerSleep: case gPowerDeepSleep:
+				board_power(g, (gPowermode)g->p.ptr);
 				break;
 			default:
 				return;
 			}
-			g->g.Powermode = (powermode_t)g->p.ptr;
+			g->g.Powermode = (gPowermode)g->p.ptr;
 			return;
 
 		case GDISP_CONTROL_ORIENTATION:

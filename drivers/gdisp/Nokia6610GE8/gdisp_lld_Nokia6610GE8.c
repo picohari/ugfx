@@ -240,7 +240,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 	/* Initialise the GDISP structure to match */
 	g->g.Orientation = GDISP_ROTATE_0;
-	g->g.Powermode = powerOn;
+	g->g.Powermode = gPowerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
 	g->g.Width = GDISP_SCREEN_WIDTH;
@@ -493,18 +493,18 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		 */
 		switch(g->p.x) {
 		case GDISP_CONTROL_POWER:
-			if (g->g.Powermode == (powermode_t)g->p.ptr)
+			if (g->g.Powermode == (gPowermode)g->p.ptr)
 				return;
 			acquire_bus(g);
-			switch((powermode_t)g->p.ptr) {
-				case powerOff:
+			switch((gPowermode)g->p.ptr) {
+				case gPowerOff:
 					set_backlight(g, 0);									// Turn off the backlight
 					write_index(g, DISOFF);									// Turn off the display
 					write_cmd1(g, PWRCTR, 0x00);							// Power control - all off
 					write_index(g, SLPIN);									// Sleep in
 					write_index(g, OSCOFF);									// Internal oscillator off
 					break;
-				case powerOn:
+				case gPowerOn:
 					write_index(g, OSCON);									// Internal oscillator on
 					write_index(g, SLPOUT);									// Sleep out
 					write_cmd1(g, PWRCTR, 0x0F);							// Power control - reference voltage regulator on, circuit voltage follower on, BOOST ON
@@ -514,7 +514,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					write_index(g, PTLOUT);									// Remove sleep window
 					set_backlight(g, g->g.Backlight);						// Turn on the backlight
 					break;
-				case powerSleep:
+				case gPowerSleep:
 					write_index(g, OSCON);									// Internal oscillator on
 					write_index(g, SLPOUT);									// Sleep out
 					write_cmd1(g, PWRCTR, 0x0F);							// Power control - reference voltage regulator on, circuit voltage follower on, BOOST ON
@@ -524,7 +524,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					write_cmd2(g, PTLIN, GDISP_SLEEP_POS/4, (GDISP_SLEEP_POS+GDISP_SLEEP_SIZE)/4);	// Sleep Window
 					set_backlight(g, g->g.Backlight);						// Turn on the backlight
 					break;
-				case powerDeepSleep:
+				case gPowerDeepSleep:
 					write_index(g, OSCON);									// Internal oscillator on
 					write_index(g, SLPOUT);									// Sleep out
 					write_cmd1(g, PWRCTR, 0x0F);							// Power control - reference voltage regulator on, circuit voltage follower on, BOOST ON
@@ -539,7 +539,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					return;
 			}
 			release_bus(g);
-			g->g.Powermode = (powermode_t)g->p.ptr;
+			g->g.Powermode = (gPowermode)g->p.ptr;
 			return;
 		#if GDISP_NOKIA_ORIENTATION
 			case GDISP_CONTROL_ORIENTATION:

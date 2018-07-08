@@ -42,7 +42,7 @@ command:
 
 The buffers are also flushed whenever you turn the display off using:
 
-    gdispSetPowerMode(powerOff);
+    gdispSetPowerMode(gPowerOff);
 
 
 

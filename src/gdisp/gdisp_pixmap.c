@@ -123,7 +123,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	g->g.Backlight = 100;
 	g->g.Contrast = 50;
 	g->g.Orientation = GDISP_ROTATE_0;
-	g->g.Powermode = powerOn;
+	g->g.Powermode = gPowerOn;
 	g->board = 0;
 
 	return gTrue;

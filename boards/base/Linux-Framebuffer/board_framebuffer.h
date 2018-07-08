@@ -213,7 +213,7 @@
 			(void) percent;
 		}
 
-		static void board_power(GDisplay *g, powermode_t pwr) {
+		static void board_power(GDisplay *g, gPowermode pwr) {
 			(void) g;
 			(void) pwr;
 		}

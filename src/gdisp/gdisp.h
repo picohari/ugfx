@@ -108,15 +108,15 @@ typedef enum orientation {
 } orientation_t;
 
 /**
- * @enum 	powermode
+ * @enum 	gPowermode
  * @brief   Type for the available power modes for the screen.
  */
-typedef enum powermode {
-	powerOff,						/**< Turn the display off. */
-	powerSleep,						/**< Put the display into sleep mode. */
-	powerDeepSleep,					/**< Put the display into deep-sleep mode. */
-	powerOn							/**< Turn the display on. */
-} powermode_t;
+typedef enum gPowermode {
+	gPowerOff,						/**< Turn the display off. */
+	gPowerSleep,						/**< Put the display into sleep mode. */
+	gPowerDeepSleep,					/**< Put the display into deep-sleep mode. */
+	gPowerOn							/**< Turn the display on. */
+} gPowermode;
 
 /*
  * Our black box display structure.
@@ -139,7 +139,7 @@ extern GDisplay	*GDISP;
  * @details	Unsupported control codes are ignored.
  * @note	The value parameter should always be typecast to (void *).
  * @note	There are some predefined and some specific to the low level driver.
- * @note	GDISP_CONTROL_POWER			- Takes a gdisp_powermode_t
+ * @note	GDISP_CONTROL_POWER			- Takes a gPowermode
  * 			GDISP_CONTROL_ORIENTATION	- Takes a gdisp_orientation_t
  * 			GDISP_CONTROL_BACKLIGHT -	 Takes an int from 0 to 100. For a driver
  * 											that only supports off/on anything other
@@ -322,7 +322,7 @@ gCoord gdispGGetHeight(GDisplay *g);
  *
  * @api
  */
-powermode_t gdispGGetPowerMode(GDisplay *g);
+gPowermode gdispGGetPowerMode(GDisplay *g);
 #define gdispGetPowerMode()							gdispGGetPowerMode(GDISP)
 
 /**
@@ -740,7 +740,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 */
 	void gdispGDrawThickArc(GDisplay *g, gCoord xc, gCoord yc, gCoord startradius, gCoord endradius, gCoord startangle, gCoord endangle, gColor color);
 	#define gdispDrawThickArc(x,y,rs,re,s,e,c)						gdispGDrawThickArc(GDISP,x,y,rs,re,s,e,c)
-	
+
 	/**
 	 * @brief	Draw a filled arc.
 	 * @pre		GDISP_NEED_ARC must be GFXON in your gfxconf.h
@@ -1102,7 +1102,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 * @api
 	 */
 	const char *gdispGetFontName(font_t font);
-	
+
 	/**
 	 * @brief	Add a font permanently to the font list.
 	 * @returns	gTrue on success. Reasons it may fail: out of memory, if it is already on the list, it is not a font loaded in RAM.
@@ -1167,8 +1167,8 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
  *
  * @api
  */
-#define gdispGSetPowerMode(g, powerMode)			gdispGControl((g), GDISP_CONTROL_POWER, (void *)(unsigned)(powerMode))
-#define gdispSetPowerMode(powerMode)				gdispGControl(GDISP, GDISP_CONTROL_POWER, (void *)(unsigned)(powerMode))
+#define gdispGSetPowerMode(g, powerMode)			gdispGControl((g), GDISP_CONTROL_POWER, (void *)(gPowermode)(powerMode))
+#define gdispSetPowerMode(powerMode)				gdispGControl(GDISP, GDISP_CONTROL_POWER, (void *)(gPowermode)(powerMode))
 
 /**
  * @brief   Set the display orientation.
@@ -1230,10 +1230,15 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 /* V2 compatibility */
 #if GFX_COMPAT_V2
-	typedef gColor	color_t;
-	typedef gPixel	pixel_t;
-	typedef gCoord	coord_t;
-	typedef gPoint	point, point_t;
+	typedef gPowermode	powermode_t;
+		#define gPowerOff			powerOff
+		#define gPowerDeepSleep		powerDeepSleep
+		#define gPowerSleep			powerSleep
+		#define gPowerOn			powerOn
+	typedef gColor		color_t;
+	typedef gPixel		pixel_t;
+	typedef gCoord		coord_t;
+	typedef gPoint		point, point_t;
 #endif
 
 #endif /* GFX_USE_GDISP */

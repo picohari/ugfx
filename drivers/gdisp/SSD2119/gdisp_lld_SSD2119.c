@@ -229,7 +229,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
 	g->g.Orientation = GDISP_ROTATE_0;
-	g->g.Powermode = powerOn;
+	g->g.Powermode = gPowerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
 	return gTrue;
@@ -318,34 +318,34 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 	LLDSPEC void gdisp_lld_control(GDisplay *g) {
 		switch(g->p.x) {
 		case GDISP_CONTROL_POWER:
-			if (g->g.Powermode == (powermode_t)g->p.ptr)
+			if (g->g.Powermode == (gPowermode)g->p.ptr)
 				return;
-			switch((powermode_t)g->p.ptr) {
-			case powerOff:
-			case powerDeepSleep:
+			switch((gPowermode)g->p.ptr) {
+			case gPowerOff:
+			case gPowerDeepSleep:
 				acquire_bus(g);
 				write_reg(g, SSD2119_REG_SLEEP_MODE_1,	0x0001);	// Enter sleep mode
 				write_reg(g, SSD2119_REG_SLEEP_MODE_2, 0x2999);		// Enable deep sleep function
 				write_reg(g, SSD2119_REG_DISPLAY_CTRL,	0x0000);	// Display off
-				if ((powermode_t)g->p.ptr == powerOff)
+				if ((gPowermode)g->p.ptr == gPowerOff)
 					write_reg(g, SSD2119_REG_OSC_START,	0x0000);	// Turn off oscillator
 				release_bus(g);
 				set_backlight(g, 0);
 				break;
-			case powerSleep:
+			case gPowerSleep:
 				acquire_bus(g);
 				write_reg(g, SSD2119_REG_SLEEP_MODE_1, 0x0001);		// Enter sleep mode
 				write_reg(g, SSD2119_REG_DISPLAY_CTRL, 0x0000);		// Display off
 				release_bus(g);
 				set_backlight(g, 0);
 				break;
-			case powerOn:
+			case gPowerOn:
 				acquire_bus(g);
-				if (g->g.Powermode == powerOff) {
+				if (g->g.Powermode == gPowerOff) {
 					write_reg(g, SSD2119_REG_OSC_START, 0x0001);	// Start the oscillator
 					gfxSleepMicroseconds(5);
 					write_reg(g, SSD2119_REG_SLEEP_MODE_2, 0x0999);	// Disable deep sleep function
-				} else if (g->g.Powermode == powerDeepSleep)
+				} else if (g->g.Powermode == gPowerDeepSleep)
 					write_reg(g, SSD2119_REG_SLEEP_MODE_2, 0x0999);	// Disable deep sleep function
 				write_reg(g, SSD2119_REG_SLEEP_MODE_1, 0x0000);		// Leave sleep mode
 				write_reg(g, SSD2119_REG_DISPLAY_CTRL, 0x0033);		// Display on
@@ -356,7 +356,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 			default:
 				return;
 			}
-			g->g.Powermode = (powermode_t)g->p.ptr;
+			g->g.Powermode = (gPowermode)g->p.ptr;
 			return;
 
 		case GDISP_CONTROL_ORIENTATION:

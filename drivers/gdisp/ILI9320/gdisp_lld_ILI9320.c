@@ -187,7 +187,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
     g->g.Width = GDISP_SCREEN_WIDTH;
     g->g.Height = GDISP_SCREEN_HEIGHT;
     g->g.Orientation = GDISP_ROTATE_0;
-    g->g.Powermode = powerOn;
+    g->g.Powermode = gPowerOn;
     g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
     g->g.Contrast = GDISP_INITIAL_CONTRAST;
 	return gTrue;
@@ -238,10 +238,10 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	LLDSPEC void gdisp_lld_control(GDisplay *g) {
 		switch(g->p.x) {
 		case GDISP_CONTROL_POWER:
-			if (g->g.Powermode == (powermode_t)g->p.ptr)
+			if (g->g.Powermode == (gPowermode)g->p.ptr)
 				return;
-			switch((powermode_t)g->p.ptr) {
-				case powerOff:
+			switch((gPowermode)g->p.ptr) {
+				case gPowerOff:
 					acquire_bus(g);
 					write_reg(g, 0x07, 0x0000);
 					write_reg(g, 0x10, 0x0000);
@@ -253,7 +253,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					set_backlight(g, 0);
 					break;
 
-				case powerOn:
+				case gPowerOn:
 					//*************Power On sequence ******************//
 					acquire_bus(g);
 					write_reg(g, 0x10, 0x0000); /* SAP, BT[3:0], AP, DSTB, SLP, STB */
@@ -275,7 +275,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					set_backlight(g, g->g.Backlight);
 					break;
 
-				case powerSleep:
+				case gPowerSleep:
 					acquire_bus(g);
 					write_reg(g, 0x07, 0x0000); /* display OFF */
 					write_reg(g, 0x10, 0x0000); /* SAP, BT[3:0], APE, AP, DSTB, SLP */
@@ -289,7 +289,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					set_backlight(g, 0);
 					break;
 
-				case powerDeepSleep:
+				case gPowerDeepSleep:
 					acquire_bus(g);
 					write_reg(g, 0x07, 0x0000); /* display OFF */
 					write_reg(g, 0x10, 0x0000); /* SAP, BT[3:0], APE, AP, DSTB, SLP */
@@ -306,7 +306,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				default:
 					return;
 				}
-				g->g.Powermode = (powermode_t)g->p.ptr;
+				g->g.Powermode = (gPowermode)g->p.ptr;
 				return;
 
 			case GDISP_CONTROL_ORIENTATION:

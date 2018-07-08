@@ -105,7 +105,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
 	g->g.Orientation = GDISP_ROTATE_0;
-	g->g.Powermode = powerOn;
+	g->g.Powermode = gPowerOn;
 	return gTrue;
 }
 
@@ -215,18 +215,18 @@ LLDSPEC void gdisp_lld_flush(GDisplay *g) {
 LLDSPEC void gdisp_lld_control(GDisplay *g) {
 	switch(g->p.x) {
 	case GDISP_CONTROL_POWER:
-		if (g->g.Powermode == (powermode_t)g->p.ptr)
+		if (g->g.Powermode == (gPowermode)g->p.ptr)
 			return;
-		switch((powermode_t)g->p.ptr) {
-			case powerOff:
-			case powerSleep:
-			case powerDeepSleep:
+		switch((gPowermode)g->p.ptr) {
+			case gPowerOff:
+			case gPowerSleep:
+			case gPowerDeepSleep:
 				acquire_bus(g); // Put de display in deep sleep
 				write_reg(g, DISPLAY_UPDATE_CTRL2, 0x03);
 				write_reg(g, DEEP_SLEEP_MODE, 0x01);
 				release_bus(g);
 				break;
-			case powerOn:
+			case gPowerOn:
 				acquire_bus(g); // Awake the display again
 				write_reg(g, DISPLAY_UPDATE_CTRL2, 0xC0);
 				write_reg(g, DEEP_SLEEP_MODE, 0x00);
@@ -235,7 +235,7 @@ LLDSPEC void gdisp_lld_control(GDisplay *g) {
 			default:
 				return;
 		}
-		g->g.Powermode = (powermode_t)g->p.ptr;
+		g->g.Powermode = (gPowermode)g->p.ptr;
 		return;
 
   case GDISP_CONTROL_ORIENTATION:
