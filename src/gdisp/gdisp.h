@@ -1231,10 +1231,10 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 /* V2 compatibility */
 #if GFX_COMPAT_V2
 	typedef gPowermode	powermode_t;
-		#define gPowerOff			powerOff
-		#define gPowerDeepSleep		powerDeepSleep
-		#define gPowerSleep			powerSleep
-		#define gPowerOn			powerOn
+		#define powerOff			gPowerOff
+		#define powerDeepSleep		gPowerDeepSleep
+		#define powerSleep			gPowerSleep
+		#define powerOn				gPowerOn
 	typedef gColor		color_t;
 	typedef gPixel		pixel_t;
 	typedef gCoord		coord_t;
