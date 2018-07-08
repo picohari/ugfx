@@ -23,7 +23,7 @@
 
 #if GFX_USE_GDISP || defined(__DOXYGEN__)
 
-typedef uint16_t	colorformat;
+typedef uint16_t	gColorformat;
 
 /**
  * @name	Color system masks

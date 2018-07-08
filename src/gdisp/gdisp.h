@@ -1230,6 +1230,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 /* V2 compatibility */
 #if GFX_COMPAT_V2
+	typedef gColorformat	colorformat;
 	typedef gColor			color_t;
 	typedef gPixel			pixel_t;
 	typedef gCoord			coord_t;
