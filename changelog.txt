@@ -6,7 +6,6 @@
 FEATURE:	Added config vars GINPUT_TOUCH_CALIBRATION_FONT1 and GINPUT_TOUCH_CALIBRATION_FONT2
 FEATURE:	Added config vars GINPUT_TOUCH_CALIBRATION_TITLE and GINPUT_TOUCH_CALIBRATION_ERROR
 FIX:		Fixed ensuring the clock is fully started in STM32LTDC based boards
-FIX:		Fixed compiler error in ST7735 driver
 FIX:		Added support for negative baseline_x in fonts
 FIX:		Fixed some word wrapping issues
 FIX:		Fixed drawing of 3x3 pixel boxes
@@ -17,9 +16,10 @@ CHANGE:		Added GFX_RED, GFX_BLUE, GFX_GREEN etc to replace V2.x Red, Gree, Blue 
 CHANGE:		Added GFXON/GFXOFF to replace V2.x TRUE/FALSE for configuration options.
 CHANGE:		Added gBool type and gTrue/gFalse to replace TRUE/FALSE for booleans.
 CHANGE:		Added types gI8, gU8 .. gI32, gU32 to replace V2.x int8_t etc
-CHANGE:		Added types gPtr and gPtrDiff
+FEATURE:	Added types gPtr and gPtrDiff
 FEATURE:	Added gI64 and gU64 when the compiler supports it. GFX_TYPE_64 macro is defined as GFXON if it does.
 FEATURE:	Fixed headers to ensure size_t, NULL are always defined. size_t is not used as it may be 64bit.
+CHANGE:		Added type gPoint to replace V2.x point and point_t
 FIX:		Added gfxRealloc() to Qt port
 FIX:		Fixed UC1610 driver private area initialisation
 FIX:		Fixed ST7735 driver and added kapacuk changes

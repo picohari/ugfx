@@ -2985,8 +2985,8 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 }
 
 #if GDISP_NEED_CONVEX_POLYGON
-	void gdispGDrawPoly(GDisplay *g, coord_t tx, coord_t ty, const point *pntarray, unsigned cnt, color_t color) {
-		const point	*epnt, *p;
+	void gdispGDrawPoly(GDisplay *g, coord_t tx, coord_t ty, const gPoint *pntarray, unsigned cnt, color_t color) {
+		const gPoint	*epnt, *p;
 
 		epnt = &pntarray[cnt-1];
 
@@ -3001,8 +3001,8 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGFillConvexPoly(GDisplay *g, coord_t tx, coord_t ty, const point *pntarray, unsigned cnt, color_t color) {
-		const point	*lpnt, *rpnt, *epnts;
+	void gdispGFillConvexPoly(GDisplay *g, coord_t tx, coord_t ty, const gPoint *pntarray, unsigned cnt, color_t color) {
+		const gPoint	*lpnt, *rpnt, *epnts;
 		fixed		lx, rx, lk, rk;
 		coord_t		y, ymax, lxc, rxc;
 
@@ -3187,7 +3187,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 			 * (0,0) ----------------------------------- (d)
 			 *  pt0                                      pt3
 			 */
-			point pntarray[4];
+			gPoint pntarray[4];
 
 			pntarray[0].x = 0;
 			pntarray[0].y = 0;
@@ -3210,7 +3210,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 			 *         \                         /
 			 *          pt0 -------------------pt7
 			 */
-			point pntarray[8];
+			gPoint pntarray[8];
 			coord_t nx2, ny2;
 
 			/* Magic numbers:

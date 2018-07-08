@@ -26,7 +26,7 @@
 /*===========================================================================*/
 
 // Forward definition
-typedef struct point point;
+typedef struct gPoint gPoint;
 
 /**
  * @brief	Sample data formats
@@ -249,7 +249,7 @@ typedef int32_t	fixed;
 	 *
 	 * @api
 	 */
-	void gmiscMatrixFloat2DApplyToPoints(point *dst, const point *src, const MatrixFloat2D *m, int cnt);
+	void gmiscMatrixFloat2DApplyToPoints(gPoint *dst, const gPoint *src, const MatrixFloat2D *m, int cnt);
 
 	/**
 	 * @brief	Set the 2D matrix to the identity matrix
@@ -367,7 +367,7 @@ typedef int32_t	fixed;
 	 *
 	 * @api
 	 */
-	void gmiscMatrixFixed2DApplyToPoints(point *dst, const point *src, const MatrixFixed2D *m, int cnt);
+	void gmiscMatrixFixed2DApplyToPoints(gPoint *dst, const gPoint *src, const MatrixFixed2D *m, int cnt);
 
 	/**
 	 * @brief	Set the 2D matrix to the identity matrix
@@ -476,7 +476,7 @@ typedef int32_t	fixed;
 	 *
 	 * @api
 	 */
-	gBool gmiscHittestPoly(const point *pntarray, unsigned cnt, const point *p);
+	gBool gmiscHittestPoly(const gPoint *pntarray, unsigned cnt, const gPoint *p);
 #endif // GMISC_NEED_HITTEST_POLY
 
 #endif /* GFX_USE_MISC */

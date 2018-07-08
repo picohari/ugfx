@@ -247,7 +247,7 @@ static const GColorSet *getButtonColors(GWidgetObject *gw) {
 #if GDISP_NEED_CONVEX_POLYGON
 	void gwinButtonDraw_ArrowUp(GWidgetObject *gw, void *param) {
 		const GColorSet *	pcol;
-		point				arw[7];
+		gPoint				arw[7];
 
 		(void)				param;
 
@@ -298,7 +298,7 @@ static const GColorSet *getButtonColors(GWidgetObject *gw) {
 
 	void gwinButtonDraw_ArrowDown(GWidgetObject *gw, void *param) {
 		const GColorSet *	pcol;
-		point				arw[7];
+		gPoint				arw[7];
 
 		(void)				param;
 
@@ -349,7 +349,7 @@ static const GColorSet *getButtonColors(GWidgetObject *gw) {
 
 	void gwinButtonDraw_ArrowLeft(GWidgetObject *gw, void *param) {
 		const GColorSet *	pcol;
-		point				arw[7];
+		gPoint				arw[7];
 
 		(void)				param;
 
@@ -400,7 +400,7 @@ static const GColorSet *getButtonColors(GWidgetObject *gw) {
 
 	void gwinButtonDraw_ArrowRight(GWidgetObject *gw, void *param) {
 		const GColorSet *	pcol;
-		point				arw[7];
+		gPoint				arw[7];
 		
 		(void)				param;
 

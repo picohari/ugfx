@@ -174,7 +174,7 @@ void gwinGraphDrawPoint(GHandle gh, coord_t x, coord_t y);
  *
  * @api
  */
-void gwinGraphDrawPoints(GHandle gh, const point *points, unsigned count);
+void gwinGraphDrawPoints(GHandle gh, const gPoint *points, unsigned count);
 
 #endif	/* _GWIN_GRAPH_H */
 /** @} */

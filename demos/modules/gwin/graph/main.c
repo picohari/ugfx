@@ -31,7 +31,7 @@
 #include "math.h"
 
 // A set of data points that will be displayed in the graph
-static const point data[5] = {
+static const gPoint data[5] = {
     { -40, -40 },
     { 70, 40 },
     { 140, 60 },

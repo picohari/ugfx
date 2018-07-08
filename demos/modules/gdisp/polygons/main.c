@@ -33,7 +33,7 @@
 #define FRAME_DELAY		100			/* The interframe delay in milliseconds */
 
 // Our shape definition
-static const point shape[] = {
+static const gPoint shape[] = {
 		{ 10, 10 },
 		{ 10, 15 },
 		{ 17, 17 },
@@ -49,8 +49,8 @@ static const point shape[] = {
 #define NUM_POINTS	(sizeof(shape)/sizeof(shape[0]))
 
 // Where we put our calculated points
-static point result[NUM_POINTS];
-static point oldresult[NUM_POINTS];
+static gPoint result[NUM_POINTS];
+static gPoint oldresult[NUM_POINTS];
 
 // Make fixed point and floating point options look pretty similar
 #if GMISC_NEED_MATRIXFLOAT2D

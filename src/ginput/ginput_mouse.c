@@ -351,7 +351,7 @@ static void MousePoll(void *param) {
 		#error "GINPUT: GFX_USE_GDISP must be defined when calibration is required"
 	#endif
 
-	static GFXINLINE void CalibrationCrossDraw(GMouse *m, const point *pp) {
+	static GFXINLINE void CalibrationCrossDraw(GMouse *m, const gPoint *pp) {
 		gdispGDrawLine(m->display, pp->x-CALIBRATION_CROSS_RADIUS, pp->y, pp->x-CALIBRATION_CROSS_INNERGAP, pp->y, CALIBRATION_CROSS_COLOR1);
 		gdispGDrawLine(m->display, pp->x+CALIBRATION_CROSS_INNERGAP, pp->y, pp->x+CALIBRATION_CROSS_RADIUS, pp->y, CALIBRATION_CROSS_COLOR1);
 		gdispGDrawLine(m->display, pp->x, pp->y-CALIBRATION_CROSS_RADIUS, pp->x, pp->y-CALIBRATION_CROSS_INNERGAP, CALIBRATION_CROSS_COLOR1);
@@ -366,11 +366,11 @@ static void MousePoll(void *param) {
 		gdispGDrawLine(m->display, pp->x+CALIBRATION_CROSS_RADIUS, pp->y-CALIBRATION_CROSS_RADIUS, pp->x+CALIBRATION_CROSS_RADIUS, pp->y-CALIBRATION_CROSS_RADIUS/2, CALIBRATION_CROSS_COLOR2);
 	}
 
-	static GFXINLINE void CalibrationCrossClear(GMouse *m, const point *pp) {
+	static GFXINLINE void CalibrationCrossClear(GMouse *m, const gPoint *pp) {
 		gdispGFillArea(m->display, pp->x - CALIBRATION_CROSS_RADIUS, pp->y - CALIBRATION_CROSS_RADIUS, CALIBRATION_CROSS_RADIUS*2+1, CALIBRATION_CROSS_RADIUS*2+1, CALIBRATION_BACKGROUND);
 	}
 
-	static GFXINLINE void CalibrationCalculate(GMouse *m, const point *cross, const point *points) {
+	static GFXINLINE void CalibrationCalculate(GMouse *m, const gPoint *cross, const gPoint *points) {
 		float		dx;
 		coord_t		c0, c1, c2;
 		(void)		m;
@@ -463,8 +463,8 @@ static void MousePoll(void *param) {
 
 	static uint32_t CalibrateMouse(GMouse *m) {
 		coord_t		w, h;
-		point		cross[4];		// The locations of the test points on the display
-		point		points[4];		// The x, y readings obtained from the mouse for each test point
+		gPoint		cross[4];		// The locations of the test points on the display
+		gPoint		points[4];		// The x, y readings obtained from the mouse for each test point
 		uint32_t	err;
 		#if GDISP_NEED_TEXT
 			font_t		font1, font2;

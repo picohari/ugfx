@@ -100,7 +100,7 @@ typedef struct UC8173Lut {
 		}
 
 typedef struct FBpriv {
-	point_t			fa0, fa1;
+	gPoint			fa0, fa1;
 	LLDCOLOR_TYPE	fb[FB_PAGE_TYPES * FB_PAGES];
 	} FBpriv;
 

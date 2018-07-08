@@ -45,13 +45,13 @@ typedef int16_t	coord_t;
 /*===========================================================================*/
 
 /**
- * @struct point
+ * @struct gPoint
  * @brief   Type for a 2D point on the screen.
  */
-typedef struct point {
+typedef struct gPoint {
 	coord_t x;		/**< The x coordinate of the point. */
 	coord_t y;		/**< The y coordinate of the point. */
-} point, point_t;
+} gPoint;
 
 /**
  * @enum justify
@@ -855,7 +855,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	 *
 	 * @api
 	 */
-	void gdispGDrawPoly(GDisplay *g, coord_t tx, coord_t ty, const point *pntarray, unsigned cnt, color_t color);
+	void gdispGDrawPoly(GDisplay *g, coord_t tx, coord_t ty, const gPoint *pntarray, unsigned cnt, color_t color);
 	#define gdispDrawPoly(x,y,p,i,c)						gdispGDrawPoly(GDISP,x,y,p,i,c)
 
 	/**
@@ -879,7 +879,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	 *
 	 * @api
 	 */
-	void gdispGFillConvexPoly(GDisplay *g, coord_t tx, coord_t ty, const point *pntarray, unsigned cnt, color_t color);
+	void gdispGFillConvexPoly(GDisplay *g, coord_t tx, coord_t ty, const gPoint *pntarray, unsigned cnt, color_t color);
 	#define gdispFillConvexPoly(x,y,p,i,c)					gdispGFillConvexPoly(GDISP,x,y,p,i,c)
 
 	/**
@@ -1228,6 +1228,10 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 	#include "gdisp_pixmap.h"
 #endif
 
+/* V2 compatibility */
+#if GFX_COMPAT_V2
+	typedef gPoint	point, point_t;
+#endif
 
 #endif /* GFX_USE_GDISP */
 

@@ -384,13 +384,13 @@ void gwinBlitArea(GHandle gh, coord_t x, coord_t y, coord_t cx, coord_t cy, coor
 #endif
 
 #if GDISP_NEED_CONVEX_POLYGON
-	void gwinDrawPoly(GHandle gh, coord_t tx, coord_t ty, const point *pntarray, unsigned cnt) {
+	void gwinDrawPoly(GHandle gh, coord_t tx, coord_t ty, const gPoint *pntarray, unsigned cnt) {
 		if (!_gwinDrawStart(gh)) return;
 		gdispGDrawPoly(gh->display, tx+gh->x, ty+gh->y, pntarray, cnt, gh->color);
 		_gwinDrawEnd(gh);
 	}
 
-	void gwinFillConvexPoly(GHandle gh, coord_t tx, coord_t ty, const point *pntarray, unsigned cnt) {
+	void gwinFillConvexPoly(GHandle gh, coord_t tx, coord_t ty, const gPoint *pntarray, unsigned cnt) {
 		if (!_gwinDrawStart(gh)) return;
 		gdispGFillConvexPoly(gh->display, tx+gh->x, ty+gh->y, pntarray, cnt, gh->color);
 		_gwinDrawEnd(gh);

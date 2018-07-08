@@ -987,7 +987,7 @@ void gwinBlitArea(GHandle gh, coord_t x, coord_t y, coord_t cx, coord_t cy, coor
 	 *
 	 * @api
 	 */
-	void gwinDrawPoly(GHandle gh, coord_t tx, coord_t ty, const point *pntarray, unsigned cnt);
+	void gwinDrawPoly(GHandle gh, coord_t tx, coord_t ty, const gPoint *pntarray, unsigned cnt);
 
 	/**
 	 * @brief   Fill a convex polygon
@@ -1010,7 +1010,7 @@ void gwinBlitArea(GHandle gh, coord_t x, coord_t y, coord_t cx, coord_t cy, coor
 	 *
 	 * @api
 	 */
-	void gwinFillConvexPoly(GHandle gh, coord_t tx, coord_t ty, const point *pntarray, unsigned cnt);
+	void gwinFillConvexPoly(GHandle gh, coord_t tx, coord_t ty, const gPoint *pntarray, unsigned cnt);
 
 	/**
 	 * @brief	Draw a thick line in the window

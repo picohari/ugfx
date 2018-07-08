@@ -18,7 +18,7 @@
  * the function returns 1. If the point c is on the segment, the function
  * returns 0. If they don't intersect, it returns 2.
  */
-static char _pointCrossingSegment(const point *a, const point *b, const point *c) {
+static char _pointCrossingSegment(const gPoint *a, const gPoint *b, const gPoint *c) {
     /* If both points are left from our point, it won't intersect */
     if (a->x < c->x && b->x < c->x) {
         return -1;
@@ -64,7 +64,7 @@ static char _pointCrossingSegment(const point *a, const point *b, const point *c
     return -1;
 }
 
-gBool gmiscHittestPoly(const point *pntarray, unsigned cnt, const point *p) {
+gBool gmiscHittestPoly(const gPoint *pntarray, unsigned cnt, const gPoint *p) {
     unsigned i = 0;
     uint8_t nbrIntersection = 0;
     int8_t crossResult;
