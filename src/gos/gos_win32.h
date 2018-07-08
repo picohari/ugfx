@@ -38,9 +38,9 @@ typedef int					gThreadpriority;
 #define gDelayNone					0
 #define gDelayForever				INFINITE
 #define MAX_SEMAPHORE_COUNT			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
-#define LOW_PRIORITY				THREAD_PRIORITY_BELOW_NORMAL
-#define NORMAL_PRIORITY				THREAD_PRIORITY_NORMAL
-#define HIGH_PRIORITY				THREAD_PRIORITY_ABOVE_NORMAL
+#define gThreadpriorityLow				THREAD_PRIORITY_BELOW_NORMAL
+#define gThreadpriorityNormal				THREAD_PRIORITY_NORMAL
+#define gThreadpriorityHigh				THREAD_PRIORITY_ABOVE_NORMAL
 
 typedef HANDLE gfxSem;
 typedef HANDLE gfxMutex;

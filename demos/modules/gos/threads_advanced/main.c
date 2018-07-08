@@ -107,7 +107,7 @@ int main(void)
 	/* Create a static thread from the default heap with normal priority.
 	 * We pass a the parameter to the thread which tells the thread whether to return or not
 	 */
-	thd = gfxThreadCreate(NULL, 2048, NORMAL_PRIORITY, Thread_function, (void*)&exitThread);
+	thd = gfxThreadCreate(NULL, 2048, gThreadpriorityNormal, Thread_function, (void*)&exitThread);
 
 	/* Start the timer. The callback function will be called once after 2000ms
 	 * We will pass the thread handle as a parameter so the timer can ask the thread to terminate

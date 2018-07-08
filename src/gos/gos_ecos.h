@@ -29,9 +29,9 @@ typedef cyg_addrword_t		gThreadpriority;
 typedef cyg_handle_t		gfxThreadHandle;
 
 #define MAX_SEMAPHORE_COUNT			0x7FFFFFFF
-#define LOW_PRIORITY				(CYGNUM_KERNEL_SCHED_PRIORITIES-2)
-#define NORMAL_PRIORITY				(CYGNUM_KERNEL_SCHED_PRIORITIES/2)
-#define HIGH_PRIORITY				0
+#define gThreadpriorityLow				(CYGNUM_KERNEL_SCHED_PRIORITIES-2)
+#define gThreadpriorityNormal				(CYGNUM_KERNEL_SCHED_PRIORITIES/2)
+#define gThreadpriorityHigh				0
 
 #define DECLARE_THREAD_STACK(name, sz)			struct { cyg_thread t; unsigned char stk[(sz) & ~3]; } name[1]
 #define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(cyg_addrword_t param)

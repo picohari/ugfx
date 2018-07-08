@@ -17,9 +17,9 @@
 #define gDelayNone					0
 #define gDelayForever				((gDelay)-1)
 #define MAX_SEMAPHORE_COUNT			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
-#define LOW_PRIORITY				2
-#define NORMAL_PRIORITY				3
-#define HIGH_PRIORITY				4
+#define gThreadpriorityLow				2
+#define gThreadpriorityNormal				3
+#define gThreadpriorityHigh				4
 
 typedef int gTicks;
 typedef int gDelay;

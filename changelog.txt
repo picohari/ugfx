@@ -19,7 +19,7 @@ CHANGE:		Added type gBool           to replace V2.x bool_t,        and values gT
 CHANGE:		Added type gDelay          to replace V2.x delaytime_t    and values gDelayNone/gDelayForever to replace TIME_IMMEDIATE/TIME_INFINITE
 CHANGE:		Added type gTicks          to replace V2.x systemticks_t
 CHANGE:		Added type gThreadreturn   to replace V2.x threadreturn_t
-CHANGE:		Added type gThreadpriority to replace V2.x threadpriority_t
+CHANGE:		Added type gThreadpriority to replace V2.x threadpriority_t and values gThreadpriorityLow/Normal/High to replace LOW_/NORMAL_/HIGH_PRIORITY
 CHANGE:		Added type gPoint          to replace V2.x point and point_t
 CHANGE:		Added type gCoord          to replace V2.x coord_t
 CHANGE:		Added type gPixel          to replace V2.x pixel_t

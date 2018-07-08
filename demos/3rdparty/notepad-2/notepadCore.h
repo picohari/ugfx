@@ -37,7 +37,7 @@
 
 /* Configuration */
 #define	NCORE_THD_STACK_SIZE	256
-#define NCORE_THD_PRIO			NORMAL_PRIORITY
+#define NCORE_THD_PRIO			gThreadpriorityNormal
 
 #define NCORE_MODE_DRAW			0
 #define NCORE_MODE_ERASE		1

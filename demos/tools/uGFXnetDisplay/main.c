@@ -81,7 +81,7 @@
 		#define StartSockets()		Start_LWIP();
 	#else
 		#include "lwipthread.h"
-		#define StartSockets()		gfxThreadClose(gfxThreadCreate(wa_lwip_thread, LWIP_THREAD_STACK_SIZE, NORMAL_PRIORITY, lwip_thread, 0))
+		#define StartSockets()		gfxThreadClose(gfxThreadCreate(wa_lwip_thread, LWIP_THREAD_STACK_SIZE, gThreadpriorityNormal, lwip_thread, 0))
 	#endif
 
 	#if !LWIP_SOCKET
@@ -358,7 +358,7 @@ int main(proto_args) {
 	#if GFX_USE_GINPUT && GINPUT_NEED_MOUSE
 		// Start the mouse thread if needed
 		if (cmd[3])
-			gfxThreadClose(gfxThreadCreate(waNetThread, sizeof(waNetThread), HIGH_PRIORITY, NetThread, 0));
+			gfxThreadClose(gfxThreadCreate(waNetThread, sizeof(waNetThread), gThreadpriorityHigh, NetThread, 0));
 	#endif
 
 	// Process incoming instructions

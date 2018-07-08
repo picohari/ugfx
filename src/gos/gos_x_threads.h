@@ -37,9 +37,9 @@ typedef int				gThreadpriority;
 #define gDelayNone					0
 #define gDelayForever				((gDelay)-1)
 #define MAX_SEMAPHORE_COUNT			0x7FFF
-#define LOW_PRIORITY				0
-#define NORMAL_PRIORITY				1
-#define HIGH_PRIORITY				2
+#define gThreadpriorityLow				0
+#define gThreadpriorityNormal				1
+#define gThreadpriorityHigh				2
 
 typedef struct {
 	gSemcount		cnt;

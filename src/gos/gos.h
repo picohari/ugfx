@@ -99,12 +99,12 @@
 	 * @note	Your platform may use slightly different definitions to these
 	 * @{
 	 */
-	#define gDelayNone				0
+	#define gDelayNone					0
 	#define gDelayForever				((gDelay)-1)
 	#define MAX_SEMAPHORE_COUNT			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
-	#define LOW_PRIORITY				0
-	#define NORMAL_PRIORITY				1
-	#define HIGH_PRIORITY				2
+	#define gThreadpriorityLow			0
+	#define gThreadpriorityNormal		1
+	#define gThreadpriorityHigh			2
 	/** @} */
 
 	/**
@@ -495,14 +495,17 @@
 
 #if GFX_COMPAT_V2
 	typedef gDelay			delaytime_t;
+		#if !GFX_USE_OS_CHIBIOS
+			// These values are defined by ChibiOS itself
+			#define TIME_IMMEDIATE	gDelayNone
+			#define TIME_INFINITE	gDelayForever
+		#endif
 	typedef gTicks			systemticks_t;
 	typedef gThreadreturn	threadreturn_t;
 	typedef gThreadpriority	threadpriority_t;
-	#if !GFX_USE_OS_CHIBIOS
-		// These are defined by ChibiOS itself
-		#define TIME_IMMEDIATE	gDelayNone
-		#define TIME_INFINITE	gDelayForever
-	#endif
+		#define LOW_PRIORITY		gThreadpriorityLow
+		#define NORMAL_PRIORITY		gThreadpriorityNormal
+		#define HIGH_PRIORITY		gThreadpriorityHigh
 #endif
 
 #endif /* _GOS_H */

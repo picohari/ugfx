@@ -89,7 +89,7 @@ void doMandlebrot(GHandle parent, gBool start) {
 	if (start) {
 		run = gTrue;
 		gh = parent;
-		thread = gfxThreadCreate(0, 0x400, LOW_PRIORITY, task, 0);
+		thread = gfxThreadCreate(0, 0x400, gThreadpriorityLow, task, 0);
 	} else if (run) {
 		run = gFalse;
 		gfxThreadWait(thread);

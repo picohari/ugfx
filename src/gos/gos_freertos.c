@@ -52,7 +52,7 @@ void _gosPostInit(void)
 {
 	#if !GFX_OS_NO_INIT && GFX_OS_CALL_UGFXMAIN
 		if (xTaskGetSchedulerState() == taskSCHEDULER_NOT_STARTED) {
-			gfxThreadCreate(0, GFX_OS_UGFXMAIN_STACKSIZE, NORMAL_PRIORITY, startUGFX_FreeRTOS, 0);
+			gfxThreadCreate(0, GFX_OS_UGFXMAIN_STACKSIZE, gThreadpriorityNormal, startUGFX_FreeRTOS, 0);
 			vTaskStartScheduler();
 			gfxHalt("Unable to start FreeRTOS scheduler. Out of memory?");
 		}

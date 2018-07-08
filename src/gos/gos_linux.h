@@ -52,9 +52,9 @@ typedef pthread_mutex_t		gfxMutex;
 #define gDelayNone					0
 #define gDelayForever				((gDelay)-1)
 #define MAX_SEMAPHORE_COUNT			((gSemcount)-1)
-#define LOW_PRIORITY				10
-#define NORMAL_PRIORITY				0
-#define HIGH_PRIORITY				-10
+#define gThreadpriorityLow				10
+#define gThreadpriorityNormal				0
+#define gThreadpriorityHigh				-10
 
 #if GFX_USE_POSIX_SEMAPHORES
 	typedef struct gfxSem {

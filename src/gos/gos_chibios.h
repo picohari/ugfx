@@ -39,9 +39,9 @@ typedef msg_t		gThreadreturn;
 typedef tprio_t		gThreadpriority;
 
 #define MAX_SEMAPHORE_COUNT			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
-#define LOW_PRIORITY				LOWPRIO
-#define NORMAL_PRIORITY				NORMALPRIO
-#define HIGH_PRIORITY				HIGHPRIO
+#define gThreadpriorityLow				LOWPRIO
+#define gThreadpriorityNormal				NORMALPRIO
+#define gThreadpriorityHigh				HIGHPRIO
 
 #define DECLARE_THREAD_STACK(name, sz)			WORKING_AREA(name, sz)
 #define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)

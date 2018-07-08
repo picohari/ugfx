@@ -34,9 +34,9 @@ typedef void				gThreadreturn;
 typedef osPriority_t		gThreadpriority;
 
 #define MAX_SEMAPHORE_COUNT	65535UL
-#define LOW_PRIORITY		osPriorityLow
-#define NORMAL_PRIORITY		osPriorityNormal
-#define HIGH_PRIORITY		osPriorityHigh
+#define gThreadpriorityLow		osPriorityLow
+#define gThreadpriorityNormal		osPriorityNormal
+#define gThreadpriorityHigh		osPriorityHigh
 
 typedef osSemaphoreId_t		gfxSem;
 

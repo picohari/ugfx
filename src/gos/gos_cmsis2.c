@@ -44,12 +44,12 @@ void _gosPostInit(void)
 			osKernelInitialize();
 			/* Fall Through */
 		case osKernelReady:
-			gfxThreadCreate(0, GFX_OS_UGFXMAIN_STACKSIZE, NORMAL_PRIORITY, startUGFX_CMSIS2, 0);
+			gfxThreadCreate(0, GFX_OS_UGFXMAIN_STACKSIZE, gThreadpriorityNormal, startUGFX_CMSIS2, 0);
 			osKernelStart();
 			gfxHalt("Unable to start CMSIS V2 scheduler. Out of memory?");
 			break;
 		default:
-			gfxThreadCreate(0, GFX_OS_UGFXMAIN_STACKSIZE, NORMAL_PRIORITY, startUGFX_CMSIS2, 0);
+			gfxThreadCreate(0, GFX_OS_UGFXMAIN_STACKSIZE, gThreadpriorityNormal, startUGFX_CMSIS2, 0);
 			break;
 		}
 	#endif

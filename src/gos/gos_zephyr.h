@@ -33,9 +33,9 @@ typedef int	gThreadpriority;
 #define gDelayNone				K_NO_WAIT
 #define gDelayForever			K_FOREVER
 #define MAX_SEMAPHORE_COUNT		((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
-#define LOW_PRIORITY			CONFIG_NUM_PREEMPT_PRIORITIES-1
-#define NORMAL_PRIORITY			1
-#define HIGH_PRIORITY			0
+#define gThreadpriorityLow			CONFIG_NUM_PREEMPT_PRIORITIES-1
+#define gThreadpriorityNormal			1
+#define gThreadpriorityHigh			0
 
 typedef struct k_sem gfxSem;
 

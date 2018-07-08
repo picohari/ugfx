@@ -33,9 +33,9 @@ typedef void				gThreadreturn;
 typedef portBASE_TYPE		gThreadpriority;
 
 #define MAX_SEMAPHORE_COUNT	((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
-#define LOW_PRIORITY		0
-#define NORMAL_PRIORITY		configMAX_PRIORITIES/2
-#define HIGH_PRIORITY		configMAX_PRIORITIES-1
+#define gThreadpriorityLow		0
+#define gThreadpriorityNormal		configMAX_PRIORITIES/2
+#define gThreadpriorityHigh		configMAX_PRIORITIES-1
 
 /* FreeRTOS will allocate the stack when creating the thread */
 #define DECLARE_THREAD_STACK(name, sz)	uint8_t name[1]

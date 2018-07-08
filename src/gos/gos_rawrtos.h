@@ -14,9 +14,9 @@ typedef uint32_t			gThreadreturn;
 typedef RAW_U8				gThreadpriority;
 
 #define MAX_SEMAPHORE_COUNT	RAW_SEMAPHORE_COUNT
-#define LOW_PRIORITY		(CONFIG_RAW_PRIO_MAX-2)
-#define NORMAL_PRIORITY		(CONFIG_RAW_PRIO_MAX/2)
-#define HIGH_PRIORITY		1
+#define gThreadpriorityLow		(CONFIG_RAW_PRIO_MAX-2)
+#define gThreadpriorityNormal		(CONFIG_RAW_PRIO_MAX/2)
+#define gThreadpriorityHigh		1
 
 typedef RAW_SEMAPHORE		gfxSem;
 typedef RAW_MUTEX			gfxMutex;

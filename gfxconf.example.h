@@ -264,7 +264,7 @@
 ///////////////////////////////////////////////////////////////////////////
 //#define GFX_USE_GTIMER                               GFXOFF
 
-//#define GTIMER_THREAD_PRIORITY                       HIGH_PRIORITY
+//#define GTIMER_THREAD_PRIORITY                       gThreadpriorityHigh
 //#define GTIMER_THREAD_WORKAREA_SIZE                  2048
 
 

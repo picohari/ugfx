@@ -330,7 +330,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		#endif
 		fprintf(stderr, "Running GFX Window in %d bit color\n", vis.depth);
 
-		if (!(hth = gfxThreadCreate(waXThread, sizeof(waXThread), HIGH_PRIORITY, ThreadX, 0))) {
+		if (!(hth = gfxThreadCreate(waXThread, sizeof(waXThread), gThreadpriorityHigh, ThreadX, 0))) {
 			fprintf(stderr, "Cannot start X Thread\n");
 			XCloseDisplay(dis);
 			exit(0);

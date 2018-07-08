@@ -382,7 +382,7 @@ void minesStart(void)
 #endif
 
     initField();
-    gfxThreadCreate(0, 1024, NORMAL_PRIORITY, thdMines, 0); 
+    gfxThreadCreate(0, 1024, gThreadpriorityNormal, thdMines, 0); 
     while (!minesGameOver) {
         gfxSleepMilliseconds(100);
     }

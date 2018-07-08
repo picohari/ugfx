@@ -460,7 +460,7 @@ void jg10Start(void) {
 #endif
     initField();
     guiCreate();
-    gfxThreadCreate(0, 1024, NORMAL_PRIORITY, thdJg10, 0);
+    gfxThreadCreate(0, 1024, gThreadpriorityNormal, thdJg10, 0);
     while (!jg10GameOver) {
         gfxSleepMilliseconds(100);
     }

@@ -34,9 +34,9 @@ typedef void				gThreadreturn;
 typedef osPriority			gThreadpriority;
 
 #define MAX_SEMAPHORE_COUNT	osFeature_Semaphore
-#define LOW_PRIORITY		osPriorityLow
-#define NORMAL_PRIORITY		osPriorityNormal
-#define HIGH_PRIORITY		osPriorityHigh
+#define gThreadpriorityLow		osPriorityLow
+#define gThreadpriorityNormal		osPriorityNormal
+#define gThreadpriorityHigh		osPriorityHigh
 
 typedef struct gfxSem {
 	uint32_t		semaphore[2];

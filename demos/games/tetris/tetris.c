@@ -498,7 +498,7 @@ void tetrisStart(void) {
   tetrisGameOver = gFalse;
   printGameOver(); // removes "Game Over!" if tetrisGameOver == gFalse
   tetrisPreviousGameTime = gfxSystemTicks();
-  gfxThreadCreate(0, 1024, NORMAL_PRIORITY, thdTetris, 0);
+  gfxThreadCreate(0, 1024, gThreadpriorityNormal, thdTetris, 0);
   while (!tetrisGameOver) {
     gfxSleepMilliseconds(1000);
   }
