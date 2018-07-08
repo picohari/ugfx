@@ -69,8 +69,8 @@ typedef enum gJustify {
 	gJustifyPad = 0x00,			/**< Pad the text box (the default) */
 	gJustifyNoPad = 0x04		/**< No padding the text box */
 } gJustify;
-#define JUSTIFYMASK_LEFTRIGHT	(gJustifyLeft|gJustifyCenter|gJustifyRight)
-#define JUSTIFYMASK_TOPBOTTOM	(gJustifyTop|gJustifyMiddle|gJustifyBottom)
+#define JUSTIFYMASK_HORIZONTAL	(gJustifyLeft|gJustifyCenter|gJustifyRight)
+#define JUSTIFYMASK_VERTICAL	(gJustifyTop|gJustifyMiddle|gJustifyBottom)
 
 /**
  * @enum gFontmetric
@@ -1251,6 +1251,8 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		#define justifyNoWordWrap	gJustifyNoWordWrap
 		#define justifyPad			gJustifyPad
 		#define justifyNoPad		gJustifyNoPad
+		#define JUSTIFYMASK_LEFTRIGHT	JUSTIFYMASK_HORIZONTAL
+		#define JUSTIFYMASK_TOPBOTTOM	JUSTIFYMASK_VERTICAL
 	typedef gFontmetric	fontmetric_t;
 		#define fontHeight			gFontHeight
 		#define fontDescendersHeight gFontDescendersHeight

@@ -3478,7 +3478,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		totalHeight = font->height;
 
 		// Select the anchor position
-		switch((justify & JUSTIFYMASK_TOPBOTTOM)) {
+		switch((justify & JUSTIFYMASK_VERTICAL)) {
 		case gJustifyTop:
 			break;
 		case gJustifyBottom:
@@ -3488,7 +3488,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 			y += (cy+1 - totalHeight)/2;
 			break;
 		}
-		switch((justify & JUSTIFYMASK_LEFTRIGHT)) {
+		switch((justify & JUSTIFYMASK_HORIZONTAL)) {
 		case gJustifyCenter:
 			x += (cx + 1) / 2;
 			break;
@@ -3504,14 +3504,14 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		g->t.color = color;
 		#if GDISP_NEED_TEXT_WORDWRAP
 			if (!(justify & gJustifyNoWordWrap)) {
-				g->t.lrj = (justify & JUSTIFYMASK_LEFTRIGHT);
+				g->t.lrj = (justify & JUSTIFYMASK_HORIZONTAL);
 				g->t.wrapx = x;
 				g->t.wrapy = y;
 
 				mf_wordwrap(font, cx, str, mf_drawline_callback, g);
 			} else
 		#endif
-		mf_render_aligned(font, x, y, (justify & JUSTIFYMASK_LEFTRIGHT), str, 0, drawcharglyph, g);
+		mf_render_aligned(font, x, y, (justify & JUSTIFYMASK_HORIZONTAL), str, 0, drawcharglyph, g);
 
 		autoflush(g);
 		MUTEX_EXIT(g);
@@ -3567,7 +3567,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 			totalHeight = font->height;
 
 			// Select the anchor position
-			switch((justify & JUSTIFYMASK_TOPBOTTOM)) {
+			switch((justify & JUSTIFYMASK_VERTICAL)) {
 			case gJustifyTop:
 				break;
 			case gJustifyBottom:
@@ -3577,7 +3577,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 				y += (cy+1 - totalHeight)/2;
 				break;
 			}
-			switch((justify & JUSTIFYMASK_LEFTRIGHT)) {
+			switch((justify & JUSTIFYMASK_HORIZONTAL)) {
 			case gJustifyCenter:
 				x += (cx + 1) / 2;
 				break;
@@ -3594,14 +3594,14 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 			g->t.bgcolor = bgcolor;
 			#if GDISP_NEED_TEXT_WORDWRAP
 				if (!(justify & gJustifyNoWordWrap)) {
-					g->t.lrj = (justify & JUSTIFYMASK_LEFTRIGHT);
+					g->t.lrj = (justify & JUSTIFYMASK_HORIZONTAL);
 					g->t.wrapx = x;
 					g->t.wrapy = y;
 
 					mf_wordwrap(font, cx, str, mf_fillline_callback, g);
 				} else
 			#endif
-			mf_render_aligned(font, x, y, (justify & JUSTIFYMASK_LEFTRIGHT), str, 0, fillcharglyph, g);
+			mf_render_aligned(font, x, y, (justify & JUSTIFYMASK_HORIZONTAL), str, 0, fillcharglyph, g);
 		}
 
 		autoflush(g);

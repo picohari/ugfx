@@ -27,6 +27,7 @@ CHANGE:		Added type gFont  to replace V2.x font_t
 CHANGE:		Added type gPowermode  to replace V2.x powermode_t,  and values gPowerXXX replace powerXXX
 CHANGE:		Added type gJustify    to replace V2.x justify_t,    and values gJustifyXXX replace justifyXXX
 CHANGE:		Added type gFontmetric to replace V2.x fontmetric_t, and values gFontXXX replace fontXXX
+CHANGE:		Added macros JUSTIFYMASK_HORIZONTAL, JUSTIFYMASK_VERTICAL to replace macros JUSTIFYMASK_LEFTRIGHT, JUSTIFYMASK_TOPBOTTOM
 FIX:		Added gfxRealloc() to Qt port
 FIX:		Fixed UC1610 driver private area initialisation
 FIX:		Fixed ST7735 driver and added kapacuk changes
