@@ -59,7 +59,7 @@ void gdispPixmapDelete(GDisplay *g);
  * 			(although different pixmaps will have different pixel pointers). Once a pixmap is deleted, the pixel pointer
  * 			should not be used by the application.
  */
-pixel_t	*gdispPixmapGetBits(GDisplay *g);
+gPixel	*gdispPixmapGetBits(GDisplay *g);
 
 #if GDISP_NEED_PIXMAP_IMAGE || defined(__DOXYGEN__)
 	/**

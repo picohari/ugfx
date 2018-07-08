@@ -33,7 +33,7 @@
 #define PIXMAP_HEIGHT	10
 
 static GDisplay* pixmap;
-static pixel_t* surface;
+static gPixel* surface;
 
 int main(void) {
 	gCoord		width, height;

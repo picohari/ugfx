@@ -70,7 +70,7 @@ typedef struct PNG_output {
 	gCoord		sx, sy;
 	gCoord		ix, iy;
 	unsigned	cnt;
-	pixel_t		buf[GDISP_IMAGE_PNG_BLIT_BUFFER_SIZE];
+	gPixel		buf[GDISP_IMAGE_PNG_BLIT_BUFFER_SIZE];
 	} PNG_output;
 
 // Handle the PNG scan line filter

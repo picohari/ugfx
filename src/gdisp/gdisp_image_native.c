@@ -27,8 +27,8 @@ void *gdispImageAlloc(gdispImage *img, size_t sz);
 void gdispImageFree(gdispImage *img, void *ptr, size_t sz);
 
 typedef struct gdispImagePrivate_NATIVE {
-	pixel_t		*frame0cache;
-	pixel_t		buf[BLIT_BUFFER_SIZE_NATIVE];
+	gPixel		*frame0cache;
+	gPixel		buf[BLIT_BUFFER_SIZE_NATIVE];
 	} gdispImagePrivate_NATIVE;
 
 void gdispImageClose_NATIVE(gdispImage *img) {
@@ -37,7 +37,7 @@ void gdispImageClose_NATIVE(gdispImage *img) {
 	priv = (gdispImagePrivate_NATIVE *)img->priv;
 	if (priv) {
 		if (priv->frame0cache)
-			gdispImageFree(img, (void *)priv->frame0cache, img->width * img->height * sizeof(pixel_t));
+			gdispImageFree(img, (void *)priv->frame0cache, img->width * img->height * sizeof(gPixel));
 		gdispImageFree(img, (void *)priv, sizeof(gdispImagePrivate_NATIVE));
 		img->priv = 0;
 	}
@@ -80,8 +80,8 @@ gdispImageError gdispImageCache_NATIVE(gdispImage *img) {
 		return GDISP_IMAGE_ERR_OK;
 
 	/* We need to allocate the cache */
-	len = img->width * img->height * sizeof(pixel_t);
-	priv->frame0cache = (pixel_t *)gdispImageAlloc(img, len);
+	len = img->width * img->height * sizeof(gPixel);
+	priv->frame0cache = (gPixel *)gdispImageAlloc(img, len);
 	if (!priv->frame0cache)
 		return GDISP_IMAGE_ERR_NOMEMORY;
 
@@ -112,7 +112,7 @@ gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, gCoord x, g
 	}
 
 	/* For this image decoder we cheat and just seek straight to the region we want to display */
-	pos = FRAME0POS_NATIVE + (img->width * sy + sx) * sizeof(pixel_t);
+	pos = FRAME0POS_NATIVE + (img->width * sy + sx) * sizeof(gPixel);
 
 	/* Cycle through the lines */
 	for(;cy;cy--, y++) {
@@ -124,8 +124,8 @@ gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, gCoord x, g
 			// Read the data
 			len = gfileRead(img->f,
 						priv->buf,
-						mcx > BLIT_BUFFER_SIZE_NATIVE ? (BLIT_BUFFER_SIZE_NATIVE*sizeof(pixel_t)) : (mcx * sizeof(pixel_t)))
-					/ sizeof(pixel_t);
+						mcx > BLIT_BUFFER_SIZE_NATIVE ? (BLIT_BUFFER_SIZE_NATIVE*sizeof(gPixel)) : (mcx * sizeof(gPixel)))
+					/ sizeof(gPixel);
 			if (!len)
 				return GDISP_IMAGE_ERR_BADDATA;
 
@@ -134,7 +134,7 @@ gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, gCoord x, g
 		}
 
 		/* Get the position for the start of the next line */
-		pos += img->width*sizeof(pixel_t);
+		pos += img->width*sizeof(gPixel);
 	}
 
 	return GDISP_IMAGE_ERR_OK;

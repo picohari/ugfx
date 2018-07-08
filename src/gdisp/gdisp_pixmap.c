@@ -92,7 +92,7 @@ void gdispPixmapDelete(GDisplay *g) {
 	gdriverUnRegister(&g->d);
 }
 
-pixel_t	*gdispPixmapGetBits(GDisplay *g) {
+gPixel	*gdispPixmapGetBits(GDisplay *g) {
 	if (gvmt(g) != GDISPVMT_pixmap)
 		return 0;
 	return ((pixmap *)g->priv)->pixels;

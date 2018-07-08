@@ -345,16 +345,16 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		gCoord			lg, x, y;
 		uint16_t		c1, c2;
 		unsigned		tuples;
-		const pixel_t	*buffer;
+		const gPixel	*buffer;
 		#if GDISP_PACKED_PIXELS
 			unsigned		pnum, pstart;
 			const uint8_t	*p;
 		#else
-			const pixel_t	*p;
+			const gPixel	*p;
 		#endif
 
 		tuples = (g->p.cx * g->p.cy + 1)>>1;
-		buffer = (const pixel_t *)g->p.ptr;
+		buffer = (const gPixel *)g->p.ptr;
 
 		/* Set up the data window to transfer */
 		acquire_bus(g);
@@ -428,7 +428,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				srccx = (g->p.x2 + 1) & ~1;
 			#endif
 			pstart = g->p.y1 * g->p.x2 + g->p.x1;										// The starting pixel number
-			buffer = (const pixel_t)(((const uint8_t *)buffer) + ((pstart>>1) * 3));	// The buffer start position
+			buffer = (const gPixel)(((const uint8_t *)buffer) + ((pstart>>1) * 3));	// The buffer start position
 			lg = ((g->p.x2-g->p.cx)>>1)*3;												// The buffer gap between lines
 			pnum = pstart + g->p.x2*y + x;												// Adjustment for controller craziness
 			p = ((const uint8_t *)buffer) + (((g->p.x2*y + x)>>1)*3);					// Adjustment for controller craziness

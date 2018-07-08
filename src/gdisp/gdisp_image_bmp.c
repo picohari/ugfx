@@ -24,7 +24,7 @@ typedef struct gdispImagePrivate_BMP {
 	uint8_t		bitsperpixel;
 #if GDISP_NEED_IMAGE_BMP_1 || GDISP_NEED_IMAGE_BMP_4 || GDISP_NEED_IMAGE_BMP_4_RLE || GDISP_NEED_IMAGE_BMP_8 || GDISP_NEED_IMAGE_BMP_8_RLE
 	uint16_t	palsize;
-	pixel_t		*palette;
+	gPixel		*palette;
 #endif
 #if GDISP_NEED_IMAGE_BMP_4_RLE || GDISP_NEED_IMAGE_BMP_8_RLE
 	uint16_t	rlerun;
@@ -41,8 +41,8 @@ typedef struct gdispImagePrivate_BMP {
 	uint32_t	maskalpha;
 #endif
 	size_t		frame0pos;
-	pixel_t		*frame0cache;
-	pixel_t		buf[GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE];
+	gPixel		*frame0cache;
+	gPixel		buf[GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE];
 	} gdispImagePrivate_BMP;
 
 void gdispImageClose_BMP(gdispImage *img) {
@@ -55,7 +55,7 @@ void gdispImageClose_BMP(gdispImage *img) {
 			gdispImageFree(img, (void *)priv->palette, priv->palsize*sizeof(color_t));
 #endif
 		if (priv->frame0cache)
-			gdispImageFree(img, (void *)priv->frame0cache, img->width*img->height*sizeof(pixel_t));
+			gdispImageFree(img, (void *)priv->frame0cache, img->width*img->height*sizeof(gPixel));
 		gdispImageFree(img, (void *)priv, sizeof(gdispImagePrivate_BMP));
 		img->priv = 0;
 	}
@@ -704,8 +704,8 @@ gdispImageError gdispImageCache_BMP(gdispImage *img) {
 		return GDISP_IMAGE_ERR_OK;
 
 	/* We need to allocate the cache */
-	len = img->width * img->height * sizeof(pixel_t);
-	priv->frame0cache = (pixel_t *)gdispImageAlloc(img, len);
+	len = img->width * img->height * sizeof(gPixel);
+	priv->frame0cache = (gPixel *)gdispImageAlloc(img, len);
 	if (!priv->frame0cache)
 		return GDISP_IMAGE_ERR_NOMEMORY;
 

@@ -59,7 +59,7 @@ gdispImageError jd_decomp(JDEC*, unsigned(*)(gdispImage*,void*,JRECT*), uint8_t)
 
 /*---------------------------------------------------------------------------*/
 typedef struct gdispImagePrivate_JPG {
-	pixel_t		*frame0cache;
+	gPixel		*frame0cache;
 	} gdispImagePrivate_JPG;
 
 gdispImageError gdispImageOpen_JPG(gdispImage *img){
@@ -123,7 +123,7 @@ void gdispImageClose_JPG(gdispImage *img){
 	gdispImagePrivate_JPG *priv = (gdispImagePrivate_JPG *)img->priv;
     if(priv){
         if (priv->frame0cache){
-            gdispImageFree(img, (void *)priv->frame0cache, img->width * img->height * sizeof(pixel_t));
+            gdispImageFree(img, (void *)priv->frame0cache, img->width * img->height * sizeof(gPixel));
         }
         gdispImageFree(img, (void*) priv, sizeof(gdispImagePrivate_JPG));
     }
@@ -133,7 +133,7 @@ static unsigned gdispImage_JPG_WriteToCache(gdispImage *img, void *bitmap, JRECT
 {
 	gdispImagePrivate_JPG	*priv;
     uint8_t					*in;
-	pixel_t					*out;
+	gPixel					*out;
     gCoord					x, y;
 
 	priv = (gdispImagePrivate_JPG *)img->priv;
@@ -158,7 +158,7 @@ gdispImageError gdispImageCache_JPG(gdispImage *img) {
 		return GDISP_IMAGE_ERR_OK;
 
     /* Otherwise start a new decode */
-	priv->frame0cache = (pixel_t *)gdispImageAlloc(img, img->width * img->height * sizeof(pixel_t));
+	priv->frame0cache = (gPixel *)gdispImageAlloc(img, img->width * img->height * sizeof(gPixel));
 	if (!priv->frame0cache)
 		return GDISP_IMAGE_ERR_NOMEMORY;
 

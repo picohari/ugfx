@@ -223,7 +223,7 @@ extern GDisplay	*GDISP;
 /**
  * @brief   The type of a pixel.
  */
-typedef color_t		pixel_t;
+typedef color_t		gPixel;
 
 /* Color Utility Functions */
 
@@ -452,7 +452,7 @@ void gdispGFillArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, color
  *
  * @api
  */
-void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord srcx, gCoord srcy, gCoord srccx, const pixel_t *buffer);
+void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord srcx, gCoord srcy, gCoord srccx, const gPixel *buffer);
 #define gdispBlitAreaEx(x,y,cx,cy,sx,sy,rx,b)			gdispGBlitArea(GDISP,x,y,cx,cy,sx,sy,rx,b)
 
 /**
@@ -1230,6 +1230,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, color_
 
 /* V2 compatibility */
 #if GFX_COMPAT_V2
+	typedef gPixel	pixel_t;
 	typedef gCoord	coord_t;
 	typedef gPoint	point, point_t;
 #endif

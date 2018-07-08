@@ -1224,16 +1224,16 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #endif
 
 #if GDISP_HARDWARE_BITFILLS && GDISP_NEED_CONTROL
-	static pixel_t *rotateimg(GDisplay *g, const pixel_t *buffer) {
-		pixel_t	*dstbuf;
-		pixel_t	*dst;
-		const pixel_t	*src;
+	static gPixel *rotateimg(GDisplay *g, const gPixel *buffer) {
+		gPixel	*dstbuf;
+		gPixel	*dst;
+		const gPixel	*src;
 		size_t	sz;
 		gCoord	i, j;
 
 		// Allocate the destination buffer
 		sz = (size_t)g->p.cx * (size_t)g->p.cy;
-		if (!(dstbuf = (pixel_t *)malloc(sz * sizeof(pixel_t))))
+		if (!(dstbuf = (gPixel *)malloc(sz * sizeof(gPixel))))
 			return 0;
 
 		// Copy the bits we need
@@ -1272,7 +1272,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 	LLDSPEC void gdisp_lld_blit_area(GDisplay *g) {
 		winPriv	*		priv;
-		pixel_t	*		buffer;
+		gPixel	*		buffer;
 		RECT			rect;
 		BITMAPV4HEADER	bmpInfo;
 
@@ -1300,7 +1300,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 			switch(g->g.Orientation) {
 			case GDISP_ROTATE_0:
 			default:
-				bmpInfo.bV4SizeImage = (g->p.cy*g->p.x2) * sizeof(pixel_t);
+				bmpInfo.bV4SizeImage = (g->p.cy*g->p.x2) * sizeof(gPixel);
 				bmpInfo.bV4Width = g->p.x2;
 				bmpInfo.bV4Height = -g->p.cy; /* top-down image */
 				rect.top = g->p.y;
@@ -1310,7 +1310,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				break;
 			case GDISP_ROTATE_90:
 				if (!(buffer = rotateimg(g, buffer))) return;
-				bmpInfo.bV4SizeImage = (g->p.cy*g->p.cx) * sizeof(pixel_t);
+				bmpInfo.bV4SizeImage = (g->p.cy*g->p.cx) * sizeof(gPixel);
 				bmpInfo.bV4Width = g->p.cy;
 				bmpInfo.bV4Height = -g->p.cx; /* top-down image */
 				rect.bottom = g->g.Width - g->p.x;
@@ -1320,7 +1320,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				break;
 			case GDISP_ROTATE_180:
 				if (!(buffer = rotateimg(g, buffer))) return;
-				bmpInfo.bV4SizeImage = (g->p.cy*g->p.cx) * sizeof(pixel_t);
+				bmpInfo.bV4SizeImage = (g->p.cy*g->p.cx) * sizeof(gPixel);
 				bmpInfo.bV4Width = g->p.cx;
 				bmpInfo.bV4Height = -g->p.cy; /* top-down image */
 				rect.bottom = g->g.Height-1 - g->p.y;
@@ -1330,7 +1330,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				break;
 			case GDISP_ROTATE_270:
 				if (!(buffer = rotateimg(g, buffer))) return;
-				bmpInfo.bV4SizeImage = (g->p.cy*g->p.cx) * sizeof(pixel_t);
+				bmpInfo.bV4SizeImage = (g->p.cy*g->p.cx) * sizeof(gPixel);
 				bmpInfo.bV4Width = g->p.cy;
 				bmpInfo.bV4Height = -g->p.cx; /* top-down image */
 				rect.top = g->p.x;
@@ -1340,7 +1340,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				break;
 			}
 		#else
-			bmpInfo.bV4SizeImage = (g->p.cy*g->p.x2) * sizeof(pixel_t);
+			bmpInfo.bV4SizeImage = (g->p.cy*g->p.x2) * sizeof(gPixel);
 			bmpInfo.bV4Width = g->p.x2;
 			bmpInfo.bV4Height = -g->p.cy; /* top-down image */
 			rect.top = g->p.y;
@@ -1365,7 +1365,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		#endif
 
 		#if GDISP_NEED_CONTROL
-			if (buffer != (pixel_t *)g->p.ptr)
+			if (buffer != (gPixel *)g->p.ptr)
 				free(buffer);
 		#endif
 	}

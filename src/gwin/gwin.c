@@ -261,7 +261,7 @@ void gwinFillArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy) {
 	_gwinDrawEnd(gh);
 }
 
-void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord srcx, gCoord srcy, gCoord srccx, const pixel_t *buffer) {
+void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord srcx, gCoord srcy, gCoord srccx, const gPixel *buffer) {
 	if (!_gwinDrawStart(gh)) return;
 	gdispGBlitArea(gh->display, gh->x+x, gh->y+y, cx, cy, srcx, srcy, srccx, buffer);
 	_gwinDrawEnd(gh);

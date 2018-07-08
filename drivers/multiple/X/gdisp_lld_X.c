@@ -443,7 +443,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g)
 		// Start of Bitblit code
 
 		//XImage			bitmap;
-		//pixel_t			*bits;
+		//gPixel			*bits;
 		//	bits = malloc(vis.depth * GDISP_SCREEN_WIDTH * GDISP_SCREEN_HEIGHT);
 		//	bitmap = XCreateImage(dis, vis, vis.depth, ZPixmap,
 		//				0, bits, GDISP_SCREEN_WIDTH, GDISP_SCREEN_HEIGHT,

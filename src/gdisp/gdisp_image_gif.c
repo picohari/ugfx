@@ -91,14 +91,14 @@ typedef struct gdispImagePrivate_GIF {
 	uint8_t			bgcolor;					// Background Color (global)
 	uint16_t		loops;						// Remaining frame loops (if animated)
 	uint16_t		palsize;					// Global palette size (global)
-	pixel_t			*palette;					// Global palette (global)
+	gPixel			*palette;					// Global palette (global)
 	size_t			frame0pos;					// The position of the first frame
 	gifimgcache *	cache;						// The list of cached frames
 	gifimgcache *	curcache;					// The cache of the current frame (if created)
 	gifimgdecode *	decode;						// The decode data for the decode in progress
 	gifimgframe		frame;
 	gifimgdispose	dispose;
-	pixel_t			buf[GDISP_IMAGE_GIF_BLIT_BUFFER_SIZE];	// Buffer for reading and blitting
+	gPixel			buf[GDISP_IMAGE_GIF_BLIT_BUFFER_SIZE];	// Buffer for reading and blitting
 	} gdispImagePrivate_GIF;
 
 /**

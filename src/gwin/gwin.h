@@ -680,7 +680,7 @@ void gwinFillArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy);
  *
  * @api
  */
-void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord srcx, gCoord srcy, gCoord srccx, const pixel_t *buffer);
+void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord srcx, gCoord srcy, gCoord srccx, const gPixel *buffer);
 
 /*-------------------------------------------------
 * Circle, ellipse, arc and arc-sectors functions

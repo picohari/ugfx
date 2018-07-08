@@ -308,7 +308,7 @@
 	 *
 	 * @api
 	 */
-	void gdispPackPixels(const pixel_t *buf, gCoord cx, gCoord x, gCoord y, color_t color);
+	void gdispPackPixels(const gPixel *buf, gCoord cx, gCoord x, gCoord y, color_t color);
 #endif
 
 //------------------------------------------------------------------------------------------------------------

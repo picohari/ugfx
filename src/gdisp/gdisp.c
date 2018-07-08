@@ -1097,7 +1097,7 @@ void gdispGFillArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, color
 	MUTEX_EXIT(g);
 }
 
-void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord srcx, gCoord srcy, gCoord srccx, const pixel_t *buffer) {
+void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord srcx, gCoord srcy, gCoord srccx, const gPixel *buffer) {
 	MUTEX_ENTER(g);
 
 	#if NEED_CLIPPING
@@ -3732,7 +3732,7 @@ color_t gdispContrastColor(color_t color) {
 }
 
 #if (!defined(gdispPackPixels) && !defined(GDISP_PIXELFORMAT_CUSTOM))
-	void gdispPackPixels(pixel_t *buf, gCoord cx, gCoord x, gCoord y, color_t color) {
+	void gdispPackPixels(gPixel *buf, gCoord cx, gCoord x, gCoord y, color_t color) {
 		/* No mutex required as we only read static data */
 		#if defined(GDISP_PIXELFORMAT_RGB888)
 			#error "GDISP: Packed pixels not supported yet"
