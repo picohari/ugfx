@@ -33,7 +33,7 @@
 GHandle GW1, GW2;
 
 int main(void) {
-   	coord_t		i, j;
+   	gCoord		i, j;
 
     /* Initialize and clear the display */
     gfxInit();

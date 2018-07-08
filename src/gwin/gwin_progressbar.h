@@ -26,7 +26,7 @@
 // A progressbar window
 typedef struct GProgressbarObject {
 	GWidgetObject		w;
-	coord_t				dpos;
+	gCoord				dpos;
 	int					min;
 	int					max;
 	int					res;

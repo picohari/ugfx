@@ -55,7 +55,7 @@ static GHandle					nStatusConsole = NULL;
 
 static volatile gBool			doExit;
 
-static void draw_point(coord_t x, coord_t y) {
+static void draw_point(gCoord x, gCoord y) {
   color_t c = ncoreDrawingArea->color;
 
   if (nMode == NCORE_MODE_DRAW)
@@ -71,7 +71,7 @@ static void draw_point(coord_t x, coord_t y) {
 
 /* Bresenham's Line Drawing Algorithm
    Modified version to draw line of variable thickness */
-static void draw_line(coord_t x0, coord_t y0, coord_t x1, coord_t y1) {
+static void draw_line(gCoord x0, gCoord y0, gCoord x1, gCoord y1) {
   int16_t dy, dx;
   int16_t addx, addy;
   int16_t P, diff, i;
@@ -130,7 +130,7 @@ static void draw_line(coord_t x0, coord_t y0, coord_t x1, coord_t y1) {
 static DECLARE_THREAD_FUNCTION(ncoreDrawThread, msg) {
 
   GEventMouse ev, evPrev;
-  coord_t dx, dy;
+  gCoord dx, dy;
 
   int state = 0, dist;
 

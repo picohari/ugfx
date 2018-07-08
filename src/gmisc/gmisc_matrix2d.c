@@ -178,7 +178,7 @@ void gmiscMatrixFixed2DApplyShear(MatrixFixed2D *dst, const MatrixFixed2D *src, 
 #endif
 
 void gmiscMatrixFixed2DApplyToPoints(gPoint *dst, const gPoint *src, const MatrixFixed2D *m, int cnt) {
-	coord_t	x;
+	gCoord	x;
 
 	for( ;cnt--; dst++, src++) {
 		x = src->x;						// This allows in-place operation

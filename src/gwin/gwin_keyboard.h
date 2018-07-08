@@ -57,8 +57,8 @@ typedef struct GKeyboardObject {
 	GWidgetObject			w;
 	const struct GVKeyTable	*keytable;
 	const char				**keyset;
-	coord_t					keyx, keyy;
-	coord_t					keycx, keycy;
+	gCoord					keyx, keyy;
+	gCoord					keycx, keycy;
 	uint8_t					lastkeyrow, lastkeycol;
 	uint8_t					keyrow, keycol;
 	uint32_t				key;

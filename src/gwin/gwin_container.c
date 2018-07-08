@@ -59,13 +59,13 @@ GHandle gwinGetSibling(GHandle gh) {
 	return 0;
 }
 
-coord_t gwinGetInnerWidth(GHandle gh) {
+gCoord gwinGetInnerWidth(GHandle gh) {
 	if (!(gh->flags & GWIN_FLG_CONTAINER))
 		return 0;
 	return gh->width - ((const gcontainerVMT *)gh->vmt)->LeftBorder(gh) - ((const gcontainerVMT *)gh->vmt)->RightBorder(gh);
 }
 
-coord_t gwinGetInnerHeight(GHandle gh) {
+gCoord gwinGetInnerHeight(GHandle gh) {
 	if (!(gh->flags & GWIN_FLG_CONTAINER))
 		return 0;
 	return gh->height - ((const gcontainerVMT *)gh->vmt)->TopBorder(gh) - ((const gcontainerVMT *)gh->vmt)->BottomBorder(gh);
@@ -92,7 +92,7 @@ coord_t gwinGetInnerHeight(GHandle gh) {
 
 #define BORDER_WIDTH		2
 
-static coord_t ContainerBorderSize(GHandle gh)	{ return (gh->flags & GWIN_CONTAINER_BORDER) ? BORDER_WIDTH : 0; }
+static gCoord ContainerBorderSize(GHandle gh)	{ return (gh->flags & GWIN_CONTAINER_BORDER) ? BORDER_WIDTH : 0; }
 
 // The container VMT table
 static const gcontainerVMT containerVMT = {
@@ -169,7 +169,7 @@ void gwinContainerDraw_Std(GWidgetObject *gw, void *param) {
 #if GDISP_NEED_IMAGE
 	void gwinContainerDraw_Image(GWidgetObject *gw, void *param) {
 		#define gi			((gdispImage *)param)
-		coord_t				x, y, iw, ih, mx, my;
+		gCoord				x, y, iw, ih, mx, my;
 
 		if (gw->g.vmt != (gwinVMT *)&containerVMT)
 			return;

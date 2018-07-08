@@ -352,10 +352,10 @@ unsupportedcleanup:
 	return GDISP_IMAGE_ERR_UNSUPPORTED;		// Not supported
 }
 
-static coord_t getPixels(gdispImage *img, coord_t x) {
+static gCoord getPixels(gdispImage *img, gCoord x) {
 	gdispImagePrivate_BMP *	priv;
 	color_t *			pc;
-	coord_t				len;
+	gCoord				len;
 
 	priv = (gdispImagePrivate_BMP *)img->priv;
 	pc = priv->buf;
@@ -695,7 +695,7 @@ gdispImageError gdispImageCache_BMP(gdispImage *img) {
 	gdispImagePrivate_BMP *	priv;
 	color_t *			pcs;
 	color_t *			pcd;
-	coord_t				pos, x, y;
+	gCoord				pos, x, y;
 	size_t				len;
 
 	/* If we are already cached - just return OK */
@@ -749,10 +749,10 @@ gdispImageError gdispImageCache_BMP(gdispImage *img) {
 	return GDISP_IMAGE_ERR_OK;
 }
 
-gdispImageError gdispGImageDraw_BMP(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy) {
+gdispImageError gdispGImageDraw_BMP(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
 	gdispImagePrivate_BMP *	priv;
-	coord_t				mx, my;
-	coord_t				pos, len, st;
+	gCoord				mx, my;
+	gCoord				pos, len, st;
 
 	priv = (gdispImagePrivate_BMP *)img->priv;
 

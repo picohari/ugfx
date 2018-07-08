@@ -171,10 +171,10 @@ static gBool read_xyz(GMouse* m, GMouseReading* pdr)
 	#endif
 
 	// Time to get some readings
-	pdr->x = (coord_t)read_word(m, STMPE811_REG_TSC_DATA_X);
-	pdr->y = (coord_t)read_word(m, STMPE811_REG_TSC_DATA_Y);
+	pdr->x = (gCoord)read_word(m, STMPE811_REG_TSC_DATA_X);
+	pdr->y = (gCoord)read_word(m, STMPE811_REG_TSC_DATA_Y);
 	#if GMOUSE_STMPE811_READ_PRESSURE
-		pdr->z = (coord_t)read_byte(m, STMPE811_REG_TSC_DATA_Z);
+		pdr->z = (gCoord)read_byte(m, STMPE811_REG_TSC_DATA_Z);
 	#else
 		pdr->z = gmvmt(m)->z_max;
 	#endif

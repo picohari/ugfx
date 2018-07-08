@@ -30,9 +30,9 @@
 #include "gfx.h"
 
 int main(void) {
-	coord_t		width, y;
+	gCoord		width, y;
 	font_t		font1, font2;
-	coord_t		fheight1, fheight2;
+	gCoord		fheight1, fheight2;
 	const char	*line1, *line2;
 	char		buf[8];
 

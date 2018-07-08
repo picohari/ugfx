@@ -87,7 +87,7 @@ static gBool TextEditAddChars(GHandle gh, unsigned cnt) {
 // slow. An optimized version would copy the behavior of mf_get_string_width()
 // and do the comparation directly inside of that loop so we only iterate
 // the string once.
-static void TextEditMouseDown(GWidgetObject* gw, coord_t x, coord_t y) {
+static void TextEditMouseDown(GWidgetObject* gw, gCoord x, gCoord y) {
 	uint16_t i = 0;
 
 	(void)y;
@@ -269,7 +269,7 @@ GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit
 void gwinTexteditDefaultDraw(GWidgetObject* gw, void* param)
 {
 	const char*			p;
-	coord_t				cpos, tpos;
+	gCoord				cpos, tpos;
 	const GColorSet*	pcol;
 
 	(void)param;

@@ -28,7 +28,7 @@
 #define JD_WORKSZ 		(JD_SZBUF+2580+8)	/* The extra 8 bytes just for safety */
 
 typedef struct {
-	coord_t left, right, top, bottom;
+	gCoord left, right, top, bottom;
 } JRECT;
 /* Decompressor object structure */
 typedef struct JDEC {
@@ -134,7 +134,7 @@ static unsigned gdispImage_JPG_WriteToCache(gdispImage *img, void *bitmap, JRECT
 	gdispImagePrivate_JPG	*priv;
     uint8_t					*in;
 	pixel_t					*out;
-    coord_t					x, y;
+    gCoord					x, y;
 
 	priv = (gdispImagePrivate_JPG *)img->priv;
     in = (unsigned char *)bitmap;
@@ -176,7 +176,7 @@ gdispImageError gdispImageCache_JPG(gdispImage *img) {
 	return r;
 }
 
-gdispImageError gdispGImageDraw_JPG(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy){
+gdispImageError gdispGImageDraw_JPG(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy){
     gdispImagePrivate_JPG *	priv;
 
     priv = (gdispImagePrivate_JPG *)img->priv;

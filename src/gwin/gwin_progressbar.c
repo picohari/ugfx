@@ -265,7 +265,7 @@ void gwinProgressbarDraw_Image(GWidgetObject *gw, void *param) {
 	#define gsw			((GProgressbarObject *)gw)
 	#define gi			((gdispImage *)param)
 	const GColorSet *	pcol;
-	coord_t				z, v;
+	gCoord				z, v;
 
 	if (gw->g.vmt != (gwinVMT *)&progressbarVMT)
 		return;

@@ -64,8 +64,8 @@ static const transTable FrenchTranslation = { sizeof(FrenchStrings)/sizeof(Frenc
 
 void updateText()
 {
-    coord_t width = 400;
-    coord_t height = 30;
+    gCoord width = 400;
+    gCoord height = 30;
 
     // Translate some basic strings
     gdispFillStringBox(20,  20, width, height, gt("Welcome"), font, COLOR_TEXT, COLOR_BACKGROUND, justifyLeft);

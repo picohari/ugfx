@@ -49,15 +49,15 @@ typedef struct pixmap {
 	color_t			pixels[1];			// We really want pixels[0] but some compilers don't allow that even though it is C standard.
 	} pixmap;
 
-GDisplay *gdispPixmapCreate(coord_t width, coord_t height) {
+GDisplay *gdispPixmapCreate(gCoord width, gCoord height) {
 	GDisplay	*g;
 	pixmap		*p;
 	unsigned	i;
 
 	// Calculate the size of the display surface in bytes
 	i = width*height*sizeof(color_t);
-	if (i < 2*sizeof(coord_t))
-		i = 2*sizeof(coord_t);
+	if (i < 2*sizeof(gCoord))
+		i = 2*sizeof(gCoord);
 
 	// Allocate the pixmap
 	if (!(p = gfxAlloc(i+sizeof(pixmap)-sizeof(p->pixels))))
@@ -76,8 +76,8 @@ GDisplay *gdispPixmapCreate(coord_t width, coord_t height) {
 	#endif
 
 	// Save the width and height so the driver can retrieve it.
-	((coord_t *)p->pixels)[0] = width;
-	((coord_t *)p->pixels)[1] = height;
+	((gCoord *)p->pixels)[0] = width;
+	((gCoord *)p->pixels)[1] = height;
 
 	// Register the driver
 	g = (GDisplay *)gdriverRegister(&GDISPVMT_pixmap->d, p);
@@ -118,8 +118,8 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 	// Initialize the GDISP structure
 	//	Width and height were saved into the start of the framebuffer.
-	g->g.Width = ((coord_t *)((pixmap *)g->priv)->pixels)[0];
-	g->g.Height = ((coord_t *)((pixmap *)g->priv)->pixels)[1];
+	g->g.Width = ((gCoord *)((pixmap *)g->priv)->pixels)[0];
+	g->g.Height = ((gCoord *)((pixmap *)g->priv)->pixels)[1];
 	g->g.Backlight = 100;
 	g->g.Contrast = 50;
 	g->g.Orientation = GDISP_ROTATE_0;
@@ -195,7 +195,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay *g) {
 				case GDISP_ROTATE_0:
 				case GDISP_ROTATE_180:
 					if (g->g.Orientation == GDISP_ROTATE_90 || g->g.Orientation == GDISP_ROTATE_270) {
-						coord_t		tmp;
+						gCoord		tmp;
 
 						tmp = g->g.Width;
 						g->g.Width = g->g.Height;
@@ -205,7 +205,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay *g) {
 				case GDISP_ROTATE_90:
 				case GDISP_ROTATE_270:
 					if (g->g.Orientation == GDISP_ROTATE_0 || g->g.Orientation == GDISP_ROTATE_180) {
-						coord_t		tmp;
+						gCoord		tmp;
 
 						tmp = g->g.Width;
 						g->g.Width = g->g.Height;

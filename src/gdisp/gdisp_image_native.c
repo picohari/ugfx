@@ -93,8 +93,8 @@ gdispImageError gdispImageCache_NATIVE(gdispImage *img) {
 	return GDISP_IMAGE_ERR_OK;
 }
 
-gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy) {
-	coord_t		mx, mcx;
+gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
+	gCoord		mx, mcx;
 	size_t		pos, len;
 	gdispImagePrivate_NATIVE *	priv;
 

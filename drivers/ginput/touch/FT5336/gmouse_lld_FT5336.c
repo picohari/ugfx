@@ -65,8 +65,8 @@ static gBool ft5336ReadXYZ(GMouse* m, GMouseReading* pdr)
 	// Only take a reading if exactly one touch contact point
 	if (read_byte(m, FT5336_TD_STAT_REG) == 1) {
 		// Get and return X, Y an Z values
-		pdr->y = (coord_t)(read_word(m, FT5336_P1_XH_REG) & 0x0FFF);
-		pdr->x = (coord_t)(read_word(m, FT5336_P1_YH_REG) & 0x0FFF);
+		pdr->y = (gCoord)(read_word(m, FT5336_P1_XH_REG) & 0x0FFF);
+		pdr->x = (gCoord)(read_word(m, FT5336_P1_YH_REG) & 0x0FFF);
 		pdr->z = 1;
 	}
 

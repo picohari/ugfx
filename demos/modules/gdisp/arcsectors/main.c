@@ -30,7 +30,7 @@
 #include "gfx.h"
 
 int main(void) {
-	coord_t		width, height, r1, r2, cx, cy;
+	gCoord		width, height, r1, r2, cx, cy;
 	uint8_t		sectors;
 
     // Initialize and clear the display

@@ -36,8 +36,8 @@ static GDisplay* pixmap;
 static pixel_t* surface;
 
 int main(void) {
-	coord_t		width, height;
-	coord_t		i, j;
+	gCoord		width, height;
+	gCoord		i, j;
 
     // Initialize and clear the display
     gfxInit();

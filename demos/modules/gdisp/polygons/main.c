@@ -69,7 +69,7 @@ static gPoint oldresult[NUM_POINTS];
 
 
 int main(void) {
-	coord_t		width, height;
+	gCoord		width, height;
 	mtype	scalex, scaley;
 	mtype	scaleincx, scaleincy;
 	mtype	translatex, translatey;

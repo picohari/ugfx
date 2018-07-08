@@ -34,9 +34,9 @@
 
 static GConsoleObject			gc;
 static font_t					font;
-static coord_t					bHeight;
+static gCoord					bHeight;
 static GHandle					ghc;
-static coord_t					swidth, sheight;
+static gCoord					swidth, sheight;
 
 #if !GWIN_CONSOLE_USE_FLOAT
 	#error "You need to enable float support for the console widget. (GWIN_CONSOLE_USE_FLOAT)"

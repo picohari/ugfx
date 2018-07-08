@@ -92,7 +92,7 @@ static void SliderResetDisplayPos(GSliderObject *gsw) {
 
 #if GINPUT_NEED_MOUSE
 	// Set the display position from the mouse position
-	static void SetDisplayPosFromMouse(GSliderObject *gsw, coord_t x, coord_t y) {
+	static void SetDisplayPosFromMouse(GSliderObject *gsw, gCoord x, gCoord y) {
 		if (gsw->w.g.width < gsw->w.g.height)
 			gsw->dpos = y < 0 ? 0 : (y >= gsw->w.g.height ? gsw->w.g.height-1 : y);
 		else
@@ -100,7 +100,7 @@ static void SliderResetDisplayPos(GSliderObject *gsw) {
 	}
 
 	// A mouse up event
-	static void SliderMouseUp(GWidgetObject *gw, coord_t x, coord_t y) {
+	static void SliderMouseUp(GWidgetObject *gw, gCoord x, gCoord y) {
 		#define gsw		((GSliderObject *)gw)
 
 		#if !GWIN_BUTTON_LAZY_RELEASE
@@ -144,7 +144,7 @@ static void SliderResetDisplayPos(GSliderObject *gsw) {
 	}
 
 	// A mouse down event
-	static void SliderMouseDown(GWidgetObject *gw, coord_t x, coord_t y) {
+	static void SliderMouseDown(GWidgetObject *gw, gCoord x, gCoord y) {
 		#define gsw		((GSliderObject *)gw)
 
 		// Determine the display position
@@ -160,7 +160,7 @@ static void SliderResetDisplayPos(GSliderObject *gsw) {
 	}
 
 	// A mouse move event
-	static void SliderMouseMove(GWidgetObject *gw, coord_t x, coord_t y) {
+	static void SliderMouseMove(GWidgetObject *gw, gCoord x, gCoord y) {
 		#define gsw		((GSliderObject *)gw)
 
 		// Determine the display position
@@ -391,7 +391,7 @@ void gwinSliderDraw_Image(GWidgetObject *gw, void *param) {
 	#define gsw			((GSliderObject *)gw)
 	#define gi			((gdispImage *)param)
 	const GColorSet *	pcol;
-	coord_t				z, v;
+	gCoord				z, v;
 
 	if (gw->g.vmt != (gwinVMT *)&sliderVMT)
 		return;

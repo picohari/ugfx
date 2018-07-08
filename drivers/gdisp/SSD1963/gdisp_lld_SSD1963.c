@@ -17,7 +17,7 @@
 #define CALC_FPR(w,h,hb,hf,hp,vb,vf,vp,fps)	((fps * CALC_PERIOD(w,hb,hf,hp) * CALC_PERIOD(h,vb,vf,vp) * 1048576)/100000000)
 
 typedef struct LCD_Parameters {
-	coord_t		width, height;					// Panel width and height
+	gCoord		width, height;					// Panel width and height
 	uint16_t	hbporch;						// Horizontal Back Porch
 	uint16_t	hfporch;						// Horizontal Front Porch
 	uint16_t	hpulse;							// Horizontal Pulse

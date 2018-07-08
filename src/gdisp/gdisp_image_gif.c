@@ -52,8 +52,8 @@ typedef struct gifimgdecode {
 
 // The data on a single frame
 typedef struct gifimgframe {
-	coord_t				x, y;							// position relative to full image
-	coord_t				width, height;					// size of frame
+	gCoord				x, y;							// position relative to full image
+	gCoord				width, height;					// size of frame
 	uint16_t			delay;							// delay after processing
 	uint8_t				flags;							// Local flags
 		#define GIFL_TRANSPARENT	0x01					// There exists a transparent color
@@ -80,8 +80,8 @@ typedef struct gifimgcache {
 typedef struct gifimgdispose {
 	uint8_t				flags;							// Frame flags
 	uint8_t				paltrans;						// Transparency
-	coord_t				x, y;							// position relative to full image
-	coord_t				width, height;					// size of dispose area
+	gCoord				x, y;							// position relative to full image
+	gCoord				width, height;					// size of dispose area
 } gifimgdispose;
 
 typedef struct gdispImagePrivate_GIF {
@@ -601,7 +601,7 @@ gdispImageError gdispImageCache_GIF(gdispImage *img) {
 	gifimgdecode *			decode;
 	uint8_t *				p;
 	uint8_t *				q;
-	coord_t					mx, my;
+	gCoord					mx, my;
 	uint16_t				cnt;
 
 	/* If we are already cached - just return OK */
@@ -766,11 +766,11 @@ baddatacleanup:
 	return GDISP_IMAGE_ERR_BADDATA;
 }
 
-gdispImageError gdispGImageDraw_GIF(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy) {
+gdispImageError gdispGImageDraw_GIF(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
 	gdispImagePrivate_GIF *	priv;
 	gifimgdecode *			decode;
 	uint8_t *				q = 0;
-	coord_t					mx, my, fx, fy;
+	gCoord					mx, my, fx, fy;
 	uint16_t				cnt, gcnt;
 	uint8_t					col;
 

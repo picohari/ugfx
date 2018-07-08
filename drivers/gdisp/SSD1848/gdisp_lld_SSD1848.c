@@ -341,8 +341,8 @@ LLDSPEC void gdisp_lld_clear (GDisplay *g)
 #if GDISP_HARDWARE_FILLS
 LLDSPEC void gdisp_lld_fill_area (GDisplay *g)
 {
-    coord_t  scol, ecol, sx, ex;
-    coord_t  y, col, x;
+    gCoord  scol, ecol, sx, ex;
+    gCoord  y, col, x;
     uint16_t area = (uint16_t) g->p.cx * g->p.cy;
     uint8_t  temp;
 
@@ -400,7 +400,7 @@ LLDSPEC void gdisp_lld_fill_area (GDisplay *g)
 #if GDISP_HARDWARE_DRAWPIXEL
 LLDSPEC void gdisp_lld_draw_pixel (GDisplay *g)
 {
-    coord_t x, y;
+    gCoord x, y;
 
     switch (g->g.Orientation)
     {
@@ -436,7 +436,7 @@ LLDSPEC void gdisp_lld_draw_pixel (GDisplay *g)
 #if GDISP_HARDWARE_PIXELREAD
 LLDSPEC color_t gdisp_lld_get_pixel_color (GDisplay *g)
 {
-    coord_t x, y;
+    gCoord x, y;
 
     switch (g->g.Orientation)
     {
@@ -554,8 +554,8 @@ LLDSPEC void gdisp_lld_control (GDisplay *g)
 #if GDISP_HARDWARE_BITFILLS
 LLDSPEC void gdisp_lld_blit_area (GDisplay *g)
 {
-    coord_t  scol, ecol, sx;
-    coord_t  y, col;
+    gCoord  scol, ecol, sx;
+    gCoord  y, col;
     uint16_t area;
     uint8_t  temp, temp2, i;
 

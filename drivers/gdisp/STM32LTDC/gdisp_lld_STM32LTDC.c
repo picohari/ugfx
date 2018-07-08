@@ -48,13 +48,13 @@
 typedef struct ltdcLayerConfig {
 	// Frame
 	LLDCOLOR_TYPE*	frame;			// Frame buffer address
-	coord_t			width, height;	// Frame size in pixels
-	coord_t			pitch;			// Line pitch, in bytes
+	gCoord			width, height;	// Frame size in pixels
+	gCoord			pitch;			// Line pitch, in bytes
 	uint16_t		fmt;			// Pixel format in LTDC format
 
 	// Window
-	coord_t			x, y;			// Start pixel position of the virtual layer
-	coord_t			cx, cy;			// Size of the virtual layer
+	gCoord			x, y;			// Start pixel position of the virtual layer
+	gCoord			cx, cy;			// Size of the virtual layer
 
 	uint32_t		defcolor;		// Default color, ARGB8888
 	uint32_t		keycolor;		// Color key, RGB888
@@ -66,10 +66,10 @@ typedef struct ltdcLayerConfig {
 } ltdcLayerConfig;
 
 typedef struct ltdcConfig {
-	coord_t		width, height;				// Screen size
-	coord_t		hsync, vsync;				// Horizontal and Vertical sync pixels
-	coord_t		hbackporch, vbackporch;		// Horizontal and Vertical back porch pixels
-	coord_t		hfrontporch, vfrontporch;	// Horizontal and Vertical front porch pixels
+	gCoord		width, height;				// Screen size
+	gCoord		hsync, vsync;				// Horizontal and Vertical sync pixels
+	gCoord		hbackporch, vbackporch;		// Horizontal and Vertical back porch pixels
+	gCoord		hfrontporch, vfrontporch;	// Horizontal and Vertical front porch pixels
 	uint32_t	syncflags;					// Sync flags
 	uint32_t	bgcolor;					// Clear screen color RGB888
 
@@ -382,7 +382,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 				case GDISP_ROTATE_0:
 				case GDISP_ROTATE_180:
 					if (g->g.Orientation == GDISP_ROTATE_90 || g->g.Orientation == GDISP_ROTATE_270) {
-						coord_t		tmp;
+						gCoord		tmp;
 
 						tmp = g->g.Width;
 						g->g.Width = g->g.Height;
@@ -392,7 +392,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
 				case GDISP_ROTATE_90:
 				case GDISP_ROTATE_270:
 					if (g->g.Orientation == GDISP_ROTATE_0 || g->g.Orientation == GDISP_ROTATE_180) {
-						coord_t		tmp;
+						gCoord		tmp;
 
 						tmp = g->g.Width;
 						g->g.Width = g->g.Height;

@@ -70,7 +70,7 @@ GDisplay	*GDISP;
 
 #if GDISP_HARDWARE_STREAM_POS && GDISP_HARDWARE_STREAM_WRITE
 	static GFXINLINE void setglobalwindow(GDisplay *g) {
-		coord_t	x, y;
+		gCoord	x, y;
 		x = g->p.x; y = g->p.y;
 		g->p.x = g->p.y = 0;
 		g->p.cx = g->g.Width; g->p.cy = g->g.Height;
@@ -227,7 +227,7 @@ static GFXINLINE void fillarea(GDisplay *g) {
 		//	if (gvmt(g)->pixel)
 		//#endif
 		{
-			coord_t x0, y0, x1, y1;
+			gCoord x0, y0, x1, y1;
 
 			x0 = g->p.x;
 			y0 = g->p.y;
@@ -503,9 +503,9 @@ static void line_clip(GDisplay *g) {
 #if GDISP_STARTUP_LOGO_TIMEOUT > 0
 	static gBool	gdispInitDone;
 	static void StartupLogoDisplay(GDisplay *g) {
-		coord_t			x, y, w;
-		const coord_t *	p;
-		static const coord_t blks[] = {
+		gCoord			x, y, w;
+		const gCoord *	p;
+		static const gCoord blks[] = {
 				// u
 				2, 6, 1, 10,
 				3, 11, 4, 1,
@@ -709,8 +709,8 @@ unsigned gdispGetDisplayCount(void) {
 	return gdriverInstanceCount(GDRIVER_TYPE_DISPLAY);
 }
 
-coord_t gdispGGetWidth(GDisplay *g)				{ return g->g.Width; }
-coord_t gdispGGetHeight(GDisplay *g)			{ return g->g.Height; }
+gCoord gdispGGetWidth(GDisplay *g)				{ return g->g.Width; }
+gCoord gdispGGetHeight(GDisplay *g)			{ return g->g.Height; }
 powermode_t gdispGGetPowerMode(GDisplay *g)		{ return g->g.Powermode; }
 orientation_t gdispGGetOrientation(GDisplay *g)	{ return g->g.Orientation; }
 uint8_t gdispGGetBacklight(GDisplay *g)			{ return g->g.Backlight; }
@@ -732,7 +732,7 @@ void gdispGFlush(GDisplay *g) {
 }
 
 #if GDISP_NEED_STREAMING
-	void gdispGStreamStart(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy) {
+	void gdispGStreamStart(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy) {
 		MUTEX_ENTER(g);
 
 		#if NEED_CLIPPING
@@ -794,7 +794,7 @@ void gdispGFlush(GDisplay *g) {
 
 	void gdispGStreamColor(GDisplay *g, color_t color) {
 		#if !GDISP_HARDWARE_STREAM_WRITE && GDISP_LINEBUF_SIZE != 0 && GDISP_HARDWARE_BITFILLS
-			coord_t	 sx1, sy1;
+			gCoord	 sx1, sy1;
 		#endif
 
 		// Don't touch the mutex as we should already own it
@@ -978,7 +978,7 @@ void gdispGFlush(GDisplay *g) {
 	}
 #endif
 
-void gdispGDrawPixel(GDisplay *g, coord_t x, coord_t y, color_t color) {
+void gdispGDrawPixel(GDisplay *g, gCoord x, gCoord y, color_t color) {
 	MUTEX_ENTER(g);
 	g->p.x		= x;
 	g->p.y		= y;
@@ -988,7 +988,7 @@ void gdispGDrawPixel(GDisplay *g, coord_t x, coord_t y, color_t color) {
 	MUTEX_EXIT(g);
 }
 
-void gdispGDrawLine(GDisplay *g, coord_t x0, coord_t y0, coord_t x1, coord_t y1, color_t color) {
+void gdispGDrawLine(GDisplay *g, gCoord x0, gCoord y0, gCoord x1, gCoord y1, color_t color) {
 	MUTEX_ENTER(g);
 	g->p.x = x0;
 	g->p.y = y0;
@@ -1083,7 +1083,7 @@ void gdispGClear(GDisplay *g, color_t color) {
 	#endif
 }
 
-void gdispGFillArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, color_t color) {
+void gdispGFillArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, color_t color) {
 	MUTEX_ENTER(g);
 	g->p.x = x;
 	g->p.y = y;
@@ -1097,7 +1097,7 @@ void gdispGFillArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 	MUTEX_EXIT(g);
 }
 
-void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t srcx, coord_t srcy, coord_t srccx, const pixel_t *buffer) {
+void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord srcx, gCoord srcy, gCoord srccx, const pixel_t *buffer) {
 	MUTEX_ENTER(g);
 
 	#if NEED_CLIPPING
@@ -1234,7 +1234,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 }
 
 #if GDISP_NEED_CLIP || GDISP_NEED_VALIDATION
-	void gdispGSetClip(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy) {
+	void gdispGSetClip(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy) {
 		MUTEX_ENTER(g);
 
 		// Best is using hardware clipping
@@ -1271,8 +1271,8 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_CIRCLE
-	void gdispGDrawCircle(GDisplay *g, coord_t x, coord_t y, coord_t radius, color_t color) {
-		coord_t a, b, P;
+	void gdispGDrawCircle(GDisplay *g, gCoord x, gCoord y, gCoord radius, color_t color) {
+		gCoord a, b, P;
 
 		MUTEX_ENTER(g);
 
@@ -1313,8 +1313,8 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_CIRCLE
-	void gdispGFillCircle(GDisplay *g, coord_t x, coord_t y, coord_t radius, color_t color) {
-		coord_t a, b, P;
+	void gdispGFillCircle(GDisplay *g, gCoord x, gCoord y, gCoord radius, color_t color) {
+		gCoord a, b, P;
 
 		MUTEX_ENTER(g);
 
@@ -1357,8 +1357,8 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 		g->p.x = x+r2+1; g->p.x1 = x+r1;   g->p.color = color1; hline_clip(g)
 	#define DRAW_SINGLELINE(yval, r)	g->p.y = yval; g->p.x = x-r; g->p.x1 = x+r; hline_clip(g)
 
-	void gdispGFillDualCircle(GDisplay *g, coord_t x, coord_t y, coord_t radius1, color_t color1, coord_t radius2, color_t color2) {
-		coord_t a, b1, b2, p1, p2;
+	void gdispGFillDualCircle(GDisplay *g, gCoord x, gCoord y, gCoord radius1, color_t color1, gCoord radius2, color_t color2) {
+		gCoord a, b1, b2, p1, p2;
 
 		MUTEX_ENTER(g);
 
@@ -1426,8 +1426,8 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_ELLIPSE
-	void gdispGDrawEllipse(GDisplay *g, coord_t x, coord_t y, coord_t a, coord_t b, color_t color) {
-		coord_t	dx, dy;
+	void gdispGDrawEllipse(GDisplay *g, gCoord x, gCoord y, gCoord a, gCoord b, color_t color) {
+		gCoord	dx, dy;
 		int32_t	a2, b2;
 		int32_t	err, e2;
 
@@ -1465,8 +1465,8 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_ELLIPSE
-	void gdispGFillEllipse(GDisplay *g, coord_t x, coord_t y, coord_t a, coord_t b, color_t color) {
-		coord_t	dx, dy;
+	void gdispGFillEllipse(GDisplay *g, gCoord x, gCoord y, gCoord a, gCoord b, color_t color) {
+		gCoord	dx, dy;
 		int32_t	a2, b2;
 		int32_t	err, e2;
 
@@ -1502,8 +1502,8 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_ARCSECTORS
-	void gdispGDrawArcSectors(GDisplay *g, coord_t x, coord_t y, coord_t radius, uint8_t sectors, color_t color) {
-		coord_t a, b, P;
+	void gdispGDrawArcSectors(GDisplay *g, gCoord x, gCoord y, gCoord radius, uint8_t sectors, color_t color) {
+		gCoord a, b, P;
 
 		MUTEX_ENTER(g);
 
@@ -1546,8 +1546,8 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_ARCSECTORS
-	void gdispGFillArcSectors(GDisplay *g, coord_t x, coord_t y, coord_t radius, uint8_t sectors, color_t color) {
-		coord_t a, b, P;
+	void gdispGFillArcSectors(GDisplay *g, gCoord x, gCoord y, gCoord radius, uint8_t sectors, color_t color) {
+		gCoord a, b, P;
 
 		MUTEX_ENTER(g);
 
@@ -1731,8 +1731,8 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 		#include <math.h>
 	#endif
 
-	void gdispGDrawArc(GDisplay *g, coord_t x, coord_t y, coord_t radius, coord_t start, coord_t end, color_t color) {
-		coord_t a, b, P, sedge, eedge;
+	void gdispGDrawArc(GDisplay *g, gCoord x, gCoord y, gCoord radius, gCoord start, gCoord end, color_t color) {
+		gCoord a, b, P, sedge, eedge;
 		uint8_t	full, sbit, ebit, tbit;
 
 		// Normalize the angles
@@ -1917,10 +1917,10 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 		#include <math.h>
 	#endif
 
-	void gdispGDrawThickArc(GDisplay *g, coord_t xc, coord_t yc, coord_t radiusStart, coord_t radiusEnd, coord_t start, coord_t end, color_t color) {
-		coord_t x, y, d, r;
-		coord_t startTan, endTan, curangle;
-		coord_t precision = 512;
+	void gdispGDrawThickArc(GDisplay *g, gCoord xc, gCoord yc, gCoord radiusStart, gCoord radiusEnd, gCoord start, gCoord end, color_t color) {
+		gCoord x, y, d, r;
+		gCoord startTan, endTan, curangle;
+		gCoord precision = 512;
 
 		// Normalize the angles
 		if (start < 0)
@@ -2032,9 +2032,9 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_ARC
-	void gdispGFillArc(GDisplay *g, coord_t x, coord_t y, coord_t radius, coord_t start, coord_t end, color_t color) {
-		coord_t a, b, P;
-		coord_t	sy, ey;
+	void gdispGFillArc(GDisplay *g, gCoord x, gCoord y, gCoord radius, gCoord start, gCoord end, color_t color) {
+		gCoord a, b, P;
+		gCoord	sy, ey;
 		fixed	sxa, sxb, sxd, exa, exb, exd;
 		uint8_t	qtr;
 
@@ -2042,7 +2042,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 
 		// We add a half pixel so that we are drawing from the centre of the pixel
 		//	instead of the left edge of the pixel. This also fixes the implied floor()
-		//	when converting back to a coord_t
+		//	when converting back to a gCoord
 		sxa = exa = FIXED(x) + FIXED0_5;
 
 		// Do the trig to get the formulas for the start and end lines.
@@ -2534,7 +2534,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_ARC || GDISP_NEED_ARCSECTORS
-	void gdispGDrawRoundedBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t radius, color_t color) {
+	void gdispGDrawRoundedBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord radius, color_t color) {
 		if (2*radius > cx || 2*radius > cy) {
 			gdispGDrawBox(g, x, y, cx, cy, color);
 			return;
@@ -2559,8 +2559,8 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_ARC || GDISP_NEED_ARCSECTORS
-	void gdispGFillRoundedBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t radius, color_t color) {
-		coord_t radius2;
+	void gdispGFillRoundedBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord radius, color_t color) {
+		gCoord radius2;
 
 		radius2 = radius*2;
 		if (radius2 > cx || radius2 > cy) {
@@ -2585,7 +2585,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_PIXELREAD
-	color_t gdispGGetPixelColor(GDisplay *g, coord_t x, coord_t y) {
+	color_t gdispGGetPixelColor(GDisplay *g, gCoord x, gCoord y) {
 		color_t		c;
 
 		/* Always synchronous as it must return a value */
@@ -2632,10 +2632,10 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 #endif
 
 #if GDISP_NEED_SCROLL
-	void gdispGVerticalScroll(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, int lines, color_t bgcolor) {
-		coord_t		abslines;
+	void gdispGVerticalScroll(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, int lines, color_t bgcolor) {
+		gCoord		abslines;
 		#if GDISP_HARDWARE_SCROLL != GFXON
-			coord_t 	fy, dy, ix, fx, i, j;
+			gCoord 	fy, dy, ix, fx, i, j;
 		#endif
 
 		if (!lines) return;
@@ -2938,7 +2938,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 					return -1;
 			#endif
 			MUTEX_ENTER(g);
-			g->p.x = (coord_t)what;
+			g->p.x = (gCoord)what;
 			res = gdisp_lld_query(g);
 			MUTEX_EXIT(g);
 			return res;
@@ -2955,7 +2955,7 @@ void gdispGBlitArea(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, c
 /* High Level Driver Routines.                                               */
 /*===========================================================================*/
 
-void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, color_t color) {
+void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, color_t color) {
 	if (cx <= 0 || cy <= 0) return;
 	cx = x+cx-1; cy = y+cy-1;			// cx, cy are now the end point.
 
@@ -2985,7 +2985,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 }
 
 #if GDISP_NEED_CONVEX_POLYGON
-	void gdispGDrawPoly(GDisplay *g, coord_t tx, coord_t ty, const gPoint *pntarray, unsigned cnt, color_t color) {
+	void gdispGDrawPoly(GDisplay *g, gCoord tx, gCoord ty, const gPoint *pntarray, unsigned cnt, color_t color) {
 		const gPoint	*epnt, *p;
 
 		epnt = &pntarray[cnt-1];
@@ -3001,10 +3001,10 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGFillConvexPoly(GDisplay *g, coord_t tx, coord_t ty, const gPoint *pntarray, unsigned cnt, color_t color) {
+	void gdispGFillConvexPoly(GDisplay *g, gCoord tx, gCoord ty, const gPoint *pntarray, unsigned cnt, color_t color) {
 		const gPoint	*lpnt, *rpnt, *epnts;
 		fixed		lx, rx, lk, rk;
-		coord_t		y, ymax, lxc, rxc;
+		gCoord		y, ymax, lxc, rxc;
 
 		epnts = &pntarray[cnt-1];
 
@@ -3109,9 +3109,9 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/* Find a vector (nx, ny) that is perpendicular to (dx, dy) and has length
 	 * equal to 'norm'. */
-	static void get_normal_vector(coord_t dx, coord_t dy, coord_t norm, coord_t *nx, coord_t *ny)
+	static void get_normal_vector(gCoord dx, gCoord dy, gCoord norm, gCoord *nx, gCoord *ny)
 	{
-		coord_t absDx, absDy;
+		gCoord absDx, absDy;
 		int32_t len_n, len, len2;
 		char maxSteps;
 
@@ -3150,8 +3150,8 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		return;
 	}
 
-	void gdispGDrawThickLine(GDisplay *g, coord_t x0, coord_t y0, coord_t x1, coord_t y1, color_t color, coord_t width, gBool round) {
-		coord_t dx, dy, nx = 0, ny = 0;
+	void gdispGDrawThickLine(GDisplay *g, gCoord x0, gCoord y0, gCoord x1, gCoord y1, color_t color, gCoord width, gBool round) {
+		gCoord dx, dy, nx = 0, ny = 0;
 
 		/* Compute the direction vector for the line */
 		dx = x1 - x0;
@@ -3211,7 +3211,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 			 *          pt0 -------------------pt7
 			 */
 			gPoint pntarray[8];
-			coord_t nx2, ny2;
+			gCoord nx2, ny2;
 
 			/* Magic numbers:
 			 * 75/256  = sin(45) / (1 + sqrt(2))		diagonal octagon segments
@@ -3344,7 +3344,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 			(void) line;
 			(void) count;
 
-			((coord_t*)state)[0]++;
+			((gCoord*)state)[0]++;
 			return gTrue;
 		}
 		static gBool mf_drawline_callback(mf_str line, uint16_t count, void *state) {
@@ -3363,7 +3363,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		}
 	#endif
 
-	void gdispGDrawChar(GDisplay *g, coord_t x, coord_t y, uint16_t c, font_t font, color_t color) {
+	void gdispGDrawChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, font_t font, color_t color) {
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
@@ -3378,7 +3378,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGFillChar(GDisplay *g, coord_t x, coord_t y, uint16_t c, font_t font, color_t color, color_t bgcolor) {
+	void gdispGFillChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, font_t font, color_t color, color_t bgcolor) {
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
@@ -3400,7 +3400,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGDrawString(GDisplay *g, coord_t x, coord_t y, const char *str, font_t font, color_t color) {
+	void gdispGDrawString(GDisplay *g, gCoord x, gCoord y, const char *str, font_t font, color_t color) {
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
@@ -3416,7 +3416,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGFillString(GDisplay *g, coord_t x, coord_t y, const char *str, font_t font, color_t color, color_t bgcolor) {
+	void gdispGFillString(GDisplay *g, gCoord x, gCoord y, const char *str, font_t font, color_t color, color_t bgcolor) {
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
@@ -3439,8 +3439,8 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGDrawStringBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, const char* str, font_t font, color_t color, justify_t justify) {
-		coord_t		totalHeight;
+	void gdispGDrawStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, color_t color, justify_t justify) {
+		gCoord		totalHeight;
 
 		if (!font)
 			return;
@@ -3517,8 +3517,8 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGFillStringBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, const char* str, font_t font, color_t color, color_t bgcolor, justify_t justify) {
-		coord_t		totalHeight;
+	void gdispGFillStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, color_t color, color_t bgcolor, justify_t justify) {
+		gCoord		totalHeight;
 
 		if (!font)
 			return;
@@ -3608,7 +3608,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		MUTEX_EXIT(g);
 	}
 
-	coord_t gdispGetFontMetric(font_t font, fontmetric_t metric) {
+	gCoord gdispGetFontMetric(font_t font, fontmetric_t metric) {
 		if (!font)
 			return 0;
 		/* No mutex required as we only read static data */
@@ -3625,14 +3625,14 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		return 0;
 	}
 
-	coord_t gdispGetCharWidth(char c, font_t font) {
+	gCoord gdispGetCharWidth(char c, font_t font) {
 		if (!font)
 			return 0;
 		/* No mutex required as we only read static data */
 		return mf_character_width(font, c);
 	}
 
-	coord_t gdispGetStringWidthCount(const char* str, font_t font, uint16_t count) {
+	gCoord gdispGetStringWidthCount(const char* str, font_t font, uint16_t count) {
 		if (!str || !font)
 			return 0;
 
@@ -3644,7 +3644,7 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 		#endif
 	}
 
-	coord_t gdispGetStringWidth(const char* str, font_t font) {
+	gCoord gdispGetStringWidth(const char* str, font_t font) {
 		return gdispGetStringWidthCount(str, font, 0);
 	}
 #endif
@@ -3732,7 +3732,7 @@ color_t gdispContrastColor(color_t color) {
 }
 
 #if (!defined(gdispPackPixels) && !defined(GDISP_PIXELFORMAT_CUSTOM))
-	void gdispPackPixels(pixel_t *buf, coord_t cx, coord_t x, coord_t y, color_t color) {
+	void gdispPackPixels(pixel_t *buf, gCoord cx, gCoord x, gCoord y, color_t color) {
 		/* No mutex required as we only read static data */
 		#if defined(GDISP_PIXELFORMAT_RGB888)
 			#error "GDISP: Packed pixels not supported yet"

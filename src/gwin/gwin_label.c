@@ -21,14 +21,14 @@
 #define gw2obj					((GLabelObject *)gw)
 
 // simple: single line with no wrapping
-static coord_t getwidth(const char *text, font_t font, coord_t maxwidth) {
+static gCoord getwidth(const char *text, font_t font, gCoord maxwidth) {
 	(void) maxwidth;
 
 	return gdispGetStringWidth(text, font)+2;		// Allow one pixel of padding on each side
 }
 
 // simple: single line with no wrapping
-static coord_t getheight(const char *text, font_t font, coord_t maxwidth) {
+static gCoord getheight(const char *text, font_t font, gCoord maxwidth) {
 	(void) text;
 	(void) maxwidth;
 
@@ -117,7 +117,7 @@ void gwinLabelSetBorder(GHandle gh, gBool border) {
 }
 
 #if GWIN_LABEL_ATTRIBUTE
-	void gwinLabelSetAttribute(GHandle gh, coord_t tab, const char* attr) {
+	void gwinLabelSetAttribute(GHandle gh, gCoord tab, const char* attr) {
 		// is it a valid handle?
 		if (gh->vmt != (gwinVMT *)&labelVMT)
 			return;
@@ -130,7 +130,7 @@ void gwinLabelSetBorder(GHandle gh, gBool border) {
 #endif // GWIN_LABEL_ATTRIBUTE
 
 static void gwinLabelDraw(GWidgetObject *gw, justify_t justify) {
-	coord_t				w, h;
+	gCoord				w, h;
 	color_t				c;
 
 	// is it a valid handle?

@@ -39,7 +39,7 @@
 static gdispImage myImage;
 
 int main(void) {
-	coord_t			swidth, sheight;
+	gCoord			swidth, sheight;
 
 	// Initialize uGFX and the underlying system
 	gfxInit();

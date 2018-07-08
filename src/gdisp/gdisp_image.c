@@ -15,7 +15,7 @@
 	extern gdispImageError gdispImageOpen_NATIVE(gdispImage *img);
 	extern void gdispImageClose_NATIVE(gdispImage *img);
 	extern gdispImageError gdispImageCache_NATIVE(gdispImage *img);
-	extern gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy);
+	extern gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
 	extern delaytime_t gdispImageNext_NATIVE(gdispImage *img);
 #endif
 
@@ -23,7 +23,7 @@
 	extern gdispImageError gdispImageOpen_GIF(gdispImage *img);
 	extern void gdispImageClose_GIF(gdispImage *img);
 	extern gdispImageError gdispImageCache_GIF(gdispImage *img);
-	extern gdispImageError gdispGImageDraw_GIF(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy);
+	extern gdispImageError gdispGImageDraw_GIF(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
 	extern delaytime_t gdispImageNext_GIF(gdispImage *img);
 #endif
 
@@ -31,7 +31,7 @@
 	extern gdispImageError gdispImageOpen_BMP(gdispImage *img);
 	extern void gdispImageClose_BMP(gdispImage *img);
 	extern gdispImageError gdispImageCache_BMP(gdispImage *img);
-	extern gdispImageError gdispGImageDraw_BMP(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy);
+	extern gdispImageError gdispGImageDraw_BMP(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
 	extern delaytime_t gdispImageNext_BMP(gdispImage *img);
 	extern uint16_t gdispImageGetPaletteSize_BMP(gdispImage *img);
 	extern color_t gdispImageGetPalette_BMP(gdispImage *img, uint16_t index);
@@ -42,7 +42,7 @@
 	extern gdispImageError gdispImageOpen_JPG(gdispImage *img);
 	extern void gdispImageClose_JPG(gdispImage *img);
 	extern gdispImageError gdispImageCache_JPG(gdispImage *img);
-	extern gdispImageError gdispGImageDraw_JPG(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy);
+	extern gdispImageError gdispGImageDraw_JPG(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
 	extern delaytime_t gdispImageNext_JPG(gdispImage *img);
 #endif
 
@@ -50,7 +50,7 @@
 	extern gdispImageError gdispImageOpen_PNG(gdispImage *img);
 	extern void gdispImageClose_PNG(gdispImage *img);
 	extern gdispImageError gdispImageCache_PNG(gdispImage *img);
-	extern gdispImageError gdispGImageDraw_PNG(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy);
+	extern gdispImageError gdispGImageDraw_PNG(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
 	extern delaytime_t gdispImageNext_PNG(gdispImage *img);
 #endif
 
@@ -61,9 +61,9 @@ typedef struct gdispImageHandlers {
 	gdispImageError	(*cache)(gdispImage *img);					/* The cache function */
 	gdispImageError	(*draw)(GDisplay *g,
 							gdispImage *img,
-							coord_t x, coord_t y,
-							coord_t cx, coord_t cy,
-							coord_t sx, coord_t sy);			/* The draw function */
+							gCoord x, gCoord y,
+							gCoord cx, gCoord cy,
+							gCoord sx, gCoord sy);			/* The draw function */
 	delaytime_t		(*next)(gdispImage *img);					/* The next frame function */
 	uint16_t		(*getPaletteSize)(gdispImage *img);			/* Retrieve the size of the palette (number of entries) */
 	color_t			(*getPalette)(gdispImage *img, uint16_t index);							/* Retrieve a specific color value of the palette */
@@ -170,7 +170,7 @@ gdispImageError gdispImageCache(gdispImage *img) {
 	return img->fns->cache(img);
 }
 
-gdispImageError gdispGImageDraw(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy) {
+gdispImageError gdispGImageDraw(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
 	if (!img) return GDISP_IMAGE_ERR_NULLPOINTER;
 	if (!img->fns) return GDISP_IMAGE_ERR_BADFORMAT;
 

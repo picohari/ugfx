@@ -342,7 +342,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 #if GDISP_HARDWARE_BITFILLS
 	LLDSPEC void gdisp_lld_blit_area(GDisplay *g) {
-		coord_t			lg, x, y;
+		gCoord			lg, x, y;
 		uint16_t		c1, c2;
 		unsigned		tuples;
 		const pixel_t	*buffer;

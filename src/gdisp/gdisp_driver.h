@@ -308,7 +308,7 @@
 	 *
 	 * @api
 	 */
-	void gdispPackPixels(const pixel_t *buf, coord_t cx, coord_t x, coord_t y, color_t color);
+	void gdispPackPixels(const pixel_t *buf, gCoord cx, gCoord x, gCoord y, color_t color);
 #endif
 
 //------------------------------------------------------------------------------------------------------------
@@ -318,8 +318,8 @@ struct GDisplay {
 		#define gvmt(g)		((const GDISPVMT const *)((g)->d.vmt))	// For ease of access to the vmt member
 
 	struct GDISPControl {
-		coord_t					Width;
-		coord_t					Height;
+		gCoord					Width;
+		gCoord					Height;
 		orientation_t			Orientation;
 		powermode_t				Powermode;
 		uint8_t					Backlight;
@@ -343,16 +343,16 @@ struct GDisplay {
 
 	// Software clipping
 	#if GDISP_HARDWARE_CLIP != GFXON && (GDISP_NEED_CLIP || GDISP_NEED_VALIDATION)
-		coord_t					clipx0, clipy0;
-		coord_t					clipx1, clipy1;		/* not inclusive */
+		gCoord					clipx0, clipy0;
+		gCoord					clipx1, clipy1;		/* not inclusive */
 	#endif
 
 	// Driver call parameters
 	struct {
-		coord_t			x, y;
-		coord_t			cx, cy;
-		coord_t			x1, y1;
-		coord_t			x2, y2;
+		gCoord			x, y;
+		gCoord			cx, cy;
+		gCoord			x1, y1;
+		gCoord			x2, y2;
 		color_t			color;
 		void			*ptr;
 	} p;
@@ -365,10 +365,10 @@ struct GDisplay {
 			font_t		font;
 			color_t		color;
 			color_t		bgcolor;
-			coord_t		clipx0, clipy0;
-			coord_t		clipx1, clipy1;
+			gCoord		clipx0, clipy0;
+			gCoord		clipx1, clipy1;
 			#if GDISP_NEED_TEXT_WORDWRAP
-				coord_t		wrapx, wrapy;
+				gCoord		wrapx, wrapy;
 				justify_t	lrj;
 			#endif
 		} t;

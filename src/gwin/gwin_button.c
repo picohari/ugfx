@@ -25,14 +25,14 @@
 
 #if GINPUT_NEED_MOUSE
 	// A mouse down has occurred over the button
-	static void ButtonMouseDown(GWidgetObject *gw, coord_t x, coord_t y) {
+	static void ButtonMouseDown(GWidgetObject *gw, gCoord x, gCoord y) {
 		(void) x; (void) y;
 		gw->g.flags |= GBUTTON_FLG_PRESSED;
 		_gwinUpdate((GHandle)gw);
 	}
 
 	// A mouse up has occurred (it may or may not be over the button)
-	static void ButtonMouseUp(GWidgetObject *gw, coord_t x, coord_t y) {
+	static void ButtonMouseUp(GWidgetObject *gw, gCoord x, gCoord y) {
 		(void) x; (void) y;
 		gw->g.flags &= ~GBUTTON_FLG_PRESSED;
 		_gwinUpdate((GHandle)gw);
@@ -183,7 +183,7 @@ static const GColorSet *getButtonColors(GWidgetObject *gw) {
 		const GColorSet *	pcol;
 		fixed				alpha;
 		fixed				dalpha;
-		coord_t				i;
+		gCoord				i;
 		color_t				tcol, bcol;
 
 		(void)				param;
@@ -453,7 +453,7 @@ static const GColorSet *getButtonColors(GWidgetObject *gw) {
 #if GDISP_NEED_IMAGE || defined(__DOXYGEN__)
 	void gwinButtonDraw_Image(GWidgetObject *gw, void *param) {
 		const GColorSet *	pcol;
-		coord_t				sy;
+		gCoord				sy;
 
 		if (gw->g.vmt != (gwinVMT *)&buttonVMT)	return;
 		pcol = getButtonColors(gw);

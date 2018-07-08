@@ -31,7 +31,7 @@
 // A console window. Supports wrapped text writing and a cursor.
 typedef struct GConsoleObject {
 	GWindowObject	g;
-	coord_t			cx, cy;			// Cursor position
+	gCoord			cx, cy;			// Cursor position
 
 	#if GWIN_CONSOLE_ESCSEQ
 		uint8_t		startattr;		// ANSI-like escape sequences

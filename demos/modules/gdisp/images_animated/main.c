@@ -54,7 +54,7 @@ static gdispImage myImage;
  * Orange	- Decoding a frame has produced an error.
  */
 int main(void) {
-	coord_t			swidth, sheight, errx, erry, errcx, errcy;
+	gCoord			swidth, sheight, errx, erry, errcx, errcy;
 	delaytime_t		delay;
 
 	gfxInit();		// Initialize the display

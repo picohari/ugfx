@@ -45,8 +45,8 @@
 
 #if USE_METHOD_1
 	int main(void) {
-		coord_t		width, height;
-		coord_t		display, i, j, cnt;
+		gCoord		width, height;
+		gCoord		display, i, j, cnt;
 		font_t		f;
 		GDisplay	*g;
 		char		buf[16];
@@ -89,8 +89,8 @@
 	}
 #else
 	int main(void) {
-		coord_t		width, height;
-		coord_t		display, i, j, cnt;
+		gCoord		width, height;
+		gCoord		display, i, j, cnt;
 		font_t		f;
 		char		buf[16];
 

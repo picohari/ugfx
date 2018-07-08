@@ -3,7 +3,7 @@
 #include "../../../src/gdisp/gdisp_driver.h"
 #include "gdisp_lld_qimage.h"
 
-gBool qimage_init(GDisplay* g, coord_t width, coord_t height)
+gBool qimage_init(GDisplay* g, gCoord width, gCoord height)
 {
     QImage* qimage = new QImage(width, height, QImage::Format_RGB888);
     if (!qimage) {

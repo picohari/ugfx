@@ -28,7 +28,7 @@ static char _pointCrossingSegment(const gPoint *a, const gPoint *b, const gPoint
      * it won't intersect. 
      */
     if (c->y <= a->y && c->y >= b->y) {
-        coord_t crossProduct;
+        gCoord crossProduct;
         
         /* If the line is parallel */
         if (a->y == b->y) {

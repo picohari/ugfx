@@ -48,7 +48,7 @@ typedef struct GLabelObject {
 	GWidgetObject	w;
 
 	#if GWIN_LABEL_ATTRIBUTE
-		coord_t         tab;
+		gCoord         tab;
 		const char*		attr;
 	#endif
 } GLabelObject;
@@ -102,7 +102,7 @@ void gwinLabelSetBorder(GHandle gh, gBool border);
 	 *
 	 * @api
 	 */
-	void gwinLabelSetAttribute(GHandle gh, coord_t tab, const char* attr);
+	void gwinLabelSetAttribute(GHandle gh, gCoord tab, const char* attr);
 #endif
 
 /**

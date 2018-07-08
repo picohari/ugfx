@@ -193,7 +193,7 @@
 
 	static void HistoryRedraw(GWindowObject *gh) {
 		#define gcw		((GConsoleObject *)gh)
-		coord_t fy;
+		gCoord fy;
 
 		// No redrawing if there is no history
 		if (!gcw->buffer)
@@ -229,7 +229,7 @@
 		#if GWIN_CONSOLE_USE_CLEAR_LINES
 			// Clear the remaining space
 			{
-				coord_t		y;
+				gCoord		y;
 
 				y = gcw->cy;
 				if (gcw->cx)
@@ -563,7 +563,7 @@ void gwinPutChar(GHandle gh, char c) {
 
 				// Set the cursor to the start of the last line
 				gcw->cx = 0;
-				gcw->cy = (((coord_t)(gh->height/fy))-1)*fy;
+				gcw->cy = (((gCoord)(gh->height/fy))-1)*fy;
 			}
 		#else
 			{

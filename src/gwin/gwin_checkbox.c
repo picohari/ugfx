@@ -44,7 +44,7 @@ static void SendCheckboxEvent(GWidgetObject *gw) {
 }
 
 #if GINPUT_NEED_MOUSE
-	static void CheckboxMouseDown(GWidgetObject *gw, coord_t x, coord_t y) {
+	static void CheckboxMouseDown(GWidgetObject *gw, gCoord x, gCoord y) {
 		(void) x; (void) y;
 		gw->g.flags ^= GCHECKBOX_FLG_CHECKED;
 		_gwinUpdate((GHandle)gw);
@@ -173,7 +173,7 @@ static const GColorSet *getCheckboxColors(GWidgetObject *gw) {
 
 void gwinCheckboxDraw_CheckOnLeft(GWidgetObject *gw, void *param) {
 	#define gcw			((GCheckboxObject *)gw)
-	coord_t				ld, df;
+	gCoord				ld, df;
 	const GColorSet *	pcol;
 	(void)				param;
 
@@ -202,7 +202,7 @@ void gwinCheckboxDraw_CheckOnLeft(GWidgetObject *gw, void *param) {
 
 void gwinCheckboxDraw_CheckOnRight(GWidgetObject *gw, void *param) {
 	#define gcw			((GCheckboxObject *)gw)
-	coord_t				ep, ld, df;
+	gCoord				ep, ld, df;
 	const GColorSet *	pcol;
 	(void)				param;
 
@@ -254,7 +254,7 @@ void gwinCheckboxDraw_CheckOnRight(GWidgetObject *gw, void *param) {
 		const GColorSet *	pcol;
 		fixed				alpha;
 		fixed				dalpha;
-		coord_t				i;
+		gCoord				i;
 		color_t				tcol, bcol;
 		(void)				param;
 

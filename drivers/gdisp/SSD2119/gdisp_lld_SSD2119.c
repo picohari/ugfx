@@ -295,7 +295,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 
 	LLDSPEC void gdisp_lld_blit_area(GDisplay* g) {
 		pixel_t*	buffer;
-		coord_t		ycnt;
+		gCoord		ycnt;
 
 		buffer = (pixel_t*)g->p.ptr + g->p.x1 + g->p.y1 * g->p.x2;
 

@@ -119,7 +119,7 @@ typedef struct netPriv {
 	unsigned		databytes;				// How many bytes have been read
 	uint16_t		data[2];				// Buffer for storing data read.
 	#if GINPUT_NEED_MOUSE
-		coord_t		mousex, mousey;
+		gCoord		mousex, mousey;
 		uint16_t	mousebuttons;
 		GMouse *	mouse;
 	#endif
@@ -423,7 +423,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		netPriv	*	priv;
 		pixel_t	*	buffer;
 		uint16_t	buf[5];
-		coord_t		x, y;
+		gCoord		x, y;
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
 			if (!(g->flags & GDISP_FLG_CONNECTED))

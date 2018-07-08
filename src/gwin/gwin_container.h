@@ -81,7 +81,7 @@ GHandle gwinGetSibling(GHandle gh);
  *
  * @api
  */
-coord_t gwinGetInnerWidth(GHandle gh);
+gCoord gwinGetInnerWidth(GHandle gh);
 
 /**
  * @brief	Get the inner height of a container window
@@ -92,7 +92,7 @@ coord_t gwinGetInnerWidth(GHandle gh);
  *
  * @api
  */
-coord_t gwinGetInnerHeight(GHandle gh);
+gCoord gwinGetInnerHeight(GHandle gh);
 
 
 /**

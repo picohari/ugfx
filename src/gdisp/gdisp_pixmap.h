@@ -37,7 +37,7 @@
  * @note	Because the RAM for the display area is allocated, on small micros only very small pixmaps should be considered.
  * 			For example a 100x100 at 16 bits per pixel would be 20K of RAM (plus some overheads).
  */
-GDisplay *gdispPixmapCreate(coord_t width, coord_t height);
+GDisplay *gdispPixmapCreate(gCoord width, gCoord height);
 
 /**
  * @brief	Destroy an off-screen pixmap

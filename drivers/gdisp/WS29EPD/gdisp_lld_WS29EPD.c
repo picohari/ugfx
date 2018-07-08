@@ -163,7 +163,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	
 #if GDISP_HARDWARE_DRAWPIXEL
 LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
-	coord_t		x, y;
+	gCoord		x, y;
 
 	switch(g->g.Orientation) {
 	default:

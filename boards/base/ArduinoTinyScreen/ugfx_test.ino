@@ -3,8 +3,8 @@
 #include <gfx.h>
 
 void setup() {
-  coord_t		width, height;
-  coord_t		i, j;
+  gCoord		width, height;
+  gCoord		i, j;
 
   pinMode(13, OUTPUT);
 

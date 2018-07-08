@@ -62,7 +62,7 @@ GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, uint
 	if (!(gs = (GScopeObject *)_gwindowCreate(g, &gs->g, pInit, &scopeVMT, 0)))
 		return 0;
 	gs->nextx = 0;
-	if (!(gs->lastscopetrace = gfxAlloc(gs->g.width * sizeof(coord_t))))
+	if (!(gs->lastscopetrace = gfxAlloc(gs->g.width * sizeof(gCoord))))
 		return 0;
 #if TRIGGER_METHOD == TRIGGER_POSITIVERAMP
 	gs->lasty = gs->g.height/2;
@@ -82,10 +82,10 @@ GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, uint
 void gwinScopeWaitForTrace(GHandle gh) {
 	#define 		gs	((GScopeObject *)(gh))
 	int				i;
-	coord_t			x, y;
-	coord_t			yoffset;
+	gCoord			x, y;
+	gCoord			yoffset;
 	adcsample_t		*pa;
-	coord_t			*pc;
+	gCoord			*pc;
 	GDataBuffer		*pd;
 	uint8_t			shr;
 #if TRIGGER_METHOD == TRIGGER_POSITIVERAMP
@@ -94,7 +94,7 @@ void gwinScopeWaitForTrace(GHandle gh) {
 #elif TRIGGER_METHOD == TRIGGER_MINVALUE
 	gBool			rdytrigger;
 	int				flsamples;
-	coord_t			scopemin;
+	gCoord			scopemin;
 #endif
 
 	if (gh->vmt != &scopeVMT)
@@ -127,7 +127,7 @@ void gwinScopeWaitForTrace(GHandle gh) {
 	for(i = pd->len/sizeof(adcsample_t); i; i--) {
 
 		/* Calculate the new scope value - re-scale using simple shifts for efficiency, re-center and y-invert */
-		y = yoffset - (((coord_t)(*pa++) << shr) >> (16-SCOPE_Y_BITS));
+		y = yoffset - (((gCoord)(*pa++) << shr) >> (16-SCOPE_Y_BITS));
 
 #if TRIGGER_METHOD == TRIGGER_MINVALUE
 		/* Calculate the scopemin ready for the next trace */

@@ -54,10 +54,10 @@ static void sendListEvent(GWidgetObject *gw, int item) {
 }
 
 #if GINPUT_NEED_MOUSE
-    static void ListMouseSelect(GWidgetObject* gw, coord_t x, coord_t y) {
+    static void ListMouseSelect(GWidgetObject* gw, gCoord x, gCoord y) {
         const gfxQueueASyncItem*    qi;
         int                         item, i;
-        coord_t                     iheight;
+        gCoord                     iheight;
         (void)						x;
 
         iheight = gdispGetFontMetric(gw->g.font, fontHeight) + LST_VERT_PAD;
@@ -88,8 +88,8 @@ static void sendListEvent(GWidgetObject *gw, int item) {
     }
 
 	// a mouse down has occurred over the list area
-	static void ListMouseDown(GWidgetObject* gw, coord_t x, coord_t y) {
-		coord_t		iheight, pgsz;
+	static void ListMouseDown(GWidgetObject* gw, gCoord x, gCoord y) {
+		gCoord		iheight, pgsz;
 
 		// Save our mouse start position
         gw2obj->start_mouse_x = x;
@@ -143,7 +143,7 @@ static void sendListEvent(GWidgetObject *gw, int item) {
         ListMouseSelect(gw, x, y);
 	}
 
-    static void ListMouseUp(GWidgetObject* gw, coord_t x, coord_t y) {
+    static void ListMouseUp(GWidgetObject* gw, gCoord x, gCoord y) {
         // Only act when we are a smooth scrolling list
         if (!(gw->g.flags & GLIST_FLG_SCROLLSMOOTH))
             return;
@@ -155,7 +155,7 @@ static void sendListEvent(GWidgetObject *gw, int item) {
         ListMouseSelect(gw, x, y);
     }
 
-	static void ListMouseMove(GWidgetObject* gw, coord_t x, coord_t y) {
+	static void ListMouseMove(GWidgetObject* gw, gCoord x, gCoord y) {
         int iheight, oldtop;
         (void) x;
 
@@ -184,7 +184,7 @@ static void sendListEvent(GWidgetObject *gw, int item) {
 		const gfxQueueASyncItem	*	qix;
 		int							i;
 		
-		coord_t		iheight;
+		gCoord		iheight;
 		iheight = gdispGetFontMetric(gw->g.font, fontHeight) + LST_VERT_PAD;
 
 		switch (role) {
@@ -653,7 +653,7 @@ void gwinListSetSelected(GHandle gh, int item, gBool doSelect) {
 }
 
 void gwinListViewItem(GHandle gh, int item) {
-	coord_t iheight;
+	gCoord iheight;
 
 	// is it a valid handle?
 	if (gh->vmt != (gwinVMT *)&listVMT)
@@ -703,11 +703,11 @@ void gwinListViewItem(GHandle gh, int item) {
 void gwinListDefaultDraw(GWidgetObject* gw, void* param) {
 	const gfxQueueASyncItem*	qi;
 	int							i;
-	coord_t						x, y, iheight, iwidth;
+	gCoord						x, y, iheight, iwidth;
 	color_t						fill;
 	const GColorSet *			ps;
 	#if GWIN_NEED_LIST_IMAGES
-		coord_t					sy;
+		gCoord					sy;
 	#endif
 	#if GDISP_NEED_CONVEX_POLYGON
 		static const gPoint upArrow[] = { {0, LST_ARROW_SZ}, {LST_ARROW_SZ, LST_ARROW_SZ}, {LST_ARROW_SZ/2, 0} };

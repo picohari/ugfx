@@ -45,7 +45,7 @@ static void FixTabSizePos(GHandle gh);
 
 typedef GContainerObject GTabpageObject;
 
-static coord_t TabpageBorderSize(GHandle gh)	{ (void)gh; return 0; }
+static gCoord TabpageBorderSize(GHandle gh)	{ (void)gh; return 0; }
 
 static void gwinTabpageDraw_Std(GWidgetObject *gw, void *param) {
 	(void)gw;
@@ -121,9 +121,9 @@ void gwinTabsetSetTitle(GHandle gh, const char *title, gBool useAlloc) {
  * Tab-set stuff
  */
 
-static coord_t	CalcTabHeight(GHandle gh) {
+static gCoord	CalcTabHeight(GHandle gh) {
 	GHandle		ph;
-	coord_t		x, y, w;
+	gCoord		x, y, w;
 
 	x = w = 0;
 	y = GWIN_TABSET_TABHEIGHT;
@@ -141,7 +141,7 @@ static coord_t	CalcTabHeight(GHandle gh) {
 }
 
 static void FixTabSizePos(GHandle gh) {
-	coord_t		w, h, oldth;
+	gCoord		w, h, oldth;
 	GHandle		vis, ph;
 
 	oldth = ((GTabsetObject *)gh)->border_top;
@@ -169,11 +169,11 @@ static void FixTabSizePos(GHandle gh) {
 	}
 }
 
-static coord_t TabSetBorderSize(GHandle gh)		{ return (gh->flags & GWIN_TABSET_BORDER) ? GTABSET_BORDER : 0; }
-static coord_t TabSetBorderTop(GHandle gh)		{ return ((GTabsetObject *)gh)->border_top; }
+static gCoord TabSetBorderSize(GHandle gh)		{ return (gh->flags & GWIN_TABSET_BORDER) ? GTABSET_BORDER : 0; }
+static gCoord TabSetBorderTop(GHandle gh)		{ return ((GTabsetObject *)gh)->border_top; }
 
 #if GINPUT_NEED_MOUSE
-	static void mouseDown(GWidgetObject *gw, coord_t mx, coord_t my) {
+	static void mouseDown(GWidgetObject *gw, gCoord mx, gCoord my) {
 		GHandle		ph, gh;
 		int			cnt;
 
@@ -182,7 +182,7 @@ static coord_t TabSetBorderTop(GHandle gh)		{ return ((GTabsetObject *)gh)->bord
 
 		// Work out which tab was pressed
 		{
-			coord_t		x, w, y;
+			gCoord		x, w, y;
 
 			cnt = 0;
 			x = w = 0;
@@ -395,7 +395,7 @@ void gwinTabsetSetTab(GHandle gh) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #if GWIN_FLAT_STYLING
-	static void fgarea(GWidgetObjset *gw, const char *text, coord_t y, coord_t x, coord_t w) {
+	static void fgarea(GWidgetObjset *gw, const char *text, gCoord y, gCoord x, gCoord w) {
 		const GColorSet *	pcol;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->pressed : &gw->pstyle->disabled;
@@ -403,7 +403,7 @@ void gwinTabsetSetTab(GHandle gh) {
 		gdispGDrawBox(gw->g.display, gw->g.x+x, gw->g.y+y, w, GWIN_TABSET_TABHEIGHT, pcol->edge);
 		gdispGFillStringBox(gw->g.display, gw->g.x+x+1, gw->g.y+y+1, w-2, GWIN_TABSET_TABHEIGHT-1, text, gw->g.font, pcol->text, pcol->fill, justifyCenter);
 	}
-	static void bgarea(GWidgetObjset *gw, const char *text, coord_t y, coord_t x, coord_t w) {
+	static void bgarea(GWidgetObjset *gw, const char *text, gCoord y, gCoord x, gCoord w) {
 		const GColorSet *	pcol;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->enabled : &gw->pstyle->disabled;
@@ -412,7 +412,7 @@ void gwinTabsetSetTab(GHandle gh) {
 		gdispGDrawLine(gw->g.display, gw->g.x+x+w-1, gw->g.y+y, gw->g.x+x+w-1, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, pcol->edge);
 		gdispGDrawLine(gw->g.display, gw->g.x+x, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, gw->g.x+x+w-2, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, pcol->edge);
 	}
-	static void ntarea(GWidgetObjset *gw, coord_t y, coord_t x, coord_t w) {
+	static void ntarea(GWidgetObjset *gw, gCoord y, gCoord x, gCoord w) {
 		const GColorSet *	pcol;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->pressed : &gw->pstyle->disabled;
@@ -421,7 +421,7 @@ void gwinTabsetSetTab(GHandle gh) {
 		gdispGDrawLine(gw->g.display, gw->g.x+x, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, gw->g.x+x+w-1, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, pcol->edge);
 	}
 #else
-	static void fgarea(GWidgetObject *gw, const char *text, coord_t y, coord_t x, coord_t w) {
+	static void fgarea(GWidgetObject *gw, const char *text, gCoord y, gCoord x, gCoord w) {
 		const GColorSet *	pcol;
 		color_t				tcol;
 
@@ -435,10 +435,10 @@ void gwinTabsetSetTab(GHandle gh) {
 		if (!x)
 			gdispGDrawLine(gw->g.display, gw->g.x, gw->g.y+y, gw->g.x, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, tcol);
 	}
-	static void bgarea(GWidgetObject *gw, const char *text, coord_t y, coord_t x, coord_t w) {
+	static void bgarea(GWidgetObject *gw, const char *text, gCoord y, gCoord x, gCoord w) {
 		const GColorSet *	pcol;
 		fixed				alpha;
-		coord_t				i;
+		gCoord				i;
 		color_t				tcol, bcol;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->enabled : &gw->pstyle->disabled;
@@ -451,7 +451,7 @@ void gwinTabsetSetTab(GHandle gh) {
 		gdispGDrawLine(gw->g.display, gw->g.x+x+w-1, gw->g.y+y, gw->g.x+x+w-1, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, pcol->edge);
 		gdispGDrawStringBox(gw->g.display, gw->g.x+x+1, gw->g.y+y+1, w-2, GWIN_TABSET_TABHEIGHT-2, text, gw->g.font, pcol->text, justifyCenter);
 	}
-	static void ntarea(GWidgetObject *gw, coord_t y, coord_t x, coord_t w) {
+	static void ntarea(GWidgetObject *gw, gCoord y, gCoord x, gCoord w) {
 		const GColorSet *	pcol;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->pressed : &gw->pstyle->disabled;
@@ -461,9 +461,9 @@ void gwinTabsetSetTab(GHandle gh) {
 	}
 #endif
 
-static coord_t drawtabs(GWidgetObject *gw) {
+static gCoord drawtabs(GWidgetObject *gw) {
 	GHandle		ph;
-	coord_t		x, y, w;
+	gCoord		x, y, w;
 
 	x = w = 0;
 	y = 0;
@@ -487,10 +487,10 @@ static coord_t drawtabs(GWidgetObject *gw) {
 	return y + GWIN_TABSET_TABHEIGHT;
 }
 
-static void drawborder(GWidgetObject *gw, coord_t y) {
+static void drawborder(GWidgetObject *gw, gCoord y) {
 	if ((gw->g.flags & GWIN_CONTAINER_BORDER)) {
 		const GColorSet *	pcol;
-		coord_t				x, w;
+		gCoord				x, w;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->enabled : &gw->pstyle->disabled;
 		x = gw->g.x+gw->g.width-1;
@@ -513,7 +513,7 @@ void gwinTabsetDraw_Transparent(GWidgetObject *gw, void *param) {
 }
 
 void gwinTabsetDraw_Std(GWidgetObject *gw, void *param) {
-	coord_t		y;
+	gCoord		y;
 	(void)		param;
 
 	if (gw->g.vmt != (gwinVMT *)&tabsetVMT)
@@ -533,7 +533,7 @@ void gwinTabsetDraw_Std(GWidgetObject *gw, void *param) {
 #if GDISP_NEED_IMAGE
 	void gwinTabsetDraw_Image(GWidgetObject *gw, void *param) {
 		#define gi			((gdispImage *)param)
-		coord_t				x, y, iw, ih, mx, my;
+		gCoord				x, y, iw, ih, mx, my;
 
 		if (gw->g.vmt != (gwinVMT *)&tabsetVMT)
 			return;

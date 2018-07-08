@@ -14,9 +14,9 @@
 #include "../../../../src/ginput/ginput_driver_mouse.h"
 
 GMouse* qwidgetMouse;
-coord_t qwidgetMouseX;
-coord_t qwidgetMouseY;
-coord_t qwidgetMouseZ;
+gCoord qwidgetMouseX;
+gCoord qwidgetMouseY;
+gCoord qwidgetMouseZ;
 uint16_t qwidgetMouseButtons;
 
 static gBool _init(GMouse* m, unsigned driverinstance)

@@ -38,9 +38,9 @@
 static GConsoleObject			gc;
 static GListener				gl;
 static font_t					font;
-static coord_t					bWidth, bWidth2, bHeight;
+static gCoord					bWidth, bWidth2, bHeight;
 static GHandle					ghc;
-static coord_t					swidth, sheight;
+static gCoord					swidth, sheight;
 
 static void DrawHeader(const char *title, gBool btnNext, gBool btnPrev, gBool btnPlusMinus) {
 	#if GDISP_NEED_CLIP

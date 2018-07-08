@@ -134,7 +134,7 @@ static GTimer				lsTimer;
  */
 int main(void) {
 	GHandle					ghScope;
-	coord_t					swidth, sheight;
+	gCoord					swidth, sheight;
 	#if defined(MY_DIAL_DEVICE) || defined(MY_TEMP_DEVICE)
 		GHandle					ghText;
 		font_t					font;

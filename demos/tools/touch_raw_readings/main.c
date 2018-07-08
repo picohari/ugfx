@@ -38,9 +38,9 @@
 static GConsoleObject			gc;
 static GListener				gl;
 static font_t					font;
-static coord_t					bHeight;
+static gCoord					bHeight;
 static GHandle					ghc;
-static coord_t					swidth, sheight;
+static gCoord					swidth, sheight;
 
 /*------------------------------------------------------------------------*
  * GINPUT Touch Driver Calibrator.                                        *

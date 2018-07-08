@@ -63,7 +63,7 @@ typedef struct GSliderObject {
 	#if GINPUT_NEED_DIAL
 		uint16_t		dial;
 	#endif
-	coord_t				dpos;
+	gCoord				dpos;
 	int					min;
 	int					max;
 	int					pos;

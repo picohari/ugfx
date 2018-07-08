@@ -161,7 +161,7 @@ struct SDL_UGFXContext {
 	int16_t		need_redraw;
 	int		minx,miny,maxx,maxy;
 #if GINPUT_NEED_MOUSE
-	coord_t 	mousex, mousey;
+	gCoord 	mousex, mousey;
 	uint16_t 	buttons;
 #endif
 #if GINPUT_NEED_KEYBOARD

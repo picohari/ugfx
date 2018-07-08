@@ -72,10 +72,10 @@ static GTIMER_DECL(MouseTimer);
 	#include <string.h>							// Required for memcpy
 
 	static GFXINLINE void CalibrationTransform(GMouseReading *pt, const GMouseCalibration *c) {
-		coord_t x, y;
+		gCoord x, y;
 
-		x = (coord_t) (c->ax * pt->x + c->bx * pt->y + c->cx);
-		y = (coord_t) (c->ay * pt->x + c->by * pt->y + c->cy);
+		x = (gCoord) (c->ax * pt->x + c->bx * pt->y + c->cx);
+		y = (gCoord) (c->ay * pt->x + c->by * pt->y + c->cy);
 
 		pt->x = x;
 		pt->y = y;
@@ -196,7 +196,7 @@ static void GetMouseReading(GMouse *m) {
 
 			// We can't clip or rotate if we don't have a display
 			if (m->display) {
-				coord_t			w, h;
+				gCoord			w, h;
 
 				// We now need display information
 				w = gdispGGetWidth(m->display);
@@ -205,7 +205,7 @@ static void GetMouseReading(GMouse *m) {
 				#if GDISP_NEED_CONTROL
 					// Do we need to rotate the reading to match the display
 					if (!(gmvmt(m)->d.flags & GMOUSE_VFLG_SELFROTATION)) {
-						coord_t		t;
+						gCoord		t;
 
 						switch(gdispGGetOrientation(m->display)) {
 							case GDISP_ROTATE_0:
@@ -372,7 +372,7 @@ static void MousePoll(void *param) {
 
 	static GFXINLINE void CalibrationCalculate(GMouse *m, const gPoint *cross, const gPoint *points) {
 		float		dx;
-		coord_t		c0, c1, c2;
+		gCoord		c0, c1, c2;
 		(void)		m;
 
 		// Work on x values
@@ -462,7 +462,7 @@ static void MousePoll(void *param) {
 	}
 
 	static uint32_t CalibrateMouse(GMouse *m) {
-		coord_t		w, h;
+		gCoord		w, h;
 		gPoint		cross[4];		// The locations of the test points on the display
 		gPoint		points[4];		// The x, y readings obtained from the mouse for each test point
 		uint32_t	err;
@@ -570,7 +570,7 @@ static void MousePoll(void *param) {
 			// Do we need to rotate the reading to match the display
 			#if GDISP_NEED_CONTROL
 				if (!(gmvmt(m)->d.flags & GMOUSE_VFLG_SELFROTATION)) {
-					coord_t		t;
+					gCoord		t;
 
 					switch(gdispGGetOrientation(m->display)) {
 						case GDISP_ROTATE_0:

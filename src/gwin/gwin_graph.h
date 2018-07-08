@@ -33,7 +33,7 @@ typedef enum GGraphPointType_e {
 
 typedef struct GGraphPointStyle_t {
 	GGraphPointType		type;
-	coord_t				size;
+	gCoord				size;
 	color_t				color;
 	} GGraphPointStyle;
 
@@ -43,15 +43,15 @@ typedef enum GGraphLineType_e {
 
 typedef struct GGraphLineStyle_t {
 	GGraphLineType		type;
-	coord_t				size;
+	gCoord				size;
 	color_t				color;
 	} GGraphLineStyle;
 
 typedef struct GGraphGridStyle_t {
 	GGraphLineType		type;
-	coord_t				size;
+	gCoord				size;
 	color_t				color;
-	coord_t				spacing;
+	gCoord				spacing;
 	} GGraphGridStyle;
 
 typedef struct GGraphStyle_t {
@@ -77,8 +77,8 @@ typedef struct GGraphStyle_t {
 typedef struct GGraphObject {
 	GWindowObject		g;
 	GGraphStyle			style;
-	coord_t				xorigin, yorigin;
-	coord_t				lastx, lasty;
+	gCoord				xorigin, yorigin;
+	gCoord				lastx, lasty;
 	} GGraphObject;
 
 /*===========================================================================*/
@@ -130,7 +130,7 @@ void gwinGraphSetStyle(GHandle gh, const GGraphStyle *pstyle);
  *
  * @api
  */
-void gwinGraphSetOrigin(GHandle gh, coord_t x, coord_t y);
+void gwinGraphSetOrigin(GHandle gh, gCoord x, gCoord y);
 
 /**
  * @brief   Draw the axis and the background grid.
@@ -161,7 +161,7 @@ void gwinGraphStartSet(GHandle gh);
  *
  * @api
  */
-void gwinGraphDrawPoint(GHandle gh, coord_t x, coord_t y);
+void gwinGraphDrawPoint(GHandle gh, gCoord x, gCoord y);
 
 /**
  * @brief   Draw multiple graph points.

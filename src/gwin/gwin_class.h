@@ -87,9 +87,9 @@ typedef struct gwinVMT {
 		void (*DefaultDraw)			(GWidgetObject *gw, void *param);							/**< The default drawing routine (mandatory) */
 		#if GINPUT_NEED_MOUSE
 			struct {
-				void (*MouseDown)		(GWidgetObject *gw, coord_t x, coord_t y);				/**< Process mouse down events (optional) */
-				void (*MouseUp)			(GWidgetObject *gw, coord_t x, coord_t y);				/**< Process mouse up events (optional) */
-				void (*MouseMove)		(GWidgetObject *gw, coord_t x, coord_t y);				/**< Process mouse move events (optional) */
+				void (*MouseDown)		(GWidgetObject *gw, gCoord x, gCoord y);				/**< Process mouse down events (optional) */
+				void (*MouseUp)			(GWidgetObject *gw, gCoord x, gCoord y);				/**< Process mouse up events (optional) */
+				void (*MouseMove)		(GWidgetObject *gw, gCoord x, gCoord y);				/**< Process mouse move events (optional) */
 			};
 		#endif
 		#if GINPUT_NEED_KEYBOARD || GWIN_NEED_KEYBOARD
@@ -131,10 +131,10 @@ typedef struct gwinVMT {
 	 */
 	typedef struct gcontainerVMT {
 		gwidgetVMT	gw;
-		coord_t (*LeftBorder)		(GHandle gh);							/**< The size of the left border (mandatory) */
-		coord_t (*TopBorder)		(GHandle gh);							/**< The size of the top border (mandatory) */
-		coord_t (*RightBorder)		(GHandle gh);							/**< The size of the right border (mandatory) */
-		coord_t (*BottomBorder)		(GHandle gh);							/**< The size of the bottom border (mandatory) */
+		gCoord (*LeftBorder)		(GHandle gh);							/**< The size of the left border (mandatory) */
+		gCoord (*TopBorder)		(GHandle gh);							/**< The size of the top border (mandatory) */
+		gCoord (*RightBorder)		(GHandle gh);							/**< The size of the right border (mandatory) */
+		gCoord (*BottomBorder)		(GHandle gh);							/**< The size of the bottom border (mandatory) */
 		void (*NotifyAdd)			(GHandle gh, GHandle ghChild);			/**< Notification that a child has been added (optional) */
 		void (*NotifyDelete)		(GHandle gh, GHandle ghChild);			/**< Notification that a child has been deleted (optional) */
 	} gcontainerVMT;
@@ -157,8 +157,8 @@ typedef struct gwinVMT {
 		gBool (*Add)		(GHandle gh, const GWindowInit *pInit);	/**< A window has been added */
 		void (*Delete)		(GHandle gh);							/**< A window has been deleted */
 		void (*Redraw)		(GHandle gh);							/**< A window needs to be redraw (or undrawn) */
-		void (*Size)		(GHandle gh, coord_t w, coord_t h);		/**< A window wants to be resized */
-		void (*Move)		(GHandle gh, coord_t x, coord_t y);		/**< A window wants to be moved */
+		void (*Size)		(GHandle gh, gCoord w, gCoord h);		/**< A window wants to be resized */
+		void (*Move)		(GHandle gh, gCoord x, gCoord y);		/**< A window wants to be moved */
 		void (*Raise)		(GHandle gh);							/**< A window wants to be on top */
 		void (*MinMax)		(GHandle gh, GWindowMinMax minmax);		/**< A window wants to be minimized/maximised */
 	} gwmVMT;
@@ -353,7 +353,7 @@ gBool _gwinWMAdd(GHandle gh, const GWindowInit *pInit);
 		 *
 		 * @notapi
 		 */
-		void _gwidgetDrawFocusRect(GWidgetObject *gw, coord_t x, coord_t y, coord_t cx, coord_t cy);
+		void _gwidgetDrawFocusRect(GWidgetObject *gw, gCoord x, gCoord y, gCoord cx, gCoord cy);
 
 		/**
 		 * @brief	Draw a simple focus circle in the default style.
@@ -368,7 +368,7 @@ gBool _gwinWMAdd(GHandle gh, const GWindowInit *pInit);
 		 * @notapi
 		 */
 		#if GDISP_NEED_CIRCLE
-			void _gwidgetDrawFocusCircle(GWidgetObject *gx, coord_t radius);
+			void _gwidgetDrawFocusCircle(GWidgetObject *gx, gCoord radius);
 		#endif
 
 	#else

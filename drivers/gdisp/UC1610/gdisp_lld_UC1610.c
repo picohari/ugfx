@@ -45,10 +45,10 @@
 #define GDISP_FLG_NEEDFLUSH		(GDISP_FLG_DRIVER << 0)
 
 typedef struct UC1610_Window {
-	coord_t x1;
-	coord_t y1;
-	coord_t x2;
-	coord_t y2;
+	gCoord x1;
+	gCoord y1;
+	gCoord x2;
+	gCoord y2;
 } UC1610_Window;
 
 /*===========================================================================*/
@@ -133,7 +133,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 #if GDISP_HARDWARE_DRAWPIXEL
 	LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
-		coord_t x, y;
+		gCoord x, y;
 		uint8_t *c;
 
 		// handle orientation
@@ -170,7 +170,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_FLUSH
 	LLDSPEC void gdisp_lld_flush(GDisplay* g)
 	{
-		coord_t x1, y1, x2, y2, cx;
+		gCoord x1, y1, x2, y2, cx;
 		uint8_t *c;
 
 		// Don't flush unless we really need to

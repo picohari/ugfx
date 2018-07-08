@@ -60,7 +60,7 @@ typedef struct gdispImage {
 	gdispImageType						type;				/* @< The image type */
 	gdispImageFlags						flags;				/* @< The image flags */
 	color_t								bgcolor;			/* @< The default background color */
-	coord_t								width, height;		/* @< The image dimensions */
+	gCoord								width, height;		/* @< The image dimensions */
 	GFILE *								f;					/* @< The underlying GFILE */
 	#if GDISP_NEED_IMAGE_ACCOUNTING
 		uint32_t						memused;			/* @< How much RAM is currently allocated */
@@ -221,7 +221,7 @@ gdispImageError gdispImageCache(gdispImage *img);
  * 			is drawing. This may be significantly slower than if the image has been cached (but
  * 			uses a lot less RAM)
  */
-gdispImageError gdispGImageDraw(GDisplay *g, gdispImage *img, coord_t x, coord_t y, coord_t cx, coord_t cy, coord_t sx, coord_t sy);
+gdispImageError gdispGImageDraw(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
 #define gdispImageDraw(img,x,y,cx,cy,sx,sy)		gdispGImageDraw(GDISP,img,x,y,cx,cy,sx,sy)
 
 /**

@@ -57,7 +57,7 @@ typedef struct GEventGWinTabset {
 
 typedef struct GTabsetObject {
 	GContainerObject	c;
-	coord_t				border_top;
+	gCoord				border_top;
 	} GTabsetObject;
 
 /**

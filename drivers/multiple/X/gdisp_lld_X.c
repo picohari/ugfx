@@ -181,7 +181,7 @@ typedef struct xPriv {
 	GC 				gc;
 	Window			win;
 	#if GINPUT_NEED_MOUSE
-		coord_t		mousex, mousey;
+		gCoord		mousex, mousey;
 		uint16_t	buttons;
 		GMouse *	mouse;
 	#endif

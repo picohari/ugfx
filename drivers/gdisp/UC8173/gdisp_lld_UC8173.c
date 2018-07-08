@@ -309,7 +309,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 #if GDISP_HARDWARE_FLUSH
 	LLDSPEC void gdisp_lld_flush(GDisplay* g)
 	{
-		coord_t 		cy, cx, dx, dy;
+		gCoord 		cy, cx, dx, dy;
 		LLDCOLOR_TYPE	*fb;
 		UC8173_Private	*priv;
 
@@ -390,7 +390,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 #if GDISP_HARDWARE_DRAWPIXEL
 	LLDSPEC void gdisp_lld_draw_pixel(GDisplay* g)
 	{
-		coord_t			x, y;
+		gCoord			x, y;
 		UC8173_Private	*priv;
 
 		priv = (UC8173_Private *)g->priv;

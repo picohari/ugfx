@@ -34,7 +34,7 @@ static void ImageDestroy(GWindowObject *gh) {
 #endif
 
 static void ImageRedraw(GHandle gh) {
-	coord_t		x, y, w, h, dx, dy;
+	gCoord		x, y, w, h, dx, dy;
 	color_t		bg;
 	#if GWIN_NEED_IMAGE_ANIMATION
 		delaytime_t	delay;

@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-gBool qimage_init(GDisplay* g, coord_t width, coord_t height);
+gBool qimage_init(GDisplay* g, gCoord width, gCoord height);
 void qimage_setPixel(GDisplay* g);
 color_t qimage_getPixel(GDisplay* g);
 

@@ -115,14 +115,14 @@ static void nextline(GWidgetInit *pwi) {
 	pwi->g.y += pwi->g.height+1;
 }
 
-static void setbtntext(GWidgetInit *pwi, coord_t maxwidth, char *txt) {
+static void setbtntext(GWidgetInit *pwi, gCoord maxwidth, char *txt) {
 	pwi->text = txt;
 	pwi->g.width = gdispGetStringWidth(pwi->text, font) + BUTTON_PADDING;
 	if (pwi->g.x + pwi->g.width > maxwidth)
 		nextline(pwi);
 }
 
-static void nextpos(GWidgetInit *pwi, coord_t maxwidth, coord_t nextwidth) {
+static void nextpos(GWidgetInit *pwi, gCoord maxwidth, gCoord nextwidth) {
 	pwi->g.x += pwi->g.width+1;
 	pwi->g.width = nextwidth;
 	if (pwi->g.x + nextwidth > maxwidth)
@@ -138,7 +138,7 @@ static void nextpos(GWidgetInit *pwi, coord_t maxwidth, coord_t nextwidth) {
  */
 static void createWidgets(void) {
 	GWidgetInit		wi;
-	coord_t			border, pagewidth;
+	gCoord			border, pagewidth;
 
 	gwinWidgetClearInit(&wi);
 

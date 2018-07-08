@@ -88,7 +88,7 @@ static int uitoa(unsigned int value, char * buf, int max) {
 void benchmark(void) {
     uint32_t i, pixels, ms, pps;
     char pps_str[25];
-	coord_t height, width, rx, ry, rcx, rcy;
+	gCoord height, width, rx, ry, rcx, rcy;
     color_t random_color;
 	font_t font;
 

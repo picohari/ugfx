@@ -138,7 +138,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 #if GDISP_HARDWARE_DRAWPIXEL
 	LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
-		coord_t x, y;
+		gCoord x, y;
 		
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
@@ -177,7 +177,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 #if GDISP_HARDWARE_PIXELREAD
 	LLDSPEC color_t gdisp_lld_get_pixel_color(GDisplay *g) {
-		coord_t		x, y;
+		gCoord		x, y;
 
 		switch(g->g.Orientation) {
 		default:
@@ -234,7 +234,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				case GDISP_ROTATE_0:
 				case GDISP_ROTATE_180:
 					if (g->g.Orientation == GDISP_ROTATE_90 || g->g.Orientation == GDISP_ROTATE_270) {
-						coord_t		tmp;
+						gCoord		tmp;
 
 						tmp = g->g.Width;
 						g->g.Width = g->g.Height;
@@ -244,7 +244,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				case GDISP_ROTATE_90:
 				case GDISP_ROTATE_270:
 					if (g->g.Orientation == GDISP_ROTATE_0 || g->g.Orientation == GDISP_ROTATE_180) {
-						coord_t		tmp;
+						gCoord		tmp;
 
 						tmp = g->g.Width;
 						g->g.Width = g->g.Height;

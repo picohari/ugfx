@@ -52,9 +52,9 @@ typedef struct GListObject {
 	GWidgetObject	w;
 
     #if GINPUT_NEED_MOUSE
-        coord_t start_mouse_x;
-        coord_t start_mouse_y;
-        coord_t last_mouse_y;
+        gCoord start_mouse_x;
+        gCoord start_mouse_y;
+        gCoord last_mouse_y;
     #endif
 	#if GINPUT_NEED_TOGGLE
 		uint16_t	t_up;

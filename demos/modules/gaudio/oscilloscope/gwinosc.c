@@ -76,7 +76,7 @@ GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, uint
 	/* Initialise the scope object members and allocate memory for buffers */
 	gs->format = format;
 	gs->nextx = 0;
-	if (!(gs->lastscopetrace = (coord_t *)gfxAlloc(gs->g.width * sizeof(coord_t))))
+	if (!(gs->lastscopetrace = (gCoord *)gfxAlloc(gs->g.width * sizeof(gCoord))))
 		return 0;
 	#if TRIGGER_METHOD == TRIGGER_POSITIVERAMP
 		gs->lasty = gs->g.height/2;
@@ -98,11 +98,11 @@ void gwinScopeWaitForTrace(GHandle gh) {
 	#define 		gs	((GScopeObject *)(gh))
 	GDataBuffer		*paud;
 	int				i;
-	coord_t			x, y;
-	coord_t			yoffset;
+	gCoord			x, y;
+	gCoord			yoffset;
 	uint8_t			*pa8;
 	uint16_t		*pa16;
-	coord_t			*pc;
+	gCoord			*pc;
 	uint8_t			shr;
 
 	#if TRIGGER_METHOD == TRIGGER_POSITIVERAMP
@@ -111,7 +111,7 @@ void gwinScopeWaitForTrace(GHandle gh) {
 	#elif TRIGGER_METHOD == TRIGGER_MINVALUE
 		gBool			rdytrigger;
 		int				flsamples;
-		coord_t			scopemin;
+		gCoord			scopemin;
 	#endif
 
 	if (gh->vmt != &scopeVMT)
@@ -148,9 +148,9 @@ void gwinScopeWaitForTrace(GHandle gh) {
 
 		/* Calculate the new scope value - re-scale using simple shifts for efficiency, re-center and y-invert */
 		if (gfxSampleFormatBits(gs->format) <= 8)
-			y = yoffset - (((coord_t)(*pa8++ ) << shr) >> (16-SCOPE_Y_BITS));
+			y = yoffset - (((gCoord)(*pa8++ ) << shr) >> (16-SCOPE_Y_BITS));
 		else
-			y = yoffset - (((coord_t)(*pa16++) << shr) >> (16-SCOPE_Y_BITS));
+			y = yoffset - (((gCoord)(*pa16++) << shr) >> (16-SCOPE_Y_BITS));
 
 		#if TRIGGER_METHOD == TRIGGER_MINVALUE
 			/* Calculate the scopemin ready for the next trace */

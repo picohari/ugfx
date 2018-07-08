@@ -68,8 +68,8 @@ static gBool read_xyz(GMouse* m, GMouseReading* pdr)
 	if ((read_byte(m, FT5x06_TOUCH_POINTS) & 0x07)) {
 
 		/* Get the X, Y, Z values */
-		pdr->x = (coord_t)(read_word(m, FT5x06_TOUCH1_XH) & 0x0fff);
-		pdr->y = (coord_t)read_word(m, FT5x06_TOUCH1_YH);
+		pdr->x = (gCoord)(read_word(m, FT5x06_TOUCH1_XH) & 0x0fff);
+		pdr->y = (gCoord)read_word(m, FT5x06_TOUCH1_YH);
 		pdr->z = 1;
 
 		// Rescale X,Y if we are using self-calibration

@@ -46,7 +46,7 @@ static void SendRadioEvent(GWidgetObject *gw) {
 
 #if GINPUT_NEED_MOUSE
 	// A mouse down has occurred over the button
-	static void RadioMouseDown(GWidgetObject *gw, coord_t x, coord_t y) {
+	static void RadioMouseDown(GWidgetObject *gw, gCoord x, gCoord y) {
 		(void) x; (void) y;
 
 		gwinRadioPress((GHandle)gw);
@@ -183,7 +183,7 @@ static const GColorSet *getDrawColors(GWidgetObject *gw) {
 
 void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 	#define gcw			((GRadioObject *)gw)
-	coord_t				ld, df;
+	gCoord				ld, df;
 	const GColorSet *	pcol;
 	(void)				param;
 
@@ -263,7 +263,7 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 		const GColorSet *	pcol;
 		fixed				alpha;
 		fixed				dalpha;
-		coord_t				i;
+		gCoord				i;
 		color_t				tcol, bcol;
 		(void)				param;
 
@@ -288,7 +288,7 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 		const GColorSet *	pcol;
 		fixed				alpha;
 		fixed				dalpha;
-		coord_t				i;
+		gCoord				i;
 		color_t				tcol, bcol;
 		(void)				param;
 

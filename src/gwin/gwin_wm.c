@@ -125,7 +125,7 @@
 		}
 	}
 
-	void gwinMove(GHandle gh, coord_t x, coord_t y) {
+	void gwinMove(GHandle gh, gCoord x, gCoord y) {
 		gh->x = x; gh->y = y;
 		if (gh->x < 0) gh->x = 0;
 		if (gh->y < 0) gh->y = 0;
@@ -136,7 +136,7 @@
 		_gwinUpdate(gh);
 	}
 
-	void gwinResize(GHandle gh, coord_t width, coord_t height) {
+	void gwinResize(GHandle gh, gCoord width, gCoord height) {
 		gh->width = width; gh->height = height;
 		if (gh->width < MIN_WIN_WIDTH) { gh->width = MIN_WIN_WIDTH; }
 		if (gh->height < MIN_WIN_HEIGHT) { gh->height = MIN_WIN_HEIGHT; }
@@ -553,11 +553,11 @@ void gwinRedraw(GHandle gh) {
 	}
 #endif
 
-void gwinMove(GHandle gh, coord_t x, coord_t y) {
+void gwinMove(GHandle gh, gCoord x, gCoord y) {
 	_GWINwm->vmt->Move(gh, x, y);
 }
 
-void gwinResize(GHandle gh, coord_t width, coord_t height) {
+void gwinResize(GHandle gh, gCoord width, gCoord height) {
 	_GWINwm->vmt->Size(gh, width, height);
 }
 
@@ -691,8 +691,8 @@ static void WM_DeInit(void);
 static gBool WM_Add(GHandle gh, const GWindowInit *pInit);
 static void WM_Delete(GHandle gh);
 static void WM_Redraw(GHandle gh);
-static void WM_Size(GHandle gh, coord_t w, coord_t h);
-static void WM_Move(GHandle gh, coord_t x, coord_t y);
+static void WM_Size(GHandle gh, gCoord w, gCoord h);
+static void WM_Move(GHandle gh, gCoord x, gCoord y);
 static void WM_Raise(GHandle gh);
 static void WM_MinMax(GHandle gh, GWindowMinMax minmax);
 
@@ -823,8 +823,8 @@ static void WM_Redraw(GHandle gh) {
 	}
 }
 
-static void WM_Size(GHandle gh, coord_t w, coord_t h) {
-	coord_t		v;
+static void WM_Size(GHandle gh, gCoord w, gCoord h) {
+	gCoord		v;
 
 	#if GWIN_NEED_CONTAINERS
 		if (gh->parent) {
@@ -896,8 +896,8 @@ static void WM_Size(GHandle gh, coord_t w, coord_t h) {
 	}
 }
 
-static void WM_Move(GHandle gh, coord_t x, coord_t y) {
-	coord_t		u, v;
+static void WM_Move(GHandle gh, gCoord x, gCoord y) {
+	gCoord		u, v;
 
 	#if GWIN_NEED_CONTAINERS
 		if (gh->parent) {

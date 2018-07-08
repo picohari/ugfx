@@ -51,7 +51,7 @@ static GScopeObject			gScopeWindow;
  */
 int main(void) {
 	GHandle					ghScope;
-	coord_t					swidth, sheight;
+	gCoord					swidth, sheight;
 
 	gfxInit();
 

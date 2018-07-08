@@ -171,7 +171,7 @@ static gdispImage	imgYesNo;
 #endif
 
 // Wrap buttons onto the next line if they don't fit.
-static void setbtntext(GWidgetInit *pwi, coord_t maxwidth, char *txt) {
+static void setbtntext(GWidgetInit *pwi, gCoord maxwidth, char *txt) {
 	if (pwi->g.x >= maxwidth) {
 		pwi->g.x = 5;
 		pwi->g.y += pwi->g.height+1;
@@ -194,7 +194,7 @@ static void setbtntext(GWidgetInit *pwi, coord_t maxwidth, char *txt) {
  */
 static void createWidgets(void) {
 	GWidgetInit		wi;
-	coord_t			border, pagewidth;
+	gCoord			border, pagewidth;
 
 	gwinWidgetClearInit(&wi);
 

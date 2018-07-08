@@ -37,10 +37,10 @@
 	#error "GWIN Frame: - Flag definitions don't match"
 #endif
 
-static coord_t FrameBorderSizeL(GHandle gh)	{ (void)gh; return FRM_BORDER_L; }
-static coord_t FrameBorderSizeR(GHandle gh)	{ (void)gh; return FRM_BORDER_R; }
-static coord_t FrameBorderSizeT(GHandle gh)	{ (void)gh; return FRM_BORDER_T; }
-static coord_t FrameBorderSizeB(GHandle gh)	{ (void)gh; return FRM_BORDER_B; }
+static gCoord FrameBorderSizeL(GHandle gh)	{ (void)gh; return FRM_BORDER_L; }
+static gCoord FrameBorderSizeR(GHandle gh)	{ (void)gh; return FRM_BORDER_R; }
+static gCoord FrameBorderSizeT(GHandle gh)	{ (void)gh; return FRM_BORDER_T; }
+static gCoord FrameBorderSizeB(GHandle gh)	{ (void)gh; return FRM_BORDER_B; }
 
 static void forceFrameRedraw(GWidgetObject *gw) {
 	// Force a redraw of just the frame.
@@ -51,8 +51,8 @@ static void forceFrameRedraw(GWidgetObject *gw) {
 }
 
 #if GINPUT_NEED_MOUSE
-	static void FrameMouseDown(GWidgetObject *gw, coord_t x, coord_t y) {
-		coord_t		pos;
+	static void FrameMouseDown(GWidgetObject *gw, gCoord x, gCoord y) {
+		gCoord		pos;
 
 		// We must be clicking on the frame button area to be of interest
 		if (y < FRM_BUTTON_T || y >= FRM_BUTTON_T+FRM_BUTTON_Y)
@@ -86,7 +86,7 @@ static void forceFrameRedraw(GWidgetObject *gw) {
 		}
 	}
 
-	static void FrameMouseUp(GWidgetObject *gw, coord_t x, coord_t y) {
+	static void FrameMouseUp(GWidgetObject *gw, gCoord x, gCoord y) {
 		#if GWIN_BUTTON_LAZY_RELEASE
 			if ((gw->g.flags & GWIN_FRAME_CLOSE_PRESSED)) {
 				// Close is released - destroy the window
@@ -118,7 +118,7 @@ static void forceFrameRedraw(GWidgetObject *gw) {
 
 			// We must be releasing over the button
 			if (y >= FRM_BUTTON_T && y < FRM_BUTTON_T+FRM_BUTTON_Y) {
-				coord_t		pos;
+				gCoord		pos;
 
 				pos = gw->g.width - (FRM_BORDER_R+FRM_BUTTON_X);
 				if ((gw->g.flags & GWIN_FRAME_CLOSE_BTN)) {
@@ -229,7 +229,7 @@ GHandle gwinGFrameCreate(GDisplay *g, GFrameObject *fo, GWidgetInit *pInit, uint
 
 void gwinFrameDraw_Transparent(GWidgetObject *gw, void *param) {
 	const GColorSet		*pcol;
-	coord_t				pos;
+	gCoord				pos;
 	color_t				contrast;
 	color_t				btn;
 	(void)param;
@@ -295,7 +295,7 @@ void gwinFrameDraw_Std(GWidgetObject *gw, void *param) {
 #if GDISP_NEED_IMAGE
 	void gwinFrameDraw_Image(GWidgetObject *gw, void *param) {
 		#define gi			((gdispImage *)param)
-		coord_t				x, y, iw, ih, mx, my;
+		gCoord				x, y, iw, ih, mx, my;
 
 		if (gw->g.vmt != (gwinVMT *)&frameVMT)
 			return;
