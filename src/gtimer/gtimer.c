@@ -19,7 +19,7 @@
 
 /* This mutex protects access to our tables */
 static gfxMutex			mutex;
-static gfxThreadHandle	hThread = 0;
+static gThread	hThread = 0;
 static GTimer			*pTimerHead = 0;
 static gfxSem			waitsem;
 static gTicks	ticks2ms;

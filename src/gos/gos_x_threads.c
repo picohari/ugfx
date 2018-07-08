@@ -457,8 +457,8 @@ void _gosThreadsInit(void) {
 	_gfxCurrentThread = &mainthread;
 }
 
-gfxThreadHandle gfxThreadMe(void) {
-	return (gfxThreadHandle)_gfxCurrentThread;
+gThread gfxThreadMe(void) {
+	return (gThread)_gfxCurrentThread;
 }
 
 // Check if there are dead processes to deallocate
@@ -508,7 +508,7 @@ void gfxThreadExit(gThreadreturn ret) {
 	// We never get back here as we didn't re-queue ourselves
 }
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
 	thread *	t;
 	thread *	me;
 	(void)		prio;
@@ -543,7 +543,7 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority
 	return t;
 }
 
-gThreadreturn gfxThreadWait(gfxThreadHandle th) {
+gThreadreturn gfxThreadWait(gThread th) {
 	thread *		t;
 
 	t = th;

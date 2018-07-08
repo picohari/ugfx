@@ -185,7 +185,7 @@ void gfxSemSignalI(gfxSem *psem)
     static_cast<QSemaphore*>(*psem)->release(1);
 }
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
     Q_UNUSED(stackarea)
 
@@ -196,10 +196,10 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority
     }
     thread->start(static_cast<QThread::Priority>(prio));
 
-    return static_cast<gfxThreadHandle>(thread);
+    return static_cast<gThread>(thread);
 }
 
-gThreadreturn gfxThreadWait(gfxThreadHandle thread)
+gThreadreturn gfxThreadWait(gThread thread)
 {
     Thread* t = static_cast<Thread*>(thread);
 
@@ -210,12 +210,12 @@ gThreadreturn gfxThreadWait(gfxThreadHandle thread)
     return returnValue;
 }
 
-gfxThreadHandle gfxThreadMe(void)
+gThread gfxThreadMe(void)
 {
     return static_cast<Thread*>(QThread::currentThread());
 }
 
-void gfxThreadClose(gfxThreadHandle thread)
+void gfxThreadClose(gThread thread)
 {
     static_cast<Thread*>(thread)->exit();
 }

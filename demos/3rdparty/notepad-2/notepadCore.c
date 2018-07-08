@@ -48,7 +48,7 @@ static DECLARE_THREAD_STACK(waDrawThread, NCORE_THD_STACK_SIZE);
 static uint8_t 					nPenWidth = 1;
 static uint8_t 					nMode = NCORE_MODE_DRAW;
 
-static gfxThreadHandle			nThd;
+static gThread			nThd;
 
 static GHandle					ncoreDrawingArea = NULL;
 static GHandle					nStatusConsole = NULL;

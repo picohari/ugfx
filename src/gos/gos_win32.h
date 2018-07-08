@@ -44,7 +44,7 @@ typedef int					gThreadpriority;
 
 typedef HANDLE gfxSem;
 typedef HANDLE gfxMutex;
-typedef HANDLE gfxThreadHandle;
+typedef HANDLE gThread;
 
 #define gfxExit()						ExitProcess(0)
 #define gfxAlloc(sz)					malloc(sz)
@@ -75,8 +75,8 @@ void gfxSleepMicroseconds(gDelay ms);
 gBool gfxSemWait(gfxSem *psem, gDelay ms);
 void gfxSystemLock(void);
 void gfxSystemUnlock(void);
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param);
-gThreadreturn gfxThreadWait(gfxThreadHandle thread);
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param);
+gThreadreturn gfxThreadWait(gThread thread);
 
 #endif /* GFX_USE_OS_WIN32 */
 #endif /* _GOS_WIN32_H */

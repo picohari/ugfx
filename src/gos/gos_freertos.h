@@ -44,7 +44,7 @@ typedef portBASE_TYPE		gThreadpriority;
 
 typedef xSemaphoreHandle		gfxSem;
 typedef xSemaphoreHandle		gfxMutex;
-typedef xTaskHandle				gfxThreadHandle;
+typedef xTaskHandle				gThread;
 
 /*===========================================================================*/
 /* Function declarations.                                                    */
@@ -75,11 +75,11 @@ gBool gfxSemWait(gfxSem* psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem* psem);
 void gfxSemSignal(gfxSem* psem);
 void gfxSemSignalI(gfxSem* psem);
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 
 #define gfxThreadMe()				xTaskGetCurrentTaskHandle()
 #if INCLUDE_eTaskGetState == 1
-	gThreadreturn gfxThreadWait(gfxThreadHandle thread);
+	gThreadreturn gfxThreadWait(gThread thread);
 #endif
 #define gfxThreadClose(thread)
 

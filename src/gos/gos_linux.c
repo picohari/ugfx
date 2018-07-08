@@ -109,8 +109,8 @@ gTicks gfxSystemTicks(void) {
 	return ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
 }
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
-	gfxThreadHandle		th;
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
+	gThread		th;
 	(void)				stackarea;
 	(void)				stacksz;
 	(void)				prio;
@@ -128,7 +128,7 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority
 	return th;
 }
 
-gThreadreturn gfxThreadWait(gfxThreadHandle thread) {
+gThreadreturn gfxThreadWait(gThread thread) {
 	gThreadreturn	retval;
 
 	if (pthread_join(thread, &retval))

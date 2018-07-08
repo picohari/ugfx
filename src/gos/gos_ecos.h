@@ -26,7 +26,7 @@ typedef cyg_tick_count_t	gTicks;
 typedef cyg_count32 		gSemcount;
 typedef void				gThreadreturn;
 typedef cyg_addrword_t		gThreadpriority;
-typedef cyg_handle_t		gfxThreadHandle;
+typedef cyg_handle_t		gThread;
 
 #define MAX_SEMAPHORE_COUNT			0x7FFFFFFF
 #define gThreadpriorityLow				(CYGNUM_KERNEL_SCHED_PRIORITIES-2)
@@ -77,7 +77,7 @@ gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadWait(thread)		NOTIMPLEMENTED_YET
 #define gfxThreadMe()				cyg_thread_self()
 #define gfxThreadClose(thread)		(void)thread

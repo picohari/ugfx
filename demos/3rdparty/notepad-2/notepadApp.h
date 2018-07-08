@@ -45,6 +45,6 @@ void nSetColorScheme(NColorScheme sch);
 NColorScheme nGetColorScheme(void);
 
 
-gfxThreadHandle nLaunchNotepadApp(void);
+gThread nLaunchNotepadApp(void);
 
 #endif /* NOTEPADAPP_H_ */

@@ -35,7 +35,7 @@
 
 static volatile gBool	run;
 static GHandle			gh;
-static gfxThreadHandle	thread;
+static gThread	thread;
 
 /**
  * NOTE:

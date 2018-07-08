@@ -41,7 +41,7 @@
 #include "gfx.h"
 
 GTimer				gt;
-gfxThreadHandle		thd;
+gThread		thd;
 
 #if defined(WIN32)
 	#include <windows.h>

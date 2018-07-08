@@ -47,7 +47,7 @@ typedef struct {
 } gfxSem;
 
 typedef uint32_t		gfxMutex;
-typedef void *			gfxThreadHandle;
+typedef void *			gThread;
 
 // Required timing functions - supplied by the user or the operating system
 gTicks gfxSystemTicks(void);
@@ -77,10 +77,10 @@ void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
 
 // Threads
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadClose(thread)
-gThreadreturn gfxThreadWait(gfxThreadHandle thread);
-gfxThreadHandle gfxThreadMe(void);
+gThreadreturn gfxThreadWait(gThread thread);
+gThread gfxThreadMe(void);
 
 /** The following is not part of the public ugfx API as some operating systems
  * 	simply do not provide this capability.

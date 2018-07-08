@@ -302,7 +302,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	xPriv					*priv;
 
 	if (!initdone) {
-		gfxThreadHandle			hth;
+		gThread			hth;
 
 		initdone = gTrue;
 		#if GFX_USE_OS_LINUX || GFX_USE_OS_OSX

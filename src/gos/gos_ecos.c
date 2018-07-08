@@ -96,9 +96,9 @@ void gfxSemSignalI(gfxSem *psem)
 		cyg_semaphore_post(&psem->sem);
 }
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
-	gfxThreadHandle		th;
+	gThread		th;
 
 	if (!stackarea) {
 		if (!stacksz) stacksz = CYGNUM_HAL_STACK_SIZE_TYPICAL;

@@ -32,7 +32,7 @@
 
 static volatile gBool	run;
 static GHandle			gh;
-static gfxThreadHandle	thread;
+static gThread	thread;
 
 static void mandelbrot(float x1, float y1, float x2, float y2) {
 	unsigned int i,j, width, height;

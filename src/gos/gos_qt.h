@@ -28,7 +28,7 @@ typedef void* gfxSem;
 typedef int gSemcount;
 typedef int gThreadreturn;
 typedef int gThreadpriority;
-typedef void* gfxThreadHandle;
+typedef void* gThread;
 
 void _gosInit();
 void _gosDeinit();
@@ -55,10 +55,10 @@ gBool gfxSemWait(gfxSem *psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
-gThreadreturn gfxThreadWait(gfxThreadHandle thread);
-gfxThreadHandle gfxThreadMe(void);
-void gfxThreadClose(gfxThreadHandle thread);
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThreadreturn gfxThreadWait(gThread thread);
+gThread gfxThreadMe(void);
+void gfxThreadClose(gThread thread);
 
 #endif /* GFX_USE_OS_QT */
 #endif /* _GOS_QT_H */

@@ -41,7 +41,7 @@ typedef struct k_sem gfxSem;
 
 typedef struct k_mutex gfxMutex;
 
-typedef k_tid_t gfxThreadHandle;
+typedef k_tid_t gThread;
 
 /*===========================================================================*/
 /* Function declarations.                                                    */

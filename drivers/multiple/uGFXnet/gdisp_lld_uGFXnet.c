@@ -165,7 +165,7 @@ typedef struct netPriv {
 	#endif
 } netPriv;
 
-static gfxThreadHandle	hThread;
+static gThread	hThread;
 
 #if GDISP_GFXNET_UNSAFE_SOCKETS
 	static gfxMutex	uGFXnetMutex;

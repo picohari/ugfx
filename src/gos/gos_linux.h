@@ -26,7 +26,7 @@
 typedef unsigned long		gTicks;
 typedef void *				gThreadreturn;
 typedef unsigned long		gDelay;
-typedef pthread_t 			gfxThreadHandle;
+typedef pthread_t 			gThread;
 typedef int					gThreadpriority;
 typedef uint32_t			gSemcount;
 typedef pthread_mutex_t		gfxMutex;
@@ -85,8 +85,8 @@ void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit);
 void gfxSemDestroy(gfxSem *psem);
 gBool gfxSemWait(gfxSem *psem, gDelay ms);
 void gfxSemSignal(gfxSem *psem);
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
-gThreadreturn gfxThreadWait(gfxThreadHandle thread);
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThreadreturn gfxThreadWait(gThread thread);
 
 #endif /* GFX_USE_OS_LINUX */
 

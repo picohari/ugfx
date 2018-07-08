@@ -464,7 +464,7 @@ static DECLARE_THREAD_FUNCTION(notepadThread, param) {
 void nSetColorScheme(NColorScheme sch)  {  nCurColorScheme = sch; }
 NColorScheme nGetColorScheme(void)      { return nCurColorScheme; }
 
-gfxThreadHandle nLaunchNotepadApp(void) {
+gThread nLaunchNotepadApp(void) {
 
   return gfxThreadCreate(waNotepadThread,
 						   sizeof(waNotepadThread),

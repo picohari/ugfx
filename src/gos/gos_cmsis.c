@@ -88,7 +88,7 @@ void gfxSemSignalI(gfxSem* psem)
 	}
 }
 
-gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)
+gThread gfxThreadCreate(void* stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)
 {	
 	osThreadDef_t def;
 
@@ -102,7 +102,7 @@ gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, gThreadpriority
 	return osThreadCreate(&def, param);
 }
 
-gThreadreturn gfxThreadWait(gfxThreadHandle thread) {
+gThreadreturn gfxThreadWait(gThread thread) {
 	while(osThreadGetPriority(thread) == osPriorityError)
 		gfxYield();
 }

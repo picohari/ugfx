@@ -20,7 +20,7 @@ typedef RAW_U8				gThreadpriority;
 
 typedef RAW_SEMAPHORE		gfxSem;
 typedef RAW_MUTEX			gfxMutex;
-typedef RAW_TASK_OBJ*		gfxThreadHandle;
+typedef RAW_TASK_OBJ*		gThread;
 
 #define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
 #define DECLARE_THREAD_STACK(name, sz)			PORT_STACK name[(sz) & ~3];
@@ -67,7 +67,7 @@ void gfxSleepMilliseconds(gDelay ms);
 void gfxSleepMicroseconds(gDelay us);
 gBool gfxSemWait(gfxSem* psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem* psem);
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 
 #endif
 

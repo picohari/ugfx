@@ -146,9 +146,9 @@ void gfxSemSignalI(gfxSem* psem)
 	xSemaphoreGiveFromISR(*psem,&xHigherPriorityTaskWoken);
 }
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
-	gfxThreadHandle task;
+	gThread task;
 	(void) stackarea;
 
 	// uGFX expresses stack size in bytes - FreeRTOS in "Stack Words"
@@ -165,7 +165,7 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority
 }
 
 #if INCLUDE_eTaskGetState == 1
-	gThreadreturn gfxThreadWait(gfxThreadHandle thread) {
+	gThreadreturn gfxThreadWait(gThread thread) {
 		while (eTaskGetState(thread) != eDeleted)
 			gfxYield();
 	}

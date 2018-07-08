@@ -54,7 +54,7 @@ typedef tprio_t		gThreadpriority;
 	} gfxSem;
 
 	typedef Mutex		gfxMutex;
-	typedef Thread*		gfxThreadHandle;
+	typedef Thread*		gThread;
 #else
 	#undef DECLARE_THREAD_STACK
 	#define DECLARE_THREAD_STACK(a, b)  THD_WORKING_AREA(a, b)
@@ -65,7 +65,7 @@ typedef tprio_t		gThreadpriority;
 	} gfxSem;
 
 	typedef mutex_t		gfxMutex;
-	typedef thread_t*	gfxThreadHandle;
+	typedef thread_t*	gThread;
 #endif
 
 
@@ -110,7 +110,7 @@ gBool gfxSemWait(gfxSem *psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadWait(thread)		chThdWait(thread)
 #define gfxThreadMe()				chThdSelf()
 #define gfxThreadClose(thread)		(void)thread

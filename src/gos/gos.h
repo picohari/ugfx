@@ -123,7 +123,7 @@
 	 * @brief	A thread handle
 	 * @note	Your operating system will have a proper definition for this.
 	 */
-	typedef void * gfxThreadHandle;
+	typedef void * gThread;
 
 	/*===========================================================================*/
 	/* Function declarations.                                                    */
@@ -420,7 +420,7 @@
 	 *
 	 * @api
 	 */
-	gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+	gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 
 	/**
 	 * @brief	Wait for a thread to finish.
@@ -432,7 +432,7 @@
 	 * 				once the thread has ended.
 	 * @api
 	 */
-	gThreadreturn gfxThreadWait(gfxThreadHandle thread);
+	gThreadreturn gfxThreadWait(gThread thread);
 
 	/**
 	 * @brief	Get the current thread handle.
@@ -440,7 +440,7 @@
 	 *
 	 * @api
 	 */
-	gfxThreadHandle gfxThreadMe(void);
+	gThread gfxThreadMe(void);
 
 	/**
 	 * @brief	Close the thread handle.
@@ -451,7 +451,7 @@
 	 *
 	 * @api
 	 */
-	void gfxThreadClose(gfxThreadHandle thread);
+	void gfxThreadClose(gThread thread);
 
 /**
  * All the above was just for the doxygen documentation. All the implementation of the above
@@ -501,6 +501,7 @@
 			#define TIME_INFINITE	gDelayForever
 		#endif
 	typedef gTicks			systemticks_t;
+	typedef gThread			gfxThreadHandle;
 	typedef gThreadreturn	threadreturn_t;
 	typedef gThreadpriority	threadpriority_t;
 		#define LOW_PRIORITY		gThreadpriorityLow
