@@ -21,11 +21,11 @@
 #define TIME_IMMEDIATE		0
 #define TIME_INFINITE		0xFFFFFFFF
 
-typedef cyg_ucount32		delaytime_t;
-typedef cyg_tick_count_t	systemticks_t;
-typedef cyg_count32 		semcount_t;
-typedef void				threadreturn_t;
-typedef cyg_addrword_t		threadpriority_t;
+typedef cyg_ucount32		gDelay;
+typedef cyg_tick_count_t	gTicks;
+typedef cyg_count32 		gSemcount;
+typedef void				gThreadreturn;
+typedef cyg_addrword_t		gThreadpriority;
 typedef cyg_handle_t		gfxThreadHandle;
 
 #define MAX_SEMAPHORE_COUNT			0x7FFFFFFF
@@ -34,12 +34,12 @@ typedef cyg_handle_t		gfxThreadHandle;
 #define HIGH_PRIORITY				0
 
 #define DECLARE_THREAD_STACK(name, sz)			struct { cyg_thread t; unsigned char stk[(sz) & ~3]; } name[1]
-#define DECLARE_THREAD_FUNCTION(fnName, param)	threadreturn_t fnName(cyg_addrword_t param)
+#define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(cyg_addrword_t param)
 #define THREAD_RETURN(retval)
 
 typedef struct {
 	cyg_sem_t	sem;
-	semcount_t	limit;
+	gSemcount	limit;
 	} gfxSem;
 
 typedef cyg_mutex_t		gfxMutex;
@@ -55,8 +55,8 @@ typedef cyg_mutex_t		gfxMutex;
 #define gfxYield()					cyg_thread_yield()
 
 #define gfxMillisecondsToTicks(ms)	(((ms)*(CYGNUM_HAL_RTC_DENOMINATOR*1000))/(CYGNUM_HAL_RTC_NUMERATOR/1000))
-void gfxSleepMilliseconds(delaytime_t ms);
-void gfxSleepMicroseconds(delaytime_t ms);
+void gfxSleepMilliseconds(gDelay ms);
+void gfxSleepMicroseconds(gDelay ms);
 
 #define gfxAlloc(sz)					malloc(sz)
 #define gfxFree(ptr)					free(ptr)
@@ -70,14 +70,14 @@ void gfxSleepMicroseconds(delaytime_t ms);
 #define gfxMutexDestroy(pmutex)			cyg_mutex_destroy(pmutex)
 #define gfxMutexEnter(pmutex)			cyg_mutex_lock(pmutex)
 
-void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit);
+void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit);
 void gfxSemDestroy(gfxSem *psem);
-gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
+gBool gfxSemWait(gfxSem *psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadWait(thread)		NOTIMPLEMENTED_YET
 #define gfxThreadMe()				cyg_thread_self()
 #define gfxThreadClose(thread)		(void)thread

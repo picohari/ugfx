@@ -52,12 +52,12 @@ void gfxExit(void) {
 	}
 }
 
-systemticks_t gfxSystemTicks(void)
+gTicks gfxSystemTicks(void)
 {
 	return alt_nticks();
 }
 
-systemticks_t gfxMillisecondsToTicks(delaytime_t ms)
+gTicks gfxMillisecondsToTicks(gDelay ms)
 {
 	return ms;
 }

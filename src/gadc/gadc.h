@@ -172,7 +172,7 @@ void gadcHighSpeedSetISRCallback(GADCISRCallbackFunction isrfn);
  * @api
  * @{
  */
-GDataBuffer *gadcHighSpeedGetData(delaytime_t ms);
+GDataBuffer *gadcHighSpeedGetData(gDelay ms);
 GDataBuffer *gadcHighSpeedGetDataI(void);
 /** @} */
 

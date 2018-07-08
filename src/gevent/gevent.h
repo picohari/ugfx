@@ -157,7 +157,7 @@ void geventDetachSource(GListener *pl, GSourceHandle gsh);
  *
  * @return	NULL on timeout
  */
-GEvent *geventEventWait(GListener *pl, delaytime_t timeout);
+GEvent *geventEventWait(GListener *pl, gDelay timeout);
 
 /**
  * @brief	Release the GEvent buffer associated with a listener.

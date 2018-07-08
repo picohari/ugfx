@@ -119,7 +119,7 @@ void _gaudioDeinit(void)
 		return gaudio_play_lld_set_volume(vol);
 	}
 
-	gBool gaudioPlayWait(delaytime_t ms) {
+	gBool gaudioPlayWait(gDelay ms) {
 		if (!(playFlags & PLAYFLG_PLAYING))
 			return gTrue;
 		return gfxSemWait(&playComplete, ms);
@@ -213,7 +213,7 @@ void _gaudioDeinit(void)
 			gfxBufferRelease(pd);
 	}
 
-	GDataBuffer *gaudioRecordGetData(delaytime_t ms) {
+	GDataBuffer *gaudioRecordGetData(gDelay ms) {
 		return (GDataBuffer *)gfxQueueGSyncGet(&recordList, ms);
 	}
 

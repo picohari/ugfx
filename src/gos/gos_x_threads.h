@@ -16,46 +16,46 @@
  * 		memcpy()						- for heap and threading
  *
  * 	You must also define the following routines in your own code so that timing functions will work...
- * 		systemticks_t gfxSystemTicks(void);
- *		systemticks_t gfxMillisecondsToTicks(delaytime_t ms);
+ * 		gTicks gfxSystemTicks(void);
+ *		gTicks gfxMillisecondsToTicks(gDelay ms);
  */
 #ifndef _GOS_X_THREADS_H
 #define _GOS_X_THREADS_H
 
 #if GOS_NEED_X_THREADS
 
-typedef uint32_t		delaytime_t;
-typedef uint32_t		systemticks_t;
-typedef short			semcount_t;
-typedef int				threadreturn_t;
-typedef int				threadpriority_t;
+typedef uint32_t		gDelay;
+typedef uint32_t		gTicks;
+typedef short			gSemcount;
+typedef int				gThreadreturn;
+typedef int				gThreadpriority;
 
-#define DECLARE_THREAD_FUNCTION(fnName, param)	threadreturn_t fnName(void *param)
+#define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
 #define DECLARE_THREAD_STACK(name, sz)			uint8_t name[(sz) & ~3];
 #define THREAD_RETURN(retval)					return retval
 
 #define TIME_IMMEDIATE				0
-#define TIME_INFINITE				((delaytime_t)-1)
+#define TIME_INFINITE				((gDelay)-1)
 #define MAX_SEMAPHORE_COUNT			0x7FFF
 #define LOW_PRIORITY				0
 #define NORMAL_PRIORITY				1
 #define HIGH_PRIORITY				2
 
 typedef struct {
-	semcount_t		cnt;
-	semcount_t		limit;
+	gSemcount		cnt;
+	gSemcount		limit;
 } gfxSem;
 
 typedef uint32_t		gfxMutex;
 typedef void *			gfxThreadHandle;
 
 // Required timing functions - supplied by the user or the operating system
-systemticks_t gfxSystemTicks(void);
-systemticks_t gfxMillisecondsToTicks(delaytime_t ms);
+gTicks gfxSystemTicks(void);
+gTicks gfxMillisecondsToTicks(gDelay ms);
 
 // Sleep Functions
-void gfxSleepMilliseconds(delaytime_t ms);
-void gfxSleepMicroseconds(delaytime_t ms);
+void gfxSleepMilliseconds(gDelay ms);
+void gfxSleepMicroseconds(gDelay ms);
 void gfxYield(void);
 
 // System Locking
@@ -69,24 +69,24 @@ void gfxMutexEnter(gfxMutex *pmutex);
 void gfxMutexExit(gfxMutex *pmutex);
 
 // Semaphores
-void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit);
+void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit);
 #define gfxSemDestroy(psem)
-gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
+gBool gfxSemWait(gfxSem *psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
 
 // Threads
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadClose(thread)
-threadreturn_t gfxThreadWait(gfxThreadHandle thread);
+gThreadreturn gfxThreadWait(gfxThreadHandle thread);
 gfxThreadHandle gfxThreadMe(void);
 
 /** The following is not part of the public ugfx API as some operating systems
  * 	simply do not provide this capability.
  * 	For RAW32 we need it anyway so we might as well declare it here.
  */
-void gfxThreadExit(threadreturn_t ret);
+void gfxThreadExit(gThreadreturn ret);
 
 #endif /* GOS_NEED_X_THREADS */
 #endif /* _GOS_X_THREADS_H */

@@ -259,7 +259,7 @@ static HAL_StatusTypeDef _HAL_SDRAM_SendCommand(SDRAM_HandleTypeDef *hsdram, FMC
 static HAL_StatusTypeDef _FMC_SDRAM_SendCommand(FMC_SDRAM_TypeDef *Device, FMC_SDRAM_CommandTypeDef *Command, uint32_t Timeout)
 {
   __IO uint32_t tmpr = 0;
-  systemticks_t tickstart = 0;
+  gTicks tickstart = 0;
 
   /* Set command register */
   tmpr = (uint32_t)((Command->CommandMode)                  |\

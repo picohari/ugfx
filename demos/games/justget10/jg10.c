@@ -102,8 +102,8 @@ static void clean_SelCheck(void) {
 
 static void remove_Selected(void) {
     uint16_t i ,j, step;
-    systemticks_t delay_start = 0;
-    systemticks_t delay=0;
+    gTicks delay_start = 0;
+    gTicks delay=0;
     for (step = 0; step < JG10_ANIM_IMAGES; step++) {
         delay_start = gfxSystemTicks();
         for (i = 0; i < JG10_FIELD_WIDTH; i++) {

@@ -57,11 +57,11 @@
 	 * @note	Your platform may use slightly different definitions to these
 	 * @{
 	 */
-	typedef unsigned long	delaytime_t;
-	typedef unsigned long	systemticks_t;
-	typedef short			semcount_t;
-	typedef int				threadreturn_t;
-	typedef int				threadpriority_t;
+	typedef unsigned long	gDelay;
+	typedef unsigned long	gTicks;
+	typedef short			gSemcount;
+	typedef int				gThreadreturn;
+	typedef int				gThreadpriority;
 	/** @} */
 
 	/**
@@ -70,7 +70,7 @@
 	 * @param[in] fnName	The name of the function
 	 * @param[in] param 	A custom parameter that is passed to the function
 	 */
-	#define DECLARE_THREAD_FUNCTION(fnName, param)	threadreturn_t fnName(void *param)
+	#define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
 
 	/**
 	 * @brief	Declare a thread stack
@@ -100,8 +100,8 @@
 	 * @{
 	 */
 	#define TIME_IMMEDIATE				0
-	#define TIME_INFINITE				((delaytime_t)-1)
-	#define MAX_SEMAPHORE_COUNT			((semcount_t)(((unsigned long)((semcount_t)(-1))) >> 1))
+	#define TIME_INFINITE				((gDelay)-1)
+	#define MAX_SEMAPHORE_COUNT			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
 	#define LOW_PRIORITY				0
 	#define NORMAL_PRIORITY				1
 	#define HIGH_PRIORITY				2
@@ -221,7 +221,7 @@
 	 *
 	 * @api
 	 */
-	void gfxSleepMilliseconds(delaytime_t ms);
+	void gfxSleepMilliseconds(gDelay ms);
 
 	/**
 	 * @brief	Put the current thread to sleep for the specified period in microseconds
@@ -233,7 +233,7 @@
 	 *
 	 * @api
 	 */
-	void gfxSleepMicroseconds(delaytime_t us);
+	void gfxSleepMicroseconds(gDelay us);
 
 	/**
 	 * @brief	Get the current operating system tick time
@@ -249,7 +249,7 @@
 	 *
 	 * @api
 	 */
-	systemticks_t gfxSystemTicks(void);
+	gTicks gfxSystemTicks(void);
 
 	/**
 	 * @brief	Convert a given number of millseconds to a number of operating system ticks
@@ -262,7 +262,7 @@
 	 *
 	 * @api
 	 */
-	systemticks_t gfxMillisecondsToTicks(delaytime_t ms);
+	gTicks gfxMillisecondsToTicks(gDelay ms);
 
 	/**
 	 * @brief	Lock the operating system to protect a sequence of code
@@ -344,7 +344,7 @@
 	 *
 	 * @api
 	 */
-	void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit);
+	void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit);
 
 	/**
 	 * @brief	Destroy a Counted Semaphore
@@ -368,7 +368,7 @@
 	 *
 	 * @api
 	 */
-	gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
+	gBool gfxSemWait(gfxSem *psem, gDelay ms);
 
 	/**
 	 * @brief	Test if a wait on a semaphore can be satisfied immediately
@@ -420,7 +420,7 @@
 	 *
 	 * @api
 	 */
-	gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+	gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 
 	/**
 	 * @brief	Wait for a thread to finish.
@@ -432,7 +432,7 @@
 	 * 				once the thread has ended.
 	 * @api
 	 */
-	threadreturn_t gfxThreadWait(gfxThreadHandle thread);
+	gThreadreturn gfxThreadWait(gfxThreadHandle thread);
 
 	/**
 	 * @brief	Get the current thread handle.
@@ -491,6 +491,13 @@
     #include "gos_qt.h"
 #else
 	#error "Your operating system is not supported yet"
+#endif
+
+#if GFX_COMPAT_V2
+	typedef gDelay			delaytime_t;
+	typedef gTicks			systemticks_t;
+	typedef gThreadreturn	threadreturn_t;
+	typedef gThreadpriority	threadpriority_t;
 #endif
 
 #endif /* _GOS_H */

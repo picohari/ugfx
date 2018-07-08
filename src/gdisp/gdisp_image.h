@@ -243,7 +243,7 @@ gdispImageError gdispGImageDraw(GDisplay *g, gdispImage *img, gCoord x, gCoord y
  * @note	Calling gdispImageDraw() after getting a TIME_INFINITE will go back to drawing the first
  * 			frame/page.
  */
-delaytime_t gdispImageNext(gdispImage *img);
+gDelay gdispImageNext(gdispImage *img);
 
 /**
  * @brief	Get the number of entries in the color palette.

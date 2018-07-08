@@ -22,7 +22,7 @@
 	#error "--"
 #endif
 
-threadreturn_t heartbeat1(void* param)
+gThreadreturn heartbeat1(void* param)
 {
     (void)param;
 
@@ -31,10 +31,10 @@ threadreturn_t heartbeat1(void* param)
         gfxSleepMilliseconds(500);
     }
 
-    return (threadreturn_t)0;
+    return (gThreadreturn)0;
 }
 
-threadreturn_t heartbeat2(void* param)
+gThreadreturn heartbeat2(void* param)
 {
     (void)param;
 
@@ -43,7 +43,7 @@ threadreturn_t heartbeat2(void* param)
         gfxSleepMilliseconds(900);
     }
 
-    return (threadreturn_t)0;
+    return (gThreadreturn)0;
 }
 
 int main(void)

@@ -159,7 +159,7 @@ void gwinProgressbarDecrement(GHandle gh);
 	 *
 	 * @api
 	 */
-	void gwinProgressbarStart(GHandle gh, delaytime_t delay);
+	void gwinProgressbarStart(GHandle gh, gDelay delay);
 
 	/**
 	 * @brief	Stop the timer which is started by @p gwinProgressbarStart()

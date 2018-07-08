@@ -45,23 +45,23 @@ void _gosDeinit(void)
 }
 
 
-void gfxSleepMilliseconds(delaytime_t ms)
+void gfxSleepMilliseconds(gDelay ms)
 {
-	systemticks_t ticks = ms*RAW_TICKS_PER_SECOND/1000;
+	gTicks ticks = ms*RAW_TICKS_PER_SECOND/1000;
 	if(!ticks)ticks = 1;
 	raw_sleep(ticks);
 }
 
-void gfxSleepMicroseconds(delaytime_t us)
+void gfxSleepMicroseconds(gDelay us)
 {
-	systemticks_t ticks = (us/1000)*RAW_TICKS_PER_SECOND/1000;
+	gTicks ticks = (us/1000)*RAW_TICKS_PER_SECOND/1000;
 	if(!ticks)ticks = 1;
 	raw_sleep(ticks);
 }
 
-gBool gfxSemWait(gfxSem* psem, delaytime_t ms)
+gBool gfxSemWait(gfxSem* psem, gDelay ms)
 {
-	systemticks_t ticks = ms*RAW_TICKS_PER_SECOND/1000;
+	gTicks ticks = ms*RAW_TICKS_PER_SECOND/1000;
 	if(!ticks)ticks=1;
 	if(raw_semaphore_get((psem), ticks)==RAW_SUCCESS)
 		return gTrue;
@@ -75,7 +75,7 @@ gBool gfxSemWaitI(gfxSem* psem)
 	return gFalse;
 }
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
 	RAW_U16 ret;
 	gfxThreadHandle taskobj;

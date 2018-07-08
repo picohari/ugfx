@@ -63,7 +63,7 @@ gfxThreadHandle		thd;
  * Thread function
  * Prints a message
  */
-threadreturn_t Thread_function(void* param)
+gThreadreturn Thread_function(void* param)
 {	
 	/* Cast the paramter into a gBool pointer so we can use it */
 	gBool* doExit = (gBool*)param;
@@ -75,7 +75,7 @@ threadreturn_t Thread_function(void* param)
 	}
 
 	/* Don't return anything */
-	return (threadreturn_t)0;
+	return (gThreadreturn)0;
 }
 
 /*

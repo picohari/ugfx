@@ -9,12 +9,12 @@
 #if GFX_USE_OS_CHIBIOS
 	#define HAL_GPIO_Init(port, ptr)	palSetGroupMode(port, (ptr)->Pin, 0, (ptr)->Mode|((ptr)->Speed<<3)|((ptr)->Pull<<5)|((ptr)->Alternate<<7))
 #else
-	systemticks_t gfxSystemTicks(void)
+	gTicks gfxSystemTicks(void)
 	{
 		return HAL_GetTick();
 	}
 
-	systemticks_t gfxMillisecondsToTicks(delaytime_t ms)
+	gTicks gfxMillisecondsToTicks(gDelay ms)
 	{
 		return ms;
 	}

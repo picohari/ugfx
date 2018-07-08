@@ -7,11 +7,11 @@
 
 #define TIME_IMMEDIATE		(RAW_NO_WAIT)
 #define TIME_INFINITE		(RAW_WAIT_FOREVER)
-typedef uint32_t			delaytime_t;
-typedef RAW_TICK_TYPE		systemticks_t;
-typedef int32_t				semcount_t;
-typedef uint32_t			threadreturn_t;
-typedef RAW_U8				threadpriority_t;
+typedef uint32_t			gDelay;
+typedef RAW_TICK_TYPE		gTicks;
+typedef int32_t				gSemcount;
+typedef uint32_t			gThreadreturn;
+typedef RAW_U8				gThreadpriority;
 
 #define MAX_SEMAPHORE_COUNT	RAW_SEMAPHORE_COUNT
 #define LOW_PRIORITY		(CONFIG_RAW_PRIO_MAX-2)
@@ -22,7 +22,7 @@ typedef RAW_SEMAPHORE		gfxSem;
 typedef RAW_MUTEX			gfxMutex;
 typedef RAW_TASK_OBJ*		gfxThreadHandle;
 
-#define DECLARE_THREAD_FUNCTION(fnName, param)	threadreturn_t fnName(void *param)
+#define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
 #define DECLARE_THREAD_STACK(name, sz)			PORT_STACK name[(sz) & ~3];
 #define THREAD_RETURN(retval)					return retval
 
@@ -63,11 +63,11 @@ extern RAW_U16 raw_semaphore_delete(RAW_SEMAPHORE *semaphore_ptr);
 extern RAW_U16 raw_semaphore_get(RAW_SEMAPHORE *semaphore_ptr, RAW_TICK_TYPE wait_option);
 extern RAW_U16 raw_semaphore_put(RAW_SEMAPHORE *semaphore_ptr);
 
-void gfxSleepMilliseconds(delaytime_t ms);
-void gfxSleepMicroseconds(delaytime_t us);
-gBool gfxSemWait(gfxSem* psem, delaytime_t ms);
+void gfxSleepMilliseconds(gDelay ms);
+void gfxSleepMicroseconds(gDelay us);
+gBool gfxSemWait(gfxSem* psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem* psem);
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 
 #endif
 

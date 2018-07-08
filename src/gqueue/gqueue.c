@@ -163,7 +163,7 @@ void _gqueueDeinit(void)
 		gfxSemDestroy(&pqueue->sem);
 	}
 
-	gfxQueueGSyncItem *gfxQueueGSyncGet(gfxQueueGSync *pqueue, delaytime_t ms) {
+	gfxQueueGSyncItem *gfxQueueGSyncGet(gfxQueueGSync *pqueue, gDelay ms) {
 		gfxQueueGSyncItem	*pi;
 
 		if (!gfxSemWait(&pqueue->sem, ms))
@@ -302,7 +302,7 @@ void _gqueueDeinit(void)
 		gfxSemDestroy(&pqueue->sem);
 	}
 
-	gfxQueueFSyncItem *gfxQueueFSyncGet(gfxQueueFSync *pqueue, delaytime_t ms) {
+	gfxQueueFSyncItem *gfxQueueFSyncGet(gfxQueueFSync *pqueue, gDelay ms) {
 		gfxQueueFSyncItem	*pi;
 
 		if (!gfxSemWait(&pqueue->sem, ms))
@@ -320,7 +320,7 @@ void _gqueueDeinit(void)
 		return pi;
 	}
 
-	gBool gfxQueueFSyncPut(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, delaytime_t ms) {
+	gBool gfxQueueFSyncPut(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gDelay ms) {
 		if (!pitem) return;				// Safety
 		gfxSemInit(&pitem->sem, 0, 1);
 		pitem->next = 0;
@@ -339,7 +339,7 @@ void _gqueueDeinit(void)
 		return gfxSemWait(&pitem->sem, ms);
 	}
 
-	gBool gfxQueueFSyncPush(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, delaytime_t ms) {
+	gBool gfxQueueFSyncPush(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gDelay ms) {
 		if (!pitem) return;				// Safety
 		gfxSemInit(&pitem->sem, 0, 1);
 
@@ -355,7 +355,7 @@ void _gqueueDeinit(void)
 		return gfxSemWait(&pitem->sem, ms);
 	}
 
-	gBool gfxQueueFSyncInsert(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gfxQueueASyncItem *pafter, delaytime_t ms) {
+	gBool gfxQueueFSyncInsert(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gfxQueueASyncItem *pafter, gDelay ms) {
 		if (!pitem) return;				// Safety
 		gfxSemInit(&pitem->sem, 0, 1);
 
@@ -454,7 +454,7 @@ void _gqueueDeinit(void)
 
 	void gfxBufferRelease(GDataBuffer *pd)		{ gfxQueueGSyncPut(&bufferFreeList, (gfxQueueGSyncItem *)pd); }
 	void gfxBufferReleaseI(GDataBuffer *pd)		{ gfxQueueGSyncPutI(&bufferFreeList, (gfxQueueGSyncItem *)pd); }
-	GDataBuffer *gfxBufferGet(delaytime_t ms)	{ return (GDataBuffer *)gfxQueueGSyncGet(&bufferFreeList, ms); }
+	GDataBuffer *gfxBufferGet(gDelay ms)	{ return (GDataBuffer *)gfxQueueGSyncGet(&bufferFreeList, ms); }
 	GDataBuffer *gfxBufferGetI(void)			{ return (GDataBuffer *)gfxQueueGSyncGetI(&bufferFreeList); }
 	gBool gfxBufferIsAvailable(void)			{ return bufferFreeList.head != 0; }
 

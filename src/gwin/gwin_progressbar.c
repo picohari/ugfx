@@ -195,7 +195,7 @@ void gwinProgressbarDecrement(GHandle gh) {
 		#undef gsw
 	}
 
-	void gwinProgressbarStart(GHandle gh, delaytime_t delay) {
+	void gwinProgressbarStart(GHandle gh, gDelay delay) {
 		#define gsw		((GProgressbarObject *)gh)
 
 		if (gh->vmt != (gwinVMT *)&progressbarVMT)

@@ -115,7 +115,7 @@ void geventDetachSource(GListener *pl, GSourceHandle gsh) {
 	}
 }
 
-GEvent *geventEventWait(GListener *pl, delaytime_t timeout) {
+GEvent *geventEventWait(GListener *pl, gDelay timeout) {
 	/* NOTE:
 		We no longer try to protect against two threads trying to listen on the
 		one listener. This was never allowed, it makes little sense to try to do so,

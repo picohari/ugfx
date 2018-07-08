@@ -52,8 +52,8 @@ typedef void (*GTimerFunction)(void *param);
 typedef struct GTimer_t {
 	GTimerFunction		fn;
 	void				*param;
-	systemticks_t		when;
-	systemticks_t		period;
+	gTicks		when;
+	gTicks		period;
 	uint16_t			flags;
 	struct GTimer_t		*next;
 	struct GTimer_t		*prev;
@@ -110,7 +110,7 @@ void gtimerDeinit(GTimer* pt);
  *
  * @api
  */
-void gtimerStart(GTimer *pt, GTimerFunction fn, void *param, gBool periodic, delaytime_t millisec);
+void gtimerStart(GTimer *pt, GTimerFunction fn, void *param, gBool periodic, gDelay millisec);
 
 /**
  * @brief   Stop a timer (periodic or otherwise)

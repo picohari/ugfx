@@ -45,13 +45,13 @@ void gfxMutexExit(gfxMutex *pmutex) {
 	pmutex[0] = 0;
 }
 
-void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit) {
+void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit) {
 	psem->cnt = val;
 	psem->limit = limit;
 }
 
-gBool gfxSemWait(gfxSem *psem, delaytime_t ms) {
-	systemticks_t	starttm, delay;
+gBool gfxSemWait(gfxSem *psem, gDelay ms) {
+	gTicks	starttm, delay;
 
 	// Convert our delay to ticks
 	starttm = 0;
@@ -112,8 +112,8 @@ void gfxSemSignalI(gfxSem *psem) {
  * Sleep functions
  *********************************************************/
 
-void gfxSleepMilliseconds(delaytime_t ms) {
-	systemticks_t	starttm, delay;
+void gfxSleepMilliseconds(gDelay ms) {
+	gTicks	starttm, delay;
 
 	// Safety first
 	switch (ms) {
@@ -134,8 +134,8 @@ void gfxSleepMilliseconds(delaytime_t ms) {
 	} while (gfxSystemTicks() - starttm < delay);
 }
 
-void gfxSleepMicroseconds(delaytime_t ms) {
-	systemticks_t	starttm, delay;
+void gfxSleepMicroseconds(gDelay ms) {
+	gTicks	starttm, delay;
 
 	// Safety first
 	switch (ms) {
@@ -176,7 +176,7 @@ typedef struct thread {
 		#define FLG_THD_DEAD	0x0004
 		#define FLG_THD_WAIT	0x0008
 	size_t			size;					// Size of the thread stack (including this structure)
-	threadreturn_t	(*fn)(void *param);		// Thread function
+	gThreadreturn	(*fn)(void *param);		// Thread function
 	void *			param;					// Parameter for the thread function
 	void *			cxt;					// The current thread context.
 	} thread;
@@ -485,7 +485,7 @@ void gfxYield(void) {
 }
 
 // This routine is not currently public - but it could be.
-void gfxThreadExit(threadreturn_t ret) {
+void gfxThreadExit(gThreadreturn ret) {
 	thread	*me;
 
 	// Save the results in case someone is waiting
@@ -508,7 +508,7 @@ void gfxThreadExit(threadreturn_t ret) {
 	// We never get back here as we didn't re-queue ourselves
 }
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
 	thread *	t;
 	thread *	me;
 	(void)		prio;
@@ -543,7 +543,7 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_
 	return t;
 }
 
-threadreturn_t gfxThreadWait(gfxThreadHandle th) {
+gThreadreturn gfxThreadWait(gfxThreadHandle th) {
 	thread *		t;
 
 	t = th;
@@ -565,7 +565,7 @@ threadreturn_t gfxThreadWait(gfxThreadHandle th) {
 		gfxFree(t);
 
 	// Return the status left by the dead process
-	return (threadreturn_t)t->param;
+	return (gThreadreturn)t->param;
 }
 
 #endif /* GFX_USE_OS_RAW32 */

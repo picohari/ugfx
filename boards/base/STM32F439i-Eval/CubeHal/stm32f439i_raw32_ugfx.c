@@ -13,12 +13,12 @@
 	{
 	}
 
-	systemticks_t gfxSystemTicks(void)
+	gTicks gfxSystemTicks(void)
 	{
 		return HAL_GetTick();
 	}
 
-	systemticks_t gfxMillisecondsToTicks(delaytime_t ms)
+	gTicks gfxMillisecondsToTicks(gDelay ms)
 	{
 		return ms;
 	}

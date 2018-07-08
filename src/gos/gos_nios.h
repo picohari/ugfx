@@ -12,13 +12,13 @@
 
 #include <sys/alt_alarm.h>
 
-typedef alt_u32 systemticks_t;
-typedef alt_u32 delaytime_t;
+typedef alt_u32 gTicks;
+typedef alt_u32 gDelay;
 
 void gfxHalt(const char* msg);
 void gfxExit(void);
-systemticks_t gfxSystemTicks(void);
-systemticks_t gfxMillisecondsToTicks(delaytime_t ms);
+gTicks gfxSystemTicks(void);
+gTicks gfxMillisecondsToTicks(gDelay ms);
 
 // Use the generic thread handling and heap handling
 #define GOS_NEED_X_THREADS	GFXON

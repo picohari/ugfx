@@ -193,7 +193,7 @@
 	 *
 	 * @api
 	 */
-	gBool gaudioPlayWait(delaytime_t ms);
+	gBool gaudioPlayWait(gDelay ms);
 #endif
 
 #if GAUDIO_NEED_RECORD || defined(__DOXYGEN__)
@@ -260,7 +260,7 @@
 	 *
 	 * @api
 	 */
-	GDataBuffer *gaudioRecordGetData(delaytime_t ms);
+	GDataBuffer *gaudioRecordGetData(gDelay ms);
 
 	#if GFX_USE_GEVENT || defined(__DOXYGEN__)
 		/**

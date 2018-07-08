@@ -25,19 +25,19 @@
 
 #include <malloc.h>
 
-typedef DWORD				delaytime_t;
-typedef DWORD				systemticks_t;
-typedef LONG				semcount_t;
-typedef DWORD				threadreturn_t;
-typedef int					threadpriority_t;
+typedef DWORD				gDelay;
+typedef DWORD				gTicks;
+typedef LONG				gSemcount;
+typedef DWORD				gThreadreturn;
+typedef int					gThreadpriority;
 
-#define DECLARE_THREAD_FUNCTION(fnName, param)	threadreturn_t (WINAPI fnName)(void *param)
+#define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn (WINAPI fnName)(void *param)
 #define DECLARE_THREAD_STACK(name, sz)			uint8_t name[1];
 #define THREAD_RETURN(retval)					return retval
 
 #define TIME_IMMEDIATE				0
 #define TIME_INFINITE				INFINITE
-#define MAX_SEMAPHORE_COUNT			((semcount_t)(((unsigned long)((semcount_t)(-1))) >> 1))
+#define MAX_SEMAPHORE_COUNT			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
 #define LOW_PRIORITY				THREAD_PRIORITY_BELOW_NORMAL
 #define NORMAL_PRIORITY				THREAD_PRIORITY_NORMAL
 #define HIGH_PRIORITY				THREAD_PRIORITY_ABOVE_NORMAL
@@ -71,12 +71,12 @@ typedef HANDLE gfxThreadHandle;
 /*===========================================================================*/
 
 void gfxHalt(const char *msg);
-void gfxSleepMicroseconds(delaytime_t ms);
-gBool gfxSemWait(gfxSem *psem, delaytime_t ms);
+void gfxSleepMicroseconds(gDelay ms);
+gBool gfxSemWait(gfxSem *psem, gDelay ms);
 void gfxSystemLock(void);
 void gfxSystemUnlock(void);
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param);
-threadreturn_t gfxThreadWait(gfxThreadHandle thread);
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param);
+gThreadreturn gfxThreadWait(gfxThreadHandle thread);
 
 #endif /* GFX_USE_OS_WIN32 */
 #endif /* _GOS_WIN32_H */

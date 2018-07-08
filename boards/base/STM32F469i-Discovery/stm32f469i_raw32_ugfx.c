@@ -8,12 +8,12 @@
 #include "stm32f4xx_hal.h"
 
 #if !GFX_USE_OS_CHIBIOS
-	systemticks_t gfxSystemTicks(void)
+	gTicks gfxSystemTicks(void)
 	{
 		return HAL_GetTick();
 	}
 
-	systemticks_t gfxMillisecondsToTicks(delaytime_t ms)
+	gTicks gfxMillisecondsToTicks(gDelay ms)
 	{
 		return ms;
 	}

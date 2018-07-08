@@ -37,7 +37,7 @@ void gfxHalt(const char *msg) {
 	ExitProcess(1);
 }
 
-void gfxSleepMicroseconds(delaytime_t ms) {
+void gfxSleepMicroseconds(gDelay ms) {
     static LARGE_INTEGER pcfreq;
     static int initflag;
     LARGE_INTEGER t1, t2, tdiff;
@@ -74,7 +74,7 @@ void gfxSystemUnlock(void) {
 	ReleaseMutex(SystemMutex);
 }
 
-gBool gfxSemWait(gfxSem *psem, delaytime_t ms) {
+gBool gfxSemWait(gfxSem *psem, gDelay ms) {
 	return WaitForSingleObject(*psem, ms) == WAIT_OBJECT_0;
 }
 
@@ -87,7 +87,7 @@ typedef LONG (__stdcall *_NtQuerySemaphore)(
 );
 
 /* - Left here simply because of its undocumented cleverness...
-semcount_t gfxSemCounter(gfxSem *pSem) {
+gSemcount gfxSemCounter(gfxSem *pSem) {
 	static _NtQuerySemaphore NtQuerySemaphore;
 	struct _SEMAPHORE_BASIC_INFORMATION {
 	    ULONG CurrentCount;
@@ -103,7 +103,7 @@ semcount_t gfxSemCounter(gfxSem *pSem) {
 }
 */
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param) {
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param) {
 	(void)	stackarea;
 	HANDLE	thd;
 
@@ -116,7 +116,7 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_
 	return thd;
 }
 
-threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
+gThreadreturn gfxThreadWait(gfxThreadHandle thread) {
 	DWORD	ret;
 
 	WaitForSingleObject(thread, INFINITE);

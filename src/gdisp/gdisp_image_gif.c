@@ -1106,15 +1106,15 @@ baddatacleanup:
 	return GDISP_IMAGE_ERR_BADDATA;
 }
 
-delaytime_t gdispImageNext_GIF(gdispImage *img) {
+gDelay gdispImageNext_GIF(gdispImage *img) {
 	gdispImagePrivate_GIF *	priv;
-	delaytime_t				delay;
+	gDelay				delay;
 	uint8_t					blocksz;
 
 	priv = (gdispImagePrivate_GIF *)img->priv;
 
 	// Save the delay and convert to millisecs
-	delay = (delaytime_t)priv->frame.delay * 10;
+	delay = (gDelay)priv->frame.delay * 10;
 
 	// We need to get to the end of this frame
 	if (!priv->frame.posend) {

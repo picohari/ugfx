@@ -51,7 +51,7 @@ typedef struct GMouse {
 			#define GMOUSE_FLG_NEEDREAD			0x0040				// The mouse needs reading
 			#define GMOUSE_FLG_DRIVER_FIRST		0x0100				// The first flag available for the driver
 	gPoint								clickpos;			// The position of the last click event
-	systemticks_t						clicktime;			// The time of the last click event
+	gTicks						clicktime;			// The time of the last click event
 	GDisplay *							display;			// The display the mouse is associated with
 	#if !GINPUT_TOUCH_NOCALIBRATE
 		GMouseCalibration				caldata;			// The calibration data

@@ -22,7 +22,7 @@ static gfxMutex			mutex;
 static gfxThreadHandle	hThread = 0;
 static GTimer			*pTimerHead = 0;
 static gfxSem			waitsem;
-static systemticks_t	ticks2ms;
+static gTicks	ticks2ms;
 static DECLARE_THREAD_STACK(waTimerThread, GTIMER_THREAD_WORKAREA_SIZE);
 
 /*===========================================================================*/
@@ -31,9 +31,9 @@ static DECLARE_THREAD_STACK(waTimerThread, GTIMER_THREAD_WORKAREA_SIZE);
 
 static DECLARE_THREAD_FUNCTION(GTimerThreadHandler, arg) {
 	GTimer			*pt;
-	systemticks_t	tm;
-	systemticks_t	nxtTimeout;
-	systemticks_t	lastTime;
+	gTicks	tm;
+	gTicks	nxtTimeout;
+	gTicks	lastTime;
 	GTimerFunction	fn;
 	void			*param;
 	(void)			arg;
@@ -136,7 +136,7 @@ void gtimerDeinit(GTimer* pt)
 	gtimerStop(pt);
 }
 
-void gtimerStart(GTimer *pt, GTimerFunction fn, void *param, gBool periodic, delaytime_t millisec) {
+void gtimerStart(GTimer *pt, GTimerFunction fn, void *param, gBool periodic, gDelay millisec) {
 	gfxMutexEnter(&mutex);
 	
 	// Start our thread if not already going

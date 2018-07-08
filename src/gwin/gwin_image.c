@@ -37,7 +37,7 @@ static void ImageRedraw(GHandle gh) {
 	gCoord		x, y, w, h, dx, dy;
 	gColor		bg;
 	#if GWIN_NEED_IMAGE_ANIMATION
-		delaytime_t	delay;
+		gDelay	delay;
 	#endif
 
 	// The default display area

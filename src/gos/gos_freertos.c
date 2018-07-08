@@ -85,12 +85,12 @@ void* gfxRealloc(void *ptr, size_t oldsz, size_t newsz)
 	return np;
 }
 
-void gfxSleepMilliseconds(delaytime_t ms)
+void gfxSleepMilliseconds(gDelay ms)
 {
 	vTaskDelay(gfxMillisecondsToTicks(ms));
 }
 
-void gfxSleepMicroseconds(delaytime_t ms)
+void gfxSleepMicroseconds(gDelay ms)
 {
 
 	// delay milli seconds - microsecond resolution delay is not supported in FreeRTOS
@@ -106,7 +106,7 @@ void gfxMutexInit(gfxMutex *pmutex)
 	#endif
 }
 
-void gfxSemInit(gfxSem* psem, semcount_t val, semcount_t limit)
+void gfxSemInit(gfxSem* psem, gSemcount val, gSemcount limit)
 {
 	if (val > limit)
 		val = limit;
@@ -117,7 +117,7 @@ void gfxSemInit(gfxSem* psem, semcount_t val, semcount_t limit)
 	#endif
 }
 
-gBool gfxSemWait(gfxSem* psem, delaytime_t ms)
+gBool gfxSemWait(gfxSem* psem, gDelay ms)
 {
 	if (xSemaphoreTake(*psem, gfxMillisecondsToTicks(ms)) == pdPASS)
 		return gTrue;
@@ -146,7 +146,7 @@ void gfxSemSignalI(gfxSem* psem)
 	xSemaphoreGiveFromISR(*psem,&xHigherPriorityTaskWoken);
 }
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
 	gfxThreadHandle task;
 	(void) stackarea;
@@ -165,7 +165,7 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_
 }
 
 #if INCLUDE_eTaskGetState == 1
-	threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
+	gThreadreturn gfxThreadWait(gfxThreadHandle thread) {
 		while (eTaskGetState(thread) != eDeleted)
 			gfxYield();
 	}

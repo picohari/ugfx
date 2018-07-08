@@ -198,7 +198,7 @@ gdispImageError gdispGImageDraw_JPG(GDisplay *g, gdispImage *img, gCoord x, gCoo
     return GDISP_IMAGE_ERR_OK;
 }
 
-delaytime_t gdispImageNext_JPG(gdispImage *img) {
+gDelay gdispImageNext_JPG(gdispImage *img) {
 	(void) img;
 
 	/* No more frames/pages */

@@ -140,7 +140,7 @@ gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, gCoord x, g
 	return GDISP_IMAGE_ERR_OK;
 }
 
-delaytime_t gdispImageNext_NATIVE(gdispImage *img) {
+gDelay gdispImageNext_NATIVE(gdispImage *img) {
 	(void) img;
 
 	/* No more frames/pages */

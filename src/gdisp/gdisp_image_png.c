@@ -1621,7 +1621,7 @@ baddata:
 	return GDISP_IMAGE_ERR_BADDATA;
 }
 
-delaytime_t gdispImageNext_PNG(gdispImage *img) {
+gDelay gdispImageNext_PNG(gdispImage *img) {
 	(void) img;
 
 	/* No more frames/pages */

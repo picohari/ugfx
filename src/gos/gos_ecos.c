@@ -32,7 +32,7 @@ void _gosDeinit(void)
 	/* ToDo */
 }
 
-void gfxSleepMilliseconds(delaytime_t ms)
+void gfxSleepMilliseconds(gDelay ms)
 {
 	switch(ms) {
 		case TIME_IMMEDIATE:	cyg_thread_yield();								return;
@@ -41,7 +41,7 @@ void gfxSleepMilliseconds(delaytime_t ms)
 	}
 }
 
-void gfxSleepMicroseconds(delaytime_t ms)
+void gfxSleepMicroseconds(gDelay ms)
 {
 	switch(ms) {
 		case TIME_IMMEDIATE:														return;
@@ -50,7 +50,7 @@ void gfxSleepMicroseconds(delaytime_t ms)
 	}
 }
 
-void gfxSemInit(gfxSem *psem, semcount_t val, semcount_t limit)
+void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit)
 {
 	if (val > limit)
 		val = limit;
@@ -64,7 +64,7 @@ void gfxSemDestroy(gfxSem *psem)
 	cyg_semaphore_destroy(&psem->sem);
 }
 
-gBool gfxSemWait(gfxSem *psem, delaytime_t ms)
+gBool gfxSemWait(gfxSem *psem, gDelay ms)
 {
 	switch(ms) {
 	case TIME_IMMEDIATE:	return cyg_semaphore_trywait(&psem->sem);
@@ -96,7 +96,7 @@ void gfxSemSignalI(gfxSem *psem)
 		cyg_semaphore_post(&psem->sem);
 }
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
 	gfxThreadHandle		th;
 

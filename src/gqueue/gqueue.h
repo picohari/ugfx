@@ -133,9 +133,9 @@ void gfxQueueFSyncDeinit(gfxQueueFSync *pqueue);
  */
 gfxQueueASyncItem *gfxQueueASyncGet(gfxQueueASync *pqueue);
 gfxQueueASyncItem *gfxQueueASyncGetI(gfxQueueASync *pqueue);
-gfxQueueGSyncItem *gfxQueueGSyncGet(gfxQueueGSync *pqueue, delaytime_t ms);
+gfxQueueGSyncItem *gfxQueueGSyncGet(gfxQueueGSync *pqueue, gDelay ms);
 gfxQueueGSyncItem *gfxQueueGSyncGetI(gfxQueueGSync *pqueue);
-gfxQueueFSyncItem *gfxQueueFSyncGet(gfxQueueFSync *pqueue, delaytime_t ms);
+gfxQueueFSyncItem *gfxQueueFSyncGet(gfxQueueFSync *pqueue, gDelay ms);
 /** @} */
 
 /**
@@ -159,7 +159,7 @@ void gfxQueueASyncPut(gfxQueueASync *pqueue, gfxQueueASyncItem *pitem);
 void gfxQueueASyncPutI(gfxQueueASync *pqueue, gfxQueueASyncItem *pitem);
 void gfxQueueGSyncPut(gfxQueueGSync *pqueue, gfxQueueGSyncItem *pitem);
 void gfxQueueGSyncPutI(gfxQueueGSync *pqueue, gfxQueueGSyncItem *pitem);
-gBool gfxQueueFSyncPut(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, delaytime_t ms);
+gBool gfxQueueFSyncPut(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gDelay ms);
 /** @} */
 
 /**
@@ -197,7 +197,7 @@ void gfxQueueASyncPush(gfxQueueASync *pqueue, gfxQueueASyncItem *pitem);
 void gfxQueueASyncPushI(gfxQueueASync *pqueue, gfxQueueASyncItem *pitem);
 void gfxQueueGSyncPush(gfxQueueGSync *pqueue, gfxQueueGSyncItem *pitem);
 void gfxQueueGSyncPushI(gfxQueueGSync *pqueue, gfxQueueGSyncItem *pitem);
-gBool gfxQueueFSyncPush(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, delaytime_t ms);
+gBool gfxQueueFSyncPush(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gDelay ms);
 /** @} */
 
 /**
@@ -223,7 +223,7 @@ void gfxQueueASyncInsert(gfxQueueASync *pqueue, gfxQueueASyncItem *pitem, gfxQue
 void gfxQueueASyncInsertI(gfxQueueASync *pqueue, gfxQueueASyncItem *pitem, gfxQueueASyncItem *pafter);
 void gfxQueueGSyncInsert(gfxQueueGSync *pqueue, gfxQueueGSyncItem *pitem, gfxQueueASyncItem *pafter);
 void gfxQueueGSyncInsertI(gfxQueueGSync *pqueue, gfxQueueGSyncItem *pitem, gfxQueueASyncItem *pafter);
-gBool gfxQueueFSyncInsert(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gfxQueueASyncItem *pafter, delaytime_t ms);
+gBool gfxQueueFSyncInsert(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gfxQueueASyncItem *pafter, gDelay ms);
 /** @} */
 
 /**
@@ -376,7 +376,7 @@ gBool gfxBufferIsAvailable(void);
  * @api
  * @{
  */
-GDataBuffer *gfxBufferGet(delaytime_t ms);
+GDataBuffer *gfxBufferGet(gDelay ms);
 GDataBuffer *gfxBufferGetI(void);
 /** @} */
 

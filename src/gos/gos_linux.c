@@ -60,7 +60,7 @@ void gfxHalt(const char *msg) {
 	exit(1);
 }
 
-void gfxSleepMilliseconds(delaytime_t ms) {
+void gfxSleepMilliseconds(gDelay ms) {
 	struct timespec	ts;
 
 	switch(ms) {
@@ -81,7 +81,7 @@ void gfxSleepMilliseconds(delaytime_t ms) {
 	}
 }
 
-void gfxSleepMicroseconds(delaytime_t us) {
+void gfxSleepMicroseconds(gDelay us) {
 	struct timespec	ts;
 
 	switch(us) {
@@ -102,14 +102,14 @@ void gfxSleepMicroseconds(delaytime_t us) {
 	}
 }
 
-systemticks_t gfxSystemTicks(void) {
+gTicks gfxSystemTicks(void) {
 	struct timespec	ts;
 
 	clock_gettime(CLOCK_MONOTONIC, &ts);
 	return ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
 }
 
-gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
+gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
 	gfxThreadHandle		th;
 	(void)				stackarea;
 	(void)				stacksz;
@@ -128,8 +128,8 @@ gfxThreadHandle gfxThreadCreate(void *stackarea, size_t stacksz, threadpriority_
 	return th;
 }
 
-threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
-	threadreturn_t	retval;
+gThreadreturn gfxThreadWait(gfxThreadHandle thread) {
+	gThreadreturn	retval;
 
 	if (pthread_join(thread, &retval))
 		return 0;
@@ -138,14 +138,14 @@ threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
 }
 
 #if GFX_USE_POSIX_SEMAPHORES
-	void gfxSemInit(gfxSem *pSem, semcount_t val, semcount_t limit) {
+	void gfxSemInit(gfxSem *pSem, gSemcount val, gSemcount limit) {
 		pSem->max = limit;
 		sem_init(&pSem->sem, 0, val);
 	}
 	void gfxSemDestroy(gfxSem *pSem) {
 		sem_destroy(&pSem->sem);
 	}
-	gBool gfxSemWait(gfxSem *pSem, delaytime_t ms) {
+	gBool gfxSemWait(gfxSem *pSem, gDelay ms) {
 		switch (ms) {
 		case TIME_INFINITE:
 			return sem_wait(&pSem->sem) ? gFalse : gTrue;
@@ -173,7 +173,7 @@ threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
 			sem_post(&pSem->sem);
 	}
 #else
-	void gfxSemInit(gfxSem *pSem, semcount_t val, semcount_t limit) {
+	void gfxSemInit(gfxSem *pSem, gSemcount val, gSemcount limit) {
 		pthread_mutex_init(&pSem->mtx, 0);
 		pthread_cond_init(&pSem->cond, 0);
 		pthread_mutex_lock(&pSem->mtx);
@@ -185,7 +185,7 @@ threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
 		pthread_mutex_destroy(&pSem->mtx);
 		pthread_cond_destroy(&pSem->cond);
 	}
-	gBool gfxSemWait(gfxSem *pSem, delaytime_t ms) {
+	gBool gfxSemWait(gfxSem *pSem, gDelay ms) {
 		pthread_mutex_lock(&pSem->mtx);
 
 		switch (ms) {

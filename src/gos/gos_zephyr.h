@@ -16,14 +16,14 @@
 /* Type definitions                                                          */
 /*===========================================================================*/
 
-typedef s32_t 	delaytime_t;
-typedef u32_t	systemticks_t;
-typedef u32_t	semcount_t;
-typedef void	threadreturn_t;
-typedef int	threadpriority_t;
+typedef s32_t 	gDelay;
+typedef u32_t	gTicks;
+typedef u32_t	gSemcount;
+typedef void	gThreadreturn;
+typedef int	gThreadpriority;
 
 #define DECLARE_THREAD_FUNCTION(fnName, param)\
-	threadreturn_t fnName(void* param, void* p2, void* p3)
+	gThreadreturn fnName(void* param, void* p2, void* p3)
 
 #define DECLARE_THREAD_STACK(name, sz)\
 	K_THREAD_STACK_DEFINE(name, sz)
@@ -32,7 +32,7 @@ typedef int	threadpriority_t;
 
 #define TIME_IMMEDIATE			K_NO_WAIT
 #define TIME_INFINITE			K_FOREVER
-#define MAX_SEMAPHORE_COUNT		((semcount_t)(((unsigned long)((semcount_t)(-1))) >> 1))
+#define MAX_SEMAPHORE_COUNT		((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
 #define LOW_PRIORITY			CONFIG_NUM_PREEMPT_PRIORITIES-1
 #define NORMAL_PRIORITY			1
 #define HIGH_PRIORITY			0
@@ -59,7 +59,7 @@ typedef k_tid_t gfxThreadHandle;
 #define gfxSleepMilliseconds(ms)		k_sleep(ms)
 #define gfxSleepMicroseconds(us)		do{}while(0)
 #define gfxMillisecondsToTicks(ms)		CONFIG_SYS_CLOCK_TICKS_PER_SEC*ms/1000
-systemticks_t gfxSystemTicks();
+gTicks gfxSystemTicks();
 
 #define gfxSystemLock()					k_sched_lock()
 #define gfxSystemUnlock()				k_sched_unlock()

@@ -27,11 +27,11 @@
 
 #define TIME_IMMEDIATE		0
 #define TIME_INFINITE		osWaitForever
-typedef uint32_t			delaytime_t;
-typedef uint32_t			systemticks_t;
-typedef uint16_t			semcount_t;
-typedef void				threadreturn_t;
-typedef osPriority			threadpriority_t;
+typedef uint32_t			gDelay;
+typedef uint32_t			gTicks;
+typedef uint16_t			gSemcount;
+typedef void				gThreadreturn;
+typedef osPriority			gThreadpriority;
 
 #define MAX_SEMAPHORE_COUNT	osFeature_Semaphore
 #define LOW_PRIORITY		osPriorityLow
@@ -41,7 +41,7 @@ typedef osPriority			threadpriority_t;
 typedef struct gfxSem {
 	uint32_t		semaphore[2];
 	osSemaphoreId	id;
-	semcount_t		available;
+	gSemcount		available;
 } gfxSem;
 
 typedef struct gfxMutex {
@@ -52,7 +52,7 @@ typedef struct gfxMutex {
 typedef osThreadId			gfxThreadHandle;
 
 #define DECLARE_THREAD_STACK(name, sz)			uint8_t name[1];	// Some compilers don't allow zero sized arrays. Let's waste one byte
-#define DECLARE_THREAD_FUNCTION(fnName, param)	threadreturn_t fnName(void* param)
+#define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void* param)
 #define THREAD_RETURN(retval)
 
 /*===========================================================================*/
@@ -72,14 +72,14 @@ void gfxMutexInit(gfxMutex* pmutex);
 #define gfxMutexEnter(pmutex)		osMutexWait((pmutex)->id, TIME_INFINITE)
 #define gfxMutexExit(pmutex)		osMutexRelease((pmutex)->id)
 
-void gfxSemInit(gfxSem* psem, semcount_t val, semcount_t limit);
+void gfxSemInit(gfxSem* psem, gSemcount val, gSemcount limit);
 void gfxSemDestroy(gfxSem* psem);
-gBool gfxSemWait(gfxSem* psem, delaytime_t ms);
+gBool gfxSemWait(gfxSem* psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem* psem);
 void gfxSemSignal(gfxSem* psem);
 void gfxSemSignalI(gfxSem* psem);
 
-gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param);
+gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param);
 #define gfxYield()					osThreadYield()
 #define gfxThreadMe()				osThreadGetId()
 #define gfxThreadClose(thread)		{}

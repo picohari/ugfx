@@ -17,8 +17,8 @@
  * 		malloc(), realloc and free()	- if GOS_RAW_HEAP_SIZE == 0
  *
  * 	You must also define the following routines in your own code so that timing functions will work...
- * 		systemticks_t gfxSystemTicks(void);
- *		systemticks_t gfxMillisecondsToTicks(delaytime_t ms);
+ * 		gTicks gfxSystemTicks(void);
+ *		gTicks gfxMillisecondsToTicks(gDelay ms);
  */
 #ifndef _GOS_ARDUINO_H
 #define _GOS_ARDUINO_H

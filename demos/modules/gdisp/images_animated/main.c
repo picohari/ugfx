@@ -55,7 +55,7 @@ static gdispImage myImage;
  */
 int main(void) {
 	gCoord			swidth, sheight, errx, erry, errcx, errcy;
-	delaytime_t		delay;
+	gDelay		delay;
 
 	gfxInit();		// Initialize the display
 

@@ -64,19 +64,19 @@ void gfxMutexInit(gfxMutex* pmutex)
 	*pmutex = osMutexNew(NULL);
 }
 
-void gfxSemInit(gfxSem* psem, semcount_t val, semcount_t limit)
+void gfxSemInit(gfxSem* psem, gSemcount val, gSemcount limit)
 {
 	*psem = osSemaphoreNew(limit, val, NULL);
 }
 
-gBool gfxSemWait(gfxSem* psem, delaytime_t ms)
+gBool gfxSemWait(gfxSem* psem, gDelay ms)
 {
 	if (osSemaphoreAcquire(*psem, gfxMillisecondsToTicks(ms)) == osOK)
 		return gTrue;
 	return gFalse;
 }
 
-gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, threadpriority_t prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)
+gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)
 {
 	osThreadAttr_t def;
 
@@ -93,7 +93,7 @@ gfxThreadHandle gfxThreadCreate(void* stackarea, size_t stacksz, threadpriority_
 	return osThreadNew((osThreadFunc_t)fn, param, &def);
 }
 
-threadreturn_t gfxThreadWait(gfxThreadHandle thread) {
+gThreadreturn gfxThreadWait(gfxThreadHandle thread) {
 	while(1) {
 		switch(osThreadGetState(thread)) {
 		case osThreadReady:

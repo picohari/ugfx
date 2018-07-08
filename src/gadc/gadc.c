@@ -224,7 +224,7 @@ void gadcHighSpeedSetISRCallback(GADCISRCallbackFunction isrfn) {
 	hsISRcallback = isrfn;
 }
 
-GDataBuffer *gadcHighSpeedGetData(delaytime_t ms) {
+GDataBuffer *gadcHighSpeedGetData(gDelay ms) {
 	return (GDataBuffer *)gfxQueueGSyncGet(&hsListDone, ms);
 }
 

@@ -78,8 +78,8 @@ const int       tetrisShapes[TETRIS_SHAPE_COUNT][4][2]                = {
 int             tetrisField[TETRIS_FIELD_HEIGHT][TETRIS_FIELD_WIDTH];        // main tetris field array
 unsigned int    tetrisGameSpeed                                       = 500; // game auto-move speed in ms
 unsigned int    tetrisKeySpeed                                        = 140; // game key repeat speed in ms
-systemticks_t   tetrisPreviousGameTime                                = 0;
-systemticks_t   tetrisPreviousKeyTime                                 = 0;
+gTicks   tetrisPreviousGameTime                                = 0;
+gTicks   tetrisPreviousKeyTime                                 = 0;
 int             tetrisCurrentShape[4][2];
 int             tetrisNextShape[4][2];
 int             tetrisOldShape[4][2];
@@ -474,7 +474,7 @@ static DECLARE_THREAD_FUNCTION(thdTetris, arg) {
       tetrisPreviousKeyTime = gfxSystemTicks();
     }
   }
-  return (threadreturn_t)0;
+  return (gThreadreturn)0;
 }
 
 static void tetrisDeinit(void) {
