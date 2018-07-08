@@ -3340,21 +3340,21 @@ void gdispGDrawBox(GDisplay *g, coord_t x, coord_t y, coord_t cx, coord_t cy, co
 
 	/* Callback to render string boxes with word wrap. */
 	#if GDISP_NEED_TEXT_WORDWRAP
-		static bool mf_countline_callback(mf_str line, uint16_t count, void *state) {
+		static gBool mf_countline_callback(mf_str line, uint16_t count, void *state) {
 			(void) line;
 			(void) count;
 
 			((coord_t*)state)[0]++;
 			return gTrue;
 		}
-		static bool mf_drawline_callback(mf_str line, uint16_t count, void *state) {
+		static gBool mf_drawline_callback(mf_str line, uint16_t count, void *state) {
 			#define GD	((GDisplay *)state)
 				mf_render_aligned(GD->t.font, GD->t.wrapx, GD->t.wrapy, GD->t.lrj, line, count, drawcharglyph, state);
 				GD->t.wrapy += GD->t.font->line_height;
 			#undef GD
 			return gTrue;
 		}
-		static bool mf_fillline_callback(mf_str line, uint16_t count, void *state) {
+		static gBool mf_fillline_callback(mf_str line, uint16_t count, void *state) {
 			#define GD	((GDisplay *)state)
 				mf_render_aligned(GD->t.font, GD->t.wrapx, GD->t.wrapy, GD->t.lrj, line, count, fillcharglyph, state);
 				GD->t.wrapy += GD->t.font->line_height;
