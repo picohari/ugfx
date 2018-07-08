@@ -55,7 +55,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 #endif
 
 #if GDISP_HARDWARE_PIXELREAD
-    color_t gdisp_lld_get_pixel_color(GDisplay *g)
+    gColor gdisp_lld_get_pixel_color(GDisplay *g)
     {
         return qimage_getPixel(g);
 	}

@@ -30,8 +30,8 @@ static const gwinVMT basegwinVMT = {
 		0,						// The after-clear routine
 };
 
-static color_t	defaultFgColor = GFX_WHITE;
-static color_t	defaultBgColor = GFX_BLACK;
+static gColor	defaultFgColor = GFX_WHITE;
+static gColor	defaultBgColor = GFX_BLACK;
 #if GDISP_NEED_TEXT
 	static font_t	defaultFont;
 #endif
@@ -161,19 +161,19 @@ void gwinClearInit(GWindowInit *pwi) {
 		*p++ = 0;
 }
 
-void gwinSetDefaultColor(color_t clr) {
+void gwinSetDefaultColor(gColor clr) {
 	defaultFgColor = clr;
 }
 
-color_t gwinGetDefaultColor(void) {
+gColor gwinGetDefaultColor(void) {
 	return defaultFgColor;
 }
 
-void gwinSetDefaultBgColor(color_t bgclr) {
+void gwinSetDefaultBgColor(gColor bgclr) {
 	defaultBgColor = bgclr;
 }
 
-color_t gwinGetDefaultBgColor(void) {
+gColor gwinGetDefaultBgColor(void) {
 	return defaultBgColor;
 }
 
@@ -338,8 +338,8 @@ void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord s
 #endif
 
 #if GDISP_NEED_PIXELREAD
-	color_t gwinGetPixelColor(GHandle gh, gCoord x, gCoord y) {
-		if (!_gwinDrawStart(gh)) return (color_t)0;
+	gColor gwinGetPixelColor(GHandle gh, gCoord x, gCoord y) {
+		if (!_gwinDrawStart(gh)) return (gColor)0;
 		return gdispGGetPixelColor(gh->display, gh->x+x, gh->y+y);
 		_gwinDrawEnd(gh);
 	}

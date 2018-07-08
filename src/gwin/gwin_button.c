@@ -184,7 +184,7 @@ static const GColorSet *getButtonColors(GWidgetObject *gw) {
 		fixed				alpha;
 		fixed				dalpha;
 		gCoord				i;
-		color_t				tcol, bcol;
+		gColor				tcol, bcol;
 
 		(void)				param;
 

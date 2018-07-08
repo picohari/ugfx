@@ -48,8 +48,8 @@ typedef struct GWindowObject {
 	gCoord					y;					/**< The position relative to the screen */
 	gCoord					width;				/**< The width of this window */
 	gCoord					height;				/**< The height of this window */
-	color_t					color;				/**< The current foreground drawing color */
-	color_t					bgcolor;			/**< The current background drawing color */
+	gColor					color;				/**< The current foreground drawing color */
+	gColor					bgcolor;			/**< The current background drawing color */
 	uint32_t				flags;				/**< Window flags (the meaning is private to the GWIN class) */
 	#if GDISP_NEED_TEXT
 		font_t				font;				/**< The current font */
@@ -137,7 +137,7 @@ void gwinClearInit(GWindowInit *pwi);
  *
  * @api
  */
-void gwinSetDefaultColor(color_t clr);
+void gwinSetDefaultColor(gColor clr);
 
 /**
  * @brief	Get the default foreground color for all new GWIN windows
@@ -146,7 +146,7 @@ void gwinSetDefaultColor(color_t clr);
  *
  * @api
  */
-color_t gwinGetDefaultColor(void);
+gColor gwinGetDefaultColor(void);
 
 /**
  * @brief	Set the default background color for all new GWIN windows
@@ -155,7 +155,7 @@ color_t gwinGetDefaultColor(void);
  *
  * @api
  */
-void gwinSetDefaultBgColor(color_t bgclr);
+void gwinSetDefaultBgColor(gColor bgclr);
 
 /**
  * @brief	Get the default background color for all new GWIN windows
@@ -164,7 +164,7 @@ void gwinSetDefaultBgColor(color_t bgclr);
  *
  * @api
  */
-color_t gwinGetDefaultBgColor(void);
+gColor gwinGetDefaultBgColor(void);
 
 #if GDISP_NEED_TEXT || defined(__DOXYGEN__)
 	/**
@@ -871,7 +871,7 @@ void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord s
 	 *
 	 * @api
 	 */
-	color_t gwinGetPixelColor(GHandle gh, gCoord x, gCoord y);
+	gColor gwinGetPixelColor(GHandle gh, gCoord x, gCoord y);
 #endif
 
 /*-------------------------------------------------

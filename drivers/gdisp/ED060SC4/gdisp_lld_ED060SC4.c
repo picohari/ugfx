@@ -581,7 +581,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
  * =============================== */
 
 #if GDISP_HARDWARE_CLEARS
-	static void subclear(GDisplay *g, color_t color) {
+	static void subclear(GDisplay *g, gColor color) {
 		unsigned x, y;
 		uint8_t byte;
 

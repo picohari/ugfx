@@ -43,7 +43,7 @@ typedef struct gifimgdecode {
 	uint16_t	code_max;
 	uint16_t	code_last;
 	uint32_t	shiftdata;
-	color_t *	palette;
+	gColor *	palette;
 	uint8_t		buf[GDISP_IMAGE_GIF_BLIT_BUFFER_SIZE];					// Buffer for decoded pixels
 	uint16_t	prefix[1<<GIF_MAX_CODE_BITS];				// The LZW table
     uint8_t		suffix[1<<GIF_MAX_CODE_BITS]; 				// So we can trace the codes
@@ -71,7 +71,7 @@ typedef struct gifimgframe {
 // The data for a cache
 typedef struct gifimgcache {
 	gifimgframe			frame;
-	color_t *			palette;						// Local palette
+	gColor *			palette;						// Local palette
 	uint8_t *			imagebits;						// Image bits - only saved when caching
 	struct gifimgcache *next;							// Next cached frame
 } gifimgcache;
@@ -114,7 +114,7 @@ static gdispImageError startDecodeGif(gdispImage *img) {
 	priv = (gdispImagePrivate_GIF *)img->priv;
 
 	// We need the decode ram, and possibly a palette
-	if (!(decode = (gifimgdecode *)gdispImageAlloc(img, sizeof(gifimgdecode)+priv->frame.palsize*sizeof(color_t))))
+	if (!(decode = (gifimgdecode *)gdispImageAlloc(img, sizeof(gifimgdecode)+priv->frame.palsize*sizeof(gColor))))
 		return GDISP_IMAGE_ERR_NOMEMORY;
 
 	// We currently have not read any image data block
@@ -124,7 +124,7 @@ static gdispImageError startDecodeGif(gdispImage *img) {
 	if (priv->frame.palsize) {
 		// Local palette
 		decode->maxpixel = priv->frame.palsize-1;
-		decode->palette = (color_t *)(decode+1);
+		decode->palette = (gColor *)(decode+1);
 		gfileSetPos(img->f, priv->frame.pospal);
 		for(cnt = 0; cnt < priv->frame.palsize; cnt++) {
 			if (gfileRead(img->f, &decode->buf, 3) != 3)
@@ -161,7 +161,7 @@ static gdispImageError startDecodeGif(gdispImage *img) {
 	return GDISP_IMAGE_ERR_OK;
 
 baddatacleanup:
-	gdispImageFree(img, decode, sizeof(gifimgdecode)+priv->frame.palsize*sizeof(color_t));
+	gdispImageFree(img, decode, sizeof(gifimgdecode)+priv->frame.palsize*sizeof(gColor));
 	return GDISP_IMAGE_ERR_BADDATA;
 }
 
@@ -177,7 +177,7 @@ static void stopDecodeGif(gdispImage *img) {
 
 	// Free the decode data
 	if (priv->decode) {
-		gdispImageFree(img, (void *)priv->decode, sizeof(gifimgdecode)+priv->frame.palsize*sizeof(color_t));
+		gdispImageFree(img, (void *)priv->decode, sizeof(gifimgdecode)+priv->frame.palsize*sizeof(gColor));
 		priv->decode = 0;
 	}
 }
@@ -504,11 +504,11 @@ void gdispImageClose_GIF(gdispImage *img) {
 		cache = priv->cache;
 		while(cache) {
 			ncache = cache->next;
-			gdispImageFree(img, (void *)cache, sizeof(gifimgcache)+cache->frame.width*cache->frame.height+cache->frame.palsize*sizeof(color_t));
+			gdispImageFree(img, (void *)cache, sizeof(gifimgcache)+cache->frame.width*cache->frame.height+cache->frame.palsize*sizeof(gColor));
 			cache = ncache;
 		}
 		if (priv->palette)
-			gdispImageFree(img, (void *)priv->palette, priv->palsize*sizeof(color_t));
+			gdispImageFree(img, (void *)priv->palette, priv->palsize*sizeof(gColor));
 		gdispImageFree(img, (void *)priv, sizeof(gdispImagePrivate_GIF));
 		img->priv = 0;
 	}
@@ -559,7 +559,7 @@ gdispImageError gdispImageOpen_GIF(gdispImage *img) {
 		// Global color table
 		priv->palsize = 2 << (((uint8_t *)priv->buf)[4] & 0x07);
 		// Allocate the global palette
-		if (!(priv->palette = (color_t *)gdispImageAlloc(img, priv->palsize*sizeof(color_t))))
+		if (!(priv->palette = (gColor *)gdispImageAlloc(img, priv->palsize*sizeof(gColor))))
 			goto nomemcleanup;
 		// Read the global palette
 		for(aword = 0; aword < priv->palsize; aword++) {
@@ -610,13 +610,13 @@ gdispImageError gdispImageCache_GIF(gdispImage *img) {
 		return GDISP_IMAGE_ERR_OK;
 
 	/* We need to allocate the frame, the palette and bits for the image */
-	if (!(cache = (gifimgcache *)gdispImageAlloc(img, sizeof(gifimgcache) + priv->frame.palsize*sizeof(color_t) + priv->frame.width*priv->frame.height)))
+	if (!(cache = (gifimgcache *)gdispImageAlloc(img, sizeof(gifimgcache) + priv->frame.palsize*sizeof(gColor) + priv->frame.width*priv->frame.height)))
 		return GDISP_IMAGE_ERR_NOMEMORY;
 
 	/* Initialise the cache */
 	decode = 0;
 	cache->frame = priv->frame;
-	cache->imagebits = (uint8_t *)(cache+1) + cache->frame.palsize*sizeof(color_t);
+	cache->imagebits = (uint8_t *)(cache+1) + cache->frame.palsize*sizeof(gColor);
 	cache->next = 0;
 
 	/* Start the decode */
@@ -630,7 +630,7 @@ gdispImageError gdispImageCache_GIF(gdispImage *img) {
 
 	// Save the palette
 	if (cache->frame.palsize) {
-		cache->palette = (color_t *)(cache+1);
+		cache->palette = (gColor *)(cache+1);
 
 		/* Copy the local palette into the cache */
 		for(cnt = 0; cnt < cache->frame.palsize; cnt++)
@@ -757,12 +757,12 @@ gdispImageError gdispImageCache_GIF(gdispImage *img) {
 
 nomemcleanup:
 	stopDecodeGif(img);
-	gdispImageFree(img, cache, sizeof(gifimgcache) + priv->frame.palsize*sizeof(color_t) + priv->frame.width*priv->frame.height);
+	gdispImageFree(img, cache, sizeof(gifimgcache) + priv->frame.palsize*sizeof(gColor) + priv->frame.width*priv->frame.height);
 	return GDISP_IMAGE_ERR_NOMEMORY;
 
 baddatacleanup:
 	stopDecodeGif(img);
-	gdispImageFree(img, cache, sizeof(gifimgcache) + priv->frame.palsize*sizeof(color_t) + priv->frame.width*priv->frame.height);
+	gdispImageFree(img, cache, sizeof(gifimgcache) + priv->frame.palsize*sizeof(gColor) + priv->frame.width*priv->frame.height);
 	return GDISP_IMAGE_ERR_BADDATA;
 }
 

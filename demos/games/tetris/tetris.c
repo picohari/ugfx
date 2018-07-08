@@ -63,7 +63,7 @@ E     C
    D
 */
 const uint8_t   sevenSegNumbers[10]                                   = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F}; // 0,1,2,3,4,5,6,7,8,9
-const color_t   tetrisShapeColors[9]                                  = {GFX_BLACK, HTML2COLOR(0x009000), GFX_RED, GFX_BLUE, GFX_MAGENTA, GFX_SKYBLUE, GFX_ORANGE, HTML2COLOR(0xBBBB00), GFX_WHITE}; // shape colors
+const gColor   tetrisShapeColors[9]                                  = {GFX_BLACK, HTML2COLOR(0x009000), GFX_RED, GFX_BLUE, GFX_MAGENTA, GFX_SKYBLUE, GFX_ORANGE, HTML2COLOR(0xBBBB00), GFX_WHITE}; // shape colors
 // default tetris shapes
 const int       tetrisShapes[TETRIS_SHAPE_COUNT][4][2]                = {
                                                                           {{4, 17},{4, 16},{5, 16},{4, 15}},
@@ -143,7 +143,7 @@ static int uitoa(unsigned int value, char * buf, int max) {
   return n;
 }
 
-static void sevenSegDraw(int x, int y, uint8_t number, color_t color) {
+static void sevenSegDraw(int x, int y, uint8_t number, gColor color) {
   if (number & 0x01) gdispFillArea(x+SEVEN_SEG_HEIGHT+SEVEN_SEG_SIZE, y, SEVEN_SEG_WIDTH, SEVEN_SEG_HEIGHT, color); // A
   if (number & 0x02) gdispFillArea(x+SEVEN_SEG_HEIGHT+(SEVEN_SEG_SIZE*2)+SEVEN_SEG_WIDTH, y+SEVEN_SEG_HEIGHT+SEVEN_SEG_SIZE, SEVEN_SEG_HEIGHT, SEVEN_SEG_WIDTH, color); // B
   if (number & 0x04) gdispFillArea(x+SEVEN_SEG_HEIGHT+(SEVEN_SEG_SIZE*2)+SEVEN_SEG_WIDTH, y+(SEVEN_SEG_HEIGHT*2)+SEVEN_SEG_WIDTH+(SEVEN_SEG_SIZE*3), SEVEN_SEG_HEIGHT, SEVEN_SEG_WIDTH, color); // C

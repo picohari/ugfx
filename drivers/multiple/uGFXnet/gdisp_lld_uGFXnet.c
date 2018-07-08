@@ -574,10 +574,10 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #endif
 
 #if GDISP_HARDWARE_PIXELREAD
-	LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay *g) {
+	LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay *g) {
 		netPriv	*	priv;
 		uint16_t	buf[3];
-		color_t		data;
+		gColor		data;
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
 			if (!(g->flags & GDISP_FLG_CONNECTED))

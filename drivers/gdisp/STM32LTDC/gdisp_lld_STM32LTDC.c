@@ -332,7 +332,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay* g) {
 	#endif
 }
 
-LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g) {
+LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 	unsigned		pos;
 	LLDCOLOR_TYPE	color;
 

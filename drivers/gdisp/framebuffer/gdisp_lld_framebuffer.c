@@ -84,7 +84,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 		PIXEL_ADDR(g, pos)[0] = gdispColor2Native(g->p.color);
 }
 
-LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay *g) {
+LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay *g) {
 	unsigned		pos;
 	LLDCOLOR_TYPE	color;
 

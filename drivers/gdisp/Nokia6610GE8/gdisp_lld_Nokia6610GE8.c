@@ -436,8 +436,8 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 			while (tuples--) {
 				/* Get a pixel */
 				switch(pnum++ & 1) {
-				case 0:		c1 = (((color_t)p[0]) << 4)|(((color_t)p[1])>>4);				break;
-				case 1:		c1 = (((color_t)p[1]&0x0F) << 8)|((color_t)p[1]);	p += 3;		break;
+				case 0:		c1 = (((gColor)p[0]) << 4)|(((gColor)p[1])>>4);				break;
+				case 1:		c1 = (((gColor)p[1]&0x0F) << 8)|((gColor)p[1]);	p += 3;		break;
 				}
 
 				/* Check for line or buffer wrapping */
@@ -454,8 +454,8 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 				/* Get the next pixel */
 				switch(pnum++ & 1) {
-				case 0:		c2 = (((color_t)p[0]) << 4)|(((color_t)p[1])>>4);				break;
-				case 1:		c2 = (((color_t)p[1]&0x0F) << 8)|((color_t)p[1]);	p += 3;		break;
+				case 0:		c2 = (((gColor)p[0]) << 4)|(((gColor)p[1])>>4);				break;
+				case 1:		c2 = (((gColor)p[1]&0x0F) << 8)|((gColor)p[1]);	p += 3;		break;
 				}
 
 				/* Check for line or buffer wrapping */

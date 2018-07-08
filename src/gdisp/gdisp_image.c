@@ -34,8 +34,8 @@
 	extern gdispImageError gdispGImageDraw_BMP(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
 	extern delaytime_t gdispImageNext_BMP(gdispImage *img);
 	extern uint16_t gdispImageGetPaletteSize_BMP(gdispImage *img);
-	extern color_t gdispImageGetPalette_BMP(gdispImage *img, uint16_t index);
-	extern gBool gdispImageAdjustPalette_BMP(gdispImage *img, uint16_t index, color_t newColor);
+	extern gColor gdispImageGetPalette_BMP(gdispImage *img, uint16_t index);
+	extern gBool gdispImageAdjustPalette_BMP(gdispImage *img, uint16_t index, gColor newColor);
 #endif
 
 #if GDISP_NEED_IMAGE_JPG
@@ -66,8 +66,8 @@ typedef struct gdispImageHandlers {
 							gCoord sx, gCoord sy);			/* The draw function */
 	delaytime_t		(*next)(gdispImage *img);					/* The next frame function */
 	uint16_t		(*getPaletteSize)(gdispImage *img);			/* Retrieve the size of the palette (number of entries) */
-	color_t			(*getPalette)(gdispImage *img, uint16_t index);							/* Retrieve a specific color value of the palette */
-	gBool			(*adjustPalette)(gdispImage *img, uint16_t index, color_t newColor);	/* Replace a color value in the palette */
+	gColor			(*getPalette)(gdispImage *img, uint16_t index);							/* Retrieve a specific color value of the palette */
+	gBool			(*adjustPalette)(gdispImage *img, uint16_t index, gColor newColor);	/* Replace a color value in the palette */
 } gdispImageHandlers;
 
 static gdispImageHandlers ImageHandlers[] = {
@@ -158,7 +158,7 @@ gBool gdispImageIsOpen(gdispImage *img) {
 	return img && img->type != GDISP_IMAGE_TYPE_UNKNOWN && img->fns != 0;
 }
 
-void gdispImageSetBgColor(gdispImage *img, color_t bgcolor) {
+void gdispImageSetBgColor(gdispImage *img, gColor bgcolor) {
 	if (!img)
 		return;
 	img->bgcolor = bgcolor;
@@ -198,13 +198,13 @@ uint16_t gdispImageGetPaletteSize(gdispImage *img) {
 	return img->fns->getPaletteSize(img);
 }
 
-color_t gdispImageGetPalette(gdispImage *img, uint16_t index) {
+gColor gdispImageGetPalette(gdispImage *img, uint16_t index) {
 	if (!img || !img->fns) return 0;
 	if (!img->fns->getPalette) return 0;
 	return img->fns->getPalette(img, index);
 }
 
-gBool gdispImageAdjustPalette(gdispImage *img, uint16_t index, color_t newColor) {
+gBool gdispImageAdjustPalette(gdispImage *img, uint16_t index, gColor newColor) {
 	if (!img || !img->fns) return gFalse;
 	if (!img->fns->adjustPalette) return gFalse;
 	return img->fns->adjustPalette(img, index, newColor);

@@ -74,7 +74,7 @@ void drawScreen(void) {
 GEventMouse		ev;
 
 int main(void) {
-	color_t color = GFX_BLACK;
+	gColor color = GFX_BLACK;
 	uint16_t pen = 0;
 
 	gfxInit();

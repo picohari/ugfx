@@ -60,7 +60,7 @@ int main(void) {
 	gCoord		width, height, x, y, radius, ballx, bally, dx, floor;
 	gCoord		minx, miny, maxx, maxy;
 	gCoord		ballcx, ballcy;
-	color_t		colour;
+	gColor		colour;
 	float		ii, spin, dy, spinspeed, h, f, g;
 
 	gfxInit();

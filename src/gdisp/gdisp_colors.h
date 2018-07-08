@@ -188,17 +188,17 @@ typedef uint16_t	colorformat;
 	 * 			tv luminance (0.26126R + 0.7152G + 0.0722B),  digital tv luminance of (0.299R + 0.587G + 0.114B), or
 	 * 			@p LUMA_OF() which uses (0.25R + 0.5G + 0.25B).
 	 */
-	#define LUMA2COLOR(l)		((color_t)((((l) & 0xF8)<<8) | (((l) & 0xFC)<<3) | (((l) & 0xF8)>>3)))
+	#define LUMA2COLOR(l)		((gColor)((((l) & 0xF8)<<8) | (((l) & 0xFC)<<3) | (((l) & 0xF8)>>3)))
 
 	/**
 	 * @brief   Convert red, green, blue (each 0 to 255) into a color value.
 	 */
-	#define RGB2COLOR(r,g,b)	((color_t)((((r) & 0xF8)<<8) | (((g) & 0xFC)<<3) | (((b) & 0xF8)>>3)))
+	#define RGB2COLOR(r,g,b)	((gColor)((((r) & 0xF8)<<8) | (((g) & 0xFC)<<3) | (((b) & 0xF8)>>3)))
 
 	/**
 	 * @brief   Convert a 6 digit HTML code (hex) into a color value.
 	 */
-	#define HTML2COLOR(h)		((color_t)((((h) & 0xF80000)>>8) | (((h) & 0x00FC00)>>5) | (((h) & 0x0000F8)>>3)))
+	#define HTML2COLOR(h)		((gColor)((((h) & 0xF80000)>>8) | (((h) & 0x00FC00)>>5) | (((h) & 0x0000F8)>>3)))
 
 	/**
 	 * @name	Extraction macros (quick)
@@ -434,7 +434,7 @@ typedef uint16_t	colorformat;
 /**
  * @brief	The color type definition
  */
-typedef COLOR_TYPE			color_t;
+typedef COLOR_TYPE			gColor;
 
 #endif /* GFX_USE_GDISP */
 

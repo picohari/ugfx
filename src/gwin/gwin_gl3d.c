@@ -86,7 +86,7 @@ static void gl3dRedraw(GWindowObject *gh) {
 	ZBuffer *	zb;
 
 	zb = ((GGL3DObject *)gh)->glcxt->zb;
-	gdispGBlitArea(gh->display, gh->x, gh->y, zb->xsize, zb->ysize, 0, 0, zb->linesize/sizeof(color_t), (const gPixel *)zb->pbuf);
+	gdispGBlitArea(gh->display, gh->x, gh->y, zb->xsize, zb->ysize, 0, 0, zb->linesize/sizeof(gColor), (const gPixel *)zb->pbuf);
 }
 
 static int gl3dResizeGLViewport(GLContext *c, int *xsize_ptr, int *ysize_ptr) {

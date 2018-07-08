@@ -35,10 +35,10 @@ struct GWidgetObject;
  * @{
  */
 typedef struct GColorSet {
-	color_t			text;				/**< The text color */
-	color_t			edge;				/**< The edge color */
-	color_t			fill;				/**< The fill color */
-	color_t			progress;			/**< The color of progress bars */
+	gColor			text;				/**< The text color */
+	gColor			edge;				/**< The edge color */
+	gColor			fill;				/**< The fill color */
+	gColor			progress;			/**< The color of progress bars */
 } GColorSet;
 /** @} */
 
@@ -50,8 +50,8 @@ typedef struct GColorSet {
  * @{
  */
 typedef struct GWidgetStyle {
-	color_t			background;			/**< The window background color */
-	color_t			focus;				/**< The color when a widget is focused */
+	gColor			background;			/**< The window background color */
+	gColor			focus;				/**< The color when a widget is focused */
 	GColorSet		enabled;			/**< The colors when enabled */
 	GColorSet		disabled;			/**< The colors when disabled */
 	GColorSet		pressed;			/**< The colors when pressed */

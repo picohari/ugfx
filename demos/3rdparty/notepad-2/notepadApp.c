@@ -63,9 +63,9 @@ static GButtonObject btnClose;
 // Image object
 static gdispImage toolbarImageFilmstrip;
 
-static color_t myColors[] = { GFX_BLACK, GFX_RED, GFX_GREEN, GFX_BLUE, GFX_CYAN, GFX_MAGENTA, GFX_YELLOW, GFX_WHITE };
+static gColor myColors[] = { GFX_BLACK, GFX_RED, GFX_GREEN, GFX_BLUE, GFX_CYAN, GFX_MAGENTA, GFX_YELLOW, GFX_WHITE };
 
-static color_t selColor = GFX_BLACK;
+static gColor selColor = GFX_BLACK;
 static int selColorIndex = 0, selPenWidth = 1, tbMode = 1;
 
 static NColorScheme nCurColorScheme;
@@ -156,7 +156,7 @@ static void nbtnColorBarSelDraw(GHandle gh, gBool enabled, gBool isdown, const c
 #define ccs nCurColorScheme
 
   int i, j = 0, k;
-  color_t ca, cb;
+  gColor ca, cb;
   GEventMouse ptr;
 
   (void)txt;
@@ -218,7 +218,7 @@ static void nbtnColorBarSelDraw(GHandle gh, gBool enabled, gBool isdown, const c
 static void nToolbarImageButtonDraw(GHandle gh, gBool isenabled, gBool isdown, const char *txt, const GButtonDrawStyle *pstyle, void *param) {
   (void)txt;  (void)pstyle; (void)isenabled;
 
-  color_t cl = isdown ? nCurColorScheme.toolbarBgActive : nCurColorScheme.toolbarBgUnsel;
+  gColor cl = isdown ? nCurColorScheme.toolbarBgActive : nCurColorScheme.toolbarBgUnsel;
 
   gdispImageSetBgColor(&toolbarImageFilmstrip, cl);
   gdispFillArea(gh->x, gh->y, gh->width, gh->height, cl);

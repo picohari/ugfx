@@ -131,7 +131,7 @@ void gwinLabelSetBorder(GHandle gh, gBool border) {
 
 static void gwinLabelDraw(GWidgetObject *gw, justify_t justify) {
 	gCoord				w, h;
-	color_t				c;
+	gColor				c;
 
 	// is it a valid handle?
 	if (gw->g.vmt != (gwinVMT *)&labelVMT)

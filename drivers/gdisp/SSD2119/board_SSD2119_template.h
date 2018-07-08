@@ -65,13 +65,13 @@ static GFXINLINE uint16_t read_data(GDisplay *g) {
 
 #if defined(GDISP_USE_DMA) && GDISP_USE_DMA
 
-	static GFXINLINE void dma_with_noinc(GDisplay *g, color_t *buffer, int area) {
+	static GFXINLINE void dma_with_noinc(GDisplay *g, gColor *buffer, int area) {
 		(void) g;
 		(void) buffer;
 		(void) area;
 	}
 
-	static GFXINLINE void dma_with_inc(GDisplay *g, color_t *buffer, int area) {
+	static GFXINLINE void dma_with_inc(GDisplay *g, gColor *buffer, int area) {
 		(void) g;
 		(void) buffer;
 		(void) area;

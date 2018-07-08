@@ -39,7 +39,7 @@ typedef struct PNG_info {
 	void 		(*out)(struct PNG_decode *);		// The scan line output function
 
 	#if GDISP_NEED_IMAGE_PNG_BACKGROUND
-		color_t		bg;								// The background color
+		gColor		bg;								// The background color
 	#endif
 	#if GDISP_NEED_IMAGE_PNG_TRANSPARENCY
 		uint16_t	trans_r;						// Red/grayscale component of the transparent color (PNG_COLORMODE_GRAY and PNG_COLORMODE_RGB only)
@@ -231,7 +231,7 @@ static gBool PNG_oStartY(PNG_output *o, gCoord y) {
 }
 
 // Feed a pixel color to the display buffer
-static void PNG_oColor(PNG_output *o, color_t c) {
+static void PNG_oColor(PNG_output *o, gColor c) {
 	// Is it in the window
 	if (o->ix+(gCoord)o->cnt < o->sx || o->ix+(gCoord)o->cnt >= o->sx+o->cx) {
 		// No - just skip the pixel

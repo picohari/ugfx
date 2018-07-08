@@ -59,7 +59,7 @@ typedef uint16_t	gdispImageFlags;
 typedef struct gdispImage {
 	gdispImageType						type;				/* @< The image type */
 	gdispImageFlags						flags;				/* @< The image flags */
-	color_t								bgcolor;			/* @< The default background color */
+	gColor								bgcolor;			/* @< The default background color */
 	gCoord								width, height;		/* @< The image dimensions */
 	GFILE *								f;					/* @< The underlying GFILE */
 	#if GDISP_NEED_IMAGE_ACCOUNTING
@@ -182,7 +182,7 @@ gBool gdispImageIsOpen(gdispImage *img);
  * @note	This color is only used when an image has to restore part of the background before
  * 			continuing with drawing that includes transparency eg some GIF animations.
  */
-void gdispImageSetBgColor(gdispImage *img, color_t bgcolor);
+void gdispImageSetBgColor(gdispImage *img, gColor bgcolor);
 
 /**
  * @brief	Cache the image
@@ -266,7 +266,7 @@ uint16_t gdispImageGetPaletteSize(gdispImage *img);
  *
  * @note	This function will return 0 if the index is out of bounds or if the image doesn't use a color palette.
  */
-color_t gdispImageGetPalette(gdispImage *img, uint16_t index);
+gColor gdispImageGetPalette(gdispImage *img, uint16_t index);
 
 /**
  * @brief	Modify an entry in the color palette.
@@ -279,7 +279,7 @@ color_t gdispImageGetPalette(gdispImage *img, uint16_t index);
  * @pre		gdispImageOpen() must have returned successfully.
  * @note	This function will return @p gFalse if the index is out of bounds or if the image doesn't use a color palette.
  */
-gBool gdispImageAdjustPalette(gdispImage *img, uint16_t index, color_t newColor);
+gBool gdispImageAdjustPalette(gdispImage *img, uint16_t index, gColor newColor);
 
 #endif /* GFX_USE_GDISP && GDISP_NEED_IMAGE */
 #endif /* _GDISP_IMAGE_H */

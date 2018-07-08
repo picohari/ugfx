@@ -56,7 +56,7 @@ static GHandle					nStatusConsole = NULL;
 static volatile gBool			doExit;
 
 static void draw_point(gCoord x, gCoord y) {
-  color_t c = ncoreDrawingArea->color;
+  gColor c = ncoreDrawingArea->color;
 
   if (nMode == NCORE_MODE_DRAW)
 	c = ncoreDrawingArea->color;
@@ -227,8 +227,8 @@ void ncoreSetPenWidth(uint8_t penWidth) { nPenWidth = penWidth; }
 uint8_t ncoreGetPenWidth(void) 			{ return nPenWidth; }
 
 /* Get and set the drawing color */
-void ncoreSetPenColor(color_t penColor) { gwinSetColor(ncoreDrawingArea, penColor); }
-color_t ncoreGetPenColor(void) 			{ return ncoreDrawingArea->color; }
+void ncoreSetPenColor(gColor penColor) { gwinSetColor(ncoreDrawingArea, penColor); }
+gColor ncoreGetPenColor(void) 			{ return ncoreDrawingArea->color; }
 
 /* Set mode */
 void ncoreSetMode(uint8_t mode)			{ nMode = mode; }

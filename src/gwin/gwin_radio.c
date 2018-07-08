@@ -264,7 +264,7 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 		fixed				alpha;
 		fixed				dalpha;
 		gCoord				i;
-		color_t				tcol, bcol;
+		gColor				tcol, bcol;
 		(void)				param;
 
 		if (gw->g.vmt != (gwinVMT *)&radioVMT) return;
@@ -289,7 +289,7 @@ void gwinRadioDraw_Radio(GWidgetObject *gw, void *param) {
 		fixed				alpha;
 		fixed				dalpha;
 		gCoord				i;
-		color_t				tcol, bcol;
+		gColor				tcol, bcol;
 		(void)				param;
 
 		if (gw->g.vmt != (gwinVMT *)&radioVMT)	return;

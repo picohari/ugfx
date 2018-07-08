@@ -256,7 +256,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		setreadmode(g);
 		dummy_read(g);
 	}
-	LLDSPEC	color_t gdisp_lld_read_color(GDisplay *g) {
+	LLDSPEC	gColor gdisp_lld_read_color(GDisplay *g) {
 		uint16_t	data;
 
 		data = read_data(g);

@@ -124,7 +124,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay* g)
 		PIXEL_ADDR(g, pos)[0] = gdispColor2Native(g->p.color);
 }
 
-LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g)
+LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g)
 {
 	unsigned		pos;
 	LLDCOLOR_TYPE	color;
@@ -255,7 +255,7 @@ LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay* g)
 	
 		// Fill the line buffer with the solid color
 	    for (i = 0; i < bytes_per_pixel * g->p.cx; i += 4)  {
-			*((color_t*)(line + i)) = g->p.color;
+			*((gColor*)(line + i)) = g->p.color;
 		}
 	  
 		// Calculate the address of the first pixel of the rectangle (top left corner)

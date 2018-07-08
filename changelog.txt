@@ -22,6 +22,7 @@ FEATURE:	Fixed headers to ensure size_t, NULL are always defined. size_t is not 
 CHANGE:		Added type gPoint to replace V2.x point and point_t
 CHANGE:		Added type gCoord to replace V2.x coord_t
 CHANGE:		Added type gPixel to replace V2.x pixel_t
+CHANGE:		Added type gColor to replace V2.x color_t
 FIX:		Added gfxRealloc() to Qt port
 FIX:		Fixed UC1610 driver private area initialisation
 FIX:		Fixed ST7735 driver and added kapacuk changes

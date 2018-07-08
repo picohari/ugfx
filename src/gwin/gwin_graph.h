@@ -34,7 +34,7 @@ typedef enum GGraphPointType_e {
 typedef struct GGraphPointStyle_t {
 	GGraphPointType		type;
 	gCoord				size;
-	color_t				color;
+	gColor				color;
 	} GGraphPointStyle;
 
 typedef enum GGraphLineType_e {
@@ -44,13 +44,13 @@ typedef enum GGraphLineType_e {
 typedef struct GGraphLineStyle_t {
 	GGraphLineType		type;
 	gCoord				size;
-	color_t				color;
+	gColor				color;
 	} GGraphLineStyle;
 
 typedef struct GGraphGridStyle_t {
 	GGraphLineType		type;
 	gCoord				size;
-	color_t				color;
+	gColor				color;
 	gCoord				spacing;
 	} GGraphGridStyle;
 

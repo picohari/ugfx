@@ -89,7 +89,7 @@ void benchmark(void) {
     uint32_t i, pixels, ms, pps;
     char pps_str[25];
 	gCoord height, width, rx, ry, rcx, rcy;
-    color_t random_color;
+    gColor random_color;
 	font_t font;
 
     gdispSetOrientation(GDISP_ROTATE_90);

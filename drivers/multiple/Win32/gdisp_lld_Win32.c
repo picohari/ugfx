@@ -1043,7 +1043,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		g->flags |= GDISP_FLG_WSTREAM;
 		g->flags &= ~GDISP_FLG_WRAPPED;
 	}
-	LLDSPEC	color_t gdisp_lld_read_color(GDisplay *g) {
+	LLDSPEC	gColor gdisp_lld_read_color(GDisplay *g) {
 		winPriv	*	priv;
 		COLORREF	color;
 
@@ -1372,7 +1372,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #endif
 
 #if GDISP_HARDWARE_PIXELREAD
-	LLDSPEC	color_t gdisp_lld_get_pixel_color(GDisplay *g) {
+	LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay *g) {
 		winPriv	*	priv;
 		COLORREF	color;
 

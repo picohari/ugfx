@@ -58,8 +58,8 @@ void ncoreSetPenWidth(uint8_t penWidth);
 uint8_t ncoreGetPenWidth(void);
 
 /* Get and set the drawing color */
-void ncoreSetPenColor(color_t penColor);
-color_t ncoreGetPenColor(void);
+void ncoreSetPenColor(gColor penColor);
+gColor ncoreGetPenColor(void);
 
 /* Get and set the pen mode */
 void ncoreSetMode(uint8_t mode);

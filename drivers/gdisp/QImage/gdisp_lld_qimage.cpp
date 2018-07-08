@@ -27,12 +27,12 @@ void qimage_setPixel(GDisplay* g)
     qimage->setPixel(g->p.x, g->p.y, rgbVal);
 }
 
-color_t qimage_getPixel(GDisplay* g)
+gColor qimage_getPixel(GDisplay* g)
 {
     const QImage* qimage = static_cast<const QImage*>(g->priv);
     if (!qimage) {
         return 0;
     }
 
-    return static_cast<color_t>(qimage->pixel(g->p.x, g->p.y));
+    return static_cast<gColor>(qimage->pixel(g->p.x, g->p.y));
 }

@@ -704,7 +704,7 @@ void gwinListDefaultDraw(GWidgetObject* gw, void* param) {
 	const gfxQueueASyncItem*	qi;
 	int							i;
 	gCoord						x, y, iheight, iwidth;
-	color_t						fill;
+	gColor						fill;
 	const GColorSet *			ps;
 	#if GWIN_NEED_LIST_IMAGES
 		gCoord					sy;

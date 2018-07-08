@@ -113,7 +113,7 @@
 		return gTrue;
 	}
 
-	static color_t ESCPrintColor(GConsoleObject *gcw) {
+	static gColor ESCPrintColor(GConsoleObject *gcw) {
 		switch(gcw->currattr & (ESC_REDBIT|ESC_GREENBIT|ESC_BLUEBIT|ESC_USECOLOR)) {
 		case (ESC_USECOLOR):
 			return GFX_BLACK;

@@ -66,7 +66,7 @@ static DECLARE_THREAD_FUNCTION(task, param) {
 	gCoord		width, height, x, y, radius, ballx, bally, dx, floor;
 	gCoord		minx, miny, maxx, maxy, winx, winy;
 	gCoord		ballcx, ballcy;
-	color_t		colour;
+	gColor		colour;
 	float		ii, spin, dy, spinspeed, h, f, g;
 	(void)		param;
 

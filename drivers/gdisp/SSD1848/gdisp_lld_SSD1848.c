@@ -434,7 +434,7 @@ LLDSPEC void gdisp_lld_draw_pixel (GDisplay *g)
 #endif
 
 #if GDISP_HARDWARE_PIXELREAD
-LLDSPEC color_t gdisp_lld_get_pixel_color (GDisplay *g)
+LLDSPEC gColor gdisp_lld_get_pixel_color (GDisplay *g)
 {
     gCoord x, y;
 

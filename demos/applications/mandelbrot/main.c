@@ -32,7 +32,7 @@
 void mandelbrot(float x1, float y1, float x2, float y2) {
 	unsigned int i,j, width, height;
 	uint16_t iter;
-	color_t color;
+	gColor color;
 	float fwidth, fheight;
 	
 	float sy = y2 - y1;

@@ -423,7 +423,7 @@ void gwinTabsetSetTab(GHandle gh) {
 #else
 	static void fgarea(GWidgetObject *gw, const char *text, gCoord y, gCoord x, gCoord w) {
 		const GColorSet *	pcol;
-		color_t				tcol;
+		gColor				tcol;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->pressed : &gw->pstyle->disabled;
 
@@ -439,7 +439,7 @@ void gwinTabsetSetTab(GHandle gh) {
 		const GColorSet *	pcol;
 		fixed				alpha;
 		gCoord				i;
-		color_t				tcol, bcol;
+		gColor				tcol, bcol;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->enabled : &gw->pstyle->disabled;
 

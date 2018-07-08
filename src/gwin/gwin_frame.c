@@ -230,8 +230,8 @@ GHandle gwinGFrameCreate(GDisplay *g, GFrameObject *fo, GWidgetInit *pInit, uint
 void gwinFrameDraw_Transparent(GWidgetObject *gw, void *param) {
 	const GColorSet		*pcol;
 	gCoord				pos;
-	color_t				contrast;
-	color_t				btn;
+	gColor				contrast;
+	gColor				btn;
 	(void)param;
 
 	if (gw->g.vmt != (gwinVMT *)&frameVMT)
