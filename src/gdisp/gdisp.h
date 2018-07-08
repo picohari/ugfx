@@ -54,23 +54,23 @@ typedef struct gPoint {
 } gPoint;
 
 /**
- * @enum justify
+ * @enum gJustify
  * @brief   Type for the text justification.
  */
-typedef enum justify {
-	justifyLeft = 0x00,			/**< Justify Left (the default) */
-	justifyCenter = 0x01,		/**< Justify Center */
-	justifyRight = 0x02,		/**< Justify Right */
-	justifyTop = 0x10,			/**< Justify Top */
-	justifyMiddle = 0x00,		/**< Justify Middle (the default) */
-	justifyBottom = 0x20,		/**< Justify Bottom */
-	justifyWordWrap = 0x00,		/**< Word wrap (the default if GDISP_NEED_TEXT_WORDWRAP is on) */
-	justifyNoWordWrap = 0x40,	/**< No word wrap */
-	justifyPad = 0x00,			/**< Pad the text box (the default) */
-	justifyNoPad = 0x04			/**< No padding the text box */
-} justify_t;
-#define JUSTIFYMASK_LEFTRIGHT	(justifyLeft|justifyCenter|justifyRight)
-#define JUSTIFYMASK_TOPBOTTOM	(justifyTop|justifyMiddle|justifyBottom)
+typedef enum gJustify {
+	gJustifyLeft = 0x00,		/**< Justify Left (the default) */
+	gJustifyCenter = 0x01,		/**< Justify Center */
+	gJustifyRight = 0x02,		/**< Justify Right */
+	gJustifyTop = 0x10,			/**< Justify Top */
+	gJustifyMiddle = 0x00,		/**< Justify Middle (the default) */
+	gJustifyBottom = 0x20,		/**< Justify Bottom */
+	gJustifyWordWrap = 0x00,	/**< Word wrap (the default if GDISP_NEED_TEXT_WORDWRAP is on) */
+	gJustifyNoWordWrap = 0x40,	/**< No word wrap */
+	gJustifyPad = 0x00,			/**< Pad the text box (the default) */
+	gJustifyNoPad = 0x04		/**< No padding the text box */
+} gJustify;
+#define JUSTIFYMASK_LEFTRIGHT	(gJustifyLeft|gJustifyCenter|gJustifyRight)
+#define JUSTIFYMASK_TOPBOTTOM	(gJustifyTop|gJustifyMiddle|gJustifyBottom)
 
 /**
  * @enum fontmetric
@@ -981,7 +981,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGDrawStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, justify_t justify);
+	void gdispGDrawStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, gJustify justify);
 	#define	gdispDrawStringBox(x,y,cx,cy,s,f,c,j)			gdispGDrawStringBox(GDISP,x,y,cx,cy,s,f,c,j)
 
 	/**
@@ -1000,7 +1000,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGFillStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, gColor bgColor, justify_t justify);
+	void gdispGFillStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, gColor bgColor, gJustify justify);
 	#define	gdispFillStringBox(x,y,cx,cy,s,f,c,b,j)			gdispGFillStringBox(GDISP,x,y,cx,cy,s,f,c,b,j)
 
 	/**
@@ -1235,6 +1235,17 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		#define powerDeepSleep		gPowerDeepSleep
 		#define powerSleep			gPowerSleep
 		#define powerOn				gPowerOn
+	typedef gJustify	justify_t;
+		#define justifyLeft			gJustifyLeft
+		#define justifyCenter		gJustifyCenter
+		#define justifyRight		gJustifyRight
+		#define justifyTop			gJustifyTop
+		#define justifyMiddle		gJustifyMiddle
+		#define justifyBottom		gJustifyBottom
+		#define justifyWordWrap		gJustifyWordWrap
+		#define justifyNoWordWrap	gJustifyNoWordWrap
+		#define justifyPad			gJustifyPad
+		#define justifyNoPad		gJustifyNoPad
 	typedef gColor		color_t;
 	typedef gPixel		pixel_t;
 	typedef gCoord		coord_t;

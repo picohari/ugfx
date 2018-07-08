@@ -3439,7 +3439,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGDrawStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, justify_t justify) {
+	void gdispGDrawStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, gJustify justify) {
 		gCoord		totalHeight;
 
 		if (!font)
@@ -3448,7 +3448,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 		// Apply padding
 		#if GDISP_NEED_TEXT_BOXPADLR != 0 || GDISP_NEED_TEXT_BOXPADTB != 0
-			if (!(justify & justifyNoPad)) {
+			if (!(justify & gJustifyNoPad)) {
 				#if GDISP_NEED_TEXT_BOXPADLR != 0
 					x += GDISP_NEED_TEXT_BOXPADLR;
 					cx -= 2*GDISP_NEED_TEXT_BOXPADLR;
@@ -3468,7 +3468,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 		// Calculate the total text height
 		#if GDISP_NEED_TEXT_WORDWRAP
-			if (!(justify & justifyNoWordWrap)) {
+			if (!(justify & gJustifyNoWordWrap)) {
 				// Count the number of lines
 				totalHeight = 0;
 				mf_wordwrap(font, cx, str, mf_countline_callback, &totalHeight);
@@ -3479,23 +3479,23 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 		// Select the anchor position
 		switch((justify & JUSTIFYMASK_TOPBOTTOM)) {
-		case justifyTop:
+		case gJustifyTop:
 			break;
-		case justifyBottom:
+		case gJustifyBottom:
 			y += cy - totalHeight;
 			break;
-		default:	// justifyMiddle
+		default:	// gJustifyMiddle
 			y += (cy+1 - totalHeight)/2;
 			break;
 		}
 		switch((justify & JUSTIFYMASK_LEFTRIGHT)) {
-		case justifyCenter:
+		case gJustifyCenter:
 			x += (cx + 1) / 2;
 			break;
-		case justifyRight:
+		case gJustifyRight:
 			x += cx;
 			break;
-		default:	// justifyLeft
+		default:	// gJustifyLeft
 			break;
 		}
 
@@ -3503,7 +3503,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		g->t.font = font;
 		g->t.color = color;
 		#if GDISP_NEED_TEXT_WORDWRAP
-			if (!(justify & justifyNoWordWrap)) {
+			if (!(justify & gJustifyNoWordWrap)) {
 				g->t.lrj = (justify & JUSTIFYMASK_LEFTRIGHT);
 				g->t.wrapx = x;
 				g->t.wrapy = y;
@@ -3517,7 +3517,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGFillStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, gColor bgcolor, justify_t justify) {
+	void gdispGFillStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, gColor bgcolor, gJustify justify) {
 		gCoord		totalHeight;
 
 		if (!font)
@@ -3537,7 +3537,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 			// Apply padding
 			#if GDISP_NEED_TEXT_BOXPADLR != 0 || GDISP_NEED_TEXT_BOXPADTB != 0
-				if (!(justify & justifyNoPad)) {
+				if (!(justify & gJustifyNoPad)) {
 					#if GDISP_NEED_TEXT_BOXPADLR != 0
 						x += GDISP_NEED_TEXT_BOXPADLR;
 						cx -= 2*GDISP_NEED_TEXT_BOXPADLR;
@@ -3557,7 +3557,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 			// Calculate the total text height
 			#if GDISP_NEED_TEXT_WORDWRAP
-				if (!(justify & justifyNoWordWrap)) {
+				if (!(justify & gJustifyNoWordWrap)) {
 					// Count the number of lines
 					totalHeight = 0;
 					mf_wordwrap(font, cx, str, mf_countline_callback, &totalHeight);
@@ -3568,23 +3568,23 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 			// Select the anchor position
 			switch((justify & JUSTIFYMASK_TOPBOTTOM)) {
-			case justifyTop:
+			case gJustifyTop:
 				break;
-			case justifyBottom:
+			case gJustifyBottom:
 				y += cy - totalHeight;
 				break;
-			default:	// justifyMiddle
+			default:	// gJustifyMiddle
 				y += (cy+1 - totalHeight)/2;
 				break;
 			}
 			switch((justify & JUSTIFYMASK_LEFTRIGHT)) {
-			case justifyCenter:
+			case gJustifyCenter:
 				x += (cx + 1) / 2;
 				break;
-			case justifyRight:
+			case gJustifyRight:
 				x += cx;
 				break;
-			default:	// justifyLeft
+			default:	// gJustifyLeft
 				break;
 			}
 
@@ -3593,7 +3593,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 			g->t.color = color;
 			g->t.bgcolor = bgcolor;
 			#if GDISP_NEED_TEXT_WORDWRAP
-				if (!(justify & justifyNoWordWrap)) {
+				if (!(justify & gJustifyNoWordWrap)) {
 					g->t.lrj = (justify & JUSTIFYMASK_LEFTRIGHT);
 					g->t.wrapx = x;
 					g->t.wrapy = y;

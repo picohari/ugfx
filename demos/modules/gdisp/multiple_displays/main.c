@@ -72,10 +72,10 @@
 			sprintg(buf, "Display %u", display);
 			if (width < 128) {
 				gdispGDrawBox(g, 0, 0, width/2, height/2, GFX_YELLOW);
-				gdispGFillStringBox(g, 0, height/2, width, height/2, buf, f, GFX_BLACK, GFX_BLUE, justifyCenter);
+				gdispGFillStringBox(g, 0, height/2, width, height/2, buf, f, GFX_BLACK, GFX_BLUE, gJustifyCenter);
 			} else {
 				gdispGDrawBox(g, 10, 10, width/2, height/2, GFX_YELLOW);
-				gdispGFillStringBox(g, width/2, height/2, width/2-10, height/2-10, buf, f, GFX_WHITE, GFX_BLUE, justifyCenter);
+				gdispGFillStringBox(g, width/2, height/2, width/2-10, height/2-10, buf, f, GFX_WHITE, GFX_BLUE, gJustifyCenter);
 			}
 			gdispGDrawLine(g, 5, 30, width-50, height-40, GFX_RED);
 
@@ -115,10 +115,10 @@
 			sprintg(buf, "Display %u", display);
 			if (width < 128) {
 				gdispDrawBox(0, 0, width/2, height/2, GFX_YELLOW);
-				gdispFillStringBox(0, height/2, width, height/2, buf, f, GFX_BLACK, GFX_BLUE, justifyCenter);
+				gdispFillStringBox(0, height/2, width, height/2, buf, f, GFX_BLACK, GFX_BLUE, gJustifyCenter);
 			} else {
 				gdispDrawBox(10, 10, width/2, height/2, GFX_YELLOW);
-				gdispFillStringBox(width/2, height/2, width/2-10, height/2-10, buf, f, GFX_WHITE, GFX_BLUE, justifyCenter);
+				gdispFillStringBox(width/2, height/2, width/2-10, height/2-10, buf, f, GFX_WHITE, GFX_BLUE, gJustifyCenter);
 			}
 			gdispDrawLine(5, 30, width-50, height-40, GFX_RED);
 

@@ -300,7 +300,7 @@ void gwinTexteditDefaultDraw(GWidgetObject* gw, void* param)
 	#if TEXT_PADDING_LEFT
 		gdispGFillArea(gw->g.display, gw->g.x, gw->g.y, TEXT_PADDING_LEFT, gw->g.height, pcol->fill);
 	#endif
-	gdispGFillStringBox(gw->g.display, gw->g.x + TEXT_PADDING_LEFT, gw->g.y, gw->g.width-TEXT_PADDING_LEFT, gw->g.height, p, gw->g.font, pcol->text, pcol->fill, justifyLeft);
+	gdispGFillStringBox(gw->g.display, gw->g.x + TEXT_PADDING_LEFT, gw->g.y, gw->g.width-TEXT_PADDING_LEFT, gw->g.height, p, gw->g.font, pcol->text, pcol->fill, gJustifyLeft);
 
 	// Render cursor (if focused)
 	if (gwinGetFocus() == (GHandle)gw) {

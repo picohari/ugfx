@@ -552,7 +552,7 @@ void gwinKeyboardDraw_Normal(GWidgetObject *gw, void *param) {
 				break;
 
 			default:   // Regular character
-				gdispGFillStringBox(gw->g.display, gw->g.x+x, gw->g.y+y, cx, cy, pcap, gw->g.font, pcol->text, pcol->fill, justifyCenter);
+				gdispGFillStringBox(gw->g.display, gw->g.x+x, gw->g.y+y, cx, cy, pcap, gw->g.font, pcol->text, pcol->fill, gJustifyCenter);
 				
 				break;
 			}

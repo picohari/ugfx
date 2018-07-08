@@ -242,7 +242,7 @@ void gwinFrameDraw_Transparent(GWidgetObject *gw, void *param) {
 	btn = gdispBlendColor(pcol->edge, contrast, 128);
 
 	// Render the frame
-	gdispGFillStringBox(gw->g.display, gw->g.x, gw->g.y, gw->g.width, FRM_BORDER_T, gw->text, gw->g.font, contrast, pcol->edge, justifyCenter);
+	gdispGFillStringBox(gw->g.display, gw->g.x, gw->g.y, gw->g.width, FRM_BORDER_T, gw->text, gw->g.font, contrast, pcol->edge, gJustifyCenter);
 	gdispGFillArea(gw->g.display, gw->g.x, gw->g.y+FRM_BORDER_T, FRM_BORDER_L, gw->g.height-(FRM_BORDER_T+FRM_BORDER_B), pcol->edge);
 	gdispGFillArea(gw->g.display, gw->g.x+gw->g.width-FRM_BORDER_R, gw->g.y+FRM_BORDER_T, FRM_BORDER_R, gw->g.height-(FRM_BORDER_T+FRM_BORDER_B), pcol->edge);
 	gdispGFillArea(gw->g.display, gw->g.x, gw->g.y+gw->g.height-FRM_BORDER_B, gw->g.width, FRM_BORDER_B, pcol->edge);

@@ -46,14 +46,14 @@ static void DrawHeader(const char *title, gBool btnNext, gBool btnPrev, gBool bt
 	#if GDISP_NEED_CLIP
 		gdispSetClip(0, 0, swidth, sheight);
 	#endif
-	gdispFillStringBox(0, 0, swidth, bHeight, "Touch Calibration", font, GFX_RED, GFX_WHITE, justifyLeft);
+	gdispFillStringBox(0, 0, swidth, bHeight, "Touch Calibration", font, GFX_RED, GFX_WHITE, gJustifyLeft);
 	if (btnNext)
-		gdispFillStringBox(swidth-1*bWidth, 0, bWidth  , bHeight, "Next", font, GFX_BLACK, GFX_GRAY, justifyCenter);
+		gdispFillStringBox(swidth-1*bWidth, 0, bWidth  , bHeight, "Next", font, GFX_BLACK, GFX_GRAY, gJustifyCenter);
 	if (btnPrev)
-		gdispFillStringBox(swidth-2*bWidth, 0, bWidth-1, bHeight, "Prev", font, GFX_BLACK, GFX_GRAY, justifyCenter);
+		gdispFillStringBox(swidth-2*bWidth, 0, bWidth-1, bHeight, "Prev", font, GFX_BLACK, GFX_GRAY, gJustifyCenter);
 	if (btnPlusMinus) {
-		gdispFillStringBox(swidth-2*bWidth-1*bWidth2, 0, bWidth2-1, bHeight, "+", font, GFX_BLACK, GFX_GRAY, justifyCenter);
-		gdispFillStringBox(swidth-2*bWidth-2*bWidth2, 0, bWidth2-1, bHeight, "-", font, GFX_BLACK, GFX_GRAY, justifyCenter);
+		gdispFillStringBox(swidth-2*bWidth-1*bWidth2, 0, bWidth2-1, bHeight, "+", font, GFX_BLACK, GFX_GRAY, gJustifyCenter);
+		gdispFillStringBox(swidth-2*bWidth-2*bWidth2, 0, bWidth2-1, bHeight, "-", font, GFX_BLACK, GFX_GRAY, gJustifyCenter);
 	}
 	gwinClear(ghc);
 	gwinSetColor(ghc, GFX_YELLOW);

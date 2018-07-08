@@ -505,7 +505,7 @@ static void MousePoll(void *param) {
 			gdispGFillStringBox(m->display,
 								0, CALIBRATION_TITLE_Y, w, CALIBRATION_TITLE_HEIGHT,
 								CALIBRATION_TITLE, font1,  CALIBRATION_TITLE_COLOR, CALIBRATION_TITLE_BACKGROUND,
-								justifyCenter);
+								gJustifyCenter);
 		#endif
 
 		// Calculate the calibration
@@ -603,7 +603,7 @@ static void MousePoll(void *param) {
 					gdispGFillStringBox(m->display,
 											0, CALIBRATION_ERROR_Y, w, CALIBRATION_ERROR_HEIGHT,
 											CALIBRATION_ERROR_TEXT, font2,  CALIBRATION_ERROR_COLOR, CALIBRATION_ERROR_BACKGROUND,
-											justifyCenter);
+											gJustifyCenter);
 					gfxSleepMilliseconds(CALIBRATION_ERROR_DELAY);
 				#endif
 			} else

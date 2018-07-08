@@ -351,7 +351,7 @@ static DECLARE_THREAD_FUNCTION(notepadThread, param) {
                      NPAD_TITLETEXT_STR,
                      font,
                      nCurColorScheme.titleTextColor,
-                     justifyLeft);
+                     gJustifyLeft);
 
   /* Create the drawing window, draw its border */
   gdispDrawBox(NPAD_DRAWING_AREA_START_X - 1,

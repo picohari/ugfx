@@ -60,21 +60,21 @@ int main(void) {
 	line2 = "0123456789~!@#$%^&*_-+=(){}[]<>|/\\:;,.?'\"`";
 
 	// Font 1
-	gdispFillStringBox(0, y, width,  fheight1, line1, font1, GFX_BLACK, GFX_WHITE, justifyCenter);
+	gdispFillStringBox(0, y, width,  fheight1, line1, font1, GFX_BLACK, GFX_WHITE, gJustifyCenter);
 	y += fheight1+1;
-	gdispFillStringBox(0, y, width,  fheight1, line2, font1, GFX_BLACK, GFX_WHITE, justifyCenter);
+	gdispFillStringBox(0, y, width,  fheight1, line2, font1, GFX_BLACK, GFX_WHITE, gJustifyCenter);
 	y += fheight1+1;
 
 	// Font 2
-	gdispFillStringBox(0, y, width,  fheight2, line1, font2, GFX_BLACK, GFX_WHITE, justifyCenter);
+	gdispFillStringBox(0, y, width,  fheight2, line1, font2, GFX_BLACK, GFX_WHITE, gJustifyCenter);
 	y += fheight2+1;
-	gdispFillStringBox(0, y, width,  fheight2, line2, font2, GFX_BLACK, GFX_WHITE, justifyCenter);
+	gdispFillStringBox(0, y, width,  fheight2, line2, font2, GFX_BLACK, GFX_WHITE, gJustifyCenter);
 	y += fheight2+1;
 
 	// Font 1 drawing White on the (black) background
-	gdispDrawStringBox(0, y, width,  fheight1, line1, font1, GFX_WHITE, justifyCenter);
+	gdispDrawStringBox(0, y, width,  fheight1, line1, font1, GFX_WHITE, gJustifyCenter);
 	y += fheight1+1;
-	gdispDrawStringBox(0, y, width,  fheight1, line2, font1, GFX_WHITE, justifyCenter);
+	gdispDrawStringBox(0, y, width,  fheight1, line2, font1, GFX_WHITE, gJustifyCenter);
 	y += fheight1+1;
 
 		// Show Sizes
@@ -85,7 +85,7 @@ int main(void) {
 	buf[4] = (fheight2-2)/10 + '0';
 	buf[5] = (fheight2-2)%10 + '0';
 	buf[6] = 0;
-	gdispFillStringBox(0, y, width,  fheight1, buf, font1, GFX_RED, GFX_WHITE, justifyCenter);
+	gdispFillStringBox(0, y, width,  fheight1, buf, font1, GFX_RED, GFX_WHITE, gJustifyCenter);
 	
 	// Wait forever
     while(1) {

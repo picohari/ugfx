@@ -262,12 +262,12 @@ static void printGameOver(void) {
 }
 
 static void printTouchAreas(void) {
-  gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetFontMetric(font16, fontHeight), "Touch Area's", font16, GFX_WHITE, justifyCenter);
-  gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetHeight()/4, "Pause", font16, GFX_GRAY, justifyCenter);
-  gdispDrawStringBox(0, gdispGetHeight()/4, gdispGetWidth(), gdispGetHeight()/2, "Rotate", font16, GFX_GRAY, justifyCenter);
-  gdispDrawStringBox(0, gdispGetHeight()-(gdispGetHeight()/4), gdispGetWidth()/4, gdispGetHeight()/4, "Left", font16, GFX_GRAY, justifyCenter);
-  gdispDrawStringBox(gdispGetWidth()/4, gdispGetHeight()-(gdispGetHeight()/4), gdispGetWidth()/2, gdispGetHeight()/4, "Down", font16, GFX_GRAY, justifyCenter);
-  gdispDrawStringBox(gdispGetWidth()-(gdispGetWidth()/4), gdispGetHeight()-(gdispGetHeight()/4), gdispGetWidth()/4, gdispGetHeight()/4, "Right", font16, GFX_GRAY, justifyCenter);
+  gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetFontMetric(font16, fontHeight), "Touch Area's", font16, GFX_WHITE, gJustifyCenter);
+  gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetHeight()/4, "Pause", font16, GFX_GRAY, gJustifyCenter);
+  gdispDrawStringBox(0, gdispGetHeight()/4, gdispGetWidth(), gdispGetHeight()/2, "Rotate", font16, GFX_GRAY, gJustifyCenter);
+  gdispDrawStringBox(0, gdispGetHeight()-(gdispGetHeight()/4), gdispGetWidth()/4, gdispGetHeight()/4, "Left", font16, GFX_GRAY, gJustifyCenter);
+  gdispDrawStringBox(gdispGetWidth()/4, gdispGetHeight()-(gdispGetHeight()/4), gdispGetWidth()/2, gdispGetHeight()/4, "Down", font16, GFX_GRAY, gJustifyCenter);
+  gdispDrawStringBox(gdispGetWidth()-(gdispGetWidth()/4), gdispGetHeight()-(gdispGetHeight()/4), gdispGetWidth()/4, gdispGetHeight()/4, "Right", font16, GFX_GRAY, gJustifyCenter);
   gdispDrawLine(0, gdispGetHeight()/4, gdispGetWidth()-1, gdispGetHeight()/4, GFX_GRAY);
   gdispDrawLine(0, gdispGetHeight()-gdispGetHeight()/4, gdispGetWidth()-1, gdispGetHeight()-gdispGetHeight()/4, GFX_GRAY);
   gdispDrawLine(gdispGetWidth()/4, gdispGetHeight()-gdispGetHeight()/4, gdispGetWidth()/4, gdispGetHeight()-1, GFX_GRAY);

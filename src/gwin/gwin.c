@@ -370,13 +370,13 @@ void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord s
 		_gwinDrawEnd(gh);
 	}
 
-	void gwinDrawStringBox(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, justify_t justify) {
+	void gwinDrawStringBox(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, gJustify justify) {
 		if (!gh->font || !_gwinDrawStart(gh)) return;
 		gdispGDrawStringBox(gh->display, gh->x+x, gh->y+y, cx, cy, str, gh->font, gh->color, justify);
 		_gwinDrawEnd(gh);
 	}
 
-	void gwinFillStringBox(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, justify_t justify) {
+	void gwinFillStringBox(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, gJustify justify) {
 		if (!gh->font || !_gwinDrawStart(gh)) return;
 		gdispGFillStringBox(gh->display, gh->x+x, gh->y+y, cx, cy, str, gh->font, gh->color, gh->bgcolor, justify);
 		_gwinDrawEnd(gh);

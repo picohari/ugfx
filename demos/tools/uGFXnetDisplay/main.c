@@ -336,7 +336,7 @@ int main(proto_args) {
 	font = gdispOpenFont("UI2");
 
 	// Open the connection
-	gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetHeight(), "Connecting to host...", font, GFX_WHITE, justifyCenter);
+	gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetHeight(), "Connecting to host...", font, GFX_WHITE, gJustifyCenter);
 	StartSockets();
 	netfd = doConnect(cmd_args);
 	if (netfd == (SOCKET_TYPE)-1)

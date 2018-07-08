@@ -369,7 +369,7 @@ struct GDisplay {
 			gCoord		clipx1, clipy1;
 			#if GDISP_NEED_TEXT_WORDWRAP
 				gCoord		wrapx, wrapy;
-				justify_t	lrj;
+				gJustify	lrj;
 			#endif
 		} t;
 	#endif

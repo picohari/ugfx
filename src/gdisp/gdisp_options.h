@@ -577,7 +577,7 @@
 	/**
 	 * @brief	Adding pixels to the left and right side of the box to pad text.
 	 * @details	Only has an effect with @p gdispGDrawStringBox() and @p gdispGFillStringBox()
-	 * @note	Can be turned off by using justifyNoPad
+	 * @note	Can be turned off by using gJustifyNoPad
 	 * @details Defaults to 1
 	 */
 	#ifndef GDISP_NEED_TEXT_BOXPADLR
@@ -586,7 +586,7 @@
 	/**
 	 * @brief	Adding pixels to the top and bottom side of the box to pad text.
 	 * @details	Only has an effect with @p gdispGDrawStringBox() and @p gdispGFillStringBox()
-	 * @note	Can be turned off by using justifyNoPad
+	 * @note	Can be turned off by using gJustifyNoPad
 	 * @details Defaults to 1
 	 */
 	#ifndef GDISP_NEED_TEXT_BOXPADTB

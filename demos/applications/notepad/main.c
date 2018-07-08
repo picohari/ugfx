@@ -61,11 +61,11 @@ void drawScreen(void) {
 	gdispDrawBox (5 * COLOR_SIZE + 3, 3, COLOR_SIZE, COLOR_SIZE, GFX_WHITE);	/* White */
 
 	/* pens */	
-	gdispFillStringBox(OFFSET * 2, DRAW_PEN(1), PEN_SIZE, PEN_SIZE, "1", font2, GFX_WHITE, GFX_BLACK, justifyCenter);
-	gdispFillStringBox(OFFSET * 2, DRAW_PEN(2), PEN_SIZE, PEN_SIZE, "2", font2, GFX_WHITE, GFX_BLACK, justifyCenter);
-	gdispFillStringBox(OFFSET * 2, DRAW_PEN(3), PEN_SIZE, PEN_SIZE, "3", font2, GFX_WHITE, GFX_BLACK, justifyCenter);
-	gdispFillStringBox(OFFSET * 2, DRAW_PEN(4), PEN_SIZE, PEN_SIZE, "4", font2, GFX_WHITE, GFX_BLACK, justifyCenter);
-	gdispFillStringBox(OFFSET * 2, DRAW_PEN(5), PEN_SIZE, PEN_SIZE, "5", font2, GFX_WHITE, GFX_BLACK, justifyCenter);
+	gdispFillStringBox(OFFSET * 2, DRAW_PEN(1), PEN_SIZE, PEN_SIZE, "1", font2, GFX_WHITE, GFX_BLACK, gJustifyCenter);
+	gdispFillStringBox(OFFSET * 2, DRAW_PEN(2), PEN_SIZE, PEN_SIZE, "2", font2, GFX_WHITE, GFX_BLACK, gJustifyCenter);
+	gdispFillStringBox(OFFSET * 2, DRAW_PEN(3), PEN_SIZE, PEN_SIZE, "3", font2, GFX_WHITE, GFX_BLACK, gJustifyCenter);
+	gdispFillStringBox(OFFSET * 2, DRAW_PEN(4), PEN_SIZE, PEN_SIZE, "4", font2, GFX_WHITE, GFX_BLACK, gJustifyCenter);
+	gdispFillStringBox(OFFSET * 2, DRAW_PEN(5), PEN_SIZE, PEN_SIZE, "5", font2, GFX_WHITE, GFX_BLACK, gJustifyCenter);
 	
 	gdispCloseFont(font1);
 	gdispCloseFont(font2);

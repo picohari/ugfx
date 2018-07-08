@@ -950,7 +950,7 @@ void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord s
 	 *
 	 * @api
 	 */
-	void gwinDrawStringBox(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, justify_t justify);
+	void gwinDrawStringBox(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, gJustify justify);
 
 	/**
 	 * @brief   Draw a text string verticly centered within the specified filled box.
@@ -967,7 +967,7 @@ void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord s
 	 *
 	 * @api
 	 */
-	void gwinFillStringBox(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, justify_t justify);
+	void gwinFillStringBox(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, gJustify justify);
 #endif
 
 /*-------------------------------------------------
