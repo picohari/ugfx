@@ -230,7 +230,7 @@
 	 * @note	GDISP_NEED_CONTROL must also be set (and the hardware must support it)
 	 * @note	If not specified then displays default to the native hardware orientation
 	 */
-	// #define GDISP_DEFAULT_ORIENTATION		GDISP_ROTATE_LANDSCAPE
+	// #define GDISP_DEFAULT_ORIENTATION		gOrientationLandscape
 	/**
 	 * @brief   The size of pixel buffer (in pixels) used for optimization.
 	 * @details	Set to zero to guarantee disabling of the buffer.

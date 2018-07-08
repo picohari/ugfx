@@ -397,7 +397,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		gfxSleepMilliseconds(100);
 
 	/* Initialise the GDISP structure to match */
-    g->g.Orientation = GDISP_ROTATE_0;
+    g->g.Orientation = gOrientation0;
     g->g.Powermode = gPowerOn;
     g->g.Backlight = 100;
     g->g.Contrast = 50;

@@ -298,7 +298,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 	// Initialise the GDISP structure
 	g->g.Width = UC8173_WIDTH;
 	g->g.Height = UC8173_HEIGHT;
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	g->g.Backlight = 0;
 	g->g.Contrast = 0;
@@ -399,7 +399,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 		#if GDISP_NEED_CONTROL && GDISP_HARDWARE_CONTROL
 			switch(g->g.Orientation) {
 			default:
-			case GDISP_ROTATE_0:
+			case gOrientation0:
 				#if FB_REVERSEAXIS_X
 					x = FB_WIDTH-1 - g->p.x;
 				#else
@@ -411,7 +411,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 					y = g->p.y;
 				#endif
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				#if FB_REVERSEAXIS_X
 					x = FB_WIDTH-1 - g->p.y;
 				#else
@@ -423,7 +423,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 					y = FB_HEIGHT-1 - g->p.x;
 				#endif
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				#if FB_REVERSEAXIS_X
 					x = g->p.x;
 				#else
@@ -435,7 +435,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 					y = FB_HEIGHT-1 - g->p.y;
 				#endif
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				#if FB_REVERSEAXIS_X
 					x = g->p.y;
 				#else

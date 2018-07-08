@@ -208,18 +208,18 @@ static void GetMouseReading(GMouse *m) {
 						gCoord		t;
 
 						switch(gdispGGetOrientation(m->display)) {
-							case GDISP_ROTATE_0:
+							case gOrientation0:
 								break;
-							case GDISP_ROTATE_90:
+							case gOrientation90:
 								t = r.x;
 								r.x = w - 1 - r.y;
 								r.y = t;
 								break;
-							case GDISP_ROTATE_180:
+							case gOrientation180:
 								r.x = w - 1 - r.x;
 								r.y = h - 1 - r.y;
 								break;
-							case GDISP_ROTATE_270:
+							case gOrientation270:
 								t = r.y;
 								r.y = h - 1 - r.x;
 								r.x = t;
@@ -382,22 +382,22 @@ static void MousePoll(void *param) {
 
 		#if GDISP_NEED_CONTROL
 			if (!(gmvmt(m)->d.flags & GMOUSE_VFLG_SELFROTATION)) {
-				/* Convert all cross points back to GDISP_ROTATE_0 convention
+				/* Convert all cross points back to gOrientation0 convention
 				 * before calculating the calibration matrix.
 				 */
 				switch(gdispGGetOrientation(m->display)) {
-				case GDISP_ROTATE_90:
+				case gOrientation90:
 					c0 = cross[0].y;
 					c1 = cross[1].y;
 					c2 = cross[2].y;
 					break;
-				case GDISP_ROTATE_180:
+				case gOrientation180:
 					c0 = c1 = c2 = gdispGGetWidth(m->display) - 1;
 					c0 -= cross[0].x;
 					c1 -= cross[1].x;
 					c2 -= cross[2].x;
 					break;
-				case GDISP_ROTATE_270:
+				case gOrientation270:
 					c0 = c1 = c2 = gdispGGetHeight(m->display) - 1;
 					c0 -= cross[0].y;
 					c1 -= cross[1].y;
@@ -429,19 +429,19 @@ static void MousePoll(void *param) {
 		#if GDISP_NEED_CONTROL
 			if (!(gmvmt(m)->d.flags & GMOUSE_VFLG_SELFROTATION)) {
 				switch(gdispGGetOrientation(m->display)) {
-				case GDISP_ROTATE_90:
+				case gOrientation90:
 					c0 = c1 = c2 = gdispGGetWidth(m->display) - 1;
 					c0 -= cross[0].x;
 					c1 -= cross[1].x;
 					c2 -= cross[2].x;
 					break;
-				case GDISP_ROTATE_180:
+				case gOrientation180:
 					c0 = c1 = c2 = gdispGGetHeight(m->display) - 1;
 					c0 -= cross[0].y;
 					c1 -= cross[1].y;
 					c2 -= cross[2].y;
 					break;
-				case GDISP_ROTATE_270:
+				case gOrientation270:
 					c0 = cross[0].x;
 					c1 = cross[1].x;
 					c2 = cross[2].x;
@@ -573,18 +573,18 @@ static void MousePoll(void *param) {
 					gCoord		t;
 
 					switch(gdispGGetOrientation(m->display)) {
-						case GDISP_ROTATE_0:
+						case gOrientation0:
 							break;
-						case GDISP_ROTATE_90:
+						case gOrientation90:
 							t = points[3].x;
 							points[3].x = w - 1 - points[3].y;
 							points[3].y = t;
 							break;
-						case GDISP_ROTATE_180:
+						case gOrientation180:
 							points[3].x = w - 1 - points[3].x;
 							points[3].y = h - 1 - points[3].y;
 							break;
-						case GDISP_ROTATE_270:
+						case gOrientation270:
 							t = points[3].y;
 							points[3].y = h - 1 - points[3].x;
 							points[3].x = t;

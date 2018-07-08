@@ -211,13 +211,13 @@ static gBool read_xyz(GMouse* m, GMouseReading* pdr)
 		#if GDISP_NEED_CONTROL
 			switch(gdispGGetOrientation(m->display)) {
 			default:
-			case GDISP_ROTATE_0:
-			case GDISP_ROTATE_180:
+			case gOrientation0:
+			case gOrientation180:
 				pdr->x = gdispGGetWidth(m->display) - pdr->x / (4096/gdispGGetWidth(m->display));
 				pdr->y = pdr->y / (4096/gdispGGetHeight(m->display));
 				break;
-			case GDISP_ROTATE_90:
-			case GDISP_ROTATE_270:
+			case gOrientation90:
+			case gOrientation270:
 				pdr->x = gdispGGetHeight(m->display) - pdr->x / (4096/gdispGGetHeight(m->display));
 				pdr->y = pdr->y / (4096/gdispGGetWidth(m->display));
 				break;

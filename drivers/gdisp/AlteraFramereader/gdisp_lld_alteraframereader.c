@@ -60,7 +60,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 	g->g.Height = SCREEN_HEIGHT;
 	g->g.Backlight = 100;
 	g->g.Contrast = 50;
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	g->board = 0;
 	PRIV(g)->linelen = g->g.Width * sizeof(LLDCOLOR_TYPE);	// bytes per line
@@ -103,17 +103,17 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay* g)
 
 	#if GDISP_NEED_CONTROL
 		switch(g->g.Orientation) {
-		case GDISP_ROTATE_0:
+		case gOrientation0:
 		default:
 			pos = PIXIL_POS(g, g->p.x, g->p.y);
 			break;
-		case GDISP_ROTATE_90:
+		case gOrientation90:
 			pos = PIXIL_POS(g, g->p.y, g->g.Width-g->p.x-1);
 			break;
-		case GDISP_ROTATE_180:
+		case gOrientation180:
 			pos = PIXIL_POS(g, g->g.Width-g->p.x-1, g->g.Height-g->p.y-1);
 			break;
-		case GDISP_ROTATE_270:
+		case gOrientation270:
 			pos = PIXIL_POS(g, g->g.Height-g->p.y-1, g->p.x);
 			break;
 		}
@@ -131,17 +131,17 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g)
 
 	#if GDISP_NEED_CONTROL
 		switch(g->g.Orientation) {
-		case GDISP_ROTATE_0:
+		case gOrientation0:
 		default:
 			pos = PIXIL_POS(g, g->p.x, g->p.y);
 			break;
-		case GDISP_ROTATE_90:
+		case gOrientation90:
 			pos = PIXIL_POS(g, g->p.y, g->g.Width-g->p.x-1);
 			break;
-		case GDISP_ROTATE_180:
+		case gOrientation180:
 			pos = PIXIL_POS(g, g->g.Width-g->p.x-1, g->g.Height-g->p.y-1);
 			break;
-		case GDISP_ROTATE_270:
+		case gOrientation270:
 			pos = PIXIL_POS(g, g->g.Height-g->p.y-1, g->p.x);
 			break;
 		}
@@ -171,12 +171,12 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g)
 			return;
 
 		case GDISP_CONTROL_ORIENTATION:
-			if (g->g.Orientation == (orientation_t)g->p.ptr)
+			if (g->g.Orientation == (gOrientation)g->p.ptr)
 				return;
-			switch((orientation_t)g->p.ptr) {
-				case GDISP_ROTATE_0:
-				case GDISP_ROTATE_180:
-					if (g->g.Orientation == GDISP_ROTATE_90 || g->g.Orientation == GDISP_ROTATE_270) {
+			switch((gOrientation)g->p.ptr) {
+				case gOrientation0:
+				case gOrientation180:
+					if (g->g.Orientation == gOrientation90 || g->g.Orientation == gOrientation270) {
 						gCoord		tmp;
 
 						tmp = g->g.Width;
@@ -184,9 +184,9 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g)
 						g->g.Height = tmp;
 					}
 					break;
-				case GDISP_ROTATE_90:
-				case GDISP_ROTATE_270:
-					if (g->g.Orientation == GDISP_ROTATE_0 || g->g.Orientation == GDISP_ROTATE_180) {
+				case gOrientation90:
+				case gOrientation270:
+					if (g->g.Orientation == gOrientation0 || g->g.Orientation == gOrientation180) {
 						gCoord		tmp;
 
 						tmp = g->g.Width;
@@ -197,7 +197,7 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g)
 				default:
 					return;
 			}
-			g->g.Orientation = (orientation_t)g->p.ptr;
+			g->g.Orientation = (gOrientation)g->p.ptr;
 			return;
 
 		case GDISP_CONTROL_BACKLIGHT:

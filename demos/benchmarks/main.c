@@ -92,7 +92,7 @@ void benchmark(void) {
     gColor random_color;
 	gFont font;
 
-    gdispSetOrientation(GDISP_ROTATE_90);
+    gdispSetOrientation(gOrientation90);
 
 	width = gdispGetWidth();
 	height = gdispGetHeight();

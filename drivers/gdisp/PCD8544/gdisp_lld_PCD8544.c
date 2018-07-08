@@ -86,7 +86,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	/* Initialise the GDISP structure */
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
@@ -122,19 +122,19 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
 			default:
-			case GDISP_ROTATE_0:
+			case gOrientation0:
 				x = g->p.x;
 				y = g->p.y;
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				x = g->p.y;
 				y = g->g.Width - g->p.x - 1;
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				x = g->g.Width  - g->p.x - 1;
 				y = g->g.Height - g->p.y - 1;
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				x = g->g.Height - g->p.y - 1;
 				y = g->p.x;
 				break;
@@ -160,19 +160,19 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 		switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:
+		case gOrientation0:
 			x = g->p.x;
 			y = g->p.y;
 			break;
-		case GDISP_ROTATE_90:
+		case gOrientation90:
 			x = g->p.y;
 			y = GDISP_SCREEN_HEIGHT-1 - g->p.x;
 			break;
-		case GDISP_ROTATE_180:
+		case gOrientation180:
 			x = GDISP_SCREEN_WIDTH-1 - g->p.x;
 			y = GDISP_SCREEN_HEIGHT-1 - g->p.y;
 			break;
-		case GDISP_ROTATE_270:
+		case gOrientation270:
 			x = GDISP_SCREEN_WIDTH-1 - g->p.y;
 			y = g->p.x;
 			break;
@@ -203,12 +203,12 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 			return;
 
 		case GDISP_CONTROL_ORIENTATION:
-			if (g->g.Orientation == (orientation_t)g->p.ptr)
+			if (g->g.Orientation == (gOrientation)g->p.ptr)
 				return;
-			switch((orientation_t)g->p.ptr) {
-				case GDISP_ROTATE_0:
-				case GDISP_ROTATE_180:
-					if (g->g.Orientation == GDISP_ROTATE_90 || g->g.Orientation == GDISP_ROTATE_270) {
+			switch((gOrientation)g->p.ptr) {
+				case gOrientation0:
+				case gOrientation180:
+					if (g->g.Orientation == gOrientation90 || g->g.Orientation == gOrientation270) {
 						gCoord		tmp;
 
 						tmp = g->g.Width;
@@ -216,9 +216,9 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 						g->g.Height = tmp;
 					}
 					break;
-				case GDISP_ROTATE_90:
-				case GDISP_ROTATE_270:
-					if (g->g.Orientation == GDISP_ROTATE_0 || g->g.Orientation == GDISP_ROTATE_180) {
+				case gOrientation90:
+				case gOrientation270:
+					if (g->g.Orientation == gOrientation0 || g->g.Orientation == gOrientation180) {
 						gCoord		tmp;
 
 						tmp = g->g.Width;
@@ -229,7 +229,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				default:
 					return;
 			}
-			g->g.Orientation = (orientation_t)g->p.ptr;
+			g->g.Orientation = (gOrientation)g->p.ptr;
 			return;
 
 		case GDISP_CONTROL_BACKLIGHT:

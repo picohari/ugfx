@@ -189,7 +189,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	// Initialise the GDISP structure
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
@@ -275,11 +275,11 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 			return;
 
 		case GDISP_CONTROL_ORIENTATION:
-			if (g->g.Orientation == (orientation_t)g->p.ptr)
+			if (g->g.Orientation == (gOrientation)g->p.ptr)
 				return;
 
-			switch((orientation_t)g->p.ptr) {
-			case GDISP_ROTATE_0:
+			switch((gOrientation)g->p.ptr) {
+			case gOrientation0:
 				acquire_bus(g);
 
 			  write_index(g, 0x36);
@@ -290,7 +290,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				g->g.Width = GDISP_SCREEN_WIDTH;
 				break;
 
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				acquire_bus(g);
 
         write_index(g, 0x36);
@@ -301,7 +301,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				g->g.Width = GDISP_SCREEN_HEIGHT;
 				break;
 
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				acquire_bus(g);
 
 			  write_index(g, 0x36);
@@ -312,7 +312,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				g->g.Width = GDISP_SCREEN_WIDTH;
 				break;
 
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				acquire_bus(g);
 
         write_index(g, 0x36);
@@ -327,7 +327,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				return;
 			}
 
-			g->g.Orientation = (orientation_t)g->p.ptr;
+			g->g.Orientation = (gOrientation)g->p.ptr;
 			return;
 
       default:

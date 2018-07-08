@@ -320,7 +320,7 @@ struct GDisplay {
 	struct GDISPControl {
 		gCoord					Width;
 		gCoord					Height;
-		orientation_t			Orientation;
+		gOrientation			Orientation;
 		gPowermode				Powermode;
 		uint8_t					Backlight;
 		uint8_t					Contrast;

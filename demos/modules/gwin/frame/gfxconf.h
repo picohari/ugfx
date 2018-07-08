@@ -39,7 +39,7 @@
     #define GDISP_INCLUDE_FONT_UI2                   GFXON
 #define GDISP_NEED_MULTITHREAD                       GFXON
 
-#define GDISP_DEFAULT_ORIENTATION                    GDISP_ROTATE_LANDSCAPE
+#define GDISP_DEFAULT_ORIENTATION                    gOrientationLandscape
 
 ///////////////////////////////////////////////////////////////////////////
 // GWIN                                                                  //

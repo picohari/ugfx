@@ -52,13 +52,13 @@ static void createWidgets(void) {
 
 int main(void) {
 	GEvent* pe;
-	static const orientation_t	orients[] = { GDISP_ROTATE_0, GDISP_ROTATE_90, GDISP_ROTATE_180, GDISP_ROTATE_270 };
+	static const gOrientation	orients[] = { gOrientation0, gOrientation90, gOrientation180, gOrientation270 };
 	unsigned which;
 
 	// Initialize the display
 	gfxInit();
 
-	// We are currently at GDISP_ROTATE_0
+	// We are currently at gOrientation0
 	which = 0;
 	gdispSetOrientation(orients[which]);
 

@@ -40,7 +40,7 @@
 	// DMA2D supports accelerated fills
  	#define GDISP_HARDWARE_FILLS		GFXON
 
-	// Accelerated bitfills are also possible but only for GDISP_ROTATE_0
+	// Accelerated bitfills are also possible but only for gOrientation0
 	//	and if no color translation is required (for now)
 	#if !GDISP_NEED_CONTROL && !defined(GDISP_PIXELFORMAT)
  		#define GDISP_HARDWARE_BITFILLS	GFXON

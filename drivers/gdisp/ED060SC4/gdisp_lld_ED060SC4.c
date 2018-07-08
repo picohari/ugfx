@@ -448,7 +448,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	/* Initialise the GDISP structure */
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	g->g.Backlight = 100;
 	g->g.Contrast = 100;
@@ -489,25 +489,25 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 		switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:
+		case gOrientation0:
 			bx = g->p.x / EINK_BLOCKWIDTH;
 			dx = g->p.x % EINK_BLOCKWIDTH;
 			by = g->p.y / EINK_BLOCKHEIGHT;
 			dy = g->p.y % EINK_BLOCKHEIGHT;
 			break;
-		case GDISP_ROTATE_90:
+		case gOrientation90:
 			bx = g->p.y / EINK_BLOCKWIDTH;
 			dx = g->p.y % EINK_BLOCKWIDTH;
 			by = (GDISP_SCREEN_HEIGHT-1 - g->p.x) / EINK_BLOCKHEIGHT;
 			dy = (GDISP_SCREEN_HEIGHT-1 - g->p.x) % EINK_BLOCKHEIGHT;
 			break;
-		case GDISP_ROTATE_180:
+		case gOrientation180:
 			bx = (GDISP_SCREEN_WIDTH-1 - g->p.x) / EINK_BLOCKWIDTH;
 			dx = (GDISP_SCREEN_WIDTH-1 - g->p.x) % EINK_BLOCKWIDTH;
 			by = (GDISP_SCREEN_HEIGHT-1 - g->p.y) / EINK_BLOCKHEIGHT;
 			dy = (GDISP_SCREEN_HEIGHT-1 - g->p.y) % EINK_BLOCKHEIGHT;
 			break;
-		case GDISP_ROTATE_270:
+		case gOrientation270:
 			bx = (GDISP_SCREEN_WIDTH-1 - g->p.y) / EINK_BLOCKWIDTH;
 			dx = (GDISP_SCREEN_WIDTH-1 - g->p.y) % EINK_BLOCKWIDTH;
 			by = g->p.x / EINK_BLOCKHEIGHT;
@@ -551,23 +551,23 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 			return;
 
 		case GDISP_CONTROL_ORIENTATION:
-			if (g->g.Orientation == (orientation_t)g->p.ptr)
+			if (g->g.Orientation == (gOrientation)g->p.ptr)
 				return;
-			switch((orientation_t)g->p.ptr) {
-			case GDISP_ROTATE_0:
-			case GDISP_ROTATE_180:
+			switch((gOrientation)g->p.ptr) {
+			case gOrientation0:
+			case gOrientation180:
 				g->g.Height = GDISP_SCREEN_HEIGHT;
 				g->g.Width = GDISP_SCREEN_WIDTH;
 				break;
-			case GDISP_ROTATE_90:
-			case GDISP_ROTATE_270:
+			case gOrientation90:
+			case gOrientation270:
 				g->g.Height = GDISP_SCREEN_WIDTH;
 				g->g.Width = GDISP_SCREEN_HEIGHT;
 				break;
 			default:
 				return;
 			}
-			g->g.Orientation = (orientation_t)g->p.ptr;
+			g->g.Orientation = (gOrientation)g->p.ptr;
 			return;
 			
 		default:

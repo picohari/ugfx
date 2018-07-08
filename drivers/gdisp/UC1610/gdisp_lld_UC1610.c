@@ -124,7 +124,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	/* Initialise the GDISP structure */
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
@@ -142,11 +142,11 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				x = g->p.x;
 				y = g->p.y;
 				break;
-			case GDISP_ROTATE_90 :
+			case gOrientation90 :
 				y = g->p.x;
 				x = g->p.y;
 				break;
-			case GDISP_ROTATE_270 :
+			case gOrientation270 :
 				y = g->p.x;
 				x = g->p.y;
 				break;
@@ -254,9 +254,9 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				return;
 
 			case GDISP_CONTROL_ORIENTATION:
-				if (g->g.Orientation == (orientation_t)g->p.ptr) { return; }
-				switch((orientation_t)g->p.ptr) {
-					case GDISP_ROTATE_0:
+				if (g->g.Orientation == (gOrientation)g->p.ptr) { return; }
+				switch((gOrientation)g->p.ptr) {
+					case gOrientation0:
 						g->g.Width  = GDISP_SCREEN_WIDTH;
 						g->g.Height = GDISP_SCREEN_HEIGHT;
 						cmdBuffer[0] = UC1610_SET_MAPPING_CONTROL;
@@ -265,7 +265,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 						release_bus(g);
 						flush_screen(g);
 						break;
-					case GDISP_ROTATE_180:	// we can rotate 180° without modify screen buffer RAM(g)
+					case gOrientation180:	// we can rotate 180° without modify screen buffer RAM(g)
 						g->g.Width  = GDISP_SCREEN_WIDTH;
 						g->g.Height = GDISP_SCREEN_HEIGHT;
 						cmdBuffer[0] = UC1610_SET_MAPPING_CONTROL | UC1610_SET_MAPPING_CONTROL_MY_MASK | UC1610_SET_MAPPING_CONTROL_MX_MASK;
@@ -274,7 +274,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 						release_bus(g);
 						flush_screen(g);
 						break;
-					case GDISP_ROTATE_90:	// needs clearing screen and updating RAM(g)
+					case gOrientation90:	// needs clearing screen and updating RAM(g)
 						g->g.Width  = GDISP_SCREEN_HEIGHT;
 						g->g.Height = GDISP_SCREEN_WIDTH;
 						cmdBuffer[0] = UC1610_SET_MAPPING_CONTROL | UC1610_SET_MAPPING_CONTROL_MX_MASK;
@@ -282,7 +282,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 						write_cmd(g, cmdBuffer, 1);
 						release_bus(g);
 						break;
-					case GDISP_ROTATE_270:	// needs clearing screen and updating RAM(g)
+					case gOrientation270:	// needs clearing screen and updating RAM(g)
 						g->g.Width  = GDISP_SCREEN_HEIGHT;
 						g->g.Height = GDISP_SCREEN_WIDTH;
 						cmdBuffer[0] = UC1610_SET_MAPPING_CONTROL | UC1610_SET_MAPPING_CONTROL_MY_MASK;
@@ -293,7 +293,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					default:
 						return;
 				}
-				g->g.Orientation = (orientation_t)g->p.ptr;
+				g->g.Orientation = (gOrientation)g->p.ptr;
 				return;
 
 			case GDISP_CONTROL_BACKLIGHT:

@@ -134,19 +134,19 @@
 		#if GDISP_NOKIA_ORIENTATION && GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
 			default:
-			case GDISP_ROTATE_0:
+			case gOrientation0:
 				write_cmd2(g, CASET, GDISP_RAM_X_OFFSET+g->p.x, GDISP_RAM_X_OFFSET+g->p.x);			// Column address set
 				write_cmd2(g, PASET, GDISP_RAM_Y_OFFSET+g->p.y, GDISP_RAM_Y_OFFSET+g->p.y);			// Page address set
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				write_cmd2(g, CASET, GDISP_RAM_X_OFFSET+g->p.y, GDISP_RAM_X_OFFSET+g->p.y);
 				write_cmd2(g, PASET, GDISP_RAM_Y_OFFSET-1+g->g.Width-g->p.x, GDISP_RAM_Y_OFFSET-1+g->g.Width-g->p.x);
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				write_cmd2(g, CASET, GDISP_RAM_X_OFFSET-1+g->g.Width-g->p.x, GDISP_RAM_X_OFFSET-1+g->g.Width-g->p.x);
 				write_cmd2(g, PASET, GDISP_RAM_Y_OFFSET-1+g->g.Height-g->p.y, GDISP_RAM_Y_OFFSET-1+g->g.Height-g->p.y);
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				write_cmd2(g, CASET, GDISP_RAM_X_OFFSET-1+g->g.Height-g->p.y, GDISP_RAM_X_OFFSET-1+g->g.Height-g->p.y);
 				write_cmd2(g, PASET, GDISP_RAM_Y_OFFSET+g->p.x, GDISP_RAM_Y_OFFSET+g->p.x);
 				break;
@@ -163,19 +163,19 @@ static GFXINLINE void set_viewport(GDisplay* g) {
 	#if GDISP_NOKIA_ORIENTATION && GDISP_NEED_CONTROL
 		switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:
+		case gOrientation0:
 			write_cmd2(g, CASET, GDISP_RAM_X_OFFSET+g->p.x, GDISP_RAM_X_OFFSET+g->p.x+g->p.cx-1);			// Column address set
 			write_cmd2(g, PASET, GDISP_RAM_Y_OFFSET+g->p.y, GDISP_RAM_Y_OFFSET+g->p.y+g->p.cy-1);			// Page address set
 			break;
-		case GDISP_ROTATE_90:
+		case gOrientation90:
 			write_cmd2(g, CASET, GDISP_RAM_X_OFFSET+g->p.y, GDISP_RAM_X_OFFSET+g->p.y+g->p.cy-1);
 			write_cmd2(g, PASET, GDISP_RAM_Y_OFFSET+g->g.Width-g->p.x-g->p.cx, GDISP_RAM_Y_OFFSET-1+g->g.Width-g->p.x);
 			break;
-		case GDISP_ROTATE_180:
+		case gOrientation180:
 			write_cmd2(g, CASET, GDISP_RAM_X_OFFSET+g->g.Width-g->p.x-g->p.cx, GDISP_RAM_X_OFFSET-1+g->g.Width-g->p.x);
 			write_cmd2(g, PASET, GDISP_RAM_Y_OFFSET+g->g.Height-g->p.y-g->p.cy, GDISP_RAM_Y_OFFSET-1+g->g.Height-g->p.y);
 			break;
-		case GDISP_ROTATE_270:
+		case gOrientation270:
 			write_cmd2(g, CASET, GDISP_RAM_X_OFFSET+g->g.Height-g->p.y-g->p.cy, GDISP_RAM_X_OFFSET-1+g->g.Height-g->p.y);
 			write_cmd2(g, PASET, GDISP_RAM_Y_OFFSET+g->p.x, GDISP_RAM_Y_OFFSET+g->p.x+g->p.cx-1);
 			break;
@@ -239,7 +239,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	set_backlight(g, GDISP_INITIAL_BACKLIGHT);
 
 	/* Initialise the GDISP structure to match */
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
@@ -373,10 +373,10 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		 */
 		switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:		x = 0;			y = 0;			break;
-		case GDISP_ROTATE_90:		x = g->p.cx-1;	y = 0;			break;
-		case GDISP_ROTATE_180:		x = g->p.cx-1;	y = g->p.cy-1;	break;
-		case GDISP_ROTATE_270:		x = 0;			y = g->p.cy-1;	break;
+		case gOrientation0:		x = 0;			y = 0;			break;
+		case gOrientation90:		x = g->p.cx-1;	y = 0;			break;
+		case gOrientation180:		x = g->p.cx-1;	y = g->p.cy-1;	break;
+		case gOrientation270:		x = 0;			y = g->p.cy-1;	break;
 		}
 
 		#if !GDISP_PACKED_PIXELS
@@ -543,26 +543,26 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 			return;
 		#if GDISP_NOKIA_ORIENTATION
 			case GDISP_CONTROL_ORIENTATION:
-				if (g->g.Orientation == (orientation_t)g->p.ptr)
+				if (g->g.Orientation == (gOrientation)g->p.ptr)
 					return;
 				acquire_bus(g);
-				switch((orientation_t)g->p.ptr) {
-				case GDISP_ROTATE_0:
+				switch((gOrientation)g->p.ptr) {
+				case gOrientation0:
 					write_cmd3(g, DATCTL, 0x00, 0x00, 0x02);	// P1: page normal, column normal, scan in column direction
 					g->g.Height = GDISP_SCREEN_HEIGHT;
 					g->g.Width = GDISP_SCREEN_WIDTH;
 					break;
-				case GDISP_ROTATE_90:
+				case gOrientation90:
 					write_cmd3(g, DATCTL, 0x05, 0x00, 0x02);	// P1: page reverse, column normal, scan in page direction
 					g->g.Height = GDISP_SCREEN_WIDTH;
 					g->g.Width = GDISP_SCREEN_HEIGHT;
 					break;
-				case GDISP_ROTATE_180:
+				case gOrientation180:
 					write_cmd3(g, DATCTL, 0x03, 0x00, 0x02);	// P1: page reverse, column reverse, scan in column direction
 					g->g.Height = GDISP_SCREEN_HEIGHT;
 					g->g.Width = GDISP_SCREEN_WIDTH;
 					break;
-				case GDISP_ROTATE_270:
+				case gOrientation270:
 					write_cmd3(g, DATCTL, 0x06, 0x00, 0x02);	// P1: page normal, column reverse, scan in page direction
 					g->g.Height = GDISP_SCREEN_WIDTH;
 					g->g.Width = GDISP_SCREEN_HEIGHT;
@@ -572,7 +572,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					return;
 				}
 				release_bus(g);
-				g->g.Orientation = (orientation_t)g->p.ptr;
+				g->g.Orientation = (gOrientation)g->p.ptr;
 				return;
 		#endif
 		case GDISP_CONTROL_BACKLIGHT:

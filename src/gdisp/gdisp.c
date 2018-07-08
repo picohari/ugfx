@@ -712,7 +712,7 @@ unsigned gdispGetDisplayCount(void) {
 gCoord gdispGGetWidth(GDisplay *g)				{ return g->g.Width; }
 gCoord gdispGGetHeight(GDisplay *g)			{ return g->g.Height; }
 gPowermode gdispGGetPowerMode(GDisplay *g)		{ return g->g.Powermode; }
-orientation_t gdispGGetOrientation(GDisplay *g)	{ return g->g.Orientation; }
+gOrientation gdispGGetOrientation(GDisplay *g)	{ return g->g.Orientation; }
 uint8_t gdispGGetBacklight(GDisplay *g)			{ return g->g.Backlight; }
 uint8_t gdispGGetContrast(GDisplay *g)			{ return g->g.Contrast; }
 
@@ -2874,12 +2874,12 @@ void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoor
 			g->p.x = what;
 			g->p.ptr = value;
 			if (what == GDISP_CONTROL_ORIENTATION) {
-				switch ((orientation_t) value) {
-				case GDISP_ROTATE_LANDSCAPE:
-					g->p.ptr = g->g.Width >= g->g.Height ? (void *)GDISP_ROTATE_0 : (void *)GDISP_ROTATE_90;
+				switch ((gOrientation) value) {
+				case gOrientationLandscape:
+					g->p.ptr = g->g.Width >= g->g.Height ? (void *)gOrientation0 : (void *)gOrientation90;
 					break;
-				case GDISP_ROTATE_PORTRAIT:
-					g->p.ptr = g->g.Width >= g->g.Height ? (void *)GDISP_ROTATE_90 : (void *)GDISP_ROTATE_0;
+				case gOrientationPortrait:
+					g->p.ptr = g->g.Width >= g->g.Height ? (void *)gOrientation90 : (void *)gOrientation0;
 					break;
 				default:
 					break;

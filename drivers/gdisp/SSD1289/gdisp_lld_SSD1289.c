@@ -54,19 +54,19 @@ static void set_cursor(GDisplay *g) {
 	 */
 	switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:
+		case gOrientation0:
 			write_reg(g, 0x4e, g->p.x & 0x00FF);
 			write_reg(g, 0x4f, g->p.y & 0x01FF);
 			break;
-		case GDISP_ROTATE_90:
+		case gOrientation90:
 			write_reg(g, 0x4e, g->p.y & 0x00FF);
 			write_reg(g, 0x4f, (GDISP_SCREEN_HEIGHT-1-g->p.x) & 0x01FF);
 			break;
-		case GDISP_ROTATE_180:
+		case gOrientation180:
 			write_reg(g, 0x4e, (GDISP_SCREEN_WIDTH-1-g->p.x) & 0x00FF);
 			write_reg(g, 0x4f, (GDISP_SCREEN_HEIGHT-1-g->p.y) & 0x01FF);
 			break;
-		case GDISP_ROTATE_270:
+		case gOrientation270:
 			write_reg(g, 0x4e, (GDISP_SCREEN_WIDTH-1-g->p.y) & 0x00FF);
 			write_reg(g, 0x4f, g->p.x & 0x01FF);
 			break;
@@ -86,22 +86,22 @@ static void set_viewport(GDisplay* g) {
 	 */
 	switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:
+		case gOrientation0:
 			write_reg(g, 0x44, (((g->p.x+g->p.cx-1) << 8) & 0xFF00 ) | (g->p.x & 0x00FF));
 			write_reg(g, 0x45, g->p.y & 0x01FF);
 			write_reg(g, 0x46, (g->p.y+g->p.cy-1) & 0x01FF);
 			break;
-		case GDISP_ROTATE_90:
+		case gOrientation90:
 			write_reg(g, 0x44, (((g->p.y+g->p.cy-1) << 8) & 0xFF00 ) | (g->p.y & 0x00FF));
 			write_reg(g, 0x45, (GDISP_SCREEN_HEIGHT-(g->p.x+g->p.cx)) & 0x01FF);
 			write_reg(g, 0x46, (GDISP_SCREEN_HEIGHT-1-g->p.x) & 0x01FF);
 			break;
-		case GDISP_ROTATE_180:
+		case gOrientation180:
 			write_reg(g, 0x44, (((GDISP_SCREEN_WIDTH-1-g->p.x) & 0x00FF) << 8) | ((GDISP_SCREEN_WIDTH - (g->p.x+g->p.cx)) & 0x00FF));
 			write_reg(g, 0x45, (GDISP_SCREEN_HEIGHT-(g->p.y+g->p.cy)) & 0x01FF);
 			write_reg(g, 0x46, (GDISP_SCREEN_HEIGHT-1-g->p.y) & 0x01FF);
 			break;
-		case GDISP_ROTATE_270:
+		case gOrientation270:
 			write_reg(g, 0x44, (((GDISP_SCREEN_WIDTH-1-g->p.y) & 0x00FF) << 8) | ((GDISP_SCREEN_WIDTH-(g->p.y+g->p.cy)) & 0x00FF));
 			write_reg(g, 0x45, g->p.x & 0x01FF);
 			write_reg(g, 0x46, (g->p.x+g->p.cx-1) & 0x01FF);
@@ -187,7 +187,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	/* Initialise the GDISP structure */
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
@@ -310,10 +310,10 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 			return;
 
 		case GDISP_CONTROL_ORIENTATION:
-			if (g->g.Orientation == (orientation_t)g->p.ptr)
+			if (g->g.Orientation == (gOrientation)g->p.ptr)
 				return;
-			switch((orientation_t)g->p.ptr) {
-			case GDISP_ROTATE_0:
+			switch((gOrientation)g->p.ptr) {
+			case gOrientation0:
 				acquire_bus(g);
 				/* ID = 11 AM = 0 */
 				write_reg(g, 0x11, 0x6070);
@@ -321,7 +321,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				g->g.Height = GDISP_SCREEN_HEIGHT;
 				g->g.Width = GDISP_SCREEN_WIDTH;
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				acquire_bus(g);
 				/* ID = 01 AM = 1 */
 				write_reg(g, 0x11, 0x6058);
@@ -329,7 +329,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				g->g.Height = GDISP_SCREEN_WIDTH;
 				g->g.Width = GDISP_SCREEN_HEIGHT;
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				acquire_bus(g);
 				/* ID = 00 AM = 0 */
 				write_reg(g, 0x11, 0x6040);
@@ -337,7 +337,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				g->g.Height = GDISP_SCREEN_HEIGHT;
 				g->g.Width = GDISP_SCREEN_WIDTH;
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				acquire_bus(g);
 				/* ID = 10 AM = 1 */
 				write_reg(g, 0x11, 0x6068);
@@ -348,7 +348,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 			default:
 				return;
 			}
-			g->g.Orientation = (orientation_t)g->p.ptr;
+			g->g.Orientation = (gOrientation)g->p.ptr;
 			return;
 
         case GDISP_CONTROL_BACKLIGHT:

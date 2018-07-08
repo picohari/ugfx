@@ -132,7 +132,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	/* Initialise the GDISP structure */
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	g->g.Backlight = GDISP_INITIAL_BACKLIGHT;
 	g->g.Contrast = GDISP_INITIAL_CONTRAST;
@@ -142,14 +142,14 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 static void set_cursor(GDisplay *g) {
 	switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:
-		case GDISP_ROTATE_180:
+		case gOrientation0:
+		case gOrientation180:
 			write_reg(g, ILI9225_RAM_ADDR_SET1, g->p.x);
 			write_reg(g, ILI9225_RAM_ADDR_SET2, g->p.y);
 			break;
 
-		case GDISP_ROTATE_90:
-		case GDISP_ROTATE_270:
+		case gOrientation90:
+		case gOrientation270:
 			write_reg(g, ILI9225_RAM_ADDR_SET1, g->p.y);
 			write_reg(g, ILI9225_RAM_ADDR_SET2, g->p.x);
 			break;
@@ -160,16 +160,16 @@ static void set_cursor(GDisplay *g) {
 static void set_viewport(GDisplay *g) {
 	switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:
-		case GDISP_ROTATE_180:
+		case gOrientation0:
+		case gOrientation180:
 			write_reg(g, ILI9225_HORIZONTAL_WINDOW_ADDR2, g->p.x);
 			write_reg(g, ILI9225_HORIZONTAL_WINDOW_ADDR1, g->p.x + g->p.cx - 1);
 			write_reg(g, ILI9225_VERTICAL_WINDOW_ADDR2, g->p.y);
 			write_reg(g, ILI9225_VERTICAL_WINDOW_ADDR1, g->p.y + g->p.cy - 1);
 			break;
 
-		case GDISP_ROTATE_90:
-		case GDISP_ROTATE_270:
+		case gOrientation90:
+		case gOrientation270:
 			write_reg(g, ILI9225_HORIZONTAL_WINDOW_ADDR2, g->p.y);
 			write_reg(g, ILI9225_HORIZONTAL_WINDOW_ADDR1, g->p.y + g->p.cy - 1);
 			write_reg(g, ILI9225_VERTICAL_WINDOW_ADDR2, g->p.x);
@@ -190,12 +190,12 @@ LLDSPEC	void gdisp_lld_write_start(GDisplay *g) {
 	// save viewport
 	switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:
-		case GDISP_ROTATE_180:
+		case gOrientation0:
+		case gOrientation180:
 			svx = g->p.x; svy = g->p.y; svcx = g->p.cx; svcy = g->p.cy;
 			break;
-		case GDISP_ROTATE_90:
-		case GDISP_ROTATE_270:
+		case gOrientation90:
+		case gOrientation270:
 			svx = g->p.y; svy = g->p.x; svcx = g->p.cy; svcy = g->p.cx;
 			break;
 	}
@@ -327,10 +327,10 @@ LLDSPEC void gdisp_lld_control(GDisplay *g) {
 		return;
 
 	case GDISP_CONTROL_ORIENTATION:
-		if (g->g.Orientation == (orientation_t)g->p.ptr)
+		if (g->g.Orientation == (gOrientation)g->p.ptr)
 			return;
-		switch((orientation_t)g->p.ptr) {
-			case GDISP_ROTATE_0: // correct
+		switch((gOrientation)g->p.ptr) {
+			case gOrientation0: // correct
 				acquire_bus(g);
 				write_reg(g, ILI9225_DRIVER_OUTPUT_CTRL, 0x011C);
 				write_reg(g, ILI9225_ENTRY_MODE, 0x1030);
@@ -338,7 +338,7 @@ LLDSPEC void gdisp_lld_control(GDisplay *g) {
 				g->g.Width = GDISP_SCREEN_WIDTH;
 				release_bus(g);
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				acquire_bus(g);
 				write_reg(g, ILI9225_DRIVER_OUTPUT_CTRL, 0x031C);
 				write_reg(g, ILI9225_ENTRY_MODE, 0x1038);
@@ -346,7 +346,7 @@ LLDSPEC void gdisp_lld_control(GDisplay *g) {
 				g->g.Width = GDISP_SCREEN_HEIGHT;
 				release_bus(g);
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				acquire_bus(g);
 				write_reg(g, ILI9225_DRIVER_OUTPUT_CTRL, 0x021C);
 				write_reg(g, ILI9225_ENTRY_MODE, 0x1030);
@@ -354,7 +354,7 @@ LLDSPEC void gdisp_lld_control(GDisplay *g) {
 				g->g.Width = GDISP_SCREEN_WIDTH;
 				release_bus(g);
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				acquire_bus(g);
 				write_reg(g, ILI9225_DRIVER_OUTPUT_CTRL, 0x001C);
 				write_reg(g, ILI9225_ENTRY_MODE, 0x1038);
@@ -365,7 +365,7 @@ LLDSPEC void gdisp_lld_control(GDisplay *g) {
 			default:
 				return;
 		}
-		g->g.Orientation = (orientation_t)g->p.ptr;
+		g->g.Orientation = (gOrientation)g->p.ptr;
 		return;
 	case GDISP_CONTROL_BACKLIGHT:
 		if ((unsigned)g->p.ptr > 100)

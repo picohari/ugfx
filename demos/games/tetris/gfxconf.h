@@ -53,7 +53,7 @@
 
 /* Comment these out if it conflicts with your hardware */
 #define GDISP_NEED_CONTROL		GFXON
-#define GDISP_DEFAULT_ORIENTATION    GDISP_ROTATE_PORTRAIT
+#define GDISP_DEFAULT_ORIENTATION    gOrientationPortrait
 #define GDISP_SCREEN_WIDTH      240
 #define GDISP_SCREEN_HEIGHT     320
 

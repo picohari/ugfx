@@ -44,7 +44,7 @@
     #define GDISP_NEED_IMAGE_BMP                     GFXON
     #define GDISP_NEED_IMAGE_GIF                     GFXON
 
-#define GDISP_DEFAULT_ORIENTATION                    GDISP_ROTATE_LANDSCAPE
+#define GDISP_DEFAULT_ORIENTATION                    gOrientationLandscape
 #define GDISP_NEED_MULTITHREAD                       GFXON
 
 ///////////////////////////////////////////////////////////////////////////

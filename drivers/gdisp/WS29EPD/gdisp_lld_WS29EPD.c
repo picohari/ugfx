@@ -104,7 +104,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	/* Initialise the GDISP structure */
 	g->g.Width = GDISP_SCREEN_WIDTH;
 	g->g.Height = GDISP_SCREEN_HEIGHT;
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	return gTrue;
 }
@@ -118,14 +118,14 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		
 		switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:
-		case GDISP_ROTATE_180:
+		case gOrientation0:
+		case gOrientation180:
 			write_reg(g, SET_RAM_X_CNT, g->p.x / WS29EPD_PPB);
 			write_reg_data(g, SET_RAM_Y_CNT, dataY, 2);
 			break;
 
-		case GDISP_ROTATE_90:
-		case GDISP_ROTATE_270:
+		case gOrientation90:
+		case gOrientation270:
 			write_reg(g, SET_RAM_Y_CNT, g->p.x / WS29EPD_PPB);
 			write_reg_data(g, SET_RAM_X_CNT, dataY, 2);
 			break;
@@ -147,13 +147,13 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 		switch(g->g.Orientation) {
 		default:
-		case GDISP_ROTATE_0:
-		case GDISP_ROTATE_180:
+		case gOrientation0:
+		case gOrientation180:
 			write_reg_data(g, SET_RAM_X_ADR, dataX, 2);
 			write_reg_data(g, SET_RAM_Y_ADR, dataY, 4);
 			break;
-		case GDISP_ROTATE_90:
-		case GDISP_ROTATE_270:
+		case gOrientation90:
+		case gOrientation270:
 			write_reg_data(g, SET_RAM_X_ADR, dataY, 4);
 			write_reg_data(g, SET_RAM_Y_ADR, dataX, 2);
 			break;
@@ -167,19 +167,19 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 
 	switch(g->g.Orientation) {
 	default:
-	case GDISP_ROTATE_0:
+	case gOrientation0:
 		x = g->p.x;
 		y = g->p.y;
 		break;
-	case GDISP_ROTATE_90:
+	case gOrientation90:
 		x = g->p.y;
 		y = GDISP_SCREEN_HEIGHT-1 - g->p.x;
 		break;
-	case GDISP_ROTATE_180:
+	case gOrientation180:
 		x = GDISP_SCREEN_WIDTH-1 - g->p.x;
 		y = GDISP_SCREEN_HEIGHT-1 - g->p.y;
 		break;
-	case GDISP_ROTATE_270:
+	case gOrientation270:
 		x = GDISP_SCREEN_HEIGHT-1 - g->p.y;
 		y = g->p.x;
 		break;
@@ -239,29 +239,29 @@ LLDSPEC void gdisp_lld_control(GDisplay *g) {
 		return;
 
   case GDISP_CONTROL_ORIENTATION:
-		if (g->g.Orientation == (orientation_t)g->p.ptr)
+		if (g->g.Orientation == (gOrientation)g->p.ptr)
 			return;
-		switch((orientation_t)g->p.ptr) {
-		case GDISP_ROTATE_0:
+		switch((gOrientation)g->p.ptr) {
+		case gOrientation0:
 			g->g.Height = GDISP_SCREEN_HEIGHT;
 			g->g.Width = GDISP_SCREEN_WIDTH;
 			break;
-		case GDISP_ROTATE_90:
+		case gOrientation90:
 			g->g.Height = GDISP_SCREEN_WIDTH;
 			g->g.Width = GDISP_SCREEN_HEIGHT;
 			break;
-		case GDISP_ROTATE_180:
+		case gOrientation180:
 			g->g.Height = GDISP_SCREEN_HEIGHT;
 			g->g.Width = GDISP_SCREEN_WIDTH;
 			break;
-		case GDISP_ROTATE_270:
+		case gOrientation270:
 			g->g.Height = GDISP_SCREEN_WIDTH;
 			g->g.Width = GDISP_SCREEN_HEIGHT;
 			break;
 		default:
 			return;
 		}
-		g->g.Orientation = (orientation_t)g->p.ptr;
+		g->g.Orientation = (gOrientation)g->p.ptr;
 		return;
 	default:
 		return;

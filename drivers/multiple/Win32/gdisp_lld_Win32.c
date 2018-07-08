@@ -849,7 +849,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	}
 
 	// Initialise the GDISP structure
-	g->g.Orientation = GDISP_ROTATE_0;
+	g->g.Orientation = gOrientation0;
 	g->g.Powermode = gPowerOn;
 	g->g.Backlight = 100;
 	g->g.Contrast = 50;
@@ -952,20 +952,20 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
-			case GDISP_ROTATE_0:
+			case gOrientation0:
 			default:
 				x = priv->x;
 				y = priv->y;
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				x = priv->y;
 				y = g->g.Width - 1 - priv->x;
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				x = g->g.Width - 1 - priv->x;
 				y = g->g.Height - 1 - priv->y;
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				x = g->g.Height - 1 - priv->y;
 				y = priv->x;
 				break;
@@ -1061,17 +1061,17 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		WaitForSingleObject(drawMutex, INFINITE);
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
-			case GDISP_ROTATE_0:
+			case gOrientation0:
 			default:
 				color = GetPixel(priv->dcBuffer, priv->x, priv->y);
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				color = GetPixel(priv->dcBuffer, priv->y, g->g.Width - 1 - priv->x);
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				color = GetPixel(priv->dcBuffer, g->g.Width - 1 - priv->x, g->g.Height - 1 - priv->y);
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				color = GetPixel(priv->dcBuffer, g->g.Height - 1 - priv->y, priv->x);
 				break;
 			}
@@ -1109,20 +1109,20 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
-			case GDISP_ROTATE_0:
+			case gOrientation0:
 			default:
 				x = g->p.x;
 				y = g->p.y;
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				x = g->p.y;
 				y = g->g.Width - 1 - g->p.x;
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				x = g->g.Width - 1 - g->p.x;
 				y = g->g.Height - 1 - g->p.y;
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				x = g->g.Height - 1 - g->p.y;
 				y = g->p.x;
 				break;
@@ -1170,26 +1170,26 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
-			case GDISP_ROTATE_0:
+			case gOrientation0:
 			default:
 				rect.top = g->p.y;
 				rect.bottom = rect.top + g->p.cy;
 				rect.left = g->p.x;
 				rect.right = rect.left + g->p.cx;
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				rect.bottom = g->g.Width - g->p.x;
 				rect.top = rect.bottom - g->p.cx;
 				rect.left = g->p.y;
 				rect.right = rect.left + g->p.cy;
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				rect.bottom = g->g.Height - g->p.y;
 				rect.top = rect.bottom - g->p.cy;
 				rect.right = g->g.Width - g->p.x;
 				rect.left = rect.right - g->p.cx;
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				rect.top = g->p.x;
 				rect.bottom = rect.top + g->p.cx;
 				rect.right = g->g.Height - g->p.y;
@@ -1238,22 +1238,22 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 		// Copy the bits we need
 		switch(g->g.Orientation) {
-		case GDISP_ROTATE_0:
+		case gOrientation0:
 		default:
 			return 0;					// not handled as it doesn't need to be.
-		case GDISP_ROTATE_90:
+		case gOrientation90:
 			for(src = buffer+g->p.x1, j = 0; j < g->p.cy; j++, src += g->p.x2 - g->p.cx) {
 				dst = dstbuf+sz-g->p.cy+j;
 				for(i = 0; i < g->p.cx; i++, dst -= g->p.cy)
 					*dst = *src++;
 			}
 			break;
-		case GDISP_ROTATE_180:
+		case gOrientation180:
 			for(dst = dstbuf+sz, src = buffer+g->p.x1, j = 0; j < g->p.cy; j++, src += g->p.x2 - g->p.cx)
 				for(i = 0; i < g->p.cx; i++)
 					*--dst = *src++;
 			break;
-		case GDISP_ROTATE_270:
+		case gOrientation270:
 			for(src = buffer+g->p.x1, j = 0; j < g->p.cy; j++, src += g->p.x2 - g->p.cx) {
 				dst = dstbuf+g->p.cy-j-1;
 				for(i = 0; i < g->p.cx; i++, dst += g->p.cy)
@@ -1298,7 +1298,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
-			case GDISP_ROTATE_0:
+			case gOrientation0:
 			default:
 				bmpInfo.bV4SizeImage = (g->p.cy*g->p.x2) * sizeof(gPixel);
 				bmpInfo.bV4Width = g->p.x2;
@@ -1308,7 +1308,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				rect.left = g->p.x;
 				rect.right = rect.left+g->p.cx;
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				if (!(buffer = rotateimg(g, buffer))) return;
 				bmpInfo.bV4SizeImage = (g->p.cy*g->p.cx) * sizeof(gPixel);
 				bmpInfo.bV4Width = g->p.cy;
@@ -1318,7 +1318,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				rect.left = g->p.y;
 				rect.right = rect.left+g->p.cy;
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				if (!(buffer = rotateimg(g, buffer))) return;
 				bmpInfo.bV4SizeImage = (g->p.cy*g->p.cx) * sizeof(gPixel);
 				bmpInfo.bV4Width = g->p.cx;
@@ -1328,7 +1328,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				rect.right = g->g.Width - g->p.x;
 				rect.left = rect.right-g->p.cx;
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				if (!(buffer = rotateimg(g, buffer))) return;
 				bmpInfo.bV4SizeImage = (g->p.cy*g->p.cx) * sizeof(gPixel);
 				bmpInfo.bV4Width = g->p.cy;
@@ -1381,17 +1381,17 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		WaitForSingleObject(drawMutex, INFINITE);
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
-			case GDISP_ROTATE_0:
+			case gOrientation0:
 			default:
 				color = GetPixel(priv->dcBuffer, g->p.x, g->p.y);
 				break;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				color = GetPixel(priv->dcBuffer, g->p.y, g->g.Width - 1 - g->p.x);
 				break;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				color = GetPixel(priv->dcBuffer, g->g.Width - 1 - g->p.x, g->g.Height - 1 - g->p.y);
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				color = GetPixel(priv->dcBuffer, g->g.Height - 1 - g->p.y, g->p.x);
 				break;
 			}
@@ -1414,7 +1414,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
-			case GDISP_ROTATE_0:
+			case gOrientation0:
 			default:
 				rect.top = g->p.y;
 				rect.bottom = rect.top+g->p.cy;
@@ -1422,14 +1422,14 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				rect.right = rect.left+g->p.cx;
 				lines = -g->p.y1;
 				goto vertical_scroll;
-			case GDISP_ROTATE_90:
+			case gOrientation90:
 				rect.bottom = g->g.Width - g->p.x;
 				rect.top = rect.bottom-g->p.cx;
 				rect.left = g->p.y;
 				rect.right = rect.left+g->p.cy;
 				lines = -g->p.y1;
 				goto horizontal_scroll;
-			case GDISP_ROTATE_180:
+			case gOrientation180:
 				rect.bottom = g->g.Height - g->p.y;
 				rect.top = rect.bottom-g->p.cy;
 				rect.right = g->g.Width - g->p.x;
@@ -1458,7 +1458,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					#endif
 				}
 				break;
-			case GDISP_ROTATE_270:
+			case gOrientation270:
 				rect.top = g->p.x;
 				rect.bottom = rect.top+g->p.cx;
 				rect.right = g->g.Height - g->p.y;
@@ -1523,23 +1523,23 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	LLDSPEC void gdisp_lld_control(GDisplay *g) {
 		switch(g->p.x) {
 		case GDISP_CONTROL_ORIENTATION:
-			if (g->g.Orientation == (orientation_t)g->p.ptr)
+			if (g->g.Orientation == (gOrientation)g->p.ptr)
 				return;
-			switch((orientation_t)g->p.ptr) {
-				case GDISP_ROTATE_0:
-				case GDISP_ROTATE_180:
+			switch((gOrientation)g->p.ptr) {
+				case gOrientation0:
+				case gOrientation180:
 					g->g.Width = GDISP_SCREEN_WIDTH;
 					g->g.Height = GDISP_SCREEN_HEIGHT;
 					break;
-				case GDISP_ROTATE_90:
-				case GDISP_ROTATE_270:
+				case gOrientation90:
+				case gOrientation270:
 					g->g.Height = GDISP_SCREEN_WIDTH;
 					g->g.Width = GDISP_SCREEN_HEIGHT;
 					break;
 				default:
 					return;
 			}
-			g->g.Orientation = (orientation_t)g->p.ptr;
+			g->g.Orientation = (gOrientation)g->p.ptr;
 			return;
 /*
 		case GDISP_CONTROL_POWER:
@@ -1574,19 +1574,19 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				gCoord		t;
 
 				switch(gdispGGetOrientation(m->display)) {
-					case GDISP_ROTATE_0:
+					case gOrientation0:
 					default:
 						break;
-					case GDISP_ROTATE_90:
+					case gOrientation90:
 						t = pt->x;
 						pt->x = g->g.Width - 1 - pt->y;
 						pt->y = t;
 						break;
-					case GDISP_ROTATE_180:
+					case gOrientation180:
 						pt->x = g->g.Width - 1 - pt->x;
 						pt->y = g->g.Height - 1 - pt->y;
 						break;
-					case GDISP_ROTATE_270:
+					case gOrientation270:
 						t = pt->y;
 						pt->y = g->g.Height - 1 - pt->x;
 						pt->x = t;

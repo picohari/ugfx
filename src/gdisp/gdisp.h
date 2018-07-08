@@ -93,19 +93,19 @@ typedef enum gFontmetric {
 typedef const struct mf_font_s* gFont;
 
 /**
- * @enum 	orientation
+ * @enum 	gOrientation
  * @brief   Type for the screen orientation.
- * @note	GDISP_ROTATE_LANDSCAPE and GDISP_ROTATE_PORTRAIT are internally converted to the
+ * @note	gOrientationLandscape and gOrientationPortrait are internally converted to the
  * 			most appropriate other orientation.
  */
-typedef enum orientation {
-	GDISP_ROTATE_0 = 0,				/**< Don't rotate. This is the displays native orientation. */
-	GDISP_ROTATE_90 = 90,			/**< Rotate by 90 degrees absolute to the native rotation. */
-	GDISP_ROTATE_180 = 180,			/**< Rotate by 180 degrees absolute to the native rotation. */
-	GDISP_ROTATE_270 = 270,			/**< Rotate by 270 degrees absolute to the native rotation. */
-	GDISP_ROTATE_PORTRAIT = 1000,	/**< Put the display into portrait mode. */
-	GDISP_ROTATE_LANDSCAPE = 1001	/**< Put the display into landscape mode. */
-} orientation_t;
+typedef enum gOrientation {
+	gOrientation0 = 0,				/**< Don't rotate. This is the displays native orientation. */
+	gOrientation90 = 90,			/**< Rotate by 90 degrees absolute to the native rotation. */
+	gOrientation180 = 180,			/**< Rotate by 180 degrees absolute to the native rotation. */
+	gOrientation270 = 270,			/**< Rotate by 270 degrees absolute to the native rotation. */
+	gOrientationPortrait = 1000,	/**< Put the display into portrait mode. */
+	gOrientationLandscape = 1001	/**< Put the display into landscape mode. */
+} gOrientation;
 
 /**
  * @enum 	gPowermode
@@ -334,7 +334,7 @@ gPowermode gdispGGetPowerMode(GDisplay *g);
  *
  * @api
  */
-orientation_t gdispGGetOrientation(GDisplay *g);
+gOrientation gdispGGetOrientation(GDisplay *g);
 #define gdispGetOrientation()						gdispGGetOrientation(GDISP)
 
 /**
@@ -1230,38 +1230,45 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 /* V2 compatibility */
 #if GFX_COMPAT_V2
-	typedef gColor		color_t;
-	typedef gPixel		pixel_t;
-	typedef gCoord		coord_t;
-	typedef gPoint		point, point_t;
-	typedef gFont		font_t;
-	typedef gPowermode	powermode_t;
-		#define powerOff			gPowerOff
-		#define powerDeepSleep		gPowerDeepSleep
-		#define powerSleep			gPowerSleep
-		#define powerOn				gPowerOn
-	typedef gJustify	justify_t;
-		#define justifyLeft			gJustifyLeft
-		#define justifyCenter		gJustifyCenter
-		#define justifyRight		gJustifyRight
-		#define justifyTop			gJustifyTop
-		#define justifyMiddle		gJustifyMiddle
-		#define justifyBottom		gJustifyBottom
-		#define justifyWordWrap		gJustifyWordWrap
-		#define justifyNoWordWrap	gJustifyNoWordWrap
-		#define justifyPad			gJustifyPad
-		#define justifyNoPad		gJustifyNoPad
+	typedef gColor			color_t;
+	typedef gPixel			pixel_t;
+	typedef gCoord			coord_t;
+	typedef gPoint			point, point_t;
+	typedef gFont			font_t;
+	typedef gPowermode		powermode_t;
+		#define powerOff				gPowerOff
+		#define powerDeepSleep			gPowerDeepSleep
+		#define powerSleep				gPowerSleep
+		#define powerOn					gPowerOn
+	typedef gOrientation	orientation_t;
+		#define GDISP_ROTATE_0			gOrientation0
+		#define GDISP_ROTATE_90			gOrientation90
+		#define GDISP_ROTATE_180		gOrientation180
+		#define GDISP_ROTATE_270		gOrientation270
+		#define GDISP_ROTATE_PORTRAIT	gOrientationPortrait
+		#define GDISP_ROTATE_LANDSCAPE	gOrientationLandscape
+	typedef gJustify		justify_t;
+		#define justifyLeft				gJustifyLeft
+		#define justifyCenter			gJustifyCenter
+		#define justifyRight			gJustifyRight
+		#define justifyTop				gJustifyTop
+		#define justifyMiddle			gJustifyMiddle
+		#define justifyBottom			gJustifyBottom
+		#define justifyWordWrap			gJustifyWordWrap
+		#define justifyNoWordWrap		gJustifyNoWordWrap
+		#define justifyPad				gJustifyPad
+		#define justifyNoPad			gJustifyNoPad
 		#define JUSTIFYMASK_LEFTRIGHT	JUSTIFYMASK_HORIZONTAL
 		#define JUSTIFYMASK_TOPBOTTOM	JUSTIFYMASK_VERTICAL
-	typedef gFontmetric	fontmetric_t;
-		#define fontHeight			gFontHeight
-		#define fontDescendersHeight gFontDescendersHeight
-		#define fontLineSpacing		gFontLineSpacing
-		#define fontCharPadding		gFontCharPadding
-		#define fontMinWidth		gFontMinWidth
-		#define fontMaxWidth		gFontMaxWidth
-		#define fontBaselineX		gFontBaselineX
-		#define fontBaselineY		gFontBaselineY
+	typedef gFontmetric		fontmetric_t;
+		#define fontHeight				gFontHeight
+		#define fontDescendersHeight	gFontDescendersHeight
+		#define fontLineSpacing			gFontLineSpacing
+		#define fontCharPadding			gFontCharPadding
+		#define fontMinWidth			gFontMinWidth
+		#define fontMaxWidth			gFontMaxWidth
+		#define fontBaselineX			gFontBaselineX
+		#define fontBaselineY			gFontBaselineY
 #endif
 
 #endif /* GFX_USE_GDISP */

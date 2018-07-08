@@ -74,7 +74,7 @@ static void set_viewport (GDisplay* g)
     switch (g->g.Orientation)
     {
     default:
-    case GDISP_ROTATE_0:
+    case gOrientation0:
         spi_write_cmd (g, SSD1848_HV_COLUMN_ADDRESS);
         spi_write_data2 (g, (uint8_t) (g->p.x / 8), (uint8_t) ((g->p.x + g->p.cx - 1) / 8));
         spi_write_cmd (g, SSD1848_HV_PAGE_ADDRESS);
@@ -82,7 +82,7 @@ static void set_viewport (GDisplay* g)
         spi_write_cmd (g, SSD1848_WRITE_DISP_DATA);
         break;
 
-    case GDISP_ROTATE_90:
+    case gOrientation90:
         spi_write_cmd (g, SSD1848_HV_COLUMN_ADDRESS);
         spi_write_data2 (g, g->p.y, g->p.y + g->p.cy - 1);
         spi_write_cmd (g, SSD1848_HV_PAGE_ADDRESS);
@@ -90,7 +90,7 @@ static void set_viewport (GDisplay* g)
         spi_write_cmd (g, SSD1848_WRITE_DISP_DATA);
         break;
 
-    case GDISP_ROTATE_180:
+    case gOrientation180:
         spi_write_cmd (g, SSD1848_HV_COLUMN_ADDRESS);
         spi_write_data2 (g, g->g.Width - g->p.x - g->p.cx, g->g.Width - 1 - g->p.x);
         spi_write_cmd (g, SSD1848_HV_PAGE_ADDRESS);
@@ -98,7 +98,7 @@ static void set_viewport (GDisplay* g)
         spi_write_cmd (g, SSD1848_WRITE_DISP_DATA);
         break;
 
-    case GDISP_ROTATE_270:
+    case gOrientation270:
         spi_write_cmd (g, SSD1848_HV_COLUMN_ADDRESS);
         spi_write_data2 (g, g->g.Height - g->p.y - g->p.cy, g->g.Height - 1 - g->p.y);
         spi_write_cmd (g, SSD1848_HV_PAGE_ADDRESS);
@@ -213,7 +213,7 @@ LLDSPEC gBool gdisp_lld_init (GDisplay *g)
     /* Initialise the GDISP structure */
     g->g.Width       = GDISP_SCREEN_WIDTH;
     g->g.Height      = GDISP_SCREEN_HEIGHT;
-    g->g.Orientation = GDISP_ROTATE_0;
+    g->g.Orientation = gOrientation0;
     g->g.Powermode   = gPowerOn;
     g->g.Backlight   = GDISP_INITIAL_BACKLIGHT;
     g->g.Contrast    = GDISP_INITIAL_CONTRAST;
@@ -405,22 +405,22 @@ LLDSPEC void gdisp_lld_draw_pixel (GDisplay *g)
     switch (g->g.Orientation)
     {
     default:
-    case GDISP_ROTATE_0:
+    case gOrientation0:
         x = g->p.x;
         y = g->p.y;
         break;
 
-    case GDISP_ROTATE_90:
+    case gOrientation90:
         x = g->p.y;
         y = GDISP_SCREEN_HEIGHT - 1 - g->p.x;
         break;
 
-    case GDISP_ROTATE_180:
+    case gOrientation180:
         x = GDISP_SCREEN_WIDTH - 1 - g->p.x;
         y = GDISP_SCREEN_HEIGHT - 1 - g->p.y;
         break;
 
-    case GDISP_ROTATE_270:
+    case gOrientation270:
         x = GDISP_SCREEN_WIDTH - 1 - g->p.y;
         y = g->p.x;
         break;
@@ -441,22 +441,22 @@ LLDSPEC gColor gdisp_lld_get_pixel_color (GDisplay *g)
     switch (g->g.Orientation)
     {
     default:
-    case GDISP_ROTATE_0:
+    case gOrientation0:
         x = g->p.x;
         y = g->p.y;
         break;
 
-    case GDISP_ROTATE_90:
+    case gOrientation90:
         x = g->p.y;
         y = GDISP_SCREEN_HEIGHT - 1 - g->p.x;
         break;
 
-    case GDISP_ROTATE_180:
+    case gOrientation180:
         x = GDISP_SCREEN_WIDTH - 1 - g->p.x;
         y = GDISP_SCREEN_HEIGHT - 1 - g->p.y;
         break;
 
-    case GDISP_ROTATE_270:
+    case gOrientation270:
         x = GDISP_SCREEN_WIDTH - 1 - g->p.y;
         y = g->p.x;
         break;
@@ -506,19 +506,19 @@ LLDSPEC void gdisp_lld_control (GDisplay *g)
         return;
 
     case GDISP_CONTROL_ORIENTATION:
-        if (g->g.Orientation == (orientation_t) g->p.ptr)
+        if (g->g.Orientation == (gOrientation) g->p.ptr)
             return;
-        switch ((orientation_t) g->p.ptr)
+        switch ((gOrientation) g->p.ptr)
         {
         /* Rotation is handled by the drawing routines */
-        case GDISP_ROTATE_0:
-        case GDISP_ROTATE_180:
+        case gOrientation0:
+        case gOrientation180:
             g->g.Height = GDISP_SCREEN_HEIGHT;
             g->g.Width  = GDISP_SCREEN_WIDTH;
             break;
 
-        case GDISP_ROTATE_90:
-        case GDISP_ROTATE_270:
+        case gOrientation90:
+        case gOrientation270:
             g->g.Height = GDISP_SCREEN_WIDTH;
             g->g.Width  = GDISP_SCREEN_HEIGHT;
             break;
@@ -526,7 +526,7 @@ LLDSPEC void gdisp_lld_control (GDisplay *g)
         default:
             return;
         }
-        g->g.Orientation = (orientation_t) g->p.ptr;
+        g->g.Orientation = (gOrientation) g->p.ptr;
         return;
 
     case GDISP_CONTROL_CONTRAST:
