@@ -60,7 +60,7 @@ static void sendListEvent(GWidgetObject *gw, int item) {
         gCoord                     iheight;
         (void)						x;
 
-        iheight = gdispGetFontMetric(gw->g.font, fontHeight) + LST_VERT_PAD;
+        iheight = gdispGetFontMetric(gw->g.font, gFontHeight) + LST_VERT_PAD;
 
         // Handle click over the list area
         item = (gw2obj->top + y) / iheight;
@@ -101,7 +101,7 @@ static void sendListEvent(GWidgetObject *gw, int item) {
 		    return;
 
 		// Some initial stuff
-		iheight = gdispGetFontMetric(gw->g.font, fontHeight) + LST_VERT_PAD;
+		iheight = gdispGetFontMetric(gw->g.font, gFontHeight) + LST_VERT_PAD;
 		pgsz = gw->g.height-2;
 
 		// Handle click over the scroll bar
@@ -163,7 +163,7 @@ static void sendListEvent(GWidgetObject *gw, int item) {
 
         if (gw2obj->last_mouse_y != y) {
             oldtop = gw2obj->top;
-            iheight = gdispGetFontMetric(gw->g.font, fontHeight) + LST_VERT_PAD;
+            iheight = gdispGetFontMetric(gw->g.font, gFontHeight) + LST_VERT_PAD;
 
             gw2obj->top -= y - gw2obj->last_mouse_y;
             if (gw2obj->top >= gw2obj->cnt * iheight - (gw->g.height-2))
@@ -185,7 +185,7 @@ static void sendListEvent(GWidgetObject *gw, int item) {
 		int							i;
 		
 		gCoord		iheight;
-		iheight = gdispGetFontMetric(gw->g.font, fontHeight) + LST_VERT_PAD;
+		iheight = gdispGetFontMetric(gw->g.font, gFontHeight) + LST_VERT_PAD;
 
 		switch (role) {
 			// select down
@@ -664,7 +664,7 @@ void gwinListViewItem(GHandle gh, int item) {
 		return;
 
 	// Work out a possible new top for the list
-	iheight = gdispGetFontMetric(gh->font, fontHeight) + LST_VERT_PAD;
+	iheight = gdispGetFontMetric(gh->font, gFontHeight) + LST_VERT_PAD;
 	gh2obj->top = iheight * item;
 
 	// Adjust the list
@@ -725,7 +725,7 @@ void gwinListDefaultDraw(GWidgetObject* gw, void* param) {
 		return;
 
 	ps = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->enabled : &gw->pstyle->disabled;
-	iheight = gdispGetFontMetric(gw->g.font, fontHeight) + LST_VERT_PAD;
+	iheight = gdispGetFontMetric(gw->g.font, gFontHeight) + LST_VERT_PAD;
 	x = 1;
 
 	// the scroll area

@@ -73,19 +73,19 @@ typedef enum gJustify {
 #define JUSTIFYMASK_TOPBOTTOM	(gJustifyTop|gJustifyMiddle|gJustifyBottom)
 
 /**
- * @enum fontmetric
+ * @enum gFontmetric
  * @brief   Type for the font metric.
  */
-typedef enum fontmetric {
-	fontHeight,				/**< The height of the font */
-	fontDescendersHeight,	/**< The descenders height */
-	fontLineSpacing,		/**< The line spacing */
-	fontCharPadding,		/**< The char padding */
-	fontMinWidth,			/**< The minimum width */
-	fontMaxWidth,			/**< The maximum width */
-	fontBaselineX,			/**< The base line in x direction */
-	fontBaselineY			/**< The base line in y direction */
-} fontmetric_t;
+typedef enum gFontmetric {
+	gFontHeight,			/**< The height of the font */
+	gFontDescendersHeight,	/**< The descenders height */
+	gFontLineSpacing,		/**< The line spacing */
+	gFontCharPadding,		/**< The char padding */
+	gFontMinWidth,			/**< The minimum width */
+	gFontMaxWidth,			/**< The maximum width */
+	gFontBaselineX,			/**< The base line in x direction */
+	gFontBaselineY			/**< The base line in y direction */
+} gFontmetric;
 
 /**
  * @brief   The type of a font.
@@ -1013,7 +1013,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	gCoord gdispGetFontMetric(font_t font, fontmetric_t metric);
+	gCoord gdispGetFontMetric(font_t font, gFontmetric metric);
 
 	/**
 	 * @brief   Get the pixel width of a character.
@@ -1230,6 +1230,10 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 /* V2 compatibility */
 #if GFX_COMPAT_V2
+	typedef gColor		color_t;
+	typedef gPixel		pixel_t;
+	typedef gCoord		coord_t;
+	typedef gPoint		point, point_t;
 	typedef gPowermode	powermode_t;
 		#define powerOff			gPowerOff
 		#define powerDeepSleep		gPowerDeepSleep
@@ -1246,10 +1250,15 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		#define justifyNoWordWrap	gJustifyNoWordWrap
 		#define justifyPad			gJustifyPad
 		#define justifyNoPad		gJustifyNoPad
-	typedef gColor		color_t;
-	typedef gPixel		pixel_t;
-	typedef gCoord		coord_t;
-	typedef gPoint		point, point_t;
+	typedef gFontmetric	fontmetric_t;
+		#define fontHeight			gFontHeight
+		#define fontDescendersHeight gFontDescendersHeight
+		#define fontLineSpacing		gFontLineSpacing
+		#define fontCharPadding		gFontCharPadding
+		#define fontMinWidth		gFontMinWidth
+		#define fontMaxWidth		gFontMaxWidth
+		#define fontBaselineX		gFontBaselineX
+		#define fontBaselineY		gFontBaselineY
 #endif
 
 #endif /* GFX_USE_GDISP */

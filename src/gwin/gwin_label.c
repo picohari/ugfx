@@ -32,7 +32,7 @@ static gCoord getheight(const char *text, font_t font, gCoord maxwidth) {
 	(void) text;
 	(void) maxwidth;
 
-	return gdispGetFontMetric(font, fontHeight);
+	return gdispGetFontMetric(font, gFontHeight);
 }
 
 static const gwidgetVMT labelVMT = {

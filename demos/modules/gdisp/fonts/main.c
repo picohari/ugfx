@@ -53,8 +53,8 @@ int main(void) {
 	//font2 = gdispOpenFont("Apple*");
 
 	y = 0;
-	fheight1 = gdispGetFontMetric(font1, fontHeight)+2;
-	fheight2 = gdispGetFontMetric(font2, fontHeight)+2;
+	fheight1 = gdispGetFontMetric(font1, gFontHeight)+2;
+	fheight2 = gdispGetFontMetric(font2, gFontHeight)+2;
 
 	line1 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	line2 = "0123456789~!@#$%^&*_-+=(){}[]<>|/\\:;,.?'\"`";

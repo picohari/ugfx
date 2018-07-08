@@ -200,7 +200,7 @@
 			return;
 
 		// Handle vertical size decrease - We have to scroll out first lines of the log 
-		fy = gdispGetFontMetric(gh->font, fontHeight);
+		fy = gdispGetFontMetric(gh->font, gFontHeight);
 		while (gcw->cy > gh->height) {
 			scrollBuffer(gcw);
 			gcw->cy -= fy;
@@ -233,7 +233,7 @@
 
 				y = gcw->cy;
 				if (gcw->cx)
-					y += gdispGetFontMetric(gh->font, fontHeight);
+					y += gdispGetFontMetric(gh->font, gFontHeight);
 				if (y < gh->height)
 					gdispGFillArea(gh->display, gh->x, gh->y+y, gh->width, gh->height-y, gh->bgcolor);
 			}
@@ -397,14 +397,14 @@ GHandle gwinGConsoleCreate(GDisplay *g, GConsoleObject *gc, const GWindowInit *p
 
 		// Get the number of characters that fit in the x direction
 		#if GWIN_CONSOLE_HISTORY_AVERAGING
-			gcw->bufsize = gh->width / ((2*gdispGetFontMetric(gh->font, fontMinWidth)+gdispGetFontMetric(gh->font, fontMaxWidth))/3);
+			gcw->bufsize = gh->width / ((2*gdispGetFontMetric(gh->font, gFontMinWidth)+gdispGetFontMetric(gh->font, gFontMaxWidth))/3);
 		#else
-			gcw->bufsize = gh->width / gdispGetFontMetric(gh->font, fontMinWidth);
+			gcw->bufsize = gh->width / gdispGetFontMetric(gh->font, gFontMinWidth);
 		#endif
 		gcw->bufsize++;				// Allow space for a newline on each line.
 
 		// Multiply by the number of lines
-		gcw->bufsize *= gh->height / gdispGetFontMetric(gh->font, fontHeight);
+		gcw->bufsize *= gh->height / gdispGetFontMetric(gh->font, gFontHeight);
 
 		// Allocate the buffer
 		if (!(gcw->buffer = gfxAlloc(gcw->bufsize)))
@@ -438,7 +438,7 @@ void gwinPutChar(GHandle gh, char c) {
 	if (gh->vmt != &consoleVMT || !gh->font)
 		return;
 
-	fy = gdispGetFontMetric(gh->font, fontHeight);
+	fy = gdispGetFontMetric(gh->font, gFontHeight);
 
 	#if GWIN_CONSOLE_ESCSEQ
 		/**
@@ -603,8 +603,8 @@ void gwinPutChar(GHandle gh, char c) {
 		#if GWIN_CONSOLE_ESCSEQ
 			// Draw the underline
 			if ((gcw->currattr & ESC_UNDERLINE))
-				gdispGDrawLine(gh->display, gh->x + gcw->cx, gh->y + gcw->cy + fy - gdispGetFontMetric(gh->font, fontDescendersHeight),
-											gh->x + gcw->cx + width + gdispGetFontMetric(gh->font, fontCharPadding), gh->y + gcw->cy + fy - gdispGetFontMetric(gh->font, fontDescendersHeight),
+				gdispGDrawLine(gh->display, gh->x + gcw->cx, gh->y + gcw->cy + fy - gdispGetFontMetric(gh->font, gFontDescendersHeight),
+											gh->x + gcw->cx + width + gdispGetFontMetric(gh->font, gFontCharPadding), gh->y + gcw->cy + fy - gdispGetFontMetric(gh->font, gFontDescendersHeight),
 											ESCPrintColor(gcw));
 			// Bold (very crude)
 			if ((gcw->currattr & ESC_BOLD))
@@ -615,7 +615,7 @@ void gwinPutChar(GHandle gh, char c) {
 	}
 
 	// Update the cursor
-	gcw->cx += width + gdispGetFontMetric(gh->font, fontCharPadding);
+	gcw->cx += width + gdispGetFontMetric(gh->font, gFontCharPadding);
 
 	#undef gcw
 }

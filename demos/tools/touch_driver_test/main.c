@@ -115,7 +115,7 @@ int main(void) {
 	bHeight = gdispGetStringWidth("-", font)*2;
 	if (bHeight > bWidth2) bWidth2 = bHeight;
 	bWidth2 += 4;
-	bHeight = gdispGetFontMetric(font, fontHeight)*2+2;
+	bHeight = gdispGetFontMetric(font, gFontHeight)*2+2;
 
 	// Create our main display window
 	{

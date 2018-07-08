@@ -262,7 +262,7 @@ static void printGameOver(void) {
 }
 
 static void printTouchAreas(void) {
-  gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetFontMetric(font16, fontHeight), "Touch Area's", font16, GFX_WHITE, gJustifyCenter);
+  gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetFontMetric(font16, gFontHeight), "Touch Area's", font16, GFX_WHITE, gJustifyCenter);
   gdispDrawStringBox(0, 0, gdispGetWidth(), gdispGetHeight()/4, "Pause", font16, GFX_GRAY, gJustifyCenter);
   gdispDrawStringBox(0, gdispGetHeight()/4, gdispGetWidth(), gdispGetHeight()/2, "Rotate", font16, GFX_GRAY, gJustifyCenter);
   gdispDrawStringBox(0, gdispGetHeight()-(gdispGetHeight()/4), gdispGetWidth()/4, gdispGetHeight()/4, "Left", font16, GFX_GRAY, gJustifyCenter);

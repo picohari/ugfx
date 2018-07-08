@@ -307,8 +307,8 @@ void gwinTexteditDefaultDraw(GWidgetObject* gw, void* param)
 		// Calculate cursor stuff
 
 		// Draw cursor
-		tpos += gw->g.x + CURSOR_PADDING_LEFT + TEXT_PADDING_LEFT + gdispGetFontMetric(gw->g.font, fontBaselineX)/2;
-		cpos = (gw->g.height - gdispGetFontMetric(gw->g.font, fontHeight))/2 - CURSOR_EXTRA_HEIGHT;
+		tpos += gw->g.x + CURSOR_PADDING_LEFT + TEXT_PADDING_LEFT + gdispGetFontMetric(gw->g.font, gFontBaselineX)/2;
+		cpos = (gw->g.height - gdispGetFontMetric(gw->g.font, gFontHeight))/2 - CURSOR_EXTRA_HEIGHT;
 		gdispGDrawLine(gw->g.display, tpos, gw->g.y + cpos, tpos, gw->g.y + gw->g.height - cpos, pcol->edge);
 	}
 

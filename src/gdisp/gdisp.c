@@ -3608,19 +3608,19 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		MUTEX_EXIT(g);
 	}
 
-	gCoord gdispGetFontMetric(font_t font, fontmetric_t metric) {
+	gCoord gdispGetFontMetric(font_t font, gFontmetric metric) {
 		if (!font)
 			return 0;
 		/* No mutex required as we only read static data */
 		switch(metric) {
-		case fontHeight:			return font->height;
-		case fontDescendersHeight:	return font->height - font->baseline_y;
-		case fontLineSpacing:		return font->line_height;
-		case fontCharPadding:		return 0;
-		case fontMinWidth:			return font->min_x_advance;
-		case fontMaxWidth:			return font->max_x_advance;
-		case fontBaselineX:			return font->baseline_x;
-		case fontBaselineY:			return font->baseline_y;
+		case gFontHeight:			return font->height;
+		case gFontDescendersHeight:	return font->height - font->baseline_y;
+		case gFontLineSpacing:		return font->line_height;
+		case gFontCharPadding:		return 0;
+		case gFontMinWidth:			return font->min_x_advance;
+		case gFontMaxWidth:			return font->max_x_advance;
+		case gFontBaselineX:		return font->baseline_x;
+		case gFontBaselineY:		return font->baseline_y;
 		}
 		return 0;
 	}

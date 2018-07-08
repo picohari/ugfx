@@ -60,7 +60,7 @@ int main(void) {
 	// Create our title
 	font = gdispOpenFont("UI2");
 	gwinSetDefaultFont(font);
-	bHeight = gdispGetFontMetric(font, fontHeight)+4;
+	bHeight = gdispGetFontMetric(font, gFontHeight)+4;
 	gdispFillStringBox(0, 0, swidth, bHeight, "Raw Touch Readings", font, GFX_RED, GFX_WHITE, gJustifyCenter);
 
 	// Create our main display writing window
