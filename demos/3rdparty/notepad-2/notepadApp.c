@@ -47,7 +47,7 @@ static GHandle					gstatusConsole;	  // GConsole Handle to the Status Bar
 
 static GEventMouse				curPtr;           // Holder for current pointer location
 
-static font_t					font;
+static gFont					font;
 static gCoord 					swidth, sheight;
 
 // The toolbar buttons - Self-Explanatory

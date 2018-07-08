@@ -47,7 +47,7 @@
 	int main(void) {
 		gCoord		width, height;
 		gCoord		display, i, j, cnt;
-		font_t		f;
+		gFont		f;
 		GDisplay	*g;
 		char		buf[16];
 
@@ -91,7 +91,7 @@
 	int main(void) {
 		gCoord		width, height;
 		gCoord		display, i, j, cnt;
-		font_t		f;
+		gFont		f;
 		char		buf[16];
 
 		/* Initialize and clear the display */

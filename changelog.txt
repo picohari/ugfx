@@ -23,6 +23,7 @@ CHANGE:		Added type gPoint to replace V2.x point and point_t
 CHANGE:		Added type gCoord to replace V2.x coord_t
 CHANGE:		Added type gPixel to replace V2.x pixel_t
 CHANGE:		Added type gColor to replace V2.x color_t
+CHANGE:		Added type gFont  to replace V2.x font_t
 CHANGE:		Added type gPowermode  to replace V2.x powermode_t,  and values gPowerXXX replace powerXXX
 CHANGE:		Added type gJustify    to replace V2.x justify_t,    and values gJustifyXXX replace justifyXXX
 CHANGE:		Added type gFontmetric to replace V2.x fontmetric_t, and values gFontXXX replace fontXXX

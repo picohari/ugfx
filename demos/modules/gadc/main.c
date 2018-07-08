@@ -137,7 +137,7 @@ int main(void) {
 	gCoord					swidth, sheight;
 	#if defined(MY_DIAL_DEVICE) || defined(MY_TEMP_DEVICE)
 		GHandle					ghText;
-		font_t					font;
+		gFont					font;
 	#endif
 
 	gfxInit();

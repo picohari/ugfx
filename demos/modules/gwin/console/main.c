@@ -34,7 +34,7 @@ GHandle GW1, GW2, GW3;
 
 int main(void) {
 	uint8_t i;
-	font_t	font1, font2;
+	gFont	font1, font2;
 
 	/* initialize and clear the display */
 	gfxInit();

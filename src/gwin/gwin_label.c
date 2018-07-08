@@ -21,14 +21,14 @@
 #define gw2obj					((GLabelObject *)gw)
 
 // simple: single line with no wrapping
-static gCoord getwidth(const char *text, font_t font, gCoord maxwidth) {
+static gCoord getwidth(const char *text, gFont font, gCoord maxwidth) {
 	(void) maxwidth;
 
 	return gdispGetStringWidth(text, font)+2;		// Allow one pixel of padding on each side
 }
 
 // simple: single line with no wrapping
-static gCoord getheight(const char *text, font_t font, gCoord maxwidth) {
+static gCoord getheight(const char *text, gFont font, gCoord maxwidth) {
 	(void) text;
 	(void) maxwidth;
 

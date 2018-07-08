@@ -33,7 +33,7 @@ static const gwinVMT basegwinVMT = {
 static gColor	defaultFgColor = GFX_WHITE;
 static gColor	defaultBgColor = GFX_BLACK;
 #if GDISP_NEED_TEXT
-	static font_t	defaultFont;
+	static gFont	defaultFont;
 #endif
 
 /* These init functions are defined by each module but not published */
@@ -178,11 +178,11 @@ gColor gwinGetDefaultBgColor(void) {
 }
 
 #if GDISP_NEED_TEXT
-	void gwinSetDefaultFont(font_t font) {
+	void gwinSetDefaultFont(gFont font) {
 		defaultFont = font;
 	}
 
-	font_t gwinGetDefaultFont(void) {
+	gFont gwinGetDefaultFont(void) {
 		return defaultFont;
 	}
 #endif
@@ -218,7 +218,7 @@ gBool gwinGetEnabled(GHandle gh) {
 }
 
 #if GDISP_NEED_TEXT
-	void gwinSetFont(GHandle gh, font_t font) {
+	void gwinSetFont(GHandle gh, gFont font) {
 		gh->font = font;
 	}
 #endif

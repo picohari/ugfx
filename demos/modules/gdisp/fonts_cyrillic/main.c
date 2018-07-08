@@ -30,7 +30,7 @@
 #include "gfx.h"
 
 int main(void) {
-	font_t font1;
+	gFont font1;
 
     // Initialize uGFX and the underlying system
     gfxInit();

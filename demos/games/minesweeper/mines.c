@@ -93,7 +93,7 @@ static void printStats(void)
 {
     char pps_str[12];
 
-    font_t font = gdispOpenFont("fixed_5x8");
+    gFont font = gdispOpenFont("fixed_5x8");
     uitoa(MINES_MINE_COUNT, pps_str, sizeof(pps_str));
     gdispFillString(minesStatusIconWidth+8, gdispGetHeight()-11, "    ", font, GFX_BLACK, GFX_BLACK);
     gdispDrawString(minesStatusIconWidth+8, gdispGetHeight()-11, pps_str, font, GFX_WHITE);
@@ -110,7 +110,7 @@ static void minesUpdateTime(void)
     if (minesTime > 9999)
         minesTime = 9999;
 
-    font_t font = gdispOpenFont("digital_7__mono_20");
+    gFont font = gdispOpenFont("digital_7__mono_20");
     uitoa(minesTime, pps_str, sizeof(pps_str));
     gdispFillArea((MINES_FIELD_WIDTH*MINES_CELL_WIDTH)-gdispGetStringWidth("9999", font), gdispGetHeight()-15, gdispGetWidth(), 15, GFX_BLACK);
     gdispDrawString((MINES_FIELD_WIDTH*MINES_CELL_WIDTH)-gdispGetStringWidth(pps_str, font), gdispGetHeight()-15, pps_str, font, GFX_LIME);
@@ -251,7 +251,7 @@ static DECLARE_THREAD_FUNCTION(thdMines, msg)
 static void printGameOver(void)
 {
     if (minesGameOver) {
-        font_t font = gdispOpenFont("DejaVuSans16");
+        gFont font = gdispOpenFont("DejaVuSans16");
         if (minesGameWinner) {
             gdispDrawString((gdispGetWidth()-gdispGetStringWidth("You LIVE!", font))/2, gdispGetHeight()-15, "You LIVE!", font, GFX_WHITE);
         } else {
@@ -271,7 +271,7 @@ static void initField(void)
     minesGameOver = gFalse;
     printGameOver();
 
-    font_t font = gdispOpenFont("fixed_5x8");
+    gFont font = gdispOpenFont("fixed_5x8");
     gdispImageOpenFile(&minesImage, "plainmine.bmp");
     // Saving status icons width/height for later use
     minesStatusIconWidth = minesImage.width;
@@ -391,7 +391,7 @@ void minesStart(void)
 
     if (!minesGameWinner) {
         // Print generated mines for player to see
-        font_t font = gdispOpenFont("fixed_10x20");
+        gFont font = gdispOpenFont("fixed_10x20");
         for (x = 0; x < MINES_FIELD_WIDTH; x++) {
             for (y = 0; y < MINES_FIELD_HEIGHT; y++) {
                 if (minesField[x][y].num == 9 && !minesField[x][y].flag) {

@@ -75,7 +75,7 @@ const char *tsCalibRead(uint16_t instance) {
 
 int main(void) {
 
-  font_t font = gdispOpenFont("UI2");
+  gFont font = gdispOpenFont("UI2");
 
   /* initialize the hardware and the OS */
   gfxInit();

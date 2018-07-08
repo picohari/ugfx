@@ -52,7 +52,7 @@ typedef struct GWindowObject {
 	gColor					bgcolor;			/**< The current background drawing color */
 	uint32_t				flags;				/**< Window flags (the meaning is private to the GWIN class) */
 	#if GDISP_NEED_TEXT
-		font_t				font;				/**< The current font */
+		gFont				font;				/**< The current font */
 	#endif
 	#if GWIN_NEED_CONTAINERS
 		GHandle				parent;				/**< The parent window */
@@ -174,7 +174,7 @@ gColor gwinGetDefaultBgColor(void);
 	 *
 	 * @api
 	 */
-	void gwinSetDefaultFont(font_t font);
+	void gwinSetDefaultFont(gFont font);
 
 	/**
 	 * @brief	Get the current default font
@@ -183,7 +183,7 @@ gColor gwinGetDefaultBgColor(void);
 	 *
 	 * @api
 	 */
-	font_t gwinGetDefaultFont(void);
+	gFont gwinGetDefaultFont(void);
 #endif
 
 /*-------------------------------------------------
@@ -595,7 +595,7 @@ void gwinRedraw(GHandle gh);
 	 *
 	 * @api
 	 */
-	void gwinSetFont(GHandle gh, font_t font);
+	void gwinSetFont(GHandle gh, gFont font);
 #endif
 
 /*-------------------------------------------------

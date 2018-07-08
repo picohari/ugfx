@@ -43,7 +43,7 @@
  * Application entry point.
  */
 int main(void) {
-	font_t			font;
+	gFont			font;
 	GFILE			*f;
 	char 			*errmsg;
 	uint32_t		toplay;

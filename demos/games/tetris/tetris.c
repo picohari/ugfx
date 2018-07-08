@@ -89,8 +89,8 @@ unsigned long   tetrisScore                                           = 0;
 gBool          tetrisKeysPressed[5]                                  = {gFalse, gFalse, gFalse, gFalse, gFalse}; // left/down/right/up/pause
 gBool          tetrisPaused                                          = gFalse;
 gBool          tetrisGameOver                                        = gFalse;
-font_t          font16;
-font_t          font12;
+gFont          font16;
+gFont          font12;
 
 GEventMouse     ev;
 

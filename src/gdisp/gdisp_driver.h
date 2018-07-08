@@ -362,7 +362,7 @@ struct GDisplay {
 	#if GDISP_NEED_TEXT
 		// Text rendering parameters
 		struct {
-			font_t		font;
+			gFont		font;
 			gColor		color;
 			gColor		bgcolor;
 			gCoord		clipx0, clipy0;

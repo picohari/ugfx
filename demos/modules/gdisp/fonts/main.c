@@ -31,7 +31,7 @@
 
 int main(void) {
 	gCoord		width, y;
-	font_t		font1, font2;
+	gFont		font1, font2;
 	gCoord		fheight1, fheight2;
 	const char	*line1, *line2;
 	char		buf[8];

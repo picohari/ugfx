@@ -467,7 +467,7 @@ static void MousePoll(void *param) {
 		gPoint		points[4];		// The x, y readings obtained from the mouse for each test point
 		uint32_t	err;
 		#if GDISP_NEED_TEXT
-			font_t		font1, font2;
+			gFont		font1, font2;
 		#endif
 
 		#if GDISP_NEED_TEXT

@@ -33,7 +33,7 @@
 #include "src/ginput/ginput_driver_mouse.h"
 
 static GConsoleObject			gc;
-static font_t					font;
+static gFont					font;
 static gCoord					bHeight;
 static GHandle					ghc;
 static gCoord					swidth, sheight;

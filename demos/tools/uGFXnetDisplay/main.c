@@ -111,7 +111,7 @@
 	static GListener				gl;
 #endif
 static SOCKET_TYPE				netfd = (SOCKET_TYPE)-1;
-static font_t					font;
+static gFont					font;
 
 #define STRINGOF_RAW(s)		#s
 #define STRINGOF(s)			STRINGOF_RAW(s)

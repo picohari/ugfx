@@ -30,7 +30,7 @@ gdispImage            jg10Image[JG10_MAX_COUNT];
 const char            *jg10GraphAnim[] = {"a1.bmp","a2.bmp","a3.bmp","a4.bmp","background.bmp"}; // 5 elements (0-4)
 gdispImage            jg10ImageAnim[JG10_ANIM_IMAGES];
 uint8_t               jg10MaxVal=4;                                     // Max value in field...
-font_t font;
+gFont font;
 #if JG10_SHOW_SPLASH
 GTimer                jg10SplashBlink;
 gBool                jg10SplashTxtVisible = gFalse;

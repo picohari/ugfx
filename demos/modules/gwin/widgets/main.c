@@ -77,7 +77,7 @@ static const GWidgetStyle YellowWidgetStyle = {
 };
 
 /* The variables we need */
-static font_t		font;
+static gFont		font;
 static GListener	gl;
 static GHandle		ghConsole;
 static GTimer		FlashTimer;

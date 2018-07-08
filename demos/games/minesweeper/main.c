@@ -40,7 +40,7 @@ int main(void)
 {
 	GEventMouse ev;
 #if !MINES_SHOW_SPLASH
-	font_t font;
+	gFont font;
 #endif
 
     gfxInit();

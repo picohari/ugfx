@@ -33,7 +33,7 @@
 #define COLOR_BACKGROUND    GFX_SILVER
 #define COLOR_TEXT          GFX_BLACK
 
-font_t font;
+gFont font;
 
 // English Translation
 static const char* EnglishStrings[] = {

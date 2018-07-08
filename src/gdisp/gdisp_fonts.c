@@ -42,7 +42,7 @@ static gBool matchfont(const char *pattern, const char *name) {
 	}
 }
 
-font_t gdispOpenFont(const char *name) {
+gFont gdispOpenFont(const char *name) {
 	const struct mf_font_list_s *fp;
 	
 	if (!fontList)
@@ -64,7 +64,7 @@ font_t gdispOpenFont(const char *name) {
 	return mf_get_font_list()->font;
 }
 
-void gdispCloseFont(font_t font) {
+void gdispCloseFont(gFont font) {
 	if ((font->flags & (FONT_FLAG_DYNAMIC|FONT_FLAG_UNLISTED)) == (FONT_FLAG_DYNAMIC|FONT_FLAG_UNLISTED)) {
 		/* Make sure that no-one can successfully use font after closing */
 		((struct mf_font_s *)font)->render_character = 0;
@@ -74,7 +74,7 @@ void gdispCloseFont(font_t font) {
 	}
 }
 
-font_t gdispScaleFont(font_t font, uint8_t scale_x, uint8_t scale_y)
+gFont gdispScaleFont(gFont font, uint8_t scale_x, uint8_t scale_y)
 {
 	struct mf_scaledfont_s *newfont;
 	
@@ -83,14 +83,14 @@ font_t gdispScaleFont(font_t font, uint8_t scale_x, uint8_t scale_y)
 	
 	mf_scale_font(newfont, font, scale_x, scale_y);
 	((struct mf_font_s *)newfont)->flags |= FONT_FLAG_DYNAMIC|FONT_FLAG_UNLISTED;
-	return (font_t)newfont;
+	return (gFont)newfont;
 }
 
-const char *gdispGetFontName(font_t font) {
+const char *gdispGetFontName(gFont font) {
 	return font->short_name;
 }
 
-gBool gdispAddFont(font_t font) {
+gBool gdispAddFont(gFont font) {
 	struct mf_font_list_s *hdr;
 
 	if ((font->flags & (FONT_FLAG_DYNAMIC|FONT_FLAG_UNLISTED)) != (FONT_FLAG_DYNAMIC|FONT_FLAG_UNLISTED))

@@ -3363,7 +3363,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		}
 	#endif
 
-	void gdispGDrawChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, font_t font, gColor color) {
+	void gdispGDrawChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, gFont font, gColor color) {
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
@@ -3378,7 +3378,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGFillChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, font_t font, gColor color, gColor bgcolor) {
+	void gdispGFillChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, gFont font, gColor color, gColor bgcolor) {
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
@@ -3400,7 +3400,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGDrawString(GDisplay *g, gCoord x, gCoord y, const char *str, font_t font, gColor color) {
+	void gdispGDrawString(GDisplay *g, gCoord x, gCoord y, const char *str, gFont font, gColor color) {
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
@@ -3416,7 +3416,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGFillString(GDisplay *g, gCoord x, gCoord y, const char *str, font_t font, gColor color, gColor bgcolor) {
+	void gdispGFillString(GDisplay *g, gCoord x, gCoord y, const char *str, gFont font, gColor color, gColor bgcolor) {
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
@@ -3439,7 +3439,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGDrawStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, gJustify justify) {
+	void gdispGDrawStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, gFont font, gColor color, gJustify justify) {
 		gCoord		totalHeight;
 
 		if (!font)
@@ -3517,7 +3517,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGFillStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, gColor bgcolor, gJustify justify) {
+	void gdispGFillStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, gFont font, gColor color, gColor bgcolor, gJustify justify) {
 		gCoord		totalHeight;
 
 		if (!font)
@@ -3608,7 +3608,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		MUTEX_EXIT(g);
 	}
 
-	gCoord gdispGetFontMetric(font_t font, gFontmetric metric) {
+	gCoord gdispGetFontMetric(gFont font, gFontmetric metric) {
 		if (!font)
 			return 0;
 		/* No mutex required as we only read static data */
@@ -3625,14 +3625,14 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		return 0;
 	}
 
-	gCoord gdispGetCharWidth(char c, font_t font) {
+	gCoord gdispGetCharWidth(char c, gFont font) {
 		if (!font)
 			return 0;
 		/* No mutex required as we only read static data */
 		return mf_character_width(font, c);
 	}
 
-	gCoord gdispGetStringWidthCount(const char* str, font_t font, uint16_t count) {
+	gCoord gdispGetStringWidthCount(const char* str, gFont font, uint16_t count) {
 		if (!str || !font)
 			return 0;
 
@@ -3644,7 +3644,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		#endif
 	}
 
-	gCoord gdispGetStringWidth(const char* str, font_t font) {
+	gCoord gdispGetStringWidth(const char* str, gFont font) {
 		return gdispGetStringWidthCount(str, font, 0);
 	}
 #endif

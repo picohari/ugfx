@@ -37,7 +37,7 @@
 
 static GConsoleObject			gc;
 static GListener				gl;
-static font_t					font;
+static gFont					font;
 static gCoord					bHeight;
 static GHandle					ghc;
 static gCoord					swidth, sheight;

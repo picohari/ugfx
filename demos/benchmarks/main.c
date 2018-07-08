@@ -90,7 +90,7 @@ void benchmark(void) {
     char pps_str[25];
 	gCoord height, width, rx, ry, rcx, rcy;
     gColor random_color;
-	font_t font;
+	gFont font;
 
     gdispSetOrientation(GDISP_ROTATE_90);
 

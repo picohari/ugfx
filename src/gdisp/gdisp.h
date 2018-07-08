@@ -90,7 +90,7 @@ typedef enum gFontmetric {
 /**
  * @brief   The type of a font.
  */
-typedef const struct mf_font_s* font_t;
+typedef const struct mf_font_s* gFont;
 
 /**
  * @enum 	orientation
@@ -917,7 +917,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGDrawChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, font_t font, gColor color);
+	void gdispGDrawChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, gFont font, gColor color);
 	#define	gdispDrawChar(x,y,s,f,c)						gdispGDrawChar(GDISP,x,y,s,f,c)
 
 	/**
@@ -933,7 +933,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGFillChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, font_t font, gColor color, gColor bgcolor);
+	void gdispGFillChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, gFont font, gColor color, gColor bgcolor);
 	#define	gdispFillChar(x,y,s,f,c,b)						gdispGFillChar(GDISP,x,y,s,f,c,b)
 
 	/**
@@ -948,7 +948,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGDrawString(GDisplay *g, gCoord x, gCoord y, const char *str, font_t font, gColor color);
+	void gdispGDrawString(GDisplay *g, gCoord x, gCoord y, const char *str, gFont font, gColor color);
 	#define	gdispDrawString(x,y,s,f,c)						gdispGDrawString(GDISP,x,y,s,f,c)
 
 	/**
@@ -964,7 +964,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGFillString(GDisplay *g, gCoord x, gCoord y, const char *str, font_t font, gColor color, gColor bgcolor);
+	void gdispGFillString(GDisplay *g, gCoord x, gCoord y, const char *str, gFont font, gColor color, gColor bgcolor);
 	#define	gdispFillString(x,y,s,f,c,b)					gdispGFillString(GDISP,x,y,s,f,c,b)
 
 	/**
@@ -981,7 +981,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGDrawStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, gJustify justify);
+	void gdispGDrawStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, gFont font, gColor color, gJustify justify);
 	#define	gdispDrawStringBox(x,y,cx,cy,s,f,c,j)			gdispGDrawStringBox(GDISP,x,y,cx,cy,s,f,c,j)
 
 	/**
@@ -1000,7 +1000,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGFillStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, font_t font, gColor color, gColor bgColor, gJustify justify);
+	void gdispGFillStringBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, const char* str, gFont font, gColor color, gColor bgColor, gJustify justify);
 	#define	gdispFillStringBox(x,y,cx,cy,s,f,c,b,j)			gdispGFillStringBox(GDISP,x,y,cx,cy,s,f,c,b,j)
 
 	/**
@@ -1013,7 +1013,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	gCoord gdispGetFontMetric(font_t font, gFontmetric metric);
+	gCoord gdispGetFontMetric(gFont font, gFontmetric metric);
 
 	/**
 	 * @brief   Get the pixel width of a character.
@@ -1025,7 +1025,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	gCoord gdispGetCharWidth(char c, font_t font);
+	gCoord gdispGetCharWidth(char c, gFont font);
 
 	/**
 	 * @brief   Get the pixel width of a string of a given character length.
@@ -1040,7 +1040,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	gCoord gdispGetStringWidthCount(const char* str, font_t font, uint16_t count);
+	gCoord gdispGetStringWidthCount(const char* str, gFont font, uint16_t count);
 
 	/**
 	 * @brief   Get the pixel width of an entire string.
@@ -1052,7 +1052,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	gCoord gdispGetStringWidth(const char* str, font_t font);
+	gCoord gdispGetStringWidth(const char* str, gFont font);
 
 	/**
 	 * @brief	Find a font and return it.
@@ -1066,7 +1066,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	font_t gdispOpenFont(const char *name);
+	gFont gdispOpenFont(const char *name);
 
 	/**
 	 * @brief	Release a font after use.
@@ -1076,7 +1076,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispCloseFont(font_t font);
+	void gdispCloseFont(gFont font);
 
 	/**
 	 * @brief	Make a scaled copy of an existing font.
@@ -1090,7 +1090,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 * @param[in] scale_x	The scale factor in horizontal direction.
 	 * @param[in] scale_y	The scale factor in vertical direction.
 	 */
-	font_t gdispScaleFont(font_t font, uint8_t scale_x, uint8_t scale_y);
+	gFont gdispScaleFont(gFont font, uint8_t scale_x, uint8_t scale_y);
 
 	/**
 	 * @brief	Get the name of the specified font.
@@ -1101,7 +1101,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	const char *gdispGetFontName(font_t font);
+	const char *gdispGetFontName(gFont font);
 
 	/**
 	 * @brief	Add a font permanently to the font list.
@@ -1112,7 +1112,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	gBool gdispAddFont(font_t font);
+	gBool gdispAddFont(gFont font);
 #endif
 
 /* Extra Arc Functions */
@@ -1234,6 +1234,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	typedef gPixel		pixel_t;
 	typedef gCoord		coord_t;
 	typedef gPoint		point, point_t;
+	typedef gFont		font_t;
 	typedef gPowermode	powermode_t;
 		#define powerOff			gPowerOff
 		#define powerDeepSleep		gPowerDeepSleep

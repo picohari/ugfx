@@ -5,7 +5,7 @@ int main(void)
 {
 	GEventMouse ev;
 #if !JG10_SHOW_SPLASH
-	font_t font;
+	gFont font;
 #endif
 
     gfxInit();

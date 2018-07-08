@@ -44,7 +44,7 @@
 
 void drawScreen(void) {
 	char *msg = "uGFX";
-	font_t		font1, font2;
+	gFont		font1, font2;
 
 	font1 = gdispOpenFont("DejaVuSans24*");
 	font2 = gdispOpenFont("DejaVuSans12*");
