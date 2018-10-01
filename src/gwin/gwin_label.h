@@ -38,9 +38,7 @@
  * @note	Used only for writing a custom draw routine.
  * @{
  */
-#define GLABEL_FLG_WAUTO		0x01
-#define GLABEL_FLG_HAUTO		0x02
-#define GLABEL_FLG_BORDER		0x04
+#define GLABEL_FLG_BORDER		0x01
 /** @} */
 
 // An label window

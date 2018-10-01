@@ -20,21 +20,6 @@
 #define gh2obj					((GLabelObject *)gh)
 #define gw2obj					((GLabelObject *)gw)
 
-// simple: single line with no wrapping
-static gCoord getwidth(const char *text, gFont font, gCoord maxwidth) {
-	(void) maxwidth;
-
-	return gdispGetStringWidth(text, font)+2;		// Allow one pixel of padding on each side
-}
-
-// simple: single line with no wrapping
-static gCoord getheight(const char *text, gFont font, gCoord maxwidth) {
-	(void) text;
-	(void) maxwidth;
-
-	return gdispGetFontMetric(font, gFontHeight);
-}
-
 static const gwidgetVMT labelVMT = {
 	{
 		"Label",					// The class name
@@ -76,20 +61,6 @@ static const gwidgetVMT labelVMT = {
 };
 
 GHandle gwinGLabelCreate(GDisplay *g, GLabelObject *widget, GWidgetInit *pInit) {
-	uint16_t flags = 0;
-
-	// auto assign width
-	if (pInit->g.width <= 0) {
-
-		flags |= GLABEL_FLG_WAUTO;
-		pInit->g.width = getwidth(pInit->text, gwinGetDefaultFont(), gdispGGetWidth(g) - pInit->g.x);
-	}
- 
-	// auto assign height
-	if (pInit->g.height <= 0) {
-		flags |= GLABEL_FLG_HAUTO;
-		pInit->g.height = getheight(pInit->text, gwinGetDefaultFont(), gdispGGetWidth(g) - pInit->g.x);
-	}
 
 	if (!(widget = (GLabelObject *)_gwidgetCreate(g, &widget->w, pInit, &labelVMT)))
 		return 0;
@@ -99,7 +70,6 @@ GHandle gwinGLabelCreate(GDisplay *g, GLabelObject *widget, GWidgetInit *pInit) 
 		widget->attr = 0;
 	#endif
 
-	widget->w.g.flags |= flags;	
 	gwinSetVisible(&widget->w.g, pInit->g.show);
 
 	return (GHandle)widget;
@@ -137,23 +107,9 @@ static void gwinLabelDraw(GWidgetObject *gw, gJustify justify) {
 	if (gw->g.vmt != (gwinVMT *)&labelVMT)
 		return;
 
-	w = (gw->g.flags & GLABEL_FLG_WAUTO) ? getwidth(gw->text, gw->g.font, gdispGGetWidth(gw->g.display) - gw->g.x) : gw->g.width;
-	h = (gw->g.flags & GLABEL_FLG_HAUTO) ? getheight(gw->text, gw->g.font, gdispGGetWidth(gw->g.display) - gw->g.x) : gw->g.height;
+	w = gw->g.width;
+	h = gw->g.height;
 	c = (gw->g.flags & GWIN_FLG_SYSENABLED) ? gw->pstyle->enabled.text : gw->pstyle->disabled.text;
-
-	if (gw->g.width != w || gw->g.height != h) {
-		/* Only allow the widget to be resize if it will grow larger.
-		 * Growing smaller is problematic because it requires a temporary change in visibility.
-		 * This is a work-around for a crashing bug caused by calling gwinResize() in the draw function
-		 * (dubious) as it may try to reclaim the drawing lock.
-		 */
-		if (gw->g.width < w || gw->g.height < h) {
-			gwinResize(&gw->g, (w > gw->g.width ? w : gw->g.width), (h > gw->g.height ? h : gw->g.height));
-			return;
-		}
-		w = gw->g.width;
-		h = gw->g.height;
-	}
 
 	#if GWIN_LABEL_ATTRIBUTE
 		if (gw2obj->attr) {
