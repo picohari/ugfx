@@ -99,9 +99,11 @@ void gwinLabelSetBorder(GHandle gh, gBool border) {
 	}
 #endif // GWIN_LABEL_ATTRIBUTE
 
-static void gwinLabelDraw(GWidgetObject *gw, gJustify justify) {
+void gwinLabelDrawJustified(GWidgetObject *gw, void *param) {
 	gCoord				w, h;
 	gColor				c;
+
+	gJustify justify = (gJustify)param;
 
 	// is it a valid handle?
 	if (gw->g.vmt != (gwinVMT *)&labelVMT)
@@ -129,19 +131,19 @@ static void gwinLabelDraw(GWidgetObject *gw, gJustify justify) {
 void gwinLabelDrawJustifiedLeft(GWidgetObject *gw, void *param) {
 	(void)param;
 	
-	gwinLabelDraw(gw, gJustifyLeft);
+	gwinLabelDrawJustified(gw, (void *)gJustifyLeft);
 }
 
 void gwinLabelDrawJustifiedRight(GWidgetObject *gw, void *param) {
 	(void)param;
 	
-	gwinLabelDraw(gw, gJustifyRight);
+	gwinLabelDrawJustified(gw, (void *)gJustifyRight);
 }
 
 void gwinLabelDrawJustifiedCenter(GWidgetObject *gw, void *param) {
 	(void)param;
 	
-	gwinLabelDraw(gw, gJustifyCenter);
+	gwinLabelDrawJustified(gw, (void *)gJustifyCenter);
 }
 
 #undef gh2obj
