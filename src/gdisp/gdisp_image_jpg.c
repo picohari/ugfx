@@ -2,7 +2,7 @@
  * This file is subject to the terms of the GFX License. If a copy of
  * the license was not distributed with this file, you can obtain one at:
  *
- *              http://ugfx.org/license.html
+ *              http://ugfx.io/license.html
  *
  * Note: part of this file is based on TJpgDec - Tiny JPEG Decompressor R0.01b (C)ChaN, 2012
  *			with modifications for uGFX. The copyright notice for that code is in this file
