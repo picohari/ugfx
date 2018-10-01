@@ -112,12 +112,21 @@ void gwinLabelSetBorder(GHandle gh, gBool border);
  *
  * @note				In your custom label drawing function you may optionally call these
  * 						standard functions and then draw your extra details on top.
- * @note				The built-in functions below ignore the param parameter.
  * @note				These custom drawing routines don't have to worry about setting clipping as the framework
  * 						sets clipping to the object window prior to calling these routines.
  *
  * @{
  */
+
+/**
+ * @brief				Renders a label with the text justified based on the parameter.
+ *
+ * @param[in] gw		The widget object (must be a label object)
+ * @param[in] param		A parameter passed in from the user. Must be of type gJustify.
+ *
+ * @api
+ */
+void gwinLabelDrawJustified(GWidgetObject *gw, void *param);
 
 /**
  * @brief				Renders a label with the text left jestified.
