@@ -296,7 +296,7 @@ void _gqueueDeinit(void)
 		pqueue->head = pqueue->tail = 0;
 		gfxSemInit(&pqueue->sem, 0, MAX_SEMAPHORE_COUNT);
 	}
-	void gfxQueueFSyncDeinit(gfxQueueGSync *pqueue) {
+	void gfxQueueFSyncDeinit(gfxQueueFSync *pqueue) {
 		while(gfxQueueFSyncGet(pqueue, gDelayNone));
 		pqueue->head = pqueue->tail = 0;
 		gfxSemDestroy(&pqueue->sem);
@@ -355,12 +355,12 @@ void _gqueueDeinit(void)
 		return gfxSemWait(&pitem->sem, ms);
 	}
 
-	gBool gfxQueueFSyncInsert(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gfxQueueASyncItem *pafter, gDelay ms) {
+	gBool gfxQueueFSyncInsert(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gfxQueueFSyncItem *pafter, gDelay ms) {
 		if (!pitem) return;				// Safety
 		gfxSemInit(&pitem->sem, 0, 1);
 
 		gfxSystemLock();
-		if (pafter && gfxQueueGSyncIsInI(pqueue, pafter)) {
+		if (pafter && gfxQueueFSyncIsInI(pqueue, pafter)) {
 			pitem->next = pafter->next;
 			pafter->next = pitem;
 			if (pqueue->tail == pafter)
@@ -419,7 +419,7 @@ void _gqueueDeinit(void)
 		return res;
 	}
 	gBool gfxQueueFSyncIsInI(gfxQueueFSync *pqueue, const gfxQueueFSyncItem *pitem) {
-		gfxQueueASyncItem *pi;
+		gfxQueueFSyncItem *pi;
 
 		for(pi = pqueue->head; pi; pi = pi->next) {
 			if (pi == pitem)
