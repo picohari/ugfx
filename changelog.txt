@@ -42,6 +42,8 @@ FEATURE:	Added keyboard support to radio buttons (by Steffan)
 FEATURE:	Added internal use only GFX_COMPILESTAGE (used to control compilation)
 FEATURE:	Added support for ChibiOS Kernel V5
 FEATURE:	Added WS29EPD WaveShare E-Paper display
+FIX:		Fixing GQUEUE full synchronous function signatures
+CHANGE:		Removing label widget auto-sizing functionality
 
 
 *** Release 2.8 ***
