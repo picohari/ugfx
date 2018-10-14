@@ -61,6 +61,13 @@ static const gwidgetVMT labelVMT = {
 };
 
 GHandle gwinGLabelCreate(GDisplay *g, GLabelObject *widget, GWidgetInit *pInit) {
+	// auto assign width
+	if (pInit->g.width <= 0)
+		pInit->g.width = gdispGetStringWidth(pInit->text, gwinGetDefaultFont())+2;		// Allow one pixel of padding on each side
+
+	// auto assign height
+	if (pInit->g.height <= 0)
+		pInit->g.height = gdispGetFontMetric(gwinGetDefaultFont(), gFontHeight);
 
 	if (!(widget = (GLabelObject *)_gwidgetCreate(g, &widget->w, pInit, &labelVMT)))
 		return 0;
@@ -79,7 +86,7 @@ void gwinLabelSetBorder(GHandle gh, gBool border) {
 	// is it a valid handle?
 	if (gh->vmt != (gwinVMT *)&labelVMT)
 		return;
-	
+
 	if (border)
 		gh2obj->w.g.flags |= GLABEL_FLG_BORDER;
 	else
@@ -91,58 +98,54 @@ void gwinLabelSetBorder(GHandle gh, gBool border) {
 		// is it a valid handle?
 		if (gh->vmt != (gwinVMT *)&labelVMT)
 			return;
-	
+
 		gh2obj->tab = tab;
 		gh2obj->attr = attr;
 
-		gwinRedraw(gh); 
+		gwinRedraw(gh);
 	}
 #endif // GWIN_LABEL_ATTRIBUTE
 
 void gwinLabelDrawJustified(GWidgetObject *gw, void *param) {
-	gCoord				w, h;
-	gColor				c;
-
-	gJustify justify = (gJustify)param;
+	gColor		c;
+	gJustify 	justify = (gJustify)param;
 
 	// is it a valid handle?
 	if (gw->g.vmt != (gwinVMT *)&labelVMT)
 		return;
 
-	w = gw->g.width;
-	h = gw->g.height;
 	c = (gw->g.flags & GWIN_FLG_SYSENABLED) ? gw->pstyle->enabled.text : gw->pstyle->disabled.text;
 
 	#if GWIN_LABEL_ATTRIBUTE
 		if (gw2obj->attr) {
-			gdispGFillStringBox(gw->g.display, gw->g.x, gw->g.y, gw2obj->tab, h, gw2obj->attr, gw->g.font, c, gw->pstyle->background, justify);
-			gdispGFillStringBox(gw->g.display, gw->g.x + gw2obj->tab, gw->g.y, w-gw2obj->tab, h, gw->text, gw->g.font, c, gw->pstyle->background, justify);
+			gdispGFillStringBox(gw->g.display, gw->g.x, gw->g.y, gw2obj->tab, gw->g.height, gw2obj->attr, gw->g.font, c, gw->pstyle->background, justify);
+			gdispGFillStringBox(gw->g.display, gw->g.x + gw2obj->tab, gw->g.y, gw->g.width-gw2obj->tab, gw->g.height, gw->text, gw->g.font, c, gw->pstyle->background, justify);
 		} else
-			gdispGFillStringBox(gw->g.display, gw->g.x, gw->g.y, w, h, gw->text, gw->g.font, c, gw->pstyle->background, justify);
+			gdispGFillStringBox(gw->g.display, gw->g.x, gw->g.y, gw->g.width, gw->g.height, gw->text, gw->g.font, c, gw->pstyle->background, justify);
 	#else
-		gdispGFillStringBox(gw->g.display, gw->g.x, gw->g.y, w, h, gw->text, gw->g.font, c, gw->pstyle->background, justify);
+		gdispGFillStringBox(gw->g.display, gw->g.x, gw->g.y, gw->g.width, gw->g.height, gw->text, gw->g.font, c, gw->pstyle->background, justify);
 	#endif
 
 	// render the border (if any)
 	if (gw->g.flags & GLABEL_FLG_BORDER)
-		gdispGDrawBox(gw->g.display, gw->g.x, gw->g.y, w, h, (gw->g.flags & GWIN_FLG_SYSENABLED) ? gw->pstyle->enabled.edge : gw->pstyle->disabled.edge);
+		gdispGDrawBox(gw->g.display, gw->g.x, gw->g.y, gw->g.width, gw->g.height, (gw->g.flags & GWIN_FLG_SYSENABLED) ? gw->pstyle->enabled.edge : gw->pstyle->disabled.edge);
 }
 
 void gwinLabelDrawJustifiedLeft(GWidgetObject *gw, void *param) {
 	(void)param;
-	
+
 	gwinLabelDrawJustified(gw, (void *)gJustifyLeft);
 }
 
 void gwinLabelDrawJustifiedRight(GWidgetObject *gw, void *param) {
 	(void)param;
-	
+
 	gwinLabelDrawJustified(gw, (void *)gJustifyRight);
 }
 
 void gwinLabelDrawJustifiedCenter(GWidgetObject *gw, void *param) {
 	(void)param;
-	
+
 	gwinLabelDrawJustified(gw, (void *)gJustifyCenter);
 }
 
