@@ -44,6 +44,7 @@ FEATURE:	Added support for ChibiOS Kernel V5
 FEATURE:	Added WS29EPD WaveShare E-Paper display
 FIX:		Fixed GQUEUE full synchronous function signatures
 CHANGE:		Removed label widget auto-sizing during redraw. It will still auto-size during creation
+FIX:		Fixed realloc bug for RAW32 (and derivitives)
 
 
 *** Release 2.8 ***

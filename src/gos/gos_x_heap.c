@@ -135,7 +135,7 @@
 
 		// We need to do this the hard way
 		pfree = gfxAlloc(sz);
-		if (pfree)
+		if (!pfree)
 			return 0;
 		memcpy(pfree, ptr, p->sz - sizeof(memslot));
 		gfxFree(ptr);
@@ -162,7 +162,7 @@
 				break;
 			}
 		}
-		
+
 		// Find a free slot that is contiguous after and merge it into this one
 		for (prev = 0, pfree = freeSlots; pfree != 0; prev = pfree, pfree = NextFree(pfree)) {
 			if (pfree == (memslot *)((char *)p + p->sz)) {
