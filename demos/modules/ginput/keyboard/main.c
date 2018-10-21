@@ -98,7 +98,7 @@ int main(void) {
 		if (pk->bytecount) {
 			gwinPrintf(GW, " Keys:");
 			for (i = 0; i < pk->bytecount; i++)
-				gwinPrintf(GW, " 0x%02X", (uint8_t)pk->c[i]);
+				gwinPrintf(GW, " 0x%02X", (int)(uint8_t)pk->c[i]);
 			gwinPrintf(GW, " [");
 			for (i = 0; i < pk->bytecount; i++)
 				gwinPrintf(GW, "%c", pk->c[i] >= ' ' && pk->c[i] <= '~' ? pk->c[i] : ' ');
