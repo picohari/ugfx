@@ -42,7 +42,7 @@ typedef struct GEventGWinRadio {
 	#if GWIN_WIDGET_TAGS
 		WidgetTag	tag;				// The radio tag
 	#endif
-	uint16_t		group;				// The group for this radio button
+	gU16		group;				// The group for this radio button
 } GEventGWinRadio;
 
 /**
@@ -60,9 +60,9 @@ typedef struct GEventGWinRadio {
 typedef struct GRadioObject {
 	GWidgetObject		w;
 	#if GINPUT_NEED_TOGGLE
-		uint16_t		toggle;
+		gU16		toggle;
 	#endif
-	uint16_t			group;
+	gU16			group;
 } GRadioObject;
 
 /**
@@ -88,7 +88,7 @@ typedef struct GRadioObject {
  *
  * @api
  */	
-GHandle gwinGRadioCreate(GDisplay *g, GRadioObject *gb, const GWidgetInit *pInit, uint16_t group);
+GHandle gwinGRadioCreate(GDisplay *g, GRadioObject *gb, const GWidgetInit *pInit, gU16 group);
 #define gwinRadioCreate(w, pInit, gr)			gwinGRadioCreate(GDISP, w, pInit, gr)
 
 /**
@@ -120,7 +120,7 @@ gBool gwinRadioIsPressed(GHandle gh);
  *
  * @api
  */
-GHandle gwinRadioGetActive(uint16_t group);
+GHandle gwinRadioGetActive(gU16 group);
 
 /**
  * @defgroup Renderings_Radiobutton Renderings

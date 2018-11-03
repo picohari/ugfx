@@ -68,7 +68,7 @@ void geventListenerInit(GListener *pl) {
 	pl->flags = 0;
 }
 
-gBool geventAttachSource(GListener *pl, GSourceHandle gsh, uint32_t flags) {
+gBool geventAttachSource(GListener *pl, GSourceHandle gsh, gU32 flags) {
 	GSourceListener *psl, *pslfree;
 
 	// Safety first

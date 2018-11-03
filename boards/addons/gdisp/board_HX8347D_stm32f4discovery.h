@@ -112,7 +112,7 @@ static GFXINLINE void setpin_reset(GDisplay *g, gBool state) {
 	}
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
 	(void) g;
 	pwmEnableChannel(&PWMD4, 1, percent);
 }
@@ -140,7 +140,7 @@ static GFXINLINE void busmode8(GDisplay *g) {
 	spiStart(&SPID1, &spi1cfg_8bit);
 }
 
-static GFXINLINE void write_index(GDisplay *g, uint8_t index) {
+static GFXINLINE void write_index(GDisplay *g, gU8 index) {
 	(void) g;
     CLR_DATA;
     SPI1->DR = index;
@@ -148,13 +148,13 @@ static GFXINLINE void write_index(GDisplay *g, uint8_t index) {
     SET_DATA;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint8_t data) {
+static GFXINLINE void write_data(GDisplay *g, gU8 data) {
 	(void) g;
     SPI1->DR = data;
     while(((SPI1->SR & SPI_SR_TXE) == 0) || ((SPI1->SR & SPI_SR_BSY) != 0));
 }
 
-static GFXINLINE void write_ram16(GDisplay *g, uint16_t data) {
+static GFXINLINE void write_ram16(GDisplay *g, gU16 data) {
 	(void) g;
     SPI1->DR      = data;
     while((SPI1->SR & SPI_SR_TXE) == 0);

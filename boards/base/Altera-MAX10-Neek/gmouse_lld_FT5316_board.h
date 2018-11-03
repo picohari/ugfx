@@ -76,29 +76,29 @@ static gBool init_board(GMouse* m, unsigned instance)
 	return gTrue;
 }
 
-static void write_reg(GMouse* m, uint8_t reg, uint8_t val)
+static void write_reg(GMouse* m, gU8 reg, gU8 val)
 {
 	(void)m;
 
 	device_write(FT5316_I2C_SLAVE_ADDRESS, reg, val);
 }
 
-static uint8_t read_byte(GMouse* m, uint8_t reg)
+static gU8 read_byte(GMouse* m, gU8 reg)
 {
 	(void)m;
-	uint8_t ret = 0;
+	gU8 ret = 0;
 
-	ret = (uint8_t)device_read(FT5316_I2C_SLAVE_ADDRESS, reg);
+	ret = (gU8)device_read(FT5316_I2C_SLAVE_ADDRESS, reg);
 
 	return ret;
 }
 
-static uint16_t read_word(GMouse* m, uint8_t reg)
+static gU16 read_word(GMouse* m, gU8 reg)
 {
 	(void)m;
-	uint16_t ret = 0;
+	gU16 ret = 0;
 
-	ret = (uint16_t)device_read(FT5316_I2C_SLAVE_ADDRESS, reg);
+	ret = (gU16)device_read(FT5316_I2C_SLAVE_ADDRESS, reg);
 
 	return ret;
 }

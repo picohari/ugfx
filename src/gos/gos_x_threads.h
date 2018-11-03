@@ -24,14 +24,14 @@
 
 #if GOS_NEED_X_THREADS
 
-typedef uint32_t		gDelay;
-typedef uint32_t		gTicks;
+typedef gU32		gDelay;
+typedef gU32		gTicks;
 typedef short			gSemcount;
 typedef int				gThreadreturn;
 typedef int				gThreadpriority;
 
 #define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
-#define DECLARE_THREAD_STACK(name, sz)			uint8_t name[(sz) & ~3];
+#define DECLARE_THREAD_STACK(name, sz)			gU8 name[(sz) & ~3];
 #define THREAD_RETURN(retval)					return retval
 
 #define gDelayNone					0
@@ -46,7 +46,7 @@ typedef struct {
 	gSemcount		limit;
 } gfxSem;
 
-typedef uint32_t		gfxMutex;
+typedef gU32		gfxMutex;
 typedef void *			gThread;
 
 // Required timing functions - supplied by the user or the operating system
@@ -77,7 +77,7 @@ void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
 
 // Threads
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadClose(thread)
 gThreadreturn gfxThreadWait(gThread thread);
 gThread gfxThreadMe(void);

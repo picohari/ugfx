@@ -34,13 +34,13 @@ static GFXINLINE void aquire_bus(GMouse* m) {
 static GFXINLINE void release_bus(GMouse* m) {
 }
 
-static void write_reg(GMouse* m, uint8_t reg, uint8_t val) {
+static void write_reg(GMouse* m, gU8 reg, gU8 val) {
 }
 
-static uint8_t read_byte(GMouse* m, uint8_t reg) {
+static gU8 read_byte(GMouse* m, gU8 reg) {
 }
 
-static uint16_t read_word(GMouse* m, uint8_t reg) {
+static gU16 read_word(GMouse* m, gU8 reg) {
 }
 
 #endif /* _GINPUT_LLD_MOUSE_BOARD_H */

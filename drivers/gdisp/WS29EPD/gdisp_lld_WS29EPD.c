@@ -37,9 +37,9 @@
 /*===========================================================================*/
 
 /* initialization variables according to WaveShare. */
-uint8_t GDOControl[]        = {(GDISP_SCREEN_HEIGHT-1)%256,(GDISP_SCREEN_HEIGHT-1)/256,0x00};
-uint8_t softstart[]         = {0xd7,0xd6,0x9d};
-uint8_t LUTDefault_full[]    = {0x02,0x02,0x01,0x11,0x12,0x12,0x22,0x22,0x66,0x69,0x69,0x59,0x58,0x99,0x99,0x88,0x00,0x00,0x00,0x00,0xF8,0xB4,0x13,0x51,0x35,0x51,0x51,0x19,0x01,0x00}; // Initialize the full display
+gU8 GDOControl[]        = {(GDISP_SCREEN_HEIGHT-1)%256,(GDISP_SCREEN_HEIGHT-1)/256,0x00};
+gU8 softstart[]         = {0xd7,0xd6,0x9d};
+gU8 LUTDefault_full[]    = {0x02,0x02,0x01,0x11,0x12,0x12,0x22,0x22,0x66,0x69,0x69,0x59,0x58,0x99,0x99,0x88,0x00,0x00,0x00,0x00,0xF8,0xB4,0x13,0x51,0x35,0x51,0x51,0x19,0x01,0x00}; // Initialize the full display
 
 /*===========================================================================*/
 /* Driver local functions.                                                   */
@@ -55,7 +55,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	* [y=0; y=1; y=2; y=3; ...; y=GDISP_SCREEN_HEIGHT][y=0; y=1; y=2; y=3; ...; y=GDISP_SCREEN_HEIGHT]...
 	*
 	*/
-	g->priv = gfxAlloc((GDISP_SCREEN_WIDTH / WS29EPD_PPB) * GDISP_SCREEN_HEIGHT * sizeof(uint8_t));
+	g->priv = gfxAlloc((GDISP_SCREEN_WIDTH / WS29EPD_PPB) * GDISP_SCREEN_HEIGHT * sizeof(gU8));
 	if (!g->priv)
 		return gFalse;
 
@@ -85,12 +85,12 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	write_cmd(g, MASTER_ACTIVATION);
 	write_reg(g, DEEP_SLEEP_MODE, 0x00);
 
-	uint8_t zeros[2] = { 0, 0 };
+	gU8 zeros[2] = { 0, 0 };
 	write_reg(g, SET_RAM_X_CNT, 0x00);            // Set cursor at origin
 	write_reg_data(g, SET_RAM_Y_CNT, zeros, 2);
 
-	uint8_t dataX[2] = { 0, (GDISP_SCREEN_WIDTH-1)/8 };
-	uint8_t dataY[4] = { 0, 0, (GDISP_SCREEN_HEIGHT-1)%256, (GDISP_SCREEN_HEIGHT-1)/256 };
+	gU8 dataX[2] = { 0, (GDISP_SCREEN_WIDTH-1)/8 };
+	gU8 dataY[4] = { 0, 0, (GDISP_SCREEN_HEIGHT-1)%256, (GDISP_SCREEN_HEIGHT-1)/256 };
 	write_reg_data(g, SET_RAM_X_ADR, dataX, 2);   // Set viewport for the whole screen
 	write_reg_data(g, SET_RAM_Y_ADR, dataY, 4);
 
@@ -111,7 +111,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 #if 0			// Not needed yet
 	static void set_cursor(GDisplay *g) {
-		uint8_t dataY[2];
+		gU8 dataY[2];
 		
 		dataY[0] = g->p.y % 256;  // Y-data is send in two bytes
 		dataY[1] = g->p.y / 256;
@@ -133,8 +133,8 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	}
 
 	static void set_viewport(GDisplay *g) {
-		uint8_t dataX[2];
-		uint8_t dataY[4];
+		gU8 dataX[2];
+		gU8 dataY[4];
 		
 		// Fill up the X and Y position buffers.
 		dataX[0] = g->p.x / WS29EPD_PPB;
@@ -186,9 +186,9 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 	}
 	/* There is only black and no black (white). */
 	if (gdispColor2Native(g->p.color) != Black) // Indexing in the array is done as described in the init routine
-		((uint8_t *)g->priv)[(GDISP_SCREEN_HEIGHT*(x/WS29EPD_PPB)) + y] |= (1 << (WS29EPD_PPB-1 - (x % WS29EPD_PPB)));
+		((gU8 *)g->priv)[(GDISP_SCREEN_HEIGHT*(x/WS29EPD_PPB)) + y] |= (1 << (WS29EPD_PPB-1 - (x % WS29EPD_PPB)));
 	else
-		((uint8_t *)g->priv)[(GDISP_SCREEN_HEIGHT*(x/WS29EPD_PPB)) + y] &= ~(1 << (WS29EPD_PPB-1 - (x % WS29EPD_PPB)));
+		((gU8 *)g->priv)[(GDISP_SCREEN_HEIGHT*(x/WS29EPD_PPB)) + y] &= ~(1 << (WS29EPD_PPB-1 - (x % WS29EPD_PPB)));
 }
 #endif
 
@@ -201,7 +201,7 @@ LLDSPEC void gdisp_lld_flush(GDisplay *g) {
 	
 	for(int i=0; i<GDISP_SCREEN_HEIGHT; i++)
 		for(int j=0; j<=((GDISP_SCREEN_WIDTH-1)/8); j++)
-			write_data(g, ((uint8_t *)g->priv)[(GDISP_SCREEN_HEIGHT*j) + i]);
+			write_data(g, ((gU8 *)g->priv)[(GDISP_SCREEN_HEIGHT*j) + i]);
 		
 	/* Update the screen. */
 	write_reg(g, DISPLAY_UPDATE_CTRL2, 0xc7);  // Full update (partial hasn't been implemented yet)

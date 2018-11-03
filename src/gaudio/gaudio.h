@@ -51,7 +51,7 @@
 		/**
 		 * @brief The event flags
 		 */
-		uint16_t				flags;
+		gU16				flags;
 			/**
 			 * @brief   The event flag values.
 			 * @{
@@ -75,7 +75,7 @@
 		/**
 		 * @brief The event flags
 		 */
-		uint16_t				flags;
+		gU16				flags;
 			/**
 			 * @brief   The event flag values.
 			 * @{
@@ -110,7 +110,7 @@
 	 *
 	 * @api
 	 */
-	gBool gaudioPlayInit(uint16_t channel, uint32_t frequency, ArrayDataFormat format);
+	gBool gaudioPlayInit(gU16 channel, gU32 frequency, ArrayDataFormat format);
 
 	/**
 	 * @brief		Play the specified sample data.
@@ -164,7 +164,7 @@
 	 *
 	 * @api
 	 */
-	gBool gaudioPlaySetVolume(uint8_t vol);
+	gBool gaudioPlaySetVolume(gU8 vol);
 
 	#if GFX_USE_GEVENT || defined(__DOXYGEN__)
 		/**
@@ -225,7 +225,7 @@
 	 *
 	 * @api
 	 */
-	gBool gaudioRecordInit(uint16_t channel, uint32_t frequency, ArrayDataFormat format);
+	gBool gaudioRecordInit(gU16 channel, gU32 frequency, ArrayDataFormat format);
 
 	/**
 	 * @brief   Start the audio recording.

@@ -82,7 +82,7 @@
 	 * 			Many platforms will round the size to ensure correct stack alignment.
 	 *			Other platforms may entirely ignore the suggested size.
 	 */
-	#define DECLARE_THREAD_STACK(name, sz)			uint8_t name[sz];
+	#define DECLARE_THREAD_STACK(name, sz)			gU8 name[sz];
 
 	/*
 	 * @brief	Return from a thread
@@ -153,7 +153,7 @@
 	 *
 	 * @api
 	 */
-	void *gfxAlloc(size_t sz);
+	void *gfxAlloc(gMemSize sz);
 
 	/**
 	 * @brief	Re-allocate memory
@@ -173,7 +173,7 @@
 	 *
 	 * @api
 	 */
-	void *gfxRealloc(void *ptr, size_t oldsz, size_t newsz);
+	void *gfxRealloc(void *ptr, gMemSize oldsz, gMemSize newsz);
 
 	/**
 	 * @brief	Free memory
@@ -420,7 +420,7 @@
 	 *
 	 * @api
 	 */
-	gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+	gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 
 	/**
 	 * @brief	Wait for a thread to finish.

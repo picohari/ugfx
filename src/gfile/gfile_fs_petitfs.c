@@ -19,7 +19,7 @@
 static gBool petitfsExists(const char* fname);
 static gBool petitfsOpen(GFILE* f, const char* fname);
 static int petitfsRead(GFILE* f, void* buf, int size);
-static gBool petitfsSetPos(GFILE* f, long int pos);
+static gBool petitfsSetPos(GFILE* f, gFileSize pos);
 #if GFILE_NEED_FILELISTS && _FS_MINIMIZE <= 1
 	static gfileList *petitfsFlOpen(const char *path, gBool dirs);
 	static const char *petitfsFlRead(gfileList *pfl);
@@ -103,7 +103,7 @@ static int petitfsRead(GFILE* f, void* buf, int size)
 	return br;
 }
 
-static gBool petitfsSetPos(GFILE* f, long int pos)
+static gBool petitfsSetPos(GFILE* f, gFileSize pos)
 {
 	(void)	f;
 	return pf_lseek((DWORD)pos) == FR_OK;

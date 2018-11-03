@@ -121,7 +121,7 @@ int main(void) {
 			if (pk->bytecount) {
 				gwinPrintf(ghConsole, " Keys:");
 				for (i = 0; i < pk->bytecount; i++)
-					gwinPrintf(ghConsole, " 0x%02X", (int)(uint8_t)pk->c[i]);
+					gwinPrintf(ghConsole, " 0x%02X", (int)(gU8)pk->c[i]);
 				gwinPrintf(ghConsole, " [");
 				for (i = 0; i < pk->bytecount; i++)
 					gwinPrintf(ghConsole, "%c", pk->c[i] >= ' ' && pk->c[i] <= '~' ? pk->c[i] : ' ');

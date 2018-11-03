@@ -430,7 +430,7 @@ void _gqueueDeinit(void)
 #endif
 
 #if GQUEUE_NEED_BUFFERS
-	gBool gfxBufferAlloc(unsigned num, size_t size) {
+	gBool gfxBufferAlloc(unsigned num, gMemSize size) {
 		GDataBuffer *pd;
 
 		if (num < 1)

@@ -74,7 +74,7 @@ void gdispCloseFont(gFont font) {
 	}
 }
 
-gFont gdispScaleFont(gFont font, uint8_t scale_x, uint8_t scale_y)
+gFont gdispScaleFont(gFont font, gU8 scale_x, gU8 scale_y)
 {
 	struct mf_scaledfont_s *newfont;
 	

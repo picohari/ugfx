@@ -45,8 +45,8 @@
 /* This is the drawing core */
 static DECLARE_THREAD_STACK(waDrawThread, NCORE_THD_STACK_SIZE);
 
-static uint8_t 					nPenWidth = 1;
-static uint8_t 					nMode = NCORE_MODE_DRAW;
+static gU8 					nPenWidth = 1;
+static gU8 					nMode = NCORE_MODE_DRAW;
 
 static gThread			nThd;
 
@@ -72,9 +72,9 @@ static void draw_point(gCoord x, gCoord y) {
 /* Bresenham's Line Drawing Algorithm
    Modified version to draw line of variable thickness */
 static void draw_line(gCoord x0, gCoord y0, gCoord x1, gCoord y1) {
-  int16_t dy, dx;
-  int16_t addx, addy;
-  int16_t P, diff, i;
+  gI16 dy, dx;
+  gI16 addx, addy;
+  gI16 P, diff, i;
   
   if (x1 >= x0) {
 	  dx = x1 - x0;
@@ -223,13 +223,13 @@ void ncoreTerminateDrawThread(void) {
 
 /* Get and set the pen width
  * Brush is cicular, width is pixel radius */
-void ncoreSetPenWidth(uint8_t penWidth) { nPenWidth = penWidth; }
-uint8_t ncoreGetPenWidth(void) 			{ return nPenWidth; }
+void ncoreSetPenWidth(gU8 penWidth) { nPenWidth = penWidth; }
+gU8 ncoreGetPenWidth(void) 			{ return nPenWidth; }
 
 /* Get and set the drawing color */
 void ncoreSetPenColor(gColor penColor) { gwinSetColor(ncoreDrawingArea, penColor); }
 gColor ncoreGetPenColor(void) 			{ return ncoreDrawingArea->color; }
 
 /* Set mode */
-void ncoreSetMode(uint8_t mode)			{ nMode = mode; }
-uint8_t ncoreGetMode(void)				{ return nMode; }
+void ncoreSetMode(gU8 mode)			{ nMode = mode; }
+gU8 ncoreGetMode(void)				{ return nMode; }

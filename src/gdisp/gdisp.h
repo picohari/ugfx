@@ -36,7 +36,7 @@
 /**
  * @brief   The type for a coordinate or length on the screen.
  */
-typedef int16_t	gCoord;
+typedef gI16	gCoord;
 
 #if GFX_USE_GDISP || defined(__DOXYGEN__)
 
@@ -237,7 +237,7 @@ typedef gColor		gPixel;
  *
  * @api
  */
-gColor gdispBlendColor(gColor fg, gColor bg, uint8_t alpha);
+gColor gdispBlendColor(gColor fg, gColor bg, gU8 alpha);
 
 /**
  * @brief   Find a contrasting color
@@ -346,7 +346,7 @@ gOrientation gdispGGetOrientation(GDisplay *g);
  *
  * @api
  */
-uint8_t gdispGGetBacklight(GDisplay *g);
+gU8 gdispGGetBacklight(GDisplay *g);
 #define gdispGetBacklight()							gdispGGetBacklight(GDISP)
 
 /**
@@ -358,7 +358,7 @@ uint8_t gdispGGetBacklight(GDisplay *g);
  *
  * @api
  */
-uint8_t gdispGGetContrast(GDisplay *g);
+gU8 gdispGGetContrast(GDisplay *g);
 #define gdispGetContrast()							gdispGGetContrast(GDISP)
 
 /* Drawing Functions */
@@ -657,7 +657,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGDrawArcSectors(GDisplay *g, gCoord x, gCoord y, gCoord radius, uint8_t sectors, gColor color);
+	void gdispGDrawArcSectors(GDisplay *g, gCoord x, gCoord y, gCoord radius, gU8 sectors, gColor color);
 	#define gdispDrawArcSectors(x,y,r,s,c)						gdispGDrawArcSectors(GDISP,x,y,r,s,c)
 
 	/**
@@ -686,7 +686,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGFillArcSectors(GDisplay *g, gCoord x, gCoord y, gCoord radius, uint8_t sectors, gColor color);
+	void gdispGFillArcSectors(GDisplay *g, gCoord x, gCoord y, gCoord radius, gU8 sectors, gColor color);
 	#define gdispFillArcSectors(x,y,r,s,c)						gdispGFillArcSectors(GDISP,x,y,r,s,c)
 #endif
 
@@ -917,7 +917,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGDrawChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, gFont font, gColor color);
+	void gdispGDrawChar(GDisplay *g, gCoord x, gCoord y, gU16 c, gFont font, gColor color);
 	#define	gdispDrawChar(x,y,s,f,c)						gdispGDrawChar(GDISP,x,y,s,f,c)
 
 	/**
@@ -933,7 +933,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	void gdispGFillChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, gFont font, gColor color, gColor bgcolor);
+	void gdispGFillChar(GDisplay *g, gCoord x, gCoord y, gU16 c, gFont font, gColor color, gColor bgcolor);
 	#define	gdispFillChar(x,y,s,f,c,b)						gdispGFillChar(GDISP,x,y,s,f,c,b)
 
 	/**
@@ -1040,7 +1040,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 *
 	 * @api
 	 */
-	gCoord gdispGetStringWidthCount(const char* str, gFont font, uint16_t count);
+	gCoord gdispGetStringWidthCount(const char* str, gFont font, gU16 count);
 
 	/**
 	 * @brief   Get the pixel width of an entire string.
@@ -1090,7 +1090,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	 * @param[in] scale_x	The scale factor in horizontal direction.
 	 * @param[in] scale_y	The scale factor in vertical direction.
 	 */
-	gFont gdispScaleFont(gFont font, uint8_t scale_x, uint8_t scale_y);
+	gFont gdispScaleFont(gFont font, gU8 scale_x, gU8 scale_y);
 
 	/**
 	 * @brief	Get the name of the specified font.

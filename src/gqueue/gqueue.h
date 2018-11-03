@@ -77,8 +77,8 @@ typedef struct gfxQueueFSync {
  */
 typedef struct GDataBuffer {
 	gfxQueueGSyncItem	next;		// @< Used for queueing the buffers
-	size_t				size;		// @< The size of the buffer area following this structure (in bytes)
-	size_t				len;		// @< The length of the data in the buffer area (in bytes)
+	gMemSize			size;		// @< The size of the buffer area following this structure (in bytes)
+	gMemSize			len;		// @< The length of the data in the buffer area (in bytes)
 } GDataBuffer;
 
 /*===========================================================================*/
@@ -352,7 +352,7 @@ gBool gfxQueueFSyncIsInI(gfxQueueFSync *pqueue, const gfxQueueFSyncItem *pitem);
  * @api
  * @{
  */
-gBool gfxBufferAlloc(unsigned num, size_t size);
+gBool gfxBufferAlloc(unsigned num, gMemSize size);
 /** @} */
 
 /**

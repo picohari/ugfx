@@ -40,8 +40,8 @@ static const PWMConfig pwmcfg =
 /*
  * LCD_RS is on A16 (PD11)
  */
-#define GDISP_REG   (*((volatile uint16_t *) 0x60000000)) /* RS = 0 */
-#define GDISP_RAM   (*((volatile uint16_t *) 0x60020000)) /* RS = 1 */
+#define GDISP_REG   (*((volatile gU16 *) 0x60000000)) /* RS = 0 */
+#define GDISP_RAM   (*((volatile gU16 *) 0x60020000)) /* RS = 1 */
 /*
  * STM32_DMA1_STREAM7
  * NOTE: conflicts w/ USART2_TX, TIM2_CH2, TIM2_CH4, TIM4_UP, I2C1_RX in case
@@ -131,7 +131,7 @@ static GFXINLINE void setpin_reset(GDisplay *g, gBool state) {
   else {}
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
   (void) g;
   if (percent > 100) { percent = 100; }
   pwmEnableChannel(&PWMD3, 1, percent);
@@ -145,12 +145,12 @@ static GFXINLINE void release_bus(GDisplay *g) {
   (void) g;
 }
 
-static GFXINLINE void write_index(GDisplay *g, uint16_t index) {
+static GFXINLINE void write_index(GDisplay *g, gU16 index) {
   (void) g;
   GDISP_REG = index;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint16_t data) {
+static GFXINLINE void write_data(GDisplay *g, gU16 data) {
   (void) g;
   GDISP_RAM = data;
 }
@@ -163,7 +163,7 @@ static GFXINLINE void setwritemode(GDisplay *g) {
   (void) g;
 }
 
-static GFXINLINE uint16_t read_data(GDisplay *g) {
+static GFXINLINE gU16 read_data(GDisplay *g) {
   (void) g;
   return GDISP_RAM;
 }

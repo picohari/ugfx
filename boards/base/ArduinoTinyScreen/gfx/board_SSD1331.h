@@ -25,8 +25,8 @@ void SSD1331_init_board(void);
 void SSD1331_setpin_reset(int state);
 void SSD1331_aquirebus(void);
 void SSD1331_releasebus(void);
-void SSD1331_write_cmd(uint8_t cmd);
-void SSD1331_write_data(uint8_t data);
+void SSD1331_write_cmd(gU8 cmd);
+void SSD1331_write_data(gU8 data);
 
 #ifdef __cplusplus
 }

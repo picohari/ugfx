@@ -77,8 +77,8 @@ static GFXINLINE void release_bus(GMouse* m) {
 
 }
 
-static void write_reg(GMouse* m, uint8_t reg, uint8_t val) {
-	uint8_t		txbuf[2];
+static void write_reg(GMouse* m, gU8 reg, gU8 val) {
+	gU8		txbuf[2];
 	(void)		m;
 
 	txbuf[0] = reg;
@@ -89,8 +89,8 @@ static void write_reg(GMouse* m, uint8_t reg, uint8_t val) {
 	i2cReleaseBus(&I2CD1);
 }
 
-static uint8_t read_byte(GMouse* m, uint8_t reg) {
-	uint8_t		rxbuf[1];
+static gU8 read_byte(GMouse* m, gU8 reg) {
+	gU8		rxbuf[1];
 	(void)		m;
 
 	rxbuf[0] = 0;
@@ -102,8 +102,8 @@ static uint8_t read_byte(GMouse* m, uint8_t reg) {
 	return rxbuf[0];
 }
 
-static uint16_t read_word(GMouse* m, uint8_t reg) {
-	uint8_t		rxbuf[2];
+static gU16 read_word(GMouse* m, gU8 reg) {
+	gU8		rxbuf[2];
 	(void)		m;
 
 	rxbuf[0] = 0;
@@ -113,7 +113,7 @@ static uint16_t read_word(GMouse* m, uint8_t reg) {
 	i2cMasterTransmitTimeout(&I2CD1, STMPE610_ADDR, &reg, 1, rxbuf, 2, MS2ST(STMPE610_TIMEOUT));
 	i2cReleaseBus(&I2CD1);
 
-	return (((uint16_t)rxbuf[0]) << 8) | rxbuf[1];
+	return (((gU16)rxbuf[0]) << 8) | rxbuf[1];
 }
 
 #endif /* _GINPUT_LLD_MOUSE_BOARD_H */

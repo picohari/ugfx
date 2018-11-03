@@ -10,7 +10,7 @@
 #ifndef MF_NO_COMPILE
 
 /* Returns true if the line can be broken at this character. */
-static bool is_wrap_space(uint16_t c)
+static bool is_wrap_space(gU16 c)
 {
     return c == ' ' || c == '\n' || c == '\t' || c == '\r' || c == '-';
 }
@@ -20,9 +20,9 @@ static bool is_wrap_space(uint16_t c)
 /* Represents a single word and the whitespace after it. */
 struct wordlen_s
 {
-    int16_t word; /* Length of the word in pixels. */
-    int16_t space; /* Length of the whitespace in pixels. */
-    uint16_t chars; /* Number of characters in word + space, combined. */
+    gI16 word; /* Length of the word in pixels. */
+    gI16 space; /* Length of the whitespace in pixels. */
+    gU16 chars; /* Number of characters in word + space, combined. */
 };
 
 /* Take the next word from the string and compute its width.
@@ -76,8 +76,8 @@ static bool get_wordlen(const struct mf_font_s *font, mf_str *text,
 struct linelen_s
 {
     mf_str start; /* Start of the text for line. */
-    uint16_t chars; /* Total number of characters on the line. */
-    int16_t width; /* Total length of all words + whitespace on the line in pixels. */
+    gU16 chars; /* Total number of characters on the line. */
+    gI16 width; /* Total length of all words + whitespace on the line in pixels. */
     bool linebreak; /* True if line ends in a linebreak */
     struct wordlen_s last_word; /* Last word on the line. */
     struct wordlen_s last_word_2; /* Second to last word on the line. */
@@ -85,7 +85,7 @@ struct linelen_s
 
 /* Append word onto the line if it fits. If it would overflow, don't add and
  * return false. */
-static bool append_word(const struct mf_font_s *font, int16_t width,
+static bool append_word(const struct mf_font_s *font, gI16 width,
                         struct linelen_s *current, mf_str *text)
 {
     mf_str tmp = *text;
@@ -111,12 +111,12 @@ static bool append_word(const struct mf_font_s *font, int16_t width,
 }
 
 /* Append a character to the line if it fits. */
-static bool append_char(const struct mf_font_s *font, int16_t width,
+static bool append_char(const struct mf_font_s *font, gI16 width,
                         struct linelen_s *current, mf_str *text)
 {
     mf_str tmp = *text;
     mf_char c;
-    uint16_t w;
+    gU16 w;
 
     c = mf_getchar(&tmp);
     w = mf_character_width(font, c);
@@ -134,16 +134,16 @@ static bool append_char(const struct mf_font_s *font, int16_t width,
     }
 }
 
-static int32_t sq16(int16_t x) { return (int32_t)x * x; }
+static gI32 sq16(gI16 x) { return (gI32)x * x; }
 
 /* Try to balance the lines by potentially moving one word from the previous
  * line to the the current one. */
 static void tune_lines(struct linelen_s *current, struct linelen_s *previous,
-                       int16_t max_width)
+                       gI16 max_width)
 {
-    int16_t curw1, prevw1;
-    int16_t curw2, prevw2;
-    int32_t delta1, delta2;
+    gI16 curw1, prevw1;
+    gI16 curw2, prevw2;
+    gI32 delta1, delta2;
 
     /* If the lines are rendered as is */
     curw1 = current->width - current->last_word.space;
@@ -160,7 +160,7 @@ static void tune_lines(struct linelen_s *current, struct linelen_s *previous,
     if (delta1 > delta2 && curw2 <= max_width)
     {
         /* Do the change. */
-        uint16_t chars;
+        gU16 chars;
 
         chars = previous->last_word.chars;
         previous->chars -= chars;
@@ -173,13 +173,13 @@ static void tune_lines(struct linelen_s *current, struct linelen_s *previous,
     }
 }
 
-void mf_wordwrap(const struct mf_font_s *font, int16_t width,
+void mf_wordwrap(const struct mf_font_s *font, gI16 width,
                  mf_str text, mf_line_callback_t callback, void *state)
 {
     struct linelen_s current = { 0 };
     struct linelen_s previous = { 0 };
     bool full;
-    uint32_t giveUp = 2048;     /* Do while-loop a maximum of x times */
+    gU32 giveUp = 2048;     /* Do while-loop a maximum of x times */
 
     current.start = text;
 
@@ -236,16 +236,16 @@ void mf_wordwrap(const struct mf_font_s *font, int16_t width,
 
 #else
 
-void mf_wordwrap(const struct mf_font_s *font, int16_t width,
+void mf_wordwrap(const struct mf_font_s *font, gI16 width,
                  mf_str text, mf_line_callback_t callback, void *state)
 {
     mf_str linestart;
 
     /* Current line width and character count */
-    int16_t lw_cur = 0, cc_cur = 0;
+    gI16 lw_cur = 0, cc_cur = 0;
 
     /* Previous wrap point */
-    int16_t cc_prev;
+    gI16 cc_prev;
     mf_str ls_prev;
 
     linestart = text;
@@ -258,7 +258,7 @@ void mf_wordwrap(const struct mf_font_s *font, int16_t width,
         while (*text)
         {
             mf_char c;
-            int16_t new_width;
+            gI16 new_width;
             mf_str tmp;
 
             tmp = text;

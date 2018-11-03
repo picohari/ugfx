@@ -123,11 +123,11 @@ static GFXINLINE void release_bus(GMouse* m)
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
 }
 
-static GFXINLINE uint16_t read_value(GMouse* m, uint16_t reg)
+static GFXINLINE gU16 read_value(GMouse* m, gU16 reg)
 {
-  uint8_t txbuf[3] = {0, 0, 0};
-  uint8_t rxbuf[3] = {0, 0, 0};
-  uint16_t ret;
+  gU8 txbuf[3] = {0, 0, 0};
+  gU8 rxbuf[3] = {0, 0, 0};
+  gU16 ret;
 
   (void)m;
 

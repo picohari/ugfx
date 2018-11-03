@@ -119,7 +119,7 @@ static GFXINLINE void setpin_sph(GDisplay *g, gBool on) {
 }
 
 /* Set the state of the D0-D7 (source driver Data) pins. */
-static GFXINLINE void setpins_data(GDisplay *g, uint8_t value) {
+static GFXINLINE void setpins_data(GDisplay *g, gU8 value) {
 	(void) g;
 	palWriteGroup(GPIOB, 0xFF, GPIOB_EINK_D0, value);
 }

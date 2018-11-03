@@ -122,7 +122,7 @@ static DWORD WINAPI waveProc(LPVOID arg) {
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-gBool gaudio_play_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
+gBool gaudio_play_lld_init(gU16 channel, gU32 frequency, ArrayDataFormat format) {
 	WAVEFORMATEX	wfx;
 
 	if (format != ARRAY_DATA_8BITUNSIGNED && format != ARRAY_DATA_16BITSIGNED)
@@ -156,10 +156,10 @@ gBool gaudio_play_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat
 	return gTrue;
 }
 
-gBool gaudio_play_lld_set_volume(uint8_t vol) {
+gBool gaudio_play_lld_set_volume(gU8 vol) {
 	if (!ah)
 		return gFalse;
-	return waveOutSetVolume(ah, (((uint16_t)vol)<<8)|vol) != 0;
+	return waveOutSetVolume(ah, (((gU16)vol)<<8)|vol) != 0;
 }
 
 void gaudio_play_lld_start(void) {

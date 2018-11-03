@@ -33,7 +33,7 @@ typedef struct fbPriv {
 /*===========================================================================*/
 
 #define PIXIL_POS(g, x, y)		((y) * ((fbPriv *)(g)->priv)->fbi.linelen + (x) * 3)
-#define PIXEL_ADDR(g, pos)		(((uint8_t *)((fbPriv *)(g)->priv)->fbi.pixels)+pos)
+#define PIXEL_ADDR(g, pos)		(((gU8 *)((fbPriv *)(g)->priv)->fbi.pixels)+pos)
 
 /*===========================================================================*/
 /* Driver exported functions.                                                */
@@ -64,7 +64,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 	unsigned		pos;
-	uint8_t			*p;
+	gU8			*p;
 
 	#if GDISP_NEED_CONTROL
 		switch(g->g.Orientation) {
@@ -101,7 +101,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 
 LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay *g) {
 	unsigned		pos;
-	uint8_t			*p;
+	gU8			*p;
 
 	#if GDISP_NEED_CONTROL
 		switch(g->g.Orientation) {

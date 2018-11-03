@@ -33,7 +33,7 @@
 GHandle GW1, GW2, GW3;
 
 int main(void) {
-	uint8_t i;
+	gU8 i;
 	gFont	font1, font2;
 
 	/* initialize and clear the display */

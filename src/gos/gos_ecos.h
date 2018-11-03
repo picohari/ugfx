@@ -77,7 +77,7 @@ gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
 
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadWait(thread)		NOTIMPLEMENTED_YET
 #define gfxThreadMe()				cyg_thread_self()
 #define gfxThreadClose(thread)		(void)thread

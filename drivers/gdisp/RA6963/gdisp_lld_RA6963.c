@@ -119,7 +119,7 @@
 
 #if !RA6963_NEED_READ
 	#define BUFFSZ (RA6963_GRAPHIC_SIZE)
-	#define RAM(g) ((uint8_t *)g->priv)
+	#define RAM(g) ((gU8 *)g->priv)
 	#define POS (((g->p.x) / RA6963_FONT_WIDTH) + ((g->p.y) * RA6963_GRAPHIC_AREA))
 #endif
 #ifndef GDISP_INITIAL_CONTRAST
@@ -159,23 +159,23 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
   gfxSleepMilliseconds(50);
   //RA6963 needs Data first THEN command!
 
-  write_data(g, (uint8_t)RA6963_GRAPHIC_HOME);             //0
-  write_data(g, (uint8_t)(RA6963_GRAPHIC_HOME>>8));        //0
+  write_data(g, (gU8)RA6963_GRAPHIC_HOME);             //0
+  write_data(g, (gU8)(RA6963_GRAPHIC_HOME>>8));        //0
   write_cmd(g, RA6963_SET_GRAPHIC_HOME_ADDRESS);           //0x42
 
-  write_data(g, (uint8_t)RA6963_GRAPHIC_AREA);             //16
+  write_data(g, (gU8)RA6963_GRAPHIC_AREA);             //16
   write_data(g, 0);                                        //0
   write_cmd(g, RA6963_SET_GRAPHIC_AREA);                   //0x43
 
-  write_data(g, (uint8_t)RA6963_TEXT_HOME);                //0x00
-  write_data(g, (uint8_t)(RA6963_TEXT_HOME>>8));           //0x04 = 0x400
+  write_data(g, (gU8)RA6963_TEXT_HOME);                //0x00
+  write_data(g, (gU8)(RA6963_TEXT_HOME>>8));           //0x04 = 0x400
   write_cmd(g, RA6963_SET_TEXT_HOME_ADDRESS);              //0x40
 
-  write_data(g, (uint8_t)RA6963_TEXT_AREA);                //16
-  write_data(g, (uint8_t)(RA6963_TEXT_AREA>>8));           //0
+  write_data(g, (gU8)RA6963_TEXT_AREA);                //16
+  write_data(g, (gU8)(RA6963_TEXT_AREA>>8));           //0
   write_cmd(g, RA6963_SET_TEXT_AREA);                      //0x41
 
-/*  write_data(g, (uint8_t)RA6963_OFFSET_REGISTER);
+/*  write_data(g, (gU8)RA6963_OFFSET_REGISTER);
   write_data(g, 0);
   write_cmd(g, RA6963_SET_OFFSET_REGISTER);*/
 
@@ -213,20 +213,20 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 static void set_viewport(GDisplay *g) {
   if ((g->p.x >= GDISP_SCREEN_WIDTH) || (g->p.y >= GDISP_SCREEN_HEIGHT))
     return;         //     0           + (  x      /         8        ) + (  y      *        16           )
-  //uint16_t addr = (RA6963_GRAPHIC_HOME + ((g->p.x) / RA6963_FONT_WIDTH) + ((g->p.y) * RA6963_GRAPHIC_AREA));
-  uint16_t addr = (RA6963_GRAPHIC_HOME + ((g->p.x >> 3) + (g->p.y << 4)));
+  //gU16 addr = (RA6963_GRAPHIC_HOME + ((g->p.x) / RA6963_FONT_WIDTH) + ((g->p.y) * RA6963_GRAPHIC_AREA));
+  gU16 addr = (RA6963_GRAPHIC_HOME + ((g->p.x >> 3) + (g->p.y << 4)));
 	#if GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_DIRECT
 		#warning "check function set_viewport about the shift operations if you change the resolution!"
 	#elif GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_MACRO
 		COMPILER_WARNING("check function set_viewport about the shift operations if you change the resolution!")
 	#endif
-  write_data(g, (uint8_t)addr);
-  write_data(g, (uint8_t)(addr>>8));
+  write_data(g, (gU8)addr);
+  write_data(g, (gU8)(addr>>8));
   write_cmd(g, RA6963_SET_ADDRESS_POINTER);
 }
 
 LLDSPEC void gdisp_lld_write_color(GDisplay *g) {
-  uint8_t temp;
+  gU8 temp;
 
 #if RA6963_NEED_READ
   temp = read_data(g);
@@ -275,7 +275,7 @@ LLDSPEC void gdisp_lld_read_start(GDisplay *g) {
 }
 
 LLDSPEC gColor gdisp_lld_read_color(GDisplay *g) {
-  uint16_t data;
+  gU16 data;
 
   data = read_data(g);
   return gdispNative2Color(data);
@@ -289,7 +289,7 @@ LLDSPEC void gdisp_lld_read_stop(GDisplay *g) {
 
 #if GDISP_HARDWARE_FILLS
 LLDSPEC void gdisp_lld_fill_area(GDisplay *g) {
-  uint8_t data, j;
+  gU8 data, j;
   set_viewport(g);
 
   if (g->p.color != GFX_WHITE) {

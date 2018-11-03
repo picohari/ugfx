@@ -25,11 +25,11 @@
 	 * @pre		GFX_OS_HEAP_SIZE != 0 and an operating system that uses the
 	 * 			internal ugfx heap allocator rather than its own allocator.
 	 */
-	void gfxAddHeapBlock(void *ptr, size_t sz);
+	void gfxAddHeapBlock(void *ptr, gMemSize sz);
 #endif
 
-void *gfxAlloc(size_t sz);
-void *gfxRealloc(void *ptr, size_t oldsz, size_t newsz);
+void *gfxAlloc(gMemSize sz);
+void *gfxRealloc(void *ptr, gMemSize oldsz, gMemSize newsz);
 void gfxFree(void *ptr);
 
 #endif /* GOS_NEED_X_HEAP */

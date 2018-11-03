@@ -113,7 +113,7 @@ gCoord gwinGetInnerHeight(GHandle gh);
  *
  * @api
  */
-GHandle gwinGContainerCreate(GDisplay *g, GContainerObject *gw, const GWidgetInit *pInit, uint32_t flags);
+GHandle gwinGContainerCreate(GDisplay *g, GContainerObject *gw, const GWidgetInit *pInit, gU32 flags);
 #define gwinContainerCreate(gc, pInit, flags)			gwinGContainerCreate(GDISP, gc, pInit, flags)
 
 

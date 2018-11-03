@@ -64,7 +64,7 @@
 
 #if !KS0108_NEED_READ
 	#define BUFFSZ (GDISP_SCREEN_HEIGHT/8 * GDISP_SCREEN_WIDTH)
-	#define RAM(g) ((uint8_t *)g->priv)
+	#define RAM(g) ((gU8 *)g->priv)
 #endif
 #ifndef GDISP_INITIAL_CONTRAST
 	#define GDISP_INITIAL_CONTRAST	50
@@ -146,8 +146,8 @@ GFXINLINE void KS0108_goto(GDisplay* g, ) {
 }
 
 static void set_viewport(GDisplay *g) {
-	uint16_t	pg;
-	uint16_t	chip;
+	gU16	pg;
+	gU16	chip;
 	
 	pg = g->p.y >> 3;
 	chip = (g->p.x >> 6) << 8;
@@ -156,7 +156,7 @@ static void set_viewport(GDisplay *g) {
 }
 
 LLDSPEC void gdisp_lld_write_color(GDisplay *g) {
-	uint16_t	data;
+	gU16	data;
 
 	data = (g->p.x >> 6) << 8;		// Set the chip
 	if (g->p.color != GFX_WHITE)
@@ -189,7 +189,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 	}
 
 	LLDSPEC gColor gdisp_lld_read_color(GDisplay *g) {
-		uint16_t data;
+		gU16 data;
 
 		data = read_data(g);
 		return gdispNative2Color(data);
@@ -203,7 +203,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 
 #if GDISP_HARDWARE_FILLS
 	LLDSPEC void gdisp_lld_fill_area(GDisplay *g) {
-		uint8_t data, j;
+		gU8 data, j;
 		set_viewport(g);
 
 		if (g->p.color != GFX_WHITE) {

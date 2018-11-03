@@ -68,7 +68,7 @@ typedef GContainerObject GFrameObject;
  *
  * @api
  */
-GHandle gwinGFrameCreate(GDisplay *g, GFrameObject *fo, GWidgetInit *pInit, uint32_t flags);
+GHandle gwinGFrameCreate(GDisplay *g, GFrameObject *fo, GWidgetInit *pInit, gU32 flags);
 #define gwinFrameCreate(fo, pInit, flags)	gwinGFrameCreate(GDISP, fo, pInit, flags);
 
 /**

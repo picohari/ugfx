@@ -69,19 +69,19 @@ static void SendCheckboxEvent(GWidgetObject *gw) {
 #endif
 
 #if GINPUT_NEED_TOGGLE
-	static void CheckboxToggleOn(GWidgetObject *gw, uint16_t role) {
+	static void CheckboxToggleOn(GWidgetObject *gw, gU16 role) {
 		(void) role;
 		gw->g.flags ^= GCHECKBOX_FLG_CHECKED;
 		_gwinUpdate((GHandle)gw);
 		SendCheckboxEvent(gw);
 	}
 
-	static void CheckboxToggleAssign(GWidgetObject *gw, uint16_t role, uint16_t instance) {
+	static void CheckboxToggleAssign(GWidgetObject *gw, gU16 role, gU16 instance) {
 		(void) role;
 		((GCheckboxObject *)gw)->toggle = instance;
 	}
 
-	static uint16_t CheckboxToggleGet(GWidgetObject *gw, uint16_t role) {
+	static gU16 CheckboxToggleGet(GWidgetObject *gw, gU16 role) {
 		(void) role;
 		return ((GCheckboxObject *)gw)->toggle;
 	}

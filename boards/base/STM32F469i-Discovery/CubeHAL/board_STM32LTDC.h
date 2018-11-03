@@ -118,7 +118,7 @@ static GFXINLINE void init_board(GDisplay *g) {
   dsiHandle.Instance                       = DSI;                            // There is only one DSI interface
   dsiHandle.Init.AutomaticClockLaneControl = DSI_AUTO_CLK_LANE_CTRL_ENABLE;  // Automatic clock lane control: powers down the clock lane when not in use
   /* Highest speed = 500MHz. */
-  uint16_t laneByteClk_kHz = 62500; /* 500 MHz / 8 = 62.5 MHz = 62500 kHz */
+  gU16 laneByteClk_kHz = 62500; /* 500 MHz / 8 = 62.5 MHz = 62500 kHz */
   /* TXEscapeCkdiv = f(LaneByteClk)/15.62 = 4 -> 500MHz/4 = 25MHz datasheet says around 20MHz */
   dsiHandle.Init.TXEscapeCkdiv             = laneByteClk_kHz/15620;          // Low power clock relative to the laneByteClock
   dsiHandle.Init.NumberOfLanes             = DSI_TWO_DATA_LANES;             // Two data lines for the fastest transfer speed
@@ -201,7 +201,7 @@ static GFXINLINE void init_board(GDisplay *g) {
   BSP_SDRAM_Init();
 }
 
-static GFXINLINE void set_backlight(GDisplay* g, uint8_t percent)
+static GFXINLINE void set_backlight(GDisplay* g, gU8 percent)
 {
 	(void)g;
 	(void)percent;
@@ -287,7 +287,7 @@ static GFXINLINE void post_init_board(GDisplay* g)
   * @param  pParams: Pointer to parameter values table.
   * @retval HAL status
   */
-void DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams)
+void DSI_IO_WriteCmd(gU32 NbrParams, gU8 *pParams)
 {
   if(NbrParams <= 1)
   {
@@ -304,7 +304,7 @@ void DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams)
  *
  * @param  Delay: The requested delay in ms.
  */
-void OTM8009A_IO_Delay(uint32_t Delay)
+void OTM8009A_IO_Delay(gU32 Delay)
 {
   gfxSleepMilliseconds(Delay);
 }

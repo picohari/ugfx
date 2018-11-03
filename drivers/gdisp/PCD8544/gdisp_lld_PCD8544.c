@@ -33,7 +33,7 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define RAM(g)			((uint8_t *)g->priv)
+#define RAM(g)			((gU8 *)g->priv)
 
 #define xyaddr(x, y)		((x) + ((y) >> 3) * GDISP_SCREEN_WIDTH)
 #define xybit(y)		(1 << ((y) & 7))

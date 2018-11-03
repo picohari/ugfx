@@ -33,9 +33,9 @@
 	extern gdispImageError gdispImageCache_BMP(gdispImage *img);
 	extern gdispImageError gdispGImageDraw_BMP(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
 	extern gDelay gdispImageNext_BMP(gdispImage *img);
-	extern uint16_t gdispImageGetPaletteSize_BMP(gdispImage *img);
-	extern gColor gdispImageGetPalette_BMP(gdispImage *img, uint16_t index);
-	extern gBool gdispImageAdjustPalette_BMP(gdispImage *img, uint16_t index, gColor newColor);
+	extern gU16 gdispImageGetPaletteSize_BMP(gdispImage *img);
+	extern gColor gdispImageGetPalette_BMP(gdispImage *img, gU16 index);
+	extern gBool gdispImageAdjustPalette_BMP(gdispImage *img, gU16 index, gColor newColor);
 #endif
 
 #if GDISP_NEED_IMAGE_JPG
@@ -65,9 +65,9 @@ typedef struct gdispImageHandlers {
 							gCoord cx, gCoord cy,
 							gCoord sx, gCoord sy);			/* The draw function */
 	gDelay		(*next)(gdispImage *img);					/* The next frame function */
-	uint16_t		(*getPaletteSize)(gdispImage *img);			/* Retrieve the size of the palette (number of entries) */
-	gColor			(*getPalette)(gdispImage *img, uint16_t index);							/* Retrieve a specific color value of the palette */
-	gBool			(*adjustPalette)(gdispImage *img, uint16_t index, gColor newColor);	/* Replace a color value in the palette */
+	gU16		(*getPaletteSize)(gdispImage *img);			/* Retrieve the size of the palette (number of entries) */
+	gColor			(*getPalette)(gdispImage *img, gU16 index);							/* Retrieve a specific color value of the palette */
+	gBool			(*adjustPalette)(gdispImage *img, gU16 index, gColor newColor);	/* Replace a color value in the palette */
 } gdispImageHandlers;
 
 static gdispImageHandlers ImageHandlers[] = {
@@ -192,19 +192,19 @@ gDelay gdispImageNext(gdispImage *img) {
 	return img->fns->next(img);
 }
 
-uint16_t gdispImageGetPaletteSize(gdispImage *img) {
+gU16 gdispImageGetPaletteSize(gdispImage *img) {
 	if (!img || !img->fns) return 0;
 	if (!img->fns->getPaletteSize) return 0;
 	return img->fns->getPaletteSize(img);
 }
 
-gColor gdispImageGetPalette(gdispImage *img, uint16_t index) {
+gColor gdispImageGetPalette(gdispImage *img, gU16 index) {
 	if (!img || !img->fns) return 0;
 	if (!img->fns->getPalette) return 0;
 	return img->fns->getPalette(img, index);
 }
 
-gBool gdispImageAdjustPalette(gdispImage *img, uint16_t index, gColor newColor) {
+gBool gdispImageAdjustPalette(gdispImage *img, gU16 index, gColor newColor) {
 	if (!img || !img->fns) return gFalse;
 	if (!img->fns->adjustPalette) return gFalse;
 	return img->fns->adjustPalette(img, index, newColor);
@@ -212,7 +212,7 @@ gBool gdispImageAdjustPalette(gdispImage *img, uint16_t index, gColor newColor) 
 
 
 // Helper Routines
-void *gdispImageAlloc(gdispImage *img, size_t sz) {
+void *gdispImageAlloc(gdispImage *img, gMemSize sz) {
 	#if GDISP_NEED_IMAGE_ACCOUNTING
 		void *ptr;
 
@@ -229,7 +229,7 @@ void *gdispImageAlloc(gdispImage *img, size_t sz) {
 	#endif
 }
 
-void gdispImageFree(gdispImage *img, void *ptr, size_t sz) {
+void gdispImageFree(gdispImage *img, void *ptr, gMemSize sz) {
 	#if GDISP_NEED_IMAGE_ACCOUNTING
 		gfxFree(ptr);
 		img->memused -= sz;
@@ -244,44 +244,44 @@ void gdispImageFree(gdispImage *img, void *ptr, size_t sz) {
 		&& GFX_CPU_ENDIAN != GFX_CPU_ENDIAN_WBDWL && GFX_CPU_ENDIAN != GFX_CPU_ENDIAN_WLDWB
 
 	union wbyteorder_u {
-		uint8_t		b[2];
-		uint32_t	w;
+		gU8		b[2];
+		gU32	w;
 	};
 	union dwbyteorder_u {
-		uint8_t		b[4];
-		uint32_t	l;
+		gU8		b[4];
+		gU32	l;
 	};
 
-	uint16_t gdispImageH16toLE16(uint16_t w) {
+	gU16 gdispImageH16toLE16(gU16 w) {
 		union wbyteorder_u	we;
 
 		we.w = w;
-		return	 (((uint16_t)we.b[0]))|(((uint16_t)we.b[1]) << 8);
+		return	 (((gU16)we.b[0]))|(((gU16)we.b[1]) << 8);
 	}
-	uint16_t gdispImageH16toBE16(uint16_t w) {
+	gU16 gdispImageH16toBE16(gU16 w) {
 		union wbyteorder_u	we;
 
 		we.w = w;
-		return	 (((uint16_t)we.b[0]) << 8)|(((uint16_t)we.b[1]));
+		return	 (((gU16)we.b[0]) << 8)|(((gU16)we.b[1]));
 	}
 
-	uint32_t gdispImageH32toLE32(uint32_t dw) {
+	gU32 gdispImageH32toLE32(gU32 dw) {
 		union dwbyteorder_u	we;
 
 		we.l = dw;
-		return	 (((uint32_t)we.b[0]))
-				|(((uint32_t)we.b[1]) << 8)
-				|(((uint32_t)we.b[2]) << 16)
-				|(((uint32_t)we.b[3]) << 24);
+		return	 (((gU32)we.b[0]))
+				|(((gU32)we.b[1]) << 8)
+				|(((gU32)we.b[2]) << 16)
+				|(((gU32)we.b[3]) << 24);
 	}
-	uint32_t gdispImageH32toBE32(uint32_t dw) {
+	gU32 gdispImageH32toBE32(gU32 dw) {
 		union dwbyteorder_u	we;
 
 		we.l = dw;
-		return	 (((uint32_t)we.b[0]) << 24)
-				|(((uint32_t)we.b[1]) << 16)
-				|(((uint32_t)we.b[2]) << 8)
-				|(((uint32_t)we.b[3]));
+		return	 (((gU32)we.b[0]) << 24)
+				|(((gU32)we.b[1]) << 16)
+				|(((gU32)we.b[2]) << 8)
+				|(((gU32)we.b[3]));
 	}
 #endif
 

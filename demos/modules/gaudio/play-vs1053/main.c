@@ -46,8 +46,8 @@ int main(void) {
 	gFont			font;
 	GFILE			*f;
 	char 			*errmsg;
-	uint32_t		toplay;
-	uint32_t		len;
+	gU32		toplay;
+	gU32		len;
 	GDataBuffer		*pd;
 
 	// Initialise everything

@@ -141,7 +141,7 @@ static GFXINLINE void setpin_reset(GDisplay *g, gBool state) {
 		palSetPad(IOPORT1, PIOA_LCD_RESET);
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
 	(void) g;
 	if (percent == 100) {
 		/* Turn the pin on - No PWM */
@@ -175,7 +175,7 @@ static GFXINLINE void release_bus(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE void write_index(GDisplay *g, uint16_t index) {
+static GFXINLINE void write_index(GDisplay *g, gU16 index) {
 	(void) g;
 	// wait for the previous transfer to complete
 	while(!(pSPI->SPI_SR & AT91C_SPI_TDRE));
@@ -183,7 +183,7 @@ static GFXINLINE void write_index(GDisplay *g, uint16_t index) {
 	pSPI->SPI_TDR = index & 0xFF;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint16_t data) {
+static GFXINLINE void write_data(GDisplay *g, gU16 data) {
 	(void) g;
 	// wait for the previous transfer to complete
 	while(!(pSPI->SPI_SR & AT91C_SPI_TDRE));

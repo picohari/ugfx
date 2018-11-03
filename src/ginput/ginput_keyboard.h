@@ -30,7 +30,7 @@
 
 typedef struct GEventKeyboard_t {
 	GEventType		type;				// The type of this event (GEVENT_KEYBOARD)
-	uint16_t		bytecount;			// The number of bytes in c[]. Note this will only ever represent 0 or 1 characters. This is set to 0 for state transitions.
+	gU16		bytecount;			// The number of bytes in c[]. Note this will only ever represent 0 or 1 characters. This is set to 0 for state transitions.
 	char			c[8];				// The utf8 code for the key or a special key code
 		// Normal characters with special meaning. They are a maximum of 1 byte in length.
 		#define GKEY_NULL			0
@@ -104,7 +104,7 @@ typedef struct GEventKeyboard_t {
 		#define GKEY_LAYOUT_FIRST	0xC0		// Special characters the layout can return start here.
 		#define GKEY_DRIVER_FIRST	0xE0		// Special characters the driver can return start here.
 
-	uint32_t		keystate;			// The keyboard state.
+	gU32		keystate;			// The keyboard state.
 		#define GKEYSTATE_KEYUP_BIT			0
 		#define GKEYSTATE_REPEAT_BIT		1
 		#define GKEYSTATE_SPECIAL_BIT		2

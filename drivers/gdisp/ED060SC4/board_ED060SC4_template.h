@@ -89,7 +89,7 @@ static GFXINLINE void setpin_sph(GDisplay *g, gBool on) {
 	(void) on;
 }
 
-static GFXINLINE void setpins_data(GDisplay *g, uint8_t value) {
+static GFXINLINE void setpins_data(GDisplay *g, gU8 value) {
 	(void) g;
 	(void) value;
 }

@@ -170,7 +170,7 @@ static GFXINLINE void setpin_reset(GDisplay *g, gBool state) {
 	#endif
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
   (void) g;
   (void) percent;
 }
@@ -183,9 +183,9 @@ static GFXINLINE void release_bus(GDisplay *g) {
 	(void) g;
 }
 
-void KS0108_delay(uint16_t microsec){
+void KS0108_delay(gU16 microsec){
 	#if KS0108_NOP_DLY
-		uint16_t cn;
+		gU16 cn;
 		for (cn=0;cn< microsec;cn++){
 
 			asm("nop");asm("nop");asm("nop");asm("nop");
@@ -223,7 +223,7 @@ static GFXINLINE void KS0108_latch(void){
 	palSetLine(lcdpins.E);
 }
 
-static GFXINLINE void KS0108_write(uint8_t value){
+static GFXINLINE void KS0108_write(gU8 value){
 	int ii;
 
 	for(ii = 0; ii < 8; ii++){
@@ -235,8 +235,8 @@ static GFXINLINE void KS0108_write(uint8_t value){
 	KS0108_delay(1);
 }
 
-static GFXINLINE void KS0108_select(uint8_t chip){
-	uint8_t ii;
+static GFXINLINE void KS0108_select(gU8 chip){
+	gU8 ii;
 	KS0108_delay(1);
 	for (ii = 0; ii < CHIPS; ii++){
 		if (ii == chip)
@@ -246,7 +246,7 @@ static GFXINLINE void KS0108_select(uint8_t chip){
 }
 
 static GFXINLINE void KS0108_unselect(void){
-	uint8_t ii;
+	gU8 ii;
 	
 	KS0108_delay(1);
 	for (ii = 0; ii < CHIPS; ii++){
@@ -256,8 +256,8 @@ static GFXINLINE void KS0108_unselect(void){
 
 /*
 #if KS0108_NEED_READ  //Hardware Read ##############  WORKS more or less
-static GFXINLINE uint8_t read_KS0108(void) {
-  uint8_t ii, data=0;
+static GFXINLINE gU8 read_KS0108(void) {
+  gU8 ii, data=0;
 
   for(ii = 0; ii < 8; ii++)
     palSetLineMode(lcdpins.D[ii], PAL_MODE_INPUT);  //Set pads to input
@@ -286,8 +286,8 @@ static GFXINLINE uint8_t read_KS0108(void) {
 #endif
 */
 #if KS0108_NEED_READ  //Hardware Read ########### needs more testing but my display is broken
-static GFXINLINE uint8_t read_KS0108(void) {
-	uint8_t ii, data=0;
+static GFXINLINE gU8 read_KS0108(void) {
+	gU8 ii, data=0;
 
 	for(ii = 0; ii < 8; ii++)
 		palSetLineMode(lcdpins.D[ii], PAL_MODE_INPUT);  //Set pads to input
@@ -336,15 +336,15 @@ static GFXINLINE uint8_t read_KS0108(void) {
 }
 #endif
 
-static GFXINLINE void write_data(GDisplay* g, uint16_t data){
+static GFXINLINE void write_data(GDisplay* g, gU16 data){
 	(void)g;
-	uint8_t bit, displayData;
+	gU8 bit, displayData;
 	#if !KS0108_NEED_READ
-		uint8_t	*p;
+		gU8	*p;
 	#endif
 	
 	palSetLine(lcdpins.DC);
-	KS0108_select((uint8_t)(data>>8));
+	KS0108_select((gU8)(data>>8));
 	#if KS0108_NEED_READ
 		displayData=read_KS0108();
 	#else
@@ -353,7 +353,7 @@ static GFXINLINE void write_data(GDisplay* g, uint16_t data){
 	#endif
 	bit = 1 << (g->p.y & 7);			//Get Page bit
 
-	if ((uint8_t)data){              //set bit
+	if ((gU8)data){              //set bit
 		KS0108_write(displayData | bit);
 		#if !KS0108_NEED_READ
 			*p = (displayData | bit);
@@ -370,11 +370,11 @@ static GFXINLINE void write_data(GDisplay* g, uint16_t data){
 	KS0108_unselect();        //Important
 }
 
-static GFXINLINE void write_cmd(GDisplay* g, uint16_t cmd){
+static GFXINLINE void write_cmd(GDisplay* g, gU16 cmd){
 	(void)g;
 	palClearLine(lcdpins.DC);
-	KS0108_select((uint8_t)(cmd>>8));
-	KS0108_write((uint8_t)cmd);
+	KS0108_select((gU8)(cmd>>8));
+	KS0108_write((gU8)cmd);
 	KS0108_latch();
 	KS0108_unselect();         //Important
 }
@@ -387,7 +387,7 @@ static GFXINLINE void setwritemode(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE uint16_t read_data(GDisplay *g) {
+static GFXINLINE gU16 read_data(GDisplay *g) {
 	(void) g;
 	return 0;
 }

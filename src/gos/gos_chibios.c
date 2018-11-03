@@ -64,7 +64,7 @@ void _gosDeinit(void)
 	/* ToDo */
 }
 
-void *gfxRealloc(void *ptr, size_t oldsz, size_t newsz)
+void *gfxRealloc(void *ptr, gMemSize oldsz, gMemSize newsz)
 {
 	void *np;
 
@@ -175,7 +175,7 @@ void gfxSemSignalI(gfxSem *psem)
 	#endif
 }
 
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
 	if (!stackarea) {
 		if (!stacksz) stacksz = 256;

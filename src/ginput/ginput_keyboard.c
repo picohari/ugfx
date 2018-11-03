@@ -90,7 +90,7 @@ static void SendKeyboardEvent(GKeyboard *k) {
 #define FLAG_INIT		0x02
 
 #if GKEYBOARD_LAYOUT_OFF
-	static void microengine(GKeyboard *k, uint8_t code, uint8_t flags) {
+	static void microengine(GKeyboard *k, gU8 code, gU8 flags) {
 		if (flags)
 			return;
 
@@ -101,10 +101,10 @@ static void SendKeyboardEvent(GKeyboard *k) {
 		k->cntc = k->cntsc = 0;
 	}
 #else
-	static void microengine(GKeyboard *k, uint8_t code, uint8_t flags) {
-		const uint8_t	*pc;
-		const uint8_t	*nrec;
-		uint8_t			ver, diff, p1, p2;
+	static void microengine(GKeyboard *k, gU8 code, gU8 flags) {
+		const gU8	*pc;
+		const gU8	*nrec;
+		gU8			ver, diff, p1, p2;
 		#if MICROCODE_DEBUG
 			unsigned	cnt;
 		#endif
@@ -446,7 +446,7 @@ static void SendKeyboardEvent(GKeyboard *k) {
 
 static void KeyboardPoll(void *param) {
 	GKeyboard *	k;
-	uint8_t		scancodes[8];
+	gU8		scancodes[8];
 	int			sz, i;
 	(void) 		param;
 

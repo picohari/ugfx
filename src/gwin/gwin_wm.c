@@ -171,7 +171,7 @@ static gfxQueueASync		_GWINList;
 	static GTimer			RedrawTimer;
 	static void				RedrawTimerFn(void *param);
 #endif
-static volatile uint8_t		RedrawPending;
+static volatile gU8		RedrawPending;
 	#define DOREDRAW_INVISIBLES		0x01
 	#define DOREDRAW_VISIBLES		0x02
 	#define DOREDRAW_FLASHRUNNING	0x04
@@ -748,7 +748,7 @@ static void WM_Delete(GHandle gh) {
 }
 
 static void WM_Redraw(GHandle gh) {
-	uint32_t	flags;
+	gU32	flags;
 	
 	flags = gh->flags;
 	gh->flags &= ~(GWIN_FLG_NEEDREDRAW|GWIN_FLG_BGREDRAW|GWIN_FLG_PARENTREVEAL);

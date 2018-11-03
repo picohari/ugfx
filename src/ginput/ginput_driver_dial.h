@@ -21,7 +21,7 @@
 
 #include "ginput_lld_dial_config.h"
 
-typedef void (*DialCallbackFn)(uint16_t instance, uint16_t rawvalue);
+typedef void (*DialCallbackFn)(gU16 instance, gU16 rawvalue);
 
 /*===========================================================================*/
 /* External declarations.                                                    */

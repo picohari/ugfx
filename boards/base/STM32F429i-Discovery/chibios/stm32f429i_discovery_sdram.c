@@ -182,7 +182,7 @@ void SDRAM_Init(void)
 void SDRAM_InitSequence(void)
 {
   FMC_SDRAMCommandTypeDef FMC_SDRAMCommandStructure;
-  uint32_t tmpr = 0;
+  gU32 tmpr = 0;
   
 /* Step 3 --------------------------------------------------------------------*/
   /* Configure a clock configuration enable command */
@@ -240,7 +240,7 @@ void SDRAM_InitSequence(void)
   
 /* Step 7 --------------------------------------------------------------------*/
   /* Program the external memory mode register */
-  tmpr = (uint32_t)SDRAM_MODEREG_BURST_LENGTH_2          |
+  tmpr = (gU32)SDRAM_MODEREG_BURST_LENGTH_2          |
                    SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL   |
                    SDRAM_MODEREG_CAS_LATENCY_3           |
                    SDRAM_MODEREG_OPERATING_MODE_STANDARD |
@@ -279,9 +279,9 @@ void SDRAM_InitSequence(void)
   * @param  uwBufferSize: number of words to write. 
   * @retval None.
   */
-void SDRAM_WriteBuffer(uint32_t* pBuffer, uint32_t uwWriteAddress, uint32_t uwBufferSize)
+void SDRAM_WriteBuffer(gU32* pBuffer, gU32 uwWriteAddress, gU32 uwBufferSize)
 {
-  __IO uint32_t write_pointer = (uint32_t)uwWriteAddress;
+  __IO gU32 write_pointer = (gU32)uwWriteAddress;
 
   /* Disable write protection */
   FMC_SDRAMWriteProtectionConfig(FMC_Bank2_SDRAM, DISABLE);
@@ -295,7 +295,7 @@ void SDRAM_WriteBuffer(uint32_t* pBuffer, uint32_t uwWriteAddress, uint32_t uwBu
   for (; uwBufferSize != 0; uwBufferSize--) 
   {
     /* Transfer data to the memory */
-    *(uint32_t *) (SDRAM_BANK_ADDR + write_pointer) = *pBuffer++;
+    *(gU32 *) (SDRAM_BANK_ADDR + write_pointer) = *pBuffer++;
 
     /* Increment the address*/
     write_pointer += 4;
@@ -311,9 +311,9 @@ void SDRAM_WriteBuffer(uint32_t* pBuffer, uint32_t uwWriteAddress, uint32_t uwBu
   * @param  uwBufferSize: number of words to write. 
   * @retval None.
   */
-void SDRAM_ReadBuffer(uint32_t* pBuffer, uint32_t uwReadAddress, uint32_t uwBufferSize)
+void SDRAM_ReadBuffer(gU32* pBuffer, gU32 uwReadAddress, gU32 uwBufferSize)
 {
-  __IO uint32_t write_pointer = (uint32_t)uwReadAddress;
+  __IO gU32 write_pointer = (gU32)uwReadAddress;
   
    
   /* Wait until the SDRAM controller is ready */ 
@@ -324,7 +324,7 @@ void SDRAM_ReadBuffer(uint32_t* pBuffer, uint32_t uwReadAddress, uint32_t uwBuff
   /* Read data */
   for(; uwBufferSize != 0x00; uwBufferSize--)
   {
-   *pBuffer++ = *(__IO uint32_t *)(SDRAM_BANK_ADDR + write_pointer );
+   *pBuffer++ = *(__IO gU32 *)(SDRAM_BANK_ADDR + write_pointer );
     
    /* Increment the address*/
     write_pointer += 4;

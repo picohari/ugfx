@@ -5,7 +5,7 @@ extern GMouse* qwidgetMouse;
 extern gCoord qwidgetMouseX;
 extern gCoord qwidgetMouseY;
 extern gCoord qwidgetMouseZ;
-extern uint16_t qwidgetMouseButtons;
+extern gU16 qwidgetMouseButtons;
 
 MyWidget::MyWidget(QWidget* parent) : QWidget(parent)
 {

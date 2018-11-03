@@ -61,19 +61,19 @@ static GFXINLINE void release_bus(GDisplay* g)
 	(void) g;
 }
 
-static GFXINLINE void write_cmd(GDisplay* g, uint8_t cmd)
+static GFXINLINE void write_cmd(GDisplay* g, gU8 cmd)
 {
 	(void) g;
 	(void) cmd;
 }
 
-static GFXINLINE void write_data(GDisplay* g, uint8_t data)
+static GFXINLINE void write_data(GDisplay* g, gU8 data)
 {
 	(void) g;
 	(void) data;
 }
 
-static GFXINLINE void write_data_burst(GDisplay* g, uint8_t* data, unsigned length)
+static GFXINLINE void write_data_burst(GDisplay* g, gU8* data, unsigned length)
 {
 	(void) g;
 	(void) data;
@@ -81,7 +81,7 @@ static GFXINLINE void write_data_burst(GDisplay* g, uint8_t* data, unsigned leng
 }
 
 #if UC8173_CAN_READ
-	static GFXINLINE uint8_t read_data(GDisplay* g)
+	static GFXINLINE gU8 read_data(GDisplay* g)
 	{
 		(void)g;
 		return 0;

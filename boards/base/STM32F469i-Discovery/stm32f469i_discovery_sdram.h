@@ -66,8 +66,8 @@
 /**
   * @brief  SDRAM status structure definition
   */
-#define   SDRAM_OK         ((uint8_t)0x00)
-#define   SDRAM_ERROR      ((uint8_t)0x01)
+#define   SDRAM_OK         ((gU8)0x00)
+#define   SDRAM_ERROR      ((gU8)0x01)
 
 /**
   * @}
@@ -76,17 +76,17 @@
 /** @defgroup STM32469I-Discovery_SDRAM_Exported_Constants STM32469I Discovery SDRAM Exported Constants
   * @{
   */
-#define SDRAM_DEVICE_ADDR  ((uint32_t)0xC0000000)
+#define SDRAM_DEVICE_ADDR  ((gU32)0xC0000000)
 
  /* SDRAM device size in Bytes */
- #define SDRAM_DEVICE_SIZE  ((uint32_t)0x1000000)
+ #define SDRAM_DEVICE_SIZE  ((gU32)0x1000000)
 
 #define SDRAM_MEMORY_WIDTH FMC_SDRAM_MEM_BUS_WIDTH_32
 #define SDCLOCK_PERIOD     FMC_SDRAM_CLOCK_PERIOD_2
 
 /* SDRAM refresh counter (90 MHz SD clock) */
-#define REFRESH_COUNT       ((uint32_t)0x0569)
-#define  SDRAM_TIMEOUT      ((uint32_t)0xFFFF)
+#define REFRESH_COUNT       ((gU32)0x0569)
+#define  SDRAM_TIMEOUT      ((gU32)0xFFFF)
 
 /* DMA definitions for SDRAM DMA transfer */
 #define __DMAx_CLK_ENABLE     __HAL_RCC_DMA2_CLK_ENABLE
@@ -100,17 +100,17 @@
 /**
   * @brief  FMC SDRAM Mode definition register defines
   */
-#define SDRAM_MODEREG_BURST_LENGTH_1             ((uint16_t)0x0000)
-#define SDRAM_MODEREG_BURST_LENGTH_2             ((uint16_t)0x0001)
-#define SDRAM_MODEREG_BURST_LENGTH_4             ((uint16_t)0x0002)
-#define SDRAM_MODEREG_BURST_LENGTH_8             ((uint16_t)0x0004)
-#define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL      ((uint16_t)0x0000)
-#define SDRAM_MODEREG_BURST_TYPE_INTERLEAVED     ((uint16_t)0x0008)
-#define SDRAM_MODEREG_CAS_LATENCY_2              ((uint16_t)0x0020)
-#define SDRAM_MODEREG_CAS_LATENCY_3              ((uint16_t)0x0030)
-#define SDRAM_MODEREG_OPERATING_MODE_STANDARD    ((uint16_t)0x0000)
-#define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((uint16_t)0x0000)
-#define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((uint16_t)0x0200)
+#define SDRAM_MODEREG_BURST_LENGTH_1             ((gU16)0x0000)
+#define SDRAM_MODEREG_BURST_LENGTH_2             ((gU16)0x0001)
+#define SDRAM_MODEREG_BURST_LENGTH_4             ((gU16)0x0002)
+#define SDRAM_MODEREG_BURST_LENGTH_8             ((gU16)0x0004)
+#define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL      ((gU16)0x0000)
+#define SDRAM_MODEREG_BURST_TYPE_INTERLEAVED     ((gU16)0x0008)
+#define SDRAM_MODEREG_CAS_LATENCY_2              ((gU16)0x0020)
+#define SDRAM_MODEREG_CAS_LATENCY_3              ((gU16)0x0030)
+#define SDRAM_MODEREG_OPERATING_MODE_STANDARD    ((gU16)0x0000)
+#define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((gU16)0x0000)
+#define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((gU16)0x0200)
 /**
   * @}
   */
@@ -125,14 +125,14 @@
 /** @addtogroup STM32469I_Discovery_SDRAM_Exported_Functions 
   * @{
   */
-uint8_t BSP_SDRAM_Init(void);
-uint8_t BSP_SDRAM_DeInit(void);
-void    BSP_SDRAM_Initialization_sequence(uint32_t RefreshCount);
-uint8_t BSP_SDRAM_ReadData(uint32_t uwStartAddress, uint32_t *pData, uint32_t uwDataSize);
-uint8_t BSP_SDRAM_ReadData_DMA(uint32_t uwStartAddress, uint32_t *pData, uint32_t uwDataSize);
-uint8_t BSP_SDRAM_WriteData(uint32_t uwStartAddress, uint32_t *pData, uint32_t uwDataSize);
-uint8_t BSP_SDRAM_WriteData_DMA(uint32_t uwStartAddress, uint32_t *pData, uint32_t uwDataSize);
-uint8_t BSP_SDRAM_Sendcmd(FMC_SDRAM_CommandTypeDef *SdramCmd);
+gU8 BSP_SDRAM_Init(void);
+gU8 BSP_SDRAM_DeInit(void);
+void    BSP_SDRAM_Initialization_sequence(gU32 RefreshCount);
+gU8 BSP_SDRAM_ReadData(gU32 uwStartAddress, gU32 *pData, gU32 uwDataSize);
+gU8 BSP_SDRAM_ReadData_DMA(gU32 uwStartAddress, gU32 *pData, gU32 uwDataSize);
+gU8 BSP_SDRAM_WriteData(gU32 uwStartAddress, gU32 *pData, gU32 uwDataSize);
+gU8 BSP_SDRAM_WriteData_DMA(gU32 uwStartAddress, gU32 *pData, gU32 uwDataSize);
+gU8 BSP_SDRAM_Sendcmd(FMC_SDRAM_CommandTypeDef *SdramCmd);
 void    BSP_SDRAM_DMA_IRQHandler(void);
 
 /* These function can be modified in case the current settings (e.g. DMA stream)

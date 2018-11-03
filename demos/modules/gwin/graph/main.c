@@ -63,7 +63,7 @@ static const GGraphStyle GraphStyle2 = {
  
 int main(void) {
     GHandle     gh;
-    uint16_t    i;
+    gU16    i;
  
     gfxInit();
  

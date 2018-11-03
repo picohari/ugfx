@@ -36,7 +36,7 @@ typedef struct GEventGWinSlider {
 	#endif
 	int				position;
 
-	uint8_t			action;
+	gU8			action;
 		#define GSLIDER_EVENT_SET		4		/* Slider position is set. This is the only event returned by default   */
 		#define GSLIDER_EVENT_CANCEL	3		/* Slider position changing has been cancelled */
 		#define GSLIDER_EVENT_START		2		/* Slider position has started changing */
@@ -57,11 +57,11 @@ typedef struct GEventGWinSlider {
 typedef struct GSliderObject {
 	GWidgetObject		w;
 	#if GINPUT_NEED_TOGGLE
-		uint16_t		t_dn;
-		uint16_t		t_up;
+		gU16		t_dn;
+		gU16		t_up;
 	#endif
 	#if GINPUT_NEED_DIAL
-		uint16_t		dial;
+		gU16		dial;
 	#endif
 	gCoord				dpos;
 	int					min;

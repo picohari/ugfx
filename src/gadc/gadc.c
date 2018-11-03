@@ -30,8 +30,8 @@ typedef struct NonTimerData_t {
 	GadcNonTimerJob			job;
 	} NonTimerData;
 
-static volatile uint16_t		hsFlags;
-static size_t					hsBytesPerConv;
+static volatile gU16		hsFlags;
+static gMemSize					hsBytesPerConv;
 static GadcTimerJob				hsJob;
 static GDataBuffer				*hsData;
 static gfxQueueGSync			hsListDone;
@@ -45,7 +45,7 @@ static gfxQueueGSync			lsListToDo;
 static gfxQueueGSync			lsListDone;
 static NonTimerData				*lsData;
 
-void gadcGotDataI(size_t n) {
+void gadcGotDataI(gMemSize n) {
 	if ((hsFlags & GADC_HSADC_CONVERTION)) {
 
 		// A set of timer conversions is done - add them
@@ -199,7 +199,7 @@ void _gadcDeinit(void)
 	}
 #endif
 
-void gadcHighSpeedInit(uint32_t physdev, uint32_t frequency)
+void gadcHighSpeedInit(gU32 physdev, gU32 frequency)
 {
 	if ((hsFlags & GADC_HSADC_RUNNING))
 		gadcHighSpeedStop();
@@ -291,7 +291,7 @@ static void LowSpeedGTimerCallback(void *param) {
 	}
 }
 
-void gadcLowSpeedGet(uint32_t physdev, adcsample_t *buffer) {
+void gadcLowSpeedGet(gU32 physdev, adcsample_t *buffer) {
 	NonTimerData ndata;
 
 	// Prepare the job
@@ -319,7 +319,7 @@ void gadcLowSpeedGet(uint32_t physdev, adcsample_t *buffer) {
 	gfxSemDestroy(&ndata.sigdone);
 }
 
-gBool gadcLowSpeedStart(uint32_t physdev, adcsample_t *buffer, GADCCallbackFunction fn, void *param) {
+gBool gadcLowSpeedStart(gU32 physdev, adcsample_t *buffer, GADCCallbackFunction fn, void *param) {
 	NonTimerData *pdata;
 
 	/* Start the Low Speed Timer */

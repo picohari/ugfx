@@ -101,7 +101,7 @@ typedef tprio_t		gThreadpriority;
 #define gfxSystemUnlock()			chSysUnlock()
 #define gfxMutexDestroy(pmutex)		(void)pmutex
 #define gfxMutexEnter(pmutex)		chMtxLock(pmutex)
-void *gfxRealloc(void *ptr, size_t oldsz, size_t newsz);
+void *gfxRealloc(void *ptr, gMemSize oldsz, gMemSize newsz);
 void gfxSleepMilliseconds(gDelay ms);
 void gfxSleepMicroseconds(gDelay ms);
 void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit);
@@ -110,7 +110,7 @@ gBool gfxSemWait(gfxSem *psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadWait(thread)		chThdWait(thread)
 #define gfxThreadMe()				chThdSelf()
 #define gfxThreadClose(thread)		(void)thread

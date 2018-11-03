@@ -21,7 +21,7 @@ static void setpin_reset(GDisplay *g, gBool state) {
 	(void) state;
 }
 
-static void set_backlight(GDisplay *g, uint8_t percent) {
+static void set_backlight(GDisplay *g, gU8 percent) {
 	(void) g;
 	(void) percent;
 }
@@ -34,18 +34,18 @@ static void release_bus(GDisplay *g) {
 	(void) g;
 }
 
-static  void spi_write_cmd(GDisplay *g, uint8_t cmd) {
+static  void spi_write_cmd(GDisplay *g, gU8 cmd) {
 	(void) g;
 	(void) cmd;
 }
 
-static void spi_write_data_array(GDisplay *g, uint8_t* datas, size_t length) {
+static void spi_write_data_array(GDisplay *g, gU8* datas, gMemSize length) {
 	(void) g;
 	(void) datas;
 	(void) length;
 }
 
-static void spi_write_data(GDisplay *g, uint8_t data) {
+static void spi_write_data(GDisplay *g, gU8 data) {
 	(void) g;
 	(void) data;
 }

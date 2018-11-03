@@ -96,7 +96,7 @@ int main(void) {
 	GMouse *				m;
 	GMouseVMT *				vmt;
 	GMouseJitter *			pjit;
-	uint32_t				calerr;
+	gU32				calerr;
 
 	gfxInit();		// Initialize the display
 

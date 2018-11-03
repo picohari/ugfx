@@ -144,11 +144,11 @@
 		#include "../../../src/ginput/ginput_keyboard_microcode.h"
 
 		// Forward definitions
-		extern uint8_t	GKEYBOARD_WIN32_DEFAULT_LAYOUT[];
+		extern gU8	GKEYBOARD_WIN32_DEFAULT_LAYOUT[];
 
 		// This is the layout code for the English US keyboard.
 		//	We make it public so that a user can switch to a different layout if required.
-		uint8_t	KeyboardLayout_Win32_US[] = {
+		gU8	KeyboardLayout_Win32_US[] = {
 			KMC_HEADERSTART, KMC_HEADER_ID1, KMC_HEADER_ID2, KMC_HEADER_VER_1,
 
 			// Transient Shifters: SHIFT, CTRL, ALT, WINKEY
@@ -391,7 +391,7 @@
 
 	// Forward definitions
 	static gBool Win32KeyboardInit(GKeyboard *k, unsigned driverinstance);
-	static int Win32KeyboardGetData(GKeyboard *k, uint8_t *pch, int sz);
+	static int Win32KeyboardGetData(GKeyboard *k, gU8 *pch, int sz);
 
 	const GKeyboardVMT const GKEYBOARD_DRIVER_VMT[1] = {{
 		{
@@ -415,7 +415,7 @@
 	}};
 
 	static int			keypos;
-	static uint8_t		keybuffer[8];
+	static gU8		keybuffer[8];
 	static GKeyboard	*keyboard;
 #endif
 
@@ -443,13 +443,13 @@ typedef struct winPriv {
 	HBITMAP 		dcOldBitmap;
 	#if GFX_USE_GINPUT && GINPUT_NEED_MOUSE
 		gCoord		mousex, mousey;
-		uint16_t	mousebuttons;
+		gU16	mousebuttons;
 		GMouse		*mouse;
 		gBool		mouseenabled;
-		void (*capfn)(void * hWnd, GDisplay *g, uint16_t buttons, gCoord x, gCoord y);
+		void (*capfn)(void * hWnd, GDisplay *g, gU16 buttons, gCoord x, gCoord y);
 	#endif
 	#if GFX_USE_GINPUT && GINPUT_NEED_TOGGLE
-		uint8_t		toggles;
+		gU8		toggles;
 	#endif
 	#if GDISP_HARDWARE_STREAM_WRITE || GDISP_HARDWARE_STREAM_READ
 		gCoord		x0, y0, x1, y1;
@@ -462,7 +462,7 @@ void gfxEmulatorSetParentWindow(void *hwnd) {
 }
 
 #if GFX_USE_GINPUT && GINPUT_NEED_MOUSE
-	void gfxEmulatorMouseInject(GDisplay *g, uint16_t buttons, gCoord x, gCoord y) {
+	void gfxEmulatorMouseInject(GDisplay *g, gU16 buttons, gCoord x, gCoord y) {
 		winPriv *		priv;
 		
 		priv = (winPriv *)g->priv;
@@ -475,7 +475,7 @@ void gfxEmulatorSetParentWindow(void *hwnd) {
 	void gfxEmulatorMouseEnable(GDisplay *g, gBool enabled) {
 		((winPriv *)g->priv)->mouseenabled = enabled;
 	}
-	void gfxEmulatorMouseCapture(GDisplay *g, void (*capfn)(void * hWnd, GDisplay *g, uint16_t buttons, gCoord x, gCoord y)) {
+	void gfxEmulatorMouseCapture(GDisplay *g, void (*capfn)(void * hWnd, GDisplay *g, gU16 buttons, gCoord x, gCoord y)) {
 		((winPriv *)g->priv)->capfn = capfn;
 	}
 #endif
@@ -487,7 +487,7 @@ static LRESULT myWindowProc(HWND hWnd,	UINT Msg, WPARAM wParam, LPARAM lParam)
 	GDisplay *		g;
 	winPriv *		priv;
 	#if GFX_USE_GINPUT && GINPUT_NEED_MOUSE
-		uint16_t	btns;
+		gU16	btns;
 	#endif
 	#if GFX_USE_GINPUT && GINPUT_NEED_TOGGLE
 		HBRUSH		hbrOn, hbrOff;
@@ -496,7 +496,7 @@ static LRESULT myWindowProc(HWND hWnd,	UINT Msg, WPARAM wParam, LPARAM lParam)
 		HGDIOBJ		old;
 		POINT 		p;
 		gCoord		pos;
-		uint8_t		bit;
+		gU8		bit;
 	#endif
 
 	switch (Msg) {
@@ -1611,7 +1611,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		return gTrue;
 	}
 
-	static int Win32KeyboardGetData(GKeyboard *k, uint8_t *pch, int sz) {
+	static int Win32KeyboardGetData(GKeyboard *k, gU8 *pch, int sz) {
 		int		i, j;
 		(void)	k;
 

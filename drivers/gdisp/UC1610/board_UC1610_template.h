@@ -30,13 +30,13 @@ static GFXINLINE void release_bus(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE void write_cmd(GDisplay *g, uint8_t * cmd, uint8_t length) {
+static GFXINLINE void write_cmd(GDisplay *g, gU8 * cmd, gU8 length) {
 	(void) g;
 	(void) cmd;
 	(void) length;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint8_t* data, uint16_t length) {
+static GFXINLINE void write_data(GDisplay *g, gU8* data, gU16 length) {
 	(void) g;
 	(void) data;
 	(void) length;

@@ -17,11 +17,11 @@
 
 	void _gosHeapInit(void) {
 	}
-	void *gfxAlloc(size_t sz) {
+	void *gfxAlloc(gMemSize sz) {
 		return malloc(sz);
 	}
 
-	void *gfxRealloc(void *ptr, size_t oldsz, size_t newsz) {
+	void *gfxRealloc(void *ptr, gMemSize oldsz, gMemSize newsz) {
 		(void) oldsz;
 		return realloc(ptr, newsz);
 	}
@@ -34,7 +34,7 @@
 
 	// Slot structure - user memory follows
 	typedef struct memslot {
-		size_t			sz;			// Includes the size of this memslot.
+		gMemSize			sz;			// Includes the size of this memslot.
 		} memslot;
 
 	// Free Slot - immediately follows the memslot structure
@@ -54,7 +54,7 @@
 		gfxAddHeapBlock(heap, GFX_OS_HEAP_SIZE);
 	}
 
-	void gfxAddHeapBlock(void *ptr, size_t sz) {
+	void gfxAddHeapBlock(void *ptr, gMemSize sz) {
 		if (sz < sizeof(memslot)+sizeof(freeslot))
 			return;
 
@@ -62,7 +62,7 @@
 		gfxFree(Slot2Ptr((memslot *)ptr));
 	}
 
-	void *gfxAlloc(size_t sz) {
+	void *gfxAlloc(gMemSize sz) {
 		register memslot *prev, *p, *pnew;
 
 		if (!sz) return 0;
@@ -94,7 +94,7 @@
 		return 0;
 	}
 
-	void *gfxRealloc(void *ptr, size_t oldsz, size_t sz) {
+	void *gfxRealloc(void *ptr, gMemSize oldsz, gMemSize sz) {
 		register memslot *prev, *p, *pfree;
 		(void) oldsz;
 
@@ -187,7 +187,7 @@
 	#include <stdlib.h>
 
 	void* malloc(size_t size) {
-		return gfxAlloc(size);
+		return gfxAlloc((gMemSize)size);
 	}
 	void free(void *ptr) {
 		gfxFree(ptr);

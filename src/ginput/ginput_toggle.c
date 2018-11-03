@@ -24,7 +24,7 @@
 
 static GTIMER_DECL(ToggleTimer);
 static struct GEventToggleStatus_t {
-	uint8_t		status;
+	gU8		status;
 } ToggleStatus[GINPUT_TOGGLE_NUM_PORTS];
 
 // Our polling function
@@ -35,7 +35,7 @@ static void TogglePoll(void *param) {
 	GSourceListener	*psl;
 	GEventToggle	*pe;
 	unsigned		i, bits, mask;
-	uint8_t 		state;
+	gU8 		state;
 	
 	// Loop while there are bits to get
 	for(ptc = GInputToggleConfigTable, i=0; i < GINPUT_TOGGLE_NUM_PORTS; ptc++) {
@@ -92,7 +92,7 @@ static void TogglePoll(void *param) {
 }
 
 /* Hardware Toggle/Switch/Button Functions */
-GSourceHandle ginputGetToggle(uint16_t instance) {
+GSourceHandle ginputGetToggle(gU16 instance) {
 	const GToggleConfig	*ptc;
 
 	if (instance >= GINPUT_TOGGLE_NUM_PORTS)
@@ -110,7 +110,7 @@ GSourceHandle ginputGetToggle(uint16_t instance) {
 }
 
 // If invert is true, invert the on/off sense for the toggle
-void ginputInvertToggle(uint16_t instance, gBool invert) {
+void ginputInvertToggle(gU16 instance, gBool invert) {
 	if (instance >= GINPUT_TOGGLE_NUM_PORTS)
 		return;
 	if (invert) {
@@ -129,7 +129,7 @@ void ginputInvertToggle(uint16_t instance, gBool invert) {
 /* Get the current toggle status.
  *	Returns gFalse on error (eg invalid instance)
  */
-gBool ginputGetToggleStatus(uint16_t instance, GEventToggle *ptoggle) {
+gBool ginputGetToggleStatus(gU16 instance, GEventToggle *ptoggle) {
 	// Win32 threads don't seem to recognise priority and/or pre-emption
 	// so we add a sleep here to prevent 100% polled applications from locking up.
 	gfxSleepMilliseconds(1);

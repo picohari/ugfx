@@ -200,7 +200,7 @@ static void hscan_start(GDisplay *g)
 }
 
 /* Write data to the horizontal row. */
-static void hscan_write(GDisplay *g, const uint8_t *data, int count)
+static void hscan_write(GDisplay *g, const gU8 *data, int count)
 {
 	while (count--)
 	{
@@ -317,18 +317,18 @@ static void power_off(GDisplay *g)
 
 /* Buffers that store the data for a small area of the display. */
 typedef struct {
-	uint8_t data[EINK_BLOCKHEIGHT][WIDTH_BYTES];
+	gU8 data[EINK_BLOCKHEIGHT][WIDTH_BYTES];
 } block_t;
 
 typedef struct drvPriv {
-	uint8_t g_next_block; /* Index of the next free block buffer. */
+	gU8 g_next_block; /* Index of the next free block buffer. */
 	block_t g_blocks[EINK_NUMBUFFERS];
 
 	/* Map that stores the buffers associated to each area of the display.
 	 * Value of 0 means that the block is not allocated.
 	 * Other values are the index in g_blocks + 1.
 	 */
-	uint8_t g_blockmap[BLOCKS_Y][BLOCKS_X];
+	gU8 g_blockmap[BLOCKS_Y][BLOCKS_X];
 } drvPriv;
 
 /* Check if the row contains any allocated blocks. */
@@ -358,7 +358,7 @@ static void write_block_row(GDisplay *g, unsigned by)
 			{
 				for (dx = 0; dx < WIDTH_BYTES; dx++)
 				{
-					const uint8_t dummy = 0;
+					const gU8 dummy = 0;
 					hscan_write(g, &dummy, 1);
 				}
 			}
@@ -483,9 +483,9 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_DRAWPIXEL
 	void gdisp_lld_draw_pixel(GDisplay *g) {
 		block_t *block;
-		uint8_t byte;
+		gU8 byte;
 		unsigned bx, by, dx, dy;
-		uint8_t bitpos;
+		gU8 bitpos;
 
 		switch(g->g.Orientation) {
 		default:
@@ -583,7 +583,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_CLEARS
 	static void subclear(GDisplay *g, gColor color) {
 		unsigned x, y;
-		uint8_t byte;
+		gU8 byte;
 
 		hscan_start(g);
 		byte = color ? BYTE_WHITE : BYTE_BLACK;

@@ -16,12 +16,12 @@
 /* Structure for keeping track of the edge of the glyph as it is rendered. */
 struct kerning_state_s
 {
-    uint8_t edgepos[MF_KERNING_ZONES];
-    uint8_t zoneheight;
+    gU8 edgepos[MF_KERNING_ZONES];
+    gU8 zoneheight;
 };
 
 /* Pixel callback for analyzing the left edge of a glyph. */
-static void fit_leftedge(int16_t x, int16_t y, uint8_t count, uint8_t alpha,
+static void fit_leftedge(gI16 x, gI16 y, gU8 count, gU8 alpha,
                          void *state)
 {
     struct kerning_state_s *s = state;
@@ -29,21 +29,21 @@ static void fit_leftedge(int16_t x, int16_t y, uint8_t count, uint8_t alpha,
     
     if (alpha > 7)
     {
-        uint8_t zone = y / s->zoneheight;
+        gU8 zone = y / s->zoneheight;
         if (x < s->edgepos[zone])
             s->edgepos[zone] = x;
     }
 }
 
 /* Pixel callback for analyzing the right edge of a glyph. */
-static void fit_rightedge(int16_t x, int16_t y, uint8_t count, uint8_t alpha,
+static void fit_rightedge(gI16 x, gI16 y, gU8 count, gU8 alpha,
                          void *state)
 {
     struct kerning_state_s *s = state;
     
     if (alpha > 7)
     {
-        uint8_t zone = y / s->zoneheight;
+        gU8 zone = y / s->zoneheight;
         x += count - 1;
         if (x > s->edgepos[zone])
             s->edgepos[zone] = x;
@@ -65,16 +65,16 @@ static bool do_kerning(mf_char c)
     return true;
 }
 
-//static int16_t min16(int16_t a, int16_t b) { return (a < b) ? a : b; }
-static int16_t max16(int16_t a, int16_t b) { return (a > b) ? a : b; }
-static int16_t avg16(int16_t a, int16_t b) { return (a + b) / 2; }
+//static gI16 min16(gI16 a, gI16 b) { return (a < b) ? a : b; }
+static gI16 max16(gI16 a, gI16 b) { return (a > b) ? a : b; }
+static gI16 avg16(gI16 a, gI16 b) { return (a + b) / 2; }
 
-int8_t mf_compute_kerning(const struct mf_font_s *font,
+gI8 mf_compute_kerning(const struct mf_font_s *font,
                           mf_char c1, mf_char c2)
 {
     struct kerning_state_s leftedge, rightedge;
-    uint8_t w1, w2, i, min_space;
-    int16_t normal_space, adjust, max_adjust;
+    gU8 w1, w2, i, min_space;
+    gI16 normal_space, adjust, max_adjust;
     
     if (font->flags & MF_FONT_FLAG_MONOSPACE)
         return 0; /* No kerning for monospace fonts */
@@ -102,7 +102,7 @@ int8_t mf_compute_kerning(const struct mf_font_s *font,
     min_space = 255;
     for (i = 0; i < MF_KERNING_ZONES; i++)
     {
-        uint8_t space;
+        gU8 space;
         if (leftedge.edgepos[i] == 255 || rightedge.edgepos[i] == 0)
             continue; /* Outside glyph area. */
         

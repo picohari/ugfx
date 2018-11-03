@@ -66,14 +66,14 @@ static GFXINLINE void release_bus(GMouse* m) {
     //TOUCHSCREEN_SPI_EPILOGUE();
 }
 
-static GFXINLINE uint16_t read_value(GMouse* m, uint16_t port) {
-    static uint8_t txbuf[3] = {0};
-    static uint8_t rxbuf[3] = {0};
+static GFXINLINE gU16 read_value(GMouse* m, gU16 port) {
+    static gU8 txbuf[3] = {0};
+    static gU8 rxbuf[3] = {0};
 	(void)		m;
 
     txbuf[0] = port;
     spiExchange(&SPID2, 3, txbuf, rxbuf);
-    return ((uint16_t)rxbuf[1] << 5) | (rxbuf[2] >> 3);
+    return ((gU16)rxbuf[1] << 5) | (rxbuf[2] >> 3);
 }
 
 #endif /* _GINPUT_LLD_MOUSE_BOARD_H */

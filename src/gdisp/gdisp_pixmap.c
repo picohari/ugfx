@@ -44,7 +44,7 @@
 
 typedef struct pixmap {
 	#if GDISP_NEED_PIXMAP_IMAGE
-		uint8_t		imghdr[8];			// This field must come just before the data member.
+		gU8		imghdr[8];			// This field must come just before the data member.
 	#endif
 	gColor			pixels[1];			// We really want pixels[0] but some compilers don't allow that even though it is C standard.
 	} pixmap;
@@ -67,12 +67,12 @@ GDisplay *gdispPixmapCreate(gCoord width, gCoord height) {
 	#if GDISP_NEED_PIXMAP_IMAGE
 		p->imghdr[0] = 'N';
 		p->imghdr[1] = 'I';
-		p->imghdr[2] = (uint8_t)(width >> 8);
-		p->imghdr[3] = (uint8_t)width;
-		p->imghdr[4] = (uint8_t)(height >> 8);
-		p->imghdr[5] = (uint8_t)height;
-		p->imghdr[6] = (uint8_t)(GDISP_PIXELFORMAT >> 8);
-		p->imghdr[7] = (uint8_t)(GDISP_PIXELFORMAT);
+		p->imghdr[2] = (gU8)(width >> 8);
+		p->imghdr[3] = (gU8)width;
+		p->imghdr[4] = (gU8)(height >> 8);
+		p->imghdr[5] = (gU8)height;
+		p->imghdr[6] = (gU8)(GDISP_PIXELFORMAT >> 8);
+		p->imghdr[7] = (gU8)(GDISP_PIXELFORMAT);
 	#endif
 
 	// Save the width and height so the driver can retrieve it.

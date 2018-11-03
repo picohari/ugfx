@@ -92,7 +92,7 @@ gTicks gfxSystemTicks(void) {
 	return ts.tv_sec * 1000UL + ts.tv_nsec / 1000000;
 }
 
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
 	gThread		th;
 	(void)				stackarea;
 	(void)				stacksz;

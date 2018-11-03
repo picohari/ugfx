@@ -53,7 +53,7 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define RAM(g)                      		((uint8_t *)g->priv)
+#define RAM(g)                      		((gU8 *)g->priv)
 
 #define xyaddr(x, y)		        		((x) + ((y) >> 3) * GDISP_SCREEN_WIDTH)
 #define xybit(y)			        		(1 << ((y) & 7))
@@ -94,7 +94,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	write_cmd(g, UC1601s_RESET);
 
     gfxSleepMilliseconds(10);
-    write_cmd2(g, UC1601s_SET_BIAS, (uint8_t)(((GDISP_INITIAL_CONTRAST << 8) - 1) / 100));
+    write_cmd2(g, UC1601s_SET_BIAS, (gU8)(((GDISP_INITIAL_CONTRAST << 8) - 1) / 100));
     
     write_cmd(g, UC1601s_SET_EN | UC1601s_ENABLE);
 
@@ -266,7 +266,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		case GDISP_CONTROL_CONTRAST:
 			if ((unsigned)g->p.ptr > 100) g->p.ptr = (void *)100;
 			acquire_bus(g);
-			write_cmd2(g, UC1601s_SET_BIAS, (uint8_t)(((((unsigned)g->p.ptr) << 8) - 1) / 100));
+			write_cmd2(g, UC1601s_SET_BIAS, (gU8)(((((unsigned)g->p.ptr) << 8) - 1) / 100));
 			release_bus(g);
 			g->g.Contrast = (unsigned)g->p.ptr;
 			return;

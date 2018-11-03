@@ -29,9 +29,9 @@
 
 static gBool MouseInit(GMouse* m, unsigned driverinstance)
 {
-	const uint8_t *p;
+	const gU8 *p;
 
-	static const uint8_t commandList[] = {
+	static const gU8 commandList[] = {
 		MAX11802_CMD_GEN_WR, 0xf0,					// General config - leave TIRQ enabled, even though we ignore it ATM
 		MAX11802_CMD_RES_WR, 0x00,					// A-D resolution, hardware config - rewriting default; all 12-bit resolution
 		MAX11802_CMD_AVG_WR, MAX11802_AVG,			// A-D averaging - 8 samples, average four median samples
@@ -70,8 +70,8 @@ static gBool MouseInit(GMouse* m, unsigned driverinstance)
 
 static gBool read_xyz(GMouse* m, GMouseReading* pdr)
 {
-	uint8_t readyCount;
-	uint8_t notReadyCount;
+	gU8 readyCount;
+	gU8 notReadyCount;
 
 	// Assume not touched.
 	pdr->buttons = 0;
@@ -153,8 +153,8 @@ static gBool read_xyz(GMouse* m, GMouseReading* pdr)
     }
 
     // Strip the tags (we need to take care because gCoord is signed - and sign bit gets extended on shift!)
-    pdr->x = (uint16_t)(pdr->x) >> 4;
-    pdr->y = (uint16_t)(pdr->y) >> 4;
+    pdr->x = (gU16)(pdr->x) >> 4;
+    pdr->y = (gU16)(pdr->y) >> 4;
    	pdr->z = Z_MAX;
 
     return gTrue;

@@ -260,6 +260,21 @@
 	#ifndef GFX_EMULATE_MALLOC
 		#define GFX_EMULATE_MALLOC	GFXOFF
 	#endif
+ 	/**
+ 	 * @brief	Is the maximum memory allocation less than 64K
+ 	 * @details	Defaults to GFXOFF
+ 	 * @note	Many CPU's cannot allocate memory blocks larger than 64K. Note that this
+	 * 			is not necessarily mean that a pointer is 16 bit but a 16 bit pointer
+	 * 			will definitely impose this restriction. An example is the x86 processor
+	 * 			running in "FAR" mode. Pointers are 32 bit but the maximum size memory block is 64K.
+	 * @note	Specifying this only leads to code and memory optimisations. uGFX should still work
+	 * 			on these processors even if it is not set although obviously an attempted memory
+	 *			allocation larger than 64K will fail.
+ 	 */
+	#ifndef GFX_MEM_LT64K
+		#define GFX_MEM_LT64K	GFXOFF
+	#endif
+
 /** @} */
 
 #endif /* _GOS_OPTIONS_H */

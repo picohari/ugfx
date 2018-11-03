@@ -271,7 +271,7 @@ DRESULT disk_ioctl (
 	}
 #else
 	DWORD get_fattime(void) {
-	    return ((uint32_t)0 | (1 << 16)) | (1 << 21); /* wrong but valid time */
+	    return ((gU32)0 | (1 << 16)) | (1 << 21); /* wrong but valid time */
 	}
 #endif
 

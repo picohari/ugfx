@@ -75,7 +75,7 @@ GEventMouse		ev;
 
 int main(void) {
 	gColor color = GFX_BLACK;
-	uint16_t pen = 0;
+	gU16 pen = 0;
 
 	gfxInit();
 	ginputGetMouse(0);

@@ -32,7 +32,7 @@
 // Load the patch file if desired. New format patches only.
 #if VS1053_FIRMWARE_PATCH
 	#define SKIP_PLUGIN_VARNAME
-	static const uint16_t plugin[] = { /* Compressed plugin */
+	static const gU16 plugin[] = { /* Compressed plugin */
 		#include "vs1053_patch.plg"
 	};
 #endif
@@ -67,7 +67,7 @@ static GTimer	playTimer;
 // Some common macro's
 #define waitforready()		while(!board_dreq()) gfxSleepMilliseconds(5)
 
-static void cmd_write(uint16_t addr, uint16_t data) {
+static void cmd_write(gU16 addr, gU16 data) {
 	char	buf[4];
 	buf[0] = 2;
 	buf[1] = (char)addr;
@@ -81,14 +81,14 @@ static void cmd_write(uint16_t addr, uint16_t data) {
 }
 
 #if VS1053_CLK > 12288000
-	static GFXINLINE void cmd_writenodreq(uint16_t addr, uint16_t data) {
-		uint8_t	buf[4];
+	static GFXINLINE void cmd_writenodreq(gU16 addr, gU16 data) {
+		gU8	buf[4];
 
 		// This is the same as cmd_write() except for it doesn't wait for dreq first
 		buf[0] = 2;
-		buf[1] = (uint8_t)addr;
-		buf[2] = (uint8_t)(data >> 8);
-		buf[3] = (uint8_t)data;
+		buf[1] = (gU8)addr;
+		buf[2] = (gU8)(data >> 8);
+		buf[3] = (gU8)data;
 
 		board_startcmdwrite();
 		board_spiwrite(buf, 4);
@@ -96,8 +96,8 @@ static void cmd_write(uint16_t addr, uint16_t data) {
 	}
 #endif
 
-static uint16_t cmd_read(uint16_t addr) {
-	uint8_t	buf[2];
+static gU16 cmd_read(gU16 addr) {
+	gU8	buf[2];
 
 	buf[0] = 3;
 	buf[1] = (char)addr;
@@ -106,10 +106,10 @@ static uint16_t cmd_read(uint16_t addr) {
 	board_spiwrite(buf, 2);
 	board_spiread(buf, 2);
 	board_endcmdread();
-	return (((uint16_t)buf[0])<<8)|buf[1];
+	return (((gU16)buf[0])<<8)|buf[1];
 }
 
-static void data_write(const uint8_t *data, unsigned len) {
+static void data_write(const gU8 *data, unsigned len) {
 	board_startdatawrite();
 	board_spiwrite(data, len);
 	board_enddatawrite();
@@ -118,7 +118,7 @@ static void data_write(const uint8_t *data, unsigned len) {
 #if VS1053_FIRMWARE_PATCH
 	static void LoadUserCode(void) {
 		int			i;
-		uint16_t	addr, n, val;
+		gU16	addr, n, val;
 
 		for(i=0; i<sizeof(plugin)/sizeof(plugin[0]);) {
 			addr = plugin[i++];
@@ -176,15 +176,15 @@ static void vs1053_soft_reset(void) {
 	#endif
 }
 
-static uint16_t vs1053_getendbyte(void) {
+static gU16 vs1053_getendbyte(void) {
 	cmd_write(SCI_WRAMADDR, WRAMADDR_EXTRAPARAMS+4);
 	return cmd_read(SCI_WRAM);
 }
 
 static GTimer			playTimer;
 static GDataBuffer		*pplay;
-static size_t			playlen;
-static uint8_t			*pdata;
+static gMemSize			playlen;
+static gU8			*pdata;
 
 static void FeedData(void *param) {
 	unsigned	len;
@@ -218,7 +218,7 @@ static void FeedData(void *param) {
 
 			// Set up ready for the new buffer
 			playlen = pplay->len;
-			pdata = (uint8_t *)(pplay+1);
+			pdata = (gU8 *)(pplay+1);
 			gfxSystemUnlock();
 		}
 	}
@@ -228,11 +228,11 @@ static void FeedData(void *param) {
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-gBool gaudio_play_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
-	uint32_t	brate;
-	uint32_t	bps;
-	uint8_t		buf[4];
-	static const uint8_t hdr1[] = {
+gBool gaudio_play_lld_init(gU16 channel, gU32 frequency, ArrayDataFormat format) {
+	gU32	brate;
+	gU32	bps;
+	gU8		buf[4];
+	static const gU8 hdr1[] = {
 			'R', 'I', 'F', 'F',
 			0xFF, 0xFF, 0xFF, 0xFF,
 			'W', 'A', 'V', 'E',
@@ -240,7 +240,7 @@ gBool gaudio_play_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat
 			16, 0, 0, 0,
 			0x01, 0x00,
 	};
-	static const uint8_t hdr2[] = {
+	static const gU8 hdr2[] = {
 			'd', 'a', 't', 'a',
 			0xFF, 0xFF, 0xFF, 0xFF,
 	};
@@ -277,8 +277,8 @@ gBool gaudio_play_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat
 	return gTrue;
 }
 
-gBool gaudio_play_lld_set_volume(uint8_t vol) {
-	uint16_t tmp;
+gBool gaudio_play_lld_set_volume(gU8 vol) {
+	gU16 tmp;
 
 	// Volume is 0xFE -> 0x00. Adjust vol to match
 	vol = ~vol;
@@ -305,7 +305,7 @@ void gaudio_play_lld_start(void) {
 
 	// Set up ready for the new buffer
 	playlen = pplay->len;
-	pdata = (uint8_t *)(pplay+1);
+	pdata = (gU8 *)(pplay+1);
 	gfxSystemUnlock();
 
 	// Start the playing by starting the timer and executing FeedData immediately just to get things started
@@ -315,7 +315,7 @@ void gaudio_play_lld_start(void) {
 }
 
 void gaudio_play_lld_stop(void) {
-	uint8_t		ch;
+	gU8		ch;
 	unsigned	i;
 
 	// Stop the timer interrupt

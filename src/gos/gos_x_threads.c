@@ -175,7 +175,7 @@ typedef struct thread {
 		#define FLG_THD_MAIN	0x0002
 		#define FLG_THD_DEAD	0x0004
 		#define FLG_THD_WAIT	0x0008
-	size_t			size;					// Size of the thread stack (including this structure)
+	gMemSize		size;					// Size of the thread stack (including this structure)
 	gThreadreturn	(*fn)(void *param);		// Thread function
 	void *			param;					// Parameter for the thread function
 	void *			cxt;					// The current thread context.
@@ -244,9 +244,9 @@ static thread		mainthread;				// The main thread context
 	 *
 	 *	AUTO_DETECT_STACKFRAME	GFXON/GFXOFF			- GFXON to auto-detect stack frame structure
 	 *	STACK_DIR_UP			Macro/gBool		- GFXON if the stack grows up instead of down
-	 *	MASK1					Macro/uint32_t		- The 1st mask of jmp_buf elements that need relocation
-	 *	MASK2					Macro/uint32_t		- The 2nd mask of jmp_buf elements that need relocation
-	 *	STACK_BASE				Macro/size_t		- The base of the stack frame relative to the local variables
+	 *	MASK1					Macro/gU32		- The 1st mask of jmp_buf elements that need relocation
+	 *	MASK2					Macro/gU32		- The 2nd mask of jmp_buf elements that need relocation
+	 *	STACK_BASE				Macro/gMemSize		- The base of the stack frame relative to the local variables
 	 *	_gfxThreadsInit()		Macro/Function		- Initialise the scheduler
 	 *
 	 */
@@ -276,9 +276,9 @@ static thread		mainthread;				// The main thread context
 		} saveloc;
 
 		static gBool		stackdirup;
-		static uint32_t		jmpmask1;
-		static uint32_t		jmpmask2;
-		static size_t		stackbase;
+		static gU32		jmpmask1;
+		static gU32		jmpmask2;
+		static gMemSize		stackbase;
 		static saveloc		*pframeinfo;
 
 		// These two functions are not static to prevent the compiler removing them as functions
@@ -293,10 +293,10 @@ static thread		mainthread;				// The main thread context
 			pframeinfo--;
 		}
 		static void _gfxThreadsInit(void) {
-			uint32_t	i;
+			gU32	i;
 			char **		pout;
 			char **		pin;
-			size_t		diff;
+			gPtrDiff	diff;
 			char *		framebase;
 			saveloc		tmpsaveloc[2];
 
@@ -320,7 +320,7 @@ static thread		mainthread;				// The main thread context
 			framebase = pframeinfo[0].localptr;
 			jmpmask1 = jmpmask2 = 0;
 			for (i = 0; i < sizeof(jmp_buf)/sizeof(char *); i++, pout++, pin++) {
-				if ((size_t)(*pout - *pin) == diff) {
+				if ((gPtrDiff)(*pout - *pin) == diff) {
 					if (i < 32)
 						jmpmask1 |= 1 << i;
 					else
@@ -345,7 +345,7 @@ static thread		mainthread;				// The main thread context
 		char **	s;
 		char *	nf;
 		int		diff;
-		uint32_t	i;
+		gU32	i;
 
 		// Copy the stack frame
 		s = 0;
@@ -508,7 +508,7 @@ void gfxThreadExit(gThreadreturn ret) {
 	// We never get back here as we didn't re-queue ourselves
 }
 
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
 	thread *	t;
 	thread *	me;
 	(void)		prio;

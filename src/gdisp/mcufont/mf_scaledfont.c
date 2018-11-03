@@ -13,17 +13,17 @@ struct scaled_renderstate
 {
     mf_pixel_callback_t orig_callback;
     void *orig_state;
-    uint8_t x_scale;
-    uint8_t y_scale;
-    int16_t x0;
-    int16_t y0;
+    gU8 x_scale;
+    gU8 y_scale;
+    gI16 x0;
+    gI16 y0;
 };
 
-static void scaled_pixel_callback(int16_t x, int16_t y, uint8_t count,
-                                  uint8_t alpha, void *state)
+static void scaled_pixel_callback(gI16 x, gI16 y, gU8 count,
+                                  gU8 alpha, void *state)
 {
     struct scaled_renderstate *rstate = state;
-    uint8_t dy;
+    gU8 dy;
     
     count *= rstate->x_scale;
     x = rstate->x0 + x * rstate->x_scale;
@@ -35,26 +35,26 @@ static void scaled_pixel_callback(int16_t x, int16_t y, uint8_t count,
     }
 }
     
-uint8_t mf_scaled_character_width(const struct mf_font_s *font,
-                                      uint16_t character)
+gU8 mf_scaled_character_width(const struct mf_font_s *font,
+                                      gU16 character)
 {
     struct mf_scaledfont_s *sfont = (struct mf_scaledfont_s*)font;
-    uint8_t basewidth;
+    gU8 basewidth;
     
     basewidth = sfont->basefont->character_width(sfont->basefont, character);
     
     return sfont->x_scale * basewidth;
 }
 
-uint8_t mf_scaled_render_character(const struct mf_font_s *font,
-                                       int16_t x0, int16_t y0,
-                                       uint16_t character,
+gU8 mf_scaled_render_character(const struct mf_font_s *font,
+                                       gI16 x0, gI16 y0,
+                                       gU16 character,
                                        mf_pixel_callback_t callback,
                                        void *state)
 {
     struct mf_scaledfont_s *sfont = (struct mf_scaledfont_s*)font;
     struct scaled_renderstate rstate;
-    uint8_t basewidth;
+    gU8 basewidth;
     
     rstate.orig_callback = callback;
     rstate.orig_state = state;
@@ -71,7 +71,7 @@ uint8_t mf_scaled_render_character(const struct mf_font_s *font,
 
 void mf_scale_font(struct mf_scaledfont_s *newfont,
                    const struct mf_font_s *basefont,
-                   uint8_t x_scale, uint8_t y_scale)
+                   gU8 x_scale, gU8 y_scale)
 {
     newfont->font = *basefont;
     newfont->basefont = basefont;

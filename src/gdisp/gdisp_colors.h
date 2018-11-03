@@ -23,7 +23,7 @@
 
 #if GFX_USE_GDISP || defined(__DOXYGEN__)
 
-typedef uint16_t	gColorformat;
+typedef gU16	gColorformat;
 
 /**
  * @name	Color system masks
@@ -173,7 +173,7 @@ typedef uint16_t	gColorformat;
 	/**
 	 * @brief   The color type
 	 */
-	#define COLOR_TYPE			uint16_t
+	#define COLOR_TYPE			gU16
 
 	/**
 	 * @brief	The number of bits in the color type (not necessarily the same as COLOR_BITS).
@@ -214,7 +214,7 @@ typedef uint16_t	gColorformat;
 	 * @note	A 5 bit color component maximum value (0x1F) converts to 0xF8 (slightly off-color)
 	 * @{
 	 */
-	#define LUMA_OF(c)			((RED_OF(c)+((uint16_t)GREEN_OF(c)<<1)+BLUE_OF(c))>>2)
+	#define LUMA_OF(c)			((RED_OF(c)+((gU16)GREEN_OF(c)<<1)+BLUE_OF(c))>>2)
 	#define RED_OF(c)			(((c) & 0xF800)>>8)
 	#define GREEN_OF(c)			(((c)&0x007E)>>3)
 	#define BLUE_OF(c)			(((c)&0x001F)<<3)
@@ -234,7 +234,7 @@ typedef uint16_t	gColorformat;
 	 * @note	A 5 bit color component maximum value (0x1F) converts to 0xFF (the true equivalent color)
 	 * @{
 	 */
-	#define EXACT_LUMA_OF(c)	((EXACT_RED_OF(c)+((uint16_t)EXACT_GREEN_OF(c)<<1)+EXACT_BLUE_OF(c))>>2)
+	#define EXACT_LUMA_OF(c)	((EXACT_RED_OF(c)+((gU16)EXACT_GREEN_OF(c)<<1)+EXACT_BLUE_OF(c))>>2)
 	#define EXACT_RED_OF(c)		(((((c)>>11)&0x1F)*255)/31)
 	#define EXACT_GREEN_OF(c)	(((((c)>>5)&0x3F)*255)/63)
 	#define EXACT_BLUE_OF(c)	(((((c)>>0)&0x1F)*255)/31)
@@ -261,13 +261,13 @@ typedef uint16_t	gColorformat;
 
 	// From the number of bits determine COLOR_TYPE, COLOR_TYPE_BITS and masking
 	#if COLOR_BITS <= 8
-		#define COLOR_TYPE			uint8_t
+		#define COLOR_TYPE			gU8
 		#define COLOR_TYPE_BITS		8
 	#elif COLOR_BITS <= 16
-		#define COLOR_TYPE			uint16_t
+		#define COLOR_TYPE			gU16
 		#define COLOR_TYPE_BITS		16
 	#elif COLOR_BITS <= 32
-		#define COLOR_TYPE			uint32_t
+		#define COLOR_TYPE			gU32
 		#define COLOR_TYPE_BITS		32
 	#else
 		#error "GDISP: Cannot define color types with more than 32 bits"
@@ -321,11 +321,11 @@ typedef uint16_t	gColorformat;
 		#define BLUE_OF(c)			(((c) & (((1<<COLOR_BITS_B)-1) << COLOR_SHIFT_B)) << (8-(COLOR_BITS_B+COLOR_SHIFT_B)))
 		#define RGB2COLOR_B(b)		(((COLOR_TYPE)((b) & (0xFF & ~((1<<(8-COLOR_BITS_B))-1)))) >> (8-(COLOR_BITS_B+COLOR_SHIFT_B)))
 	#endif
-	#define LUMA_OF(c)				((RED_OF(c)+((uint16_t)GREEN_OF(c)<<1)+BLUE_OF(c))>>2)
-	#define EXACT_RED_OF(c)			(((uint16_t)(((c)>>COLOR_SHIFT_R)&((1<<COLOR_BITS_R)-1))*255)/((1<<COLOR_BITS_R)-1))
-	#define EXACT_GREEN_OF(c)		(((uint16_t)(((c)>>COLOR_SHIFT_G)&((1<<COLOR_BITS_G)-1))*255)/((1<<COLOR_BITS_G)-1))
-	#define EXACT_BLUE_OF(c)		(((uint16_t)(((c)>>COLOR_SHIFT_B)&((1<<COLOR_BITS_B)-1))*255)/((1<<COLOR_BITS_B)-1))
-	#define EXACT_LUMA_OF(c)		((EXACT_RED_OF(c)+((uint16_t)EXACT_GREEN_OF(c)<<1)+EXACT_BLUE_OF(c))>>2)
+	#define LUMA_OF(c)				((RED_OF(c)+((gU16)GREEN_OF(c)<<1)+BLUE_OF(c))>>2)
+	#define EXACT_RED_OF(c)			(((gU16)(((c)>>COLOR_SHIFT_R)&((1<<COLOR_BITS_R)-1))*255)/((1<<COLOR_BITS_R)-1))
+	#define EXACT_GREEN_OF(c)		(((gU16)(((c)>>COLOR_SHIFT_G)&((1<<COLOR_BITS_G)-1))*255)/((1<<COLOR_BITS_G)-1))
+	#define EXACT_BLUE_OF(c)		(((gU16)(((c)>>COLOR_SHIFT_B)&((1<<COLOR_BITS_B)-1))*255)/((1<<COLOR_BITS_B)-1))
+	#define EXACT_LUMA_OF(c)		((EXACT_RED_OF(c)+((gU16)EXACT_GREEN_OF(c)<<1)+EXACT_BLUE_OF(c))>>2)
 	#define LUMA2COLOR(l)			(RGB2COLOR_R(l) | RGB2COLOR_G(l) | RGB2COLOR_B(l))
 	#define RGB2COLOR(r,g,b)		(RGB2COLOR_R(r) | RGB2COLOR_G(g) | RGB2COLOR_B(b))
 
@@ -382,7 +382,7 @@ typedef uint16_t	gColorformat;
 
 	// From the number of bits determine COLOR_TYPE, COLOR_TYPE_BITS and masking
 	#if COLOR_BITS <= 8
-		#define COLOR_TYPE			uint8_t
+		#define COLOR_TYPE			gU8
 		#define COLOR_TYPE_BITS		8
 	#else
 		#error "GDISP: Cannot define gray-scale color types with more than 8 bits"
@@ -402,11 +402,11 @@ typedef uint16_t	gColorformat;
 		#define EXACT_LUMA_OF(c)	LUMA_OF(c)
 	#else
 		// They eye is more sensitive to green
-		#define RGB2COLOR(r,g,b)	((COLOR_TYPE)(((uint16_t)(r)+(g)+(g)+(b)) >> (10-COLOR_BITS)))
+		#define RGB2COLOR(r,g,b)	((COLOR_TYPE)(((gU16)(r)+(g)+(g)+(b)) >> (10-COLOR_BITS)))
 		#define LUMA2COLOR(l)		((COLOR_TYPE)((l)>>(8-COLOR_BITS)))
 		#define HTML2COLOR(h)		((COLOR_TYPE)(((((h)&0xFF0000)>>16)+(((h)&0x00FF00)>>7)+((h)&0x0000FF)) >> (10-COLOR_BITS)))
 		#define LUMA_OF(c)			(((c) & ((1<<COLOR_BITS)-1)) << (8-COLOR_BITS))
-		#define EXACT_LUMA_OF(c)	((((uint16_t)(c) & ((1<<COLOR_BITS)-1))*255)/((1<<COLOR_BITS)-1))
+		#define EXACT_LUMA_OF(c)	((((gU16)(c) & ((1<<COLOR_BITS)-1))*255)/((1<<COLOR_BITS)-1))
 	#endif
 
 	#define RED_OF(c)			LUMA_OF(c)

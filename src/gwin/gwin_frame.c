@@ -208,7 +208,7 @@ static const gcontainerVMT frameVMT = {
 	0,									// A child has been deleted (optional)
 };
 
-GHandle gwinGFrameCreate(GDisplay *g, GFrameObject *fo, GWidgetInit *pInit, uint32_t flags) {
+GHandle gwinGFrameCreate(GDisplay *g, GFrameObject *fo, GWidgetInit *pInit, gU32 flags) {
 	if (!(fo = (GFrameObject *)_gcontainerCreate(g, (GContainerObject *)fo, pInit, &frameVMT)))
 		return 0;
 

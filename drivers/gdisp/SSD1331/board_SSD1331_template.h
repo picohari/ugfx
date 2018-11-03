@@ -29,12 +29,12 @@ static GFXINLINE void release_bus(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE void write_cmd(GDisplay *g, uint8_t index) {
+static GFXINLINE void write_cmd(GDisplay *g, gU8 index) {
 	(void) g;
 	(void) index;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint8_t data) {
+static GFXINLINE void write_data(GDisplay *g, gU8 data) {
 	(void) g;
 	(void) data;
 }

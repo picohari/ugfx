@@ -203,12 +203,12 @@
 	#endif
 
 	#if GDISP_NEED_CONTROL
-		static void board_backlight(GDisplay *g, uint8_t percent) {
+		static void board_backlight(GDisplay *g, gU8 percent) {
 			(void) g;
 			(void) percent;
 		}
 
-		static void board_contrast(GDisplay *g, uint8_t percent) {
+		static void board_contrast(GDisplay *g, gU8 percent) {
 			(void) g;
 			(void) percent;
 		}

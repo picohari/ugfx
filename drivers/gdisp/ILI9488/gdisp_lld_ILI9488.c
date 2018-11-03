@@ -46,7 +46,7 @@
 /* Driver local functions.                                                   */
 /*===========================================================================*/
 static void dummy_read(GDisplay* g) {
-  volatile uint16_t dummy;
+  volatile gU16 dummy;
   dummy = read_data(g);
   (void)dummy;
 }
@@ -221,7 +221,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	}
 
 	LLDSPEC	gColor gdisp_lld_read_color(GDisplay *g) {
-		uint16_t	data;
+		gU16	data;
 
 		data = read_data(g);
 		return gdispNative2Color(data);

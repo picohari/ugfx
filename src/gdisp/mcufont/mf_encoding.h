@@ -20,9 +20,9 @@
 /* Type used to represent characters internally. */
 #if MF_ENCODING == MF_ENCODING_ASCII
 	typedef char mf_char;
-	#define MFCHAR2UINT16(c)	((uint16_t)(uint8_t)(c))
+	#define MFCHAR2UINT16(c)	((gU16)(gU8)(c))
 #else
-	typedef uint16_t mf_char;
+	typedef gU16 mf_char;
 	#define MFCHAR2UINT16(c)	(c)
 #endif
 
@@ -32,7 +32,7 @@ typedef const char * mf_str;
 #elif MF_ENCODING == MF_ENCODING_UTF8
 typedef const char * mf_str;
 #elif MF_ENCODING == MF_ENCODING_UTF16
-typedef const uint16_t * mf_str;
+typedef const gU16 * mf_str;
 #elif MF_ENCODING == MF_ENCODING_WCHAR
 #include <stddef.h>
 typedef const wchar_t * mf_str;

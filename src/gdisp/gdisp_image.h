@@ -23,7 +23,7 @@
 /**
  * @brief	The type of image
  */
-typedef uint16_t	gdispImageType;
+typedef gU16	gdispImageType;
 	#define GDISP_IMAGE_TYPE_UNKNOWN	0
 	#define GDISP_IMAGE_TYPE_NATIVE		1
 	#define GDISP_IMAGE_TYPE_GIF		2
@@ -34,7 +34,7 @@ typedef uint16_t	gdispImageType;
 /**
  * @brief	An image error code
  */
-typedef uint16_t	gdispImageError;
+typedef gU16	gdispImageError;
 	#define GDISP_IMAGE_ERR_OK					0
 	#define GDISP_IMAGE_ERR_UNRECOVERABLE		0x8000
 	#define GDISP_IMAGE_ERR_BADFORMAT			(GDISP_IMAGE_ERR_UNRECOVERABLE+1)
@@ -48,7 +48,7 @@ typedef uint16_t	gdispImageError;
 /**
  * @brief	Image flags
  */
-typedef uint16_t	gdispImageFlags;
+typedef gU16	gdispImageFlags;
 	#define GDISP_IMAGE_FLG_TRANSPARENT			0x0001	/* The image has transparency */
 	#define GDISP_IMAGE_FLG_ANIMATED			0x0002	/* The image has animation */
 	#define GDISP_IMAGE_FLG_MULTIPAGE			0x0004	/* The image has multiple pages */
@@ -63,8 +63,8 @@ typedef struct gdispImage {
 	gCoord								width, height;		/* @< The image dimensions */
 	GFILE *								f;					/* @< The underlying GFILE */
 	#if GDISP_NEED_IMAGE_ACCOUNTING
-		uint32_t						memused;			/* @< How much RAM is currently allocated */
-		uint32_t						maxmemused;			/* @< How much RAM has been allocated (maximum) */
+		gU32						memused;			/* @< How much RAM is currently allocated */
+		gU32						maxmemused;			/* @< How much RAM has been allocated (maximum) */
 	#endif
 	const struct gdispImageHandlers *	fns;				/* @< Don't mess with this! */
 	void *								priv;				/* @< Don't mess with this! */
@@ -253,7 +253,7 @@ gDelay gdispImageNext(gdispImage *img);
  *
  * @pre		gdispImageOpen() must have returned successfully.
  */
-uint16_t gdispImageGetPaletteSize(gdispImage *img);
+gU16 gdispImageGetPaletteSize(gdispImage *img);
 
 /**
  * @brief	Get an entry in the color palette.
@@ -266,7 +266,7 @@ uint16_t gdispImageGetPaletteSize(gdispImage *img);
  *
  * @note	This function will return 0 if the index is out of bounds or if the image doesn't use a color palette.
  */
-gColor gdispImageGetPalette(gdispImage *img, uint16_t index);
+gColor gdispImageGetPalette(gdispImage *img, gU16 index);
 
 /**
  * @brief	Modify an entry in the color palette.
@@ -279,7 +279,7 @@ gColor gdispImageGetPalette(gdispImage *img, uint16_t index);
  * @pre		gdispImageOpen() must have returned successfully.
  * @note	This function will return @p gFalse if the index is out of bounds or if the image doesn't use a color palette.
  */
-gBool gdispImageAdjustPalette(gdispImage *img, uint16_t index, gColor newColor);
+gBool gdispImageAdjustPalette(gdispImage *img, gU16 index, gColor newColor);
 
 #endif /* GFX_USE_GDISP && GDISP_NEED_IMAGE */
 #endif /* _GDISP_IMAGE_H */

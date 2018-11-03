@@ -33,9 +33,9 @@ static GPTConfig gptcfg = {
   GPT_TRIGGER_NONE,				// trigger
 };
 
-static uint16_t		lastvalue;
+static gU16		lastvalue;
 
-static gBool gaudio_play_pwm_setup(uint32_t frequency, ArrayDataFormat format) {
+static gBool gaudio_play_pwm_setup(gU32 frequency, ArrayDataFormat format) {
 	if (format == ARRAY_DATA_10BITUNSIGNED)
 		pwmcfg.period = 1024;
 	else if (format == ARRAY_DATA_8BITUNSIGNED)
@@ -65,7 +65,7 @@ static void gaudio_play_pwm_stop(void) {
 	pwmStop(&PWMD1);
 }
 
-static void gaudio_play_pwm_setI(uint16_t value) {
+static void gaudio_play_pwm_setI(gU16 value) {
 	if (value != lastvalue) {
 		lastvalue = value;
 		pwmEnableChannelI(&PWMD1, 0, value);

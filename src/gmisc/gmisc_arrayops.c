@@ -9,9 +9,9 @@
 
 #if GFX_USE_GMISC && GMISC_NEED_ARRAYOPS
 
-void gmiscArrayConvert(ArrayDataFormat srcfmt, void *src, ArrayDataFormat dstfmt, void *dst, size_t cnt) {
-	uint8_t		*src8, *dst8;
-	uint16_t	*src16, *dst16;
+void gmiscArrayConvert(ArrayDataFormat srcfmt, void *src, ArrayDataFormat dstfmt, void *dst, gMemSize cnt) {
+	gU8		*src8, *dst8;
+	gU16	*src16, *dst16;
 
 	dst8 = dst;
 	dst16 = dst;

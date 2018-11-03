@@ -57,7 +57,7 @@ static const gwinVMT scopeVMT = {
 		0,						// The after-clear routine
 };
 
-GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, uint32_t physdev, uint32_t frequency) {
+GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, gU32 physdev, gU32 frequency) {
 	/* Initialise the base class GWIN */
 	if (!(gs = (GScopeObject *)_gwindowCreate(g, &gs->g, pInit, &scopeVMT, 0)))
 		return 0;
@@ -87,7 +87,7 @@ void gwinScopeWaitForTrace(GHandle gh) {
 	adcsample_t		*pa;
 	gCoord			*pc;
 	GDataBuffer		*pd;
-	uint8_t			shr;
+	gU8			shr;
 #if TRIGGER_METHOD == TRIGGER_POSITIVERAMP
 	gBool			rdytrigger;
 	int				flsamples;

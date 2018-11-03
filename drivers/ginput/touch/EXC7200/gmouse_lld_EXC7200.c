@@ -28,7 +28,7 @@ static gBool MouseInit(GMouse* m, unsigned driverinstance)
 
 static gBool read_xyz(GMouse* m, GMouseReading* pdr)
 {
-	uint8_t rxbuf[10];
+	gU8 rxbuf[10];
 	
 	// We don't support buttons. This is a regular touchscreen
 	pdr->buttons = 0;

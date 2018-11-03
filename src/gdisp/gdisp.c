@@ -196,7 +196,7 @@ static GFXINLINE void fillarea(GDisplay *g) {
 			if (gvmt(g)->writestart)
 		#endif
 		{
-			uint32_t	area;
+			gU32	area;
 
 			#if GDISP_HARDWARE_STREAM_POS
 				if ((g->flags & GDISP_FLG_SCRSTREAM)) {
@@ -205,7 +205,7 @@ static GFXINLINE void fillarea(GDisplay *g) {
 				}
 			#endif
 
-			area = (uint32_t)g->p.cx * g->p.cy;
+			area = (gU32)g->p.cx * g->p.cy;
 			gdisp_lld_write_start(g);
 			#if GDISP_HARDWARE_STREAM_POS
 				#if GDISP_HARDWARE_STREAM_POS == HARDWARE_AUTODETECT
@@ -426,9 +426,9 @@ static void vline_clip(GDisplay *g) {
 // Parameters:	x,y and x1,y1
 // Alters:		x,y x1,y1 cx,cy
 static void line_clip(GDisplay *g) {
-	int16_t dy, dx;
-	int16_t addx, addy;
-	int16_t P, diff, i;
+	gI16 dy, dx;
+	gI16 addx, addy;
+	gI16 P, diff, i;
 
 	// Is this a horizontal line (or a point)
 	if (g->p.y == g->p.y1) {
@@ -713,8 +713,8 @@ gCoord gdispGGetWidth(GDisplay *g)				{ return g->g.Width; }
 gCoord gdispGGetHeight(GDisplay *g)			{ return g->g.Height; }
 gPowermode gdispGGetPowerMode(GDisplay *g)		{ return g->g.Powermode; }
 gOrientation gdispGGetOrientation(GDisplay *g)	{ return g->g.Orientation; }
-uint8_t gdispGGetBacklight(GDisplay *g)			{ return g->g.Backlight; }
-uint8_t gdispGGetContrast(GDisplay *g)			{ return g->g.Contrast; }
+gU8 gdispGGetBacklight(GDisplay *g)			{ return g->g.Backlight; }
+gU8 gdispGGetContrast(GDisplay *g)			{ return g->g.Contrast; }
 
 void gdispGFlush(GDisplay *g) {
 	#if GDISP_HARDWARE_FLUSH
@@ -1041,13 +1041,13 @@ void gdispGClear(GDisplay *g, gColor color) {
 			if (gvmt(g)->writestart)
 		#endif
 		{
-			uint32_t	area;
+			gU32	area;
 
 			g->p.x = g->p.y = 0;
 			g->p.cx = g->g.Width;
 			g->p.cy = g->g.Height;
 			g->p.color = color;
-			area = (uint32_t)g->p.cx * g->p.cy;
+			area = (gU32)g->p.cx * g->p.cy;
 
 			gdisp_lld_write_start(g);
 			#if GDISP_HARDWARE_STREAM_POS
@@ -1428,8 +1428,8 @@ void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoor
 #if GDISP_NEED_ELLIPSE
 	void gdispGDrawEllipse(GDisplay *g, gCoord x, gCoord y, gCoord a, gCoord b, gColor color) {
 		gCoord	dx, dy;
-		int32_t	a2, b2;
-		int32_t	err, e2;
+		gI32	a2, b2;
+		gI32	err, e2;
 
 		MUTEX_ENTER(g);
 
@@ -1467,8 +1467,8 @@ void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoor
 #if GDISP_NEED_ELLIPSE
 	void gdispGFillEllipse(GDisplay *g, gCoord x, gCoord y, gCoord a, gCoord b, gColor color) {
 		gCoord	dx, dy;
-		int32_t	a2, b2;
-		int32_t	err, e2;
+		gI32	a2, b2;
+		gI32	err, e2;
 
 		MUTEX_ENTER(g);
 
@@ -1502,7 +1502,7 @@ void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoor
 #endif
 
 #if GDISP_NEED_ARCSECTORS
-	void gdispGDrawArcSectors(GDisplay *g, gCoord x, gCoord y, gCoord radius, uint8_t sectors, gColor color) {
+	void gdispGDrawArcSectors(GDisplay *g, gCoord x, gCoord y, gCoord radius, gU8 sectors, gColor color) {
 		gCoord a, b, P;
 
 		MUTEX_ENTER(g);
@@ -1546,7 +1546,7 @@ void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoor
 #endif
 
 #if GDISP_NEED_ARCSECTORS
-	void gdispGFillArcSectors(GDisplay *g, gCoord x, gCoord y, gCoord radius, uint8_t sectors, gColor color) {
+	void gdispGFillArcSectors(GDisplay *g, gCoord x, gCoord y, gCoord radius, gU8 sectors, gColor color) {
 		gCoord a, b, P;
 
 		MUTEX_ENTER(g);
@@ -1733,7 +1733,7 @@ void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoor
 
 	void gdispGDrawArc(GDisplay *g, gCoord x, gCoord y, gCoord radius, gCoord start, gCoord end, gColor color) {
 		gCoord a, b, P, sedge, eedge;
-		uint8_t	full, sbit, ebit, tbit;
+		gU8	full, sbit, ebit, tbit;
 
 		// Normalize the angles
 		if (start < 0)
@@ -2036,7 +2036,7 @@ void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoor
 		gCoord a, b, P;
 		gCoord	sy, ey;
 		fixed	sxa, sxb, sxd, exa, exb, exd;
-		uint8_t	qtr;
+		gU8	qtr;
 
 		MUTEX_ENTER(g);
 
@@ -3099,7 +3099,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		}
 	}
 
-	static int32_t rounding_div(const int32_t n, const int32_t d)
+	static gI32 rounding_div(const gI32 n, const gI32 d)
 	{
 		if ((n < 0) != (d < 0))
 			return (n - d/2) / d;
@@ -3112,7 +3112,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	static void get_normal_vector(gCoord dx, gCoord dy, gCoord norm, gCoord *nx, gCoord *ny)
 	{
 		gCoord absDx, absDy;
-		int32_t len_n, len, len2;
+		gI32 len_n, len, len2;
 		char maxSteps;
 
 		/* Take the absolute value of dx and dy, multiplied by 2 for precision */
@@ -3259,7 +3259,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	#include "mcufont/mcufont.h"
 
 	#if GDISP_NEED_ANTIALIAS && GDISP_HARDWARE_PIXELREAD
-		static void drawcharline(int16_t x, int16_t y, uint8_t count, uint8_t alpha, void *state) {
+		static void drawcharline(gI16 x, gI16 y, gU8 count, gU8 alpha, void *state) {
 			#define GD	((GDisplay *)state)
 			if (y < GD->t.clipy0 || y >= GD->t.clipy1 || x+count <= GD->t.clipx0 || x >= GD->t.clipx1)
 				return;
@@ -3282,7 +3282,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 			#undef GD
 		}
 	#else
-		static void drawcharline(int16_t x, int16_t y, uint8_t count, uint8_t alpha, void *state) {
+		static void drawcharline(gI16 x, gI16 y, gU8 count, gU8 alpha, void *state) {
 			#define GD	((GDisplay *)state)
 			if (y < GD->t.clipy0 || y >= GD->t.clipy1 || x+count <= GD->t.clipx0 || x >= GD->t.clipx1)
 				return;
@@ -3301,7 +3301,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	#endif
 
 	#if GDISP_NEED_ANTIALIAS
-		static void fillcharline(int16_t x, int16_t y, uint8_t count, uint8_t alpha, void *state) {
+		static void fillcharline(gI16 x, gI16 y, gU8 count, gU8 alpha, void *state) {
 			#define GD	((GDisplay *)state)
 			if (y < GD->t.clipy0 || y >= GD->t.clipy1 || x+count <= GD->t.clipx0 || x >= GD->t.clipx1)
 				return;
@@ -3325,14 +3325,14 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	#endif
 
 	/* Callback to render characters. */
-	static uint8_t drawcharglyph(int16_t x, int16_t y, mf_char ch, void *state) {
+	static gU8 drawcharglyph(gI16 x, gI16 y, mf_char ch, void *state) {
 		#define GD	((GDisplay *)state)
 			return mf_render_character(GD->t.font, x, y, ch, drawcharline, state);
 		#undef GD
 	}
 
 	/* Callback to render characters. */
-	static uint8_t fillcharglyph(int16_t x, int16_t y, mf_char ch, void *state) {
+	static gU8 fillcharglyph(gI16 x, gI16 y, mf_char ch, void *state) {
 		#define GD	((GDisplay *)state)
 			return mf_render_character(GD->t.font, x, y, ch, fillcharline, state);
 		#undef GD
@@ -3340,21 +3340,21 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 	/* Callback to render string boxes with word wrap. */
 	#if GDISP_NEED_TEXT_WORDWRAP
-		static gBool mf_countline_callback(mf_str line, uint16_t count, void *state) {
+		static gBool mf_countline_callback(mf_str line, gU16 count, void *state) {
 			(void) line;
 			(void) count;
 
 			((gCoord*)state)[0]++;
 			return gTrue;
 		}
-		static gBool mf_drawline_callback(mf_str line, uint16_t count, void *state) {
+		static gBool mf_drawline_callback(mf_str line, gU16 count, void *state) {
 			#define GD	((GDisplay *)state)
 				mf_render_aligned(GD->t.font, GD->t.wrapx, GD->t.wrapy, GD->t.lrj, line, count, drawcharglyph, state);
 				GD->t.wrapy += GD->t.font->line_height;
 			#undef GD
 			return gTrue;
 		}
-		static gBool mf_fillline_callback(mf_str line, uint16_t count, void *state) {
+		static gBool mf_fillline_callback(mf_str line, gU16 count, void *state) {
 			#define GD	((GDisplay *)state)
 				mf_render_aligned(GD->t.font, GD->t.wrapx, GD->t.wrapy, GD->t.lrj, line, count, fillcharglyph, state);
 				GD->t.wrapy += GD->t.font->line_height;
@@ -3363,7 +3363,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		}
 	#endif
 
-	void gdispGDrawChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, gFont font, gColor color) {
+	void gdispGDrawChar(GDisplay *g, gCoord x, gCoord y, gU16 c, gFont font, gColor color) {
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
@@ -3378,7 +3378,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		MUTEX_EXIT(g);
 	}
 
-	void gdispGFillChar(GDisplay *g, gCoord x, gCoord y, uint16_t c, gFont font, gColor color, gColor bgcolor) {
+	void gdispGFillChar(GDisplay *g, gCoord x, gCoord y, gU16 c, gFont font, gColor color, gColor bgcolor) {
 		if (!font)
 			return;
 		MUTEX_ENTER(g);
@@ -3632,7 +3632,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		return mf_character_width(font, c);
 	}
 
-	gCoord gdispGetStringWidthCount(const char* str, gFont font, uint16_t count) {
+	gCoord gdispGetStringWidthCount(const char* str, gFont font, gU16 count) {
 		if (!str || !font)
 			return 0;
 
@@ -3652,14 +3652,14 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 #if GDISP_PIXELFORMAT == GDISP_PIXELFORMAT_RGB888
 	// Special alpha hacked version.
 	// Note: this will still work with real RGB888
-	gColor gdispBlendColor(gColor fg, gColor bg, uint8_t alpha)
+	gColor gdispBlendColor(gColor fg, gColor bg, gU8 alpha)
 	{
-		uint32_t ratio;
-		uint32_t a1, r1, g1, b1;
-		uint32_t a2, r2, g2, b2;
+		gU32 ratio;
+		gU32 a1, r1, g1, b1;
+		gU32 a2, r2, g2, b2;
 
 		// Ratio - add one to get 1 to 256
-		ratio = (uint32_t)alpha + 1;		// 0 to 1 in 0.8 fixed point
+		ratio = (gU32)alpha + 1;		// 0 to 1 in 0.8 fixed point
 
 		// Calculate the pre-multiplied values of r, g, b for the fg color
 		a1 = ALPHA_OF(fg);					// 0 to 1 in 0.8 fixed point
@@ -3699,11 +3699,11 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		return ARGB2COLOR(a1, r1, g1, b1);
 	}
 #else
-	gColor gdispBlendColor(gColor fg, gColor bg, uint8_t alpha)
+	gColor gdispBlendColor(gColor fg, gColor bg, gU8 alpha)
 	{
-		uint16_t fg_ratio = alpha + 1;
-		uint16_t bg_ratio = 256 - alpha;
-		uint16_t r, g, b;
+		gU16 fg_ratio = alpha + 1;
+		gU16 bg_ratio = 256 - alpha;
+		gU16 r, g, b;
 
 		r = RED_OF(fg) * fg_ratio;
 		g = GREEN_OF(fg) * fg_ratio;
@@ -3722,7 +3722,7 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 #endif
 
 gColor gdispContrastColor(gColor color) {
-	uint16_t r, g, b;
+	gU16 r, g, b;
 
 	r = RED_OF(color) > 128 ? 0 : 255;
 	g = GREEN_OF(color) > 128 ? 0 : 255;

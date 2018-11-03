@@ -18,8 +18,8 @@
 static void ChibiOSBFSClose(GFILE *f);
 static int ChibiOSBFSRead(GFILE *f, void *buf, int size);
 static int ChibiOSBFSWrite(GFILE *f, const void *buf, int size);
-static gBool ChibiOSBFSSetpos(GFILE *f, long int pos);
-static long int ChibiOSBFSGetsize(GFILE *f);
+static gBool ChibiOSBFSSetpos(GFILE *f, gFileSize pos);
+static gFileSize ChibiOSBFSGetsize(GFILE *f);
 static gBool ChibiOSBFSEof(GFILE *f);
 
 static const GFILEVMT FsCHIBIOSVMT = {
@@ -52,11 +52,11 @@ static int ChibiOSBFSRead(GFILE *f, void *buf, int size) {
 static int ChibiOSBFSWrite(GFILE *f, const void *buf, int size) {
 	return fileStreamWrite(((FileStream *)f->obj), (uint8_t *)buf, size);
 }
-static gBool ChibiOSBFSSetpos(GFILE *f, long int pos) {
+static gBool ChibiOSBFSSetpos(GFILE *f, gFileSize pos) {
 	fileStreamSeek(((FileStream *)f->obj), pos);
 	return gTrue;
 }
-static long int ChibiOSBFSGetsize(GFILE *f) { return fileStreamGetSize(((FileStream *)f->obj)); }
+static gFileSize ChibiOSBFSGetsize(GFILE *f) { return (gFileSize)fileStreamGetSize(((FileStream *)f->obj)); }
 static gBool ChibiOSBFSEof(GFILE *f) { return f->pos >= fileStreamGetSize(((FileStream *)f->obj)); }
 
 GFILE *		gfileOpenChibiOSFileStream(void *FileStreamPtr, const char *mode) {

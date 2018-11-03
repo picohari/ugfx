@@ -36,7 +36,7 @@ typedef struct GEventMouse_t {
 	gCoord			x, y, z;						// The position of the mouse.
 													//		- For touch devices, Z is the current pressure if supported (values are device specific)
 													//		- For mice, Z is the 3rd dimension if supported (values are device specific)
-	uint16_t		buttons;						// A bit is set if the button is down or a meta event has occurred.
+	gU16		buttons;						// A bit is set if the button is down or a meta event has occurred.
 		#define GINPUT_MOUSE_BTN_MASK		0x000F		// The "button is down" mask
 		#define GINPUT_MOUSE_BTN_LEFT		0x0001		// The left mouse button is currently down
 		#define GINPUT_MOUSE_BTN_RIGHT		0x0002		// The right mouse button is currently down
@@ -145,7 +145,7 @@ gBool ginputGetMouseStatus(unsigned instance, GEventMouse *pmouse);
  * @return	The calibration error squared if calibration fails, or 0 on success or if the driver dosen't need calibration.
  * @note	An invalid instance will also return 0.
  */
-uint32_t ginputCalibrateMouse(unsigned instance);
+gU32 ginputCalibrateMouse(unsigned instance);
 
 /**
  * @brief   Load a set of mouse calibration data
@@ -159,7 +159,7 @@ uint32_t ginputCalibrateMouse(unsigned instance);
  *          called if GINPUT_TOUCH_USER_CALIBRATION_LOAD has been set to GFXON in the
  *          users gfxconf.h file.
  */
-gBool LoadMouseCalibration(unsigned instance, void *data, size_t sz);
+gBool LoadMouseCalibration(unsigned instance, void *data, gMemSize sz);
 
 /**
  * @brief   Save a set of mouse calibration data
@@ -173,7 +173,7 @@ gBool LoadMouseCalibration(unsigned instance, void *data, size_t sz);
  *          called if GINPUT_TOUCH_USER_CALIBRATION_SAVE has been set to GFXON in the
  *          users gfxconf.h file.
  */
-gBool SaveMouseCalibration(unsigned instance, const void *data, size_t sz);
+gBool SaveMouseCalibration(unsigned instance, const void *data, gMemSize sz);
 
 #endif /* GINPUT_NEED_MOUSE */
 

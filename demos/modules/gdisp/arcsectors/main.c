@@ -31,7 +31,7 @@
 
 int main(void) {
 	gCoord		width, height, r1, r2, cx, cy;
-	uint8_t		sectors;
+	gU8		sectors;
 
     // Initialize and clear the display
     gfxInit();

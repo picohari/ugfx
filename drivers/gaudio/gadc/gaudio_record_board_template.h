@@ -19,7 +19,7 @@
 #define	GAUDIO_RECORD_MICROPHONE					0
 
 #ifdef GAUDIO_RECORD_LLD_IMPLEMENTATION
-	static uint32_t gaudio_gadc_physdevs[GAUDIO_RECORD_NUM_CHANNELS] = {
+	static gU32 gaudio_gadc_physdevs[GAUDIO_RECORD_NUM_CHANNELS] = {
 			GADC_PHYSDEV_MICROPHONE,
 			};
 #endif

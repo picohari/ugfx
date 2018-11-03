@@ -66,7 +66,7 @@ const NColorScheme schemeDefault2 = {
   .statusBarText = HTML2COLOR(0x000000)
 };
 
-const char *tsCalibRead(uint16_t instance) {
+const char *tsCalibRead(gU16 instance) {
   // This will perform a on-spot calibration
   // Unless you read and add the co-efficients here
   (void) instance;

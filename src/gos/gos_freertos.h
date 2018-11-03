@@ -26,9 +26,9 @@
 
 #define gDelayNone			0
 #define gDelayForever		((gDelay)-1)
-typedef uint32_t			gDelay;
+typedef gU32			gDelay;
 typedef portTickType		gTicks;
-typedef int32_t				gSemcount;
+typedef gI32				gSemcount;
 typedef void				gThreadreturn;
 typedef portBASE_TYPE		gThreadpriority;
 
@@ -38,7 +38,7 @@ typedef portBASE_TYPE		gThreadpriority;
 #define gThreadpriorityHigh		configMAX_PRIORITIES-1
 
 /* FreeRTOS will allocate the stack when creating the thread */
-#define DECLARE_THREAD_STACK(name, sz)	uint8_t name[1]
+#define DECLARE_THREAD_STACK(name, sz)	gU8 name[1]
 #define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
 #define THREAD_RETURN(retval)
 
@@ -65,7 +65,7 @@ void gfxMutexInit(gfxMutex* s);
 #define gfxMutexEnter(pmutex)		xSemaphoreTake(*(pmutex),portMAX_DELAY)
 #define gfxMutexExit(pmutex)		xSemaphoreGive(*(pmutex))
 
-void *gfxRealloc(void *ptr, size_t oldsz, size_t newsz);
+void *gfxRealloc(void *ptr, gMemSize oldsz, gMemSize newsz);
 void gfxSleepMilliseconds(gDelay ms);
 void gfxSleepMicroseconds(gDelay ms);
 
@@ -75,7 +75,7 @@ gBool gfxSemWait(gfxSem* psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem* psem);
 void gfxSemSignal(gfxSem* psem);
 void gfxSemSignalI(gfxSem* psem);
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 
 #define gfxThreadMe()				xTaskGetCurrentTaskHandle()
 #if INCLUDE_eTaskGetState == 1

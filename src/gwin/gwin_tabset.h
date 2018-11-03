@@ -76,7 +76,7 @@ typedef struct GTabsetObject {
  *
  * @api
  */
-GHandle gwinGTabsetCreate(GDisplay *g, GTabsetObject *fo, GWidgetInit *pInit, uint32_t flags);
+GHandle gwinGTabsetCreate(GDisplay *g, GTabsetObject *fo, GWidgetInit *pInit, gU32 flags);
 #define gwinTabsetCreate(fo, pInit, flags)	gwinGTabsetCreate(GDISP, fo, pInit, flags);
 
 /**

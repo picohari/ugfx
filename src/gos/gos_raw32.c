@@ -87,7 +87,7 @@ void gfxHalt(const char *msg) {
 		fprintf(stderr, "%s\n", msg);
 		ExitProcess(1);
 	#else
-		volatile uint32_t	dummy;
+		volatile gU32	dummy;
 		(void)				msg;
 
 		while(1)
@@ -99,7 +99,7 @@ void gfxExit(void) {
 	#if defined(WIN32)
 		ExitProcess(0);
 	#else
-		volatile uint32_t	dummy;
+		volatile gU32	dummy;
 
 		while(1)
 			dummy++;

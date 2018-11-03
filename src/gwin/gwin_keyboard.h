@@ -59,9 +59,9 @@ typedef struct GKeyboardObject {
 	const char				**keyset;
 	gCoord					keyx, keyy;
 	gCoord					keycx, keycy;
-	uint8_t					lastkeyrow, lastkeycol;
-	uint8_t					keyrow, keycol;
-	uint32_t				key;
+	gU8					lastkeyrow, lastkeycol;
+	gU8					keyrow, keycol;
+	gU32				key;
 } GKeyboardObject;
 
 /**

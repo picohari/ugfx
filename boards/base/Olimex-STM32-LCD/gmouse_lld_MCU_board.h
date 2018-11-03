@@ -75,7 +75,7 @@ static gBool init_board(GMouse *m, unsigned driverinstance) {
 
 static gBool read_xyz(GMouse *m, GMouseReading *prd) {
 	adcsample_t samples[ADC_NUM_CHANNELS * ADC_BUF_DEPTH];
-	uint16_t val1, val2;
+	gU16 val1, val2;
 	(void)		m;
 
 	// No buttons and assume touch off

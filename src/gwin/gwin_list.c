@@ -179,7 +179,7 @@ static void sendListEvent(GWidgetObject *gw, int item) {
 
 #if GINPUT_NEED_TOGGLE
 	// a toggle-on has occurred
-	static void ListToggleOn(GWidgetObject *gw, uint16_t role) {
+	static void ListToggleOn(GWidgetObject *gw, gU16 role) {
 		const gfxQueueASyncItem	*	qi;
 		const gfxQueueASyncItem	*	qix;
 		int							i;
@@ -236,14 +236,14 @@ static void sendListEvent(GWidgetObject *gw, int item) {
 		}
 	}
 
-	static void ListToggleAssign(GWidgetObject *gw, uint16_t role, uint16_t instance) {
+	static void ListToggleAssign(GWidgetObject *gw, gU16 role, gU16 instance) {
 		if (role)
 			gw2obj->t_up = instance;
 		else
 			gw2obj->t_dn = instance;
 	}
 
-	static uint16_t ListToggleGet(GWidgetObject *gw, uint16_t role) {
+	static gU16 ListToggleGet(GWidgetObject *gw, gU16 role) {
 		return role ? gw2obj->t_up : gw2obj->t_dn;
 	}
 #endif
@@ -356,7 +356,7 @@ int gwinListAddItem(GHandle gh, const char* text, gBool useAlloc) {
 		return -1;
 
 	if (useAlloc) {
-		size_t len = strlen(text)+1;
+		gMemSize len = strlen(text)+1;
 		if (!(newItem = gfxAlloc(sizeof(ListItem) + len)))
 			return -1;
 
@@ -409,7 +409,7 @@ void gwinListItemSetText(GHandle gh, int item, const char* text, gBool useAlloc)
 		
 			// create the new object
 			if (useAlloc) {
-				size_t len = strlen(text)+1;
+				gMemSize len = strlen(text)+1;
 				if (!(newItem = gfxAlloc(sizeof(ListItem) + len)))
 					return;
 		
@@ -498,7 +498,7 @@ int gwinListGetSelected(GHandle gh) {
 	return -1;
 }
 
-void gwinListItemSetParam(GHandle gh, int item, uint16_t param) {
+void gwinListItemSetParam(GHandle gh, int item, gU16 param) {
 	const gfxQueueASyncItem	*	qi;
 	int							i;
 
@@ -559,7 +559,7 @@ void gwinListItemDelete(GHandle gh, int item) {
 	}
 }
 
-uint16_t gwinListItemGetParam(GHandle gh, int item) {
+gU16 gwinListItemGetParam(GHandle gh, int item) {
 	const gfxQueueASyncItem	*	qi;
 	int							i;
 

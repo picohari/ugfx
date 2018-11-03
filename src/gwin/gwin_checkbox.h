@@ -57,7 +57,7 @@ typedef struct GEventGWinCheckbox {
 typedef struct GCheckboxObject {
 	GWidgetObject			w;
 	#if GINPUT_NEED_TOGGLE
-		uint16_t			toggle;
+		gU16			toggle;
 	#endif
 } GCheckboxObject;
 

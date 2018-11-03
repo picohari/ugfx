@@ -35,7 +35,7 @@ static GFXINLINE void release_bus(GMouse* m) {
 
 }
 
-static GFXINLINE uint16_t read_value(GMouse* m, uint16_t port) {
+static GFXINLINE gU16 read_value(GMouse* m, gU16 port) {
 
 }
 

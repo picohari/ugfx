@@ -25,9 +25,9 @@
 
 /*------------------ Load the board file ------------------*/
 typedef struct UC8173Lut {
-	uint8_t const *lutVCOM;				// 32 bytes
-	uint8_t const *lutFW;				// 512 bytes
-	uint8_t const *lutFT;				// 128 bytes
+	gU8 const *lutVCOM;				// 32 bytes
+	gU8 const *lutFW;				// 512 bytes
+	gU8 const *lutFT;				// 128 bytes
 	gBool	regal;
 	} UC8173Lut;
 
@@ -115,7 +115,7 @@ typedef struct UC8173_Private {
 } UC8173_Private;
 
 #if !UC8173_INIT_REAL_LUT
-	static uint8_t const UC8173_LUT_None[] = {
+	static gU8 const UC8173_LUT_None[] = {
 		0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
 		0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
 		0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
@@ -234,7 +234,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 		write_data(g, UC8173_VCOM_VOLTAGEBYTE);			// was 0x12 in example code = -1.0V
 	#elif UC8173_CAN_READ
 		{
-			uint8_t	vc;
+			gU8	vc;
 				
 			write_cmd(g, VV);
 			vc = read_data(g);
@@ -340,12 +340,12 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 		// Setup the window
 		// Datasheet says x,y,w,h but in practice it needs to be x,y,w-1,h-1
 		write_cmd(g, DTMW);
-		write_data(g, (uint8_t)((priv->fb.fa0.x >> 0) & 0xFF));
-		write_data(g, (uint8_t)((priv->fb.fa0.y >> 8) & 0x03));
-		write_data(g, (uint8_t)((priv->fb.fa0.y >> 0) & 0xFF));
-		write_data(g, (uint8_t)(((cx-1) >> 0) & 0xFF));
-		write_data(g, (uint8_t)(((cy-1) >> 8) & 0x03));
-		write_data(g, (uint8_t)(((cy-1) >> 0) & 0xFF));
+		write_data(g, (gU8)((priv->fb.fa0.x >> 0) & 0xFF));
+		write_data(g, (gU8)((priv->fb.fa0.y >> 8) & 0x03));
+		write_data(g, (gU8)((priv->fb.fa0.y >> 0) & 0xFF));
+		write_data(g, (gU8)(((cx-1) >> 0) & 0xFF));
+		write_data(g, (gU8)(((cy-1) >> 8) & 0x03));
+		write_data(g, (gU8)(((cy-1) >> 0) & 0xFF));
 
 		// Transfer the buffer
 		#if GDISP_LLD_PIXELFORMAT == GDISP_PIXELFORMAT_MONO
@@ -357,7 +357,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 		#endif
 		dx = (cx+FB_TYPE_PIXELS-1)/FB_TYPE_PIXELS * (LLDCOLOR_TYPE_BITS/8);
 		for (fb = FB_ADDR(&priv->fb, 0, priv->fb.fa0.x, priv->fb.fa0.y), dy = cy; dy; dy--, fb += FB_LINE_TYPES)
-			write_data_burst(g, (uint8_t *)fb, dx);
+			write_data_burst(g, (gU8 *)fb, dx);
 
 		// Power-up the DC/DC converter to update the display panel
 		write_cmd(g, PON);
@@ -367,12 +367,12 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 		// Datasheet says x,y,w,h but in practice it needs to be x,y,w-1,h-1
 		write_cmd(g, DRF);		// data: Partial Scan = 0x10, REGAL = 0x08, VCOM_DoNothing = 0x04 (GC4/A2 = 0x00, GU4 = 0x08)
 		write_data(g, (priv->lut->regal ? 0x08 : 0x00));
-		write_data(g, (uint8_t)((priv->fb.fa0.x >> 0) & 0xFF));
-		write_data(g, (uint8_t)((priv->fb.fa0.y >> 8) & 0x03));
-		write_data(g, (uint8_t)((priv->fb.fa0.y >> 0) & 0xFF));
-		write_data(g, (uint8_t)(((cx-1) >> 0) & 0xFF));
-		write_data(g, (uint8_t)(((cy-1) >> 8) & 0x03));
-		write_data(g, (uint8_t)(((cy-1) >> 0) & 0xFF));
+		write_data(g, (gU8)((priv->fb.fa0.x >> 0) & 0xFF));
+		write_data(g, (gU8)((priv->fb.fa0.y >> 8) & 0x03));
+		write_data(g, (gU8)((priv->fb.fa0.y >> 0) & 0xFF));
+		write_data(g, (gU8)(((cx-1) >> 0) & 0xFF));
+		write_data(g, (gU8)(((cy-1) >> 8) & 0x03));
+		write_data(g, (gU8)(((cy-1) >> 0) & 0xFF));
 		while (!getpin_busy(g));
 
 		// Power-down the DC/DC converter

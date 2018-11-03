@@ -43,7 +43,7 @@
 #include "drivers/gdisp/ILI9225/ili9225.h"
 
 // Some common routines and macros
-#define dummy_read(g)				{ volatile uint16_t dummy; dummy = read_data(g); (void) dummy; }
+#define dummy_read(g)				{ volatile gU16 dummy; dummy = read_data(g); (void) dummy; }
 #define write_reg(g, reg, data)		{ write_cmd(g, reg); write_data(g, data); }
 
 // Serial write data for fast fill.

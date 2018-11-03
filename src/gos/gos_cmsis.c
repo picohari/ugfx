@@ -88,7 +88,7 @@ void gfxSemSignalI(gfxSem* psem)
 	}
 }
 
-gThread gfxThreadCreate(void* stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)
+gThread gfxThreadCreate(void* stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)
 {	
 	osThreadDef_t def;
 

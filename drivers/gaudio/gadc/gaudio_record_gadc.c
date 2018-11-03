@@ -30,7 +30,7 @@ static void gadcCallbackI(void) {
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-gBool gaudio_record_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
+gBool gaudio_record_lld_init(gU16 channel, gU32 frequency, ArrayDataFormat format) {
 	/* Check the parameters */
 	if (channel >= GAUDIO_RECORD_NUM_CHANNELS || frequency > GAUDIO_RECORD_MAX_SAMPLE_FREQUENCY || format != GAUDIO_RECORD_FORMAT1)
 		return gFalse;

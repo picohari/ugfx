@@ -43,7 +43,7 @@
 /**
   * @brief  FMC SDRAM Bank address
   */   
-#define SDRAM_BANK_ADDR     ((uint32_t)0xD0000000)
+#define SDRAM_BANK_ADDR     ((gU32)0xD0000000)
   
 /**
   * @brief  FMC SDRAM Memory Width
@@ -72,22 +72,22 @@
 /**
   * @brief  FMC SDRAM Mode definition register defines
   */
-#define SDRAM_MODEREG_BURST_LENGTH_1             ((uint16_t)0x0000)
-#define SDRAM_MODEREG_BURST_LENGTH_2             ((uint16_t)0x0001)
-#define SDRAM_MODEREG_BURST_LENGTH_4             ((uint16_t)0x0002)
-#define SDRAM_MODEREG_BURST_LENGTH_8             ((uint16_t)0x0004)
-#define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL      ((uint16_t)0x0000)
-#define SDRAM_MODEREG_BURST_TYPE_INTERLEAVED     ((uint16_t)0x0008)
-#define SDRAM_MODEREG_CAS_LATENCY_2              ((uint16_t)0x0020)
-#define SDRAM_MODEREG_CAS_LATENCY_3              ((uint16_t)0x0030)
-#define SDRAM_MODEREG_OPERATING_MODE_STANDARD    ((uint16_t)0x0000)
-#define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((uint16_t)0x0000) 
-#define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((uint16_t)0x0200)      
+#define SDRAM_MODEREG_BURST_LENGTH_1             ((gU16)0x0000)
+#define SDRAM_MODEREG_BURST_LENGTH_2             ((gU16)0x0001)
+#define SDRAM_MODEREG_BURST_LENGTH_4             ((gU16)0x0002)
+#define SDRAM_MODEREG_BURST_LENGTH_8             ((gU16)0x0004)
+#define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL      ((gU16)0x0000)
+#define SDRAM_MODEREG_BURST_TYPE_INTERLEAVED     ((gU16)0x0008)
+#define SDRAM_MODEREG_CAS_LATENCY_2              ((gU16)0x0020)
+#define SDRAM_MODEREG_CAS_LATENCY_3              ((gU16)0x0030)
+#define SDRAM_MODEREG_OPERATING_MODE_STANDARD    ((gU16)0x0000)
+#define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((gU16)0x0000) 
+#define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((gU16)0x0200)      
 
 void  SDRAM_Init(void);
 void  SDRAM_InitSequence(void);
-void  SDRAM_WriteBuffer(uint32_t* pBuffer, uint32_t uwWriteAddress, uint32_t uwBufferSize);
-void  SDRAM_ReadBuffer(uint32_t* pBuffer, uint32_t uwReadAddress, uint32_t uwBufferSize);
+void  SDRAM_WriteBuffer(gU32* pBuffer, gU32 uwWriteAddress, gU32 uwBufferSize);
+void  SDRAM_ReadBuffer(gU32* pBuffer, gU32 uwReadAddress, gU32 uwBufferSize);
 
 #ifdef __cplusplus
 }

@@ -54,7 +54,7 @@ typedef GEventGWin		GEventGWinButton;
 typedef struct GButtonObject {
 	GWidgetObject		w;
 	#if GINPUT_NEED_TOGGLE
-		uint16_t		toggle;
+		gU16		toggle;
 	#endif
 } GButtonObject;
 

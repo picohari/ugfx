@@ -34,15 +34,15 @@ typedef struct GConsoleObject {
 	gCoord			cx, cy;			// Cursor position
 
 	#if GWIN_CONSOLE_ESCSEQ
-		uint8_t		startattr;		// ANSI-like escape sequences
-		uint8_t		currattr;
-		uint16_t	escstate;
+		gU8		startattr;		// ANSI-like escape sequences
+		gU8		currattr;
+		gU16	escstate;
 	#endif
 
 	#if GWIN_CONSOLE_USE_HISTORY
 		char *		buffer;			// buffer to store console content
-		size_t		bufsize;		// size of buffer
-		size_t		bufpos;			// the position of the next char
+		gMemSize	bufsize;		// size of buffer
+		gMemSize	bufpos;			// the position of the next char
 	#endif
 
 	#if GFX_USE_OS_CHIBIOS && GWIN_CONSOLE_USE_BASESTREAM
@@ -141,7 +141,7 @@ void gwinPutString(GHandle gh, const char *str);
  *
  * @api
  */
-void gwinPutCharArray(GHandle gh, const char *str, size_t n);
+void gwinPutCharArray(GHandle gh, const char *str, gMemSize n);
 
 /**
  * @brief   Print a formatted string at the cursor position in the window. It will wrap lines as required.

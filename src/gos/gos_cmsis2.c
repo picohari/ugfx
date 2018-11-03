@@ -76,7 +76,7 @@ gBool gfxSemWait(gfxSem* psem, gDelay ms)
 	return gFalse;
 }
 
-gThread gfxThreadCreate(void* stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)
+gThread gfxThreadCreate(void* stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)
 {
 	osThreadAttr_t def;
 

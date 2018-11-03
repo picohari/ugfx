@@ -24,7 +24,7 @@
 
 typedef struct GMouseReading {
 	gCoord		x, y, z;
-	uint16_t	buttons;
+	gU16	buttons;
 	} GMouseReading;
 
 #if !GINPUT_TOUCH_NOCALIBRATE
@@ -41,7 +41,7 @@ typedef struct GMouseReading {
 typedef struct GMouse {
 	GDriver								d;					// The driver overheads and vmt
 	GMouseReading						r;					// The current position and state
-	uint16_t							flags;				// Flags
+	gU16							flags;				// Flags
 			#define GMOUSE_FLG_CLICK_TIMER		0x0001				// Currently timing a click
 			#define GMOUSE_FLG_INDELTA			0x0002				// Currently in a up/down transition test
 			#define GMOUSE_FLG_CLIP				0x0004				// Clip reading to the display
@@ -88,8 +88,8 @@ typedef struct GMouseVMT {
 	gBool	(*init)(GMouse *m, unsigned driverinstance);	// Required
 	void	(*deinit)(GMouse *m);							// Optional
 	gBool	(*get)(GMouse *m, GMouseReading *prd);			// Required
-	void	(*calsave)(GMouse *m, const void *buf, size_t sz);	// Optional
-	gBool	(*calload)(GMouse *m, void *buf, size_t sz);	// Optional
+	void	(*calsave)(GMouse *m, const void *buf, gMemSize sz);	// Optional
+	gBool	(*calload)(GMouse *m, void *buf, gMemSize sz);	// Optional
 } GMouseVMT;
 
 #define gmvmt(m)		((const GMouseVMT const *)((m)->d.vmt))

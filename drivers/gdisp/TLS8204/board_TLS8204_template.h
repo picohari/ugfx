@@ -21,7 +21,7 @@ static GFXINLINE void setpin_reset(GDisplay *g, gBool state) {
 	(void) state;
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
 	(void) g;
 	(void) percent;
 }
@@ -34,12 +34,12 @@ static GFXINLINE void release_bus(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE void write_cmd(GDisplay *g, uint8_t cmd) {
+static GFXINLINE void write_cmd(GDisplay *g, gU8 cmd) {
 	(void) g;
 	(void) cmd;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint8_t* data, uint16_t length) {
+static GFXINLINE void write_data(GDisplay *g, gU8* data, gU16 length) {
 	(void) g;
 	(void) data;
 	(void) length;

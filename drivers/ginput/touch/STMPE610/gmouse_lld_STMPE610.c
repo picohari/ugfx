@@ -103,7 +103,7 @@ static gBool read_xyz(GMouse* m, GMouseReading* pdr)
 	#if GMOUSE_STMPE610_TEST_MODE
 		static GMouseReading n;
 	#endif
-	uint8_t		status;
+	gU8		status;
 
 	// Button information will be regenerated
 	pdr->buttons = 0;

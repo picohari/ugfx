@@ -23,8 +23,8 @@
 /**
  * Helper Routines Needed
  */
-void *gdispImageAlloc(gdispImage *img, size_t sz);
-void gdispImageFree(gdispImage *img, void *ptr, size_t sz);
+void *gdispImageAlloc(gdispImage *img, gMemSize sz);
+void gdispImageFree(gdispImage *img, void *ptr, gMemSize sz);
 
 typedef struct gdispImagePrivate_NATIVE {
 	gPixel		*frame0cache;
@@ -44,7 +44,7 @@ void gdispImageClose_NATIVE(gdispImage *img) {
 }
 
 gdispImageError gdispImageOpen_NATIVE(gdispImage *img) {
-	uint8_t		hdr[HEADER_SIZE_NATIVE];
+	gU8		hdr[HEADER_SIZE_NATIVE];
 
 	/* Read the 8 byte header */
 	if (gfileRead(img->f, hdr, 8) != 8)
@@ -58,8 +58,8 @@ gdispImageError gdispImageOpen_NATIVE(gdispImage *img) {
 
 	/* We know we are a native format image */
 	img->flags = 0;
-	img->width = (((uint16_t)hdr[2])<<8) | (hdr[3]);
-	img->height = (((uint16_t)hdr[4])<<8) | (hdr[5]);
+	img->width = (((gU16)hdr[2])<<8) | (hdr[3]);
+	img->height = (((gU16)hdr[4])<<8) | (hdr[5]);
 	if (img->width < 1 || img->height < 1)
 		return GDISP_IMAGE_ERR_BADDATA;
 	if (!(img->priv = gdispImageAlloc(img, sizeof(gdispImagePrivate_NATIVE))))
@@ -71,7 +71,7 @@ gdispImageError gdispImageOpen_NATIVE(gdispImage *img) {
 }
 
 gdispImageError gdispImageCache_NATIVE(gdispImage *img) {
-	size_t		len;
+	gMemSize		len;
 	gdispImagePrivate_NATIVE *	priv;
 
 	/* If we are already cached - just return OK */
@@ -95,7 +95,8 @@ gdispImageError gdispImageCache_NATIVE(gdispImage *img) {
 
 gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
 	gCoord		mx, mcx;
-	size_t		pos, len;
+	gFileSize	pos;
+	gMemSize	len;
 	gdispImagePrivate_NATIVE *	priv;
 
 	priv = (gdispImagePrivate_NATIVE *)img->priv;

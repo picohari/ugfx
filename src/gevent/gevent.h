@@ -30,7 +30,7 @@
 /* Type definitions                                                          */
 /*===========================================================================*/
 
-typedef uint16_t						GEventType;
+typedef gU16						GEventType;
 		#define GEVENT_NULL				0x0000				// Null Event - Do nothing
 		#define GEVENT_EXIT				0x0001				// The listener is being forced to exit (someone is destroying the listener)
 		
@@ -56,7 +56,7 @@ typedef void (*GEventCallbackFn)(void *param, GEvent *pe);
 // The Listener Object
 typedef struct GListener {
 	gfxSem				waitqueue;			// Private: Semaphore for the listener to wait on.
-	uint16_t			flags;				// Private: Flags for operation
+	gU16			flags;				// Private: Flags for operation
 	GEventCallbackFn	callback;			// Private: Call back Function
 	void				*param;				// Private: Parameter for the callback function.
 	GEvent				event;				// Public:  The event object into which the event information is stored.
@@ -69,8 +69,8 @@ typedef struct GSource_t			GSource, *GSourceHandle;
 typedef struct GSourceListener_t {
 	GListener		*pListener;			// The listener
 	GSource			*pSource;			// The source
-	uint32_t		listenflags;		// The flags the listener passed when the source was assigned to it.
-	uint32_t		srcflags;			// For the source's exclusive use. Initialised as 0 for a new listener source assignment.
+	gU32		listenflags;		// The flags the listener passed when the source was assigned to it.
+	gU32		srcflags;			// For the source's exclusive use. Initialised as 0 for a new listener source assignment.
 	} GSourceListener;
 
 /*===========================================================================*/
@@ -126,7 +126,7 @@ void geventListenerInit(GListener *pl);
  *
  * @return gTrue if succeeded, gFalse otherwise
  */
-gBool geventAttachSource(GListener *pl, GSourceHandle gsh, uint32_t flags);
+gBool geventAttachSource(GListener *pl, GSourceHandle gsh, gU32 flags);
 
 /**
  * @brief	Detach a source from a listener

@@ -37,18 +37,18 @@ static GFXINLINE void release_bus(GDisplay *g) {
 }
 
 
-static GFXINLINE void write_cmd(GDisplay *g, uint8_t cmd) {
+static GFXINLINE void write_cmd(GDisplay *g, gU8 cmd) {
 	(void) g;
 	(void) cmd;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint8_t data) {
+static GFXINLINE void write_data(GDisplay *g, gU8 data) {
 	(void) g;
 	(void) data;
 }
 
 #if SSD1322_USE_DMA
-	static GFXINLINE void write_data_DMA(GDisplay *g, uint8_t* data) {
+	static GFXINLINE void write_data_DMA(GDisplay *g, gU8* data) {
 		(void) g;
 		(void) data;
 	}

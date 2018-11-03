@@ -12,8 +12,8 @@
 //	set g->board to that structure.
 
 /* Using FSMC A19 (PE3) as DC */
-#define GDISP_REG (*((volatile uint16_t *) 0x60000000)) /* DC = 0 */
-#define GDISP_RAM (*((volatile uint16_t *) 0x60100000)) /* DC = 1 */
+#define GDISP_REG (*((volatile gU16 *) 0x60000000)) /* DC = 0 */
+#define GDISP_RAM (*((volatile gU16 *) 0x60100000)) /* DC = 1 */
 #define GDISP_DMA_STREAM STM32_DMA2_STREAM6
 
 #define SET_RST palSetPad(GPIOD, 3);
@@ -108,7 +108,7 @@ static GFXINLINE void setpin_reset(GDisplay *g, gBool state) {
 	}
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
 	(void) g;
 	pwmEnableChannel(&PWMD4, 1, percent);
 }
@@ -121,12 +121,12 @@ static GFXINLINE void release_bus(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE void write_index(GDisplay *g, uint16_t index) {
+static GFXINLINE void write_index(GDisplay *g, gU16 index) {
 	(void) g;
 	GDISP_REG = index;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint16_t data) {
+static GFXINLINE void write_data(GDisplay *g, gU16 data) {
 	(void) g;
 	GDISP_RAM = data;
 }
@@ -139,7 +139,7 @@ static GFXINLINE void setwritemode(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE uint16_t read_data(GDisplay *g) {
+static GFXINLINE gU16 read_data(GDisplay *g) {
 	(void) g;
 	return GDISP_RAM;
 }

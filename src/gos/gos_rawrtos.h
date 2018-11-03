@@ -7,10 +7,10 @@
 
 #define gDelayNone			(RAW_NO_WAIT)
 #define gDelayForever		(RAW_WAIT_FOREVER)
-typedef uint32_t			gDelay;
+typedef gU32			gDelay;
 typedef RAW_TICK_TYPE		gTicks;
-typedef int32_t				gSemcount;
-typedef uint32_t			gThreadreturn;
+typedef gI32				gSemcount;
+typedef gU32			gThreadreturn;
 typedef RAW_U8				gThreadpriority;
 
 #define MAX_SEMAPHORE_COUNT	RAW_SEMAPHORE_COUNT
@@ -67,7 +67,7 @@ void gfxSleepMilliseconds(gDelay ms);
 void gfxSleepMicroseconds(gDelay us);
 gBool gfxSemWait(gfxSem* psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem* psem);
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 
 #endif
 

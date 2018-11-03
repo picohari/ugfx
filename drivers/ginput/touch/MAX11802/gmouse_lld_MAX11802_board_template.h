@@ -47,7 +47,7 @@ static GFXINLINE void release_bus(GMouse* m) {
  *
  *	Return the second byte read in case of interest
  */
-static GFXINLINE uint8_t write_command(GMouse* m, uint8_t command, uint8_t value) {
+static GFXINLINE gU8 write_command(GMouse* m, gU8 command, gU8 value) {
 }
 
 /**
@@ -55,14 +55,14 @@ static GFXINLINE uint8_t write_command(GMouse* m, uint8_t command, uint8_t value
  *
  *	Return the byte read in case of interest
  */
-static GFXINLINE uint8_t gfintWriteCommand(GMouse* m, uint8_t command) {
+static GFXINLINE gU8 gfintWriteCommand(GMouse* m, gU8 command) {
 }
 
 /*
  *	Read 2 bytes as 16-bit value (command to read must have been sent previously)
  *	Note: Analog value is in bits 15..4, tags (reading status) in bits 3..0
  */
-static GFXINLINE uint16_t read_value(GMouse* m) {
+static GFXINLINE gU16 read_value(GMouse* m) {
 
 }
 

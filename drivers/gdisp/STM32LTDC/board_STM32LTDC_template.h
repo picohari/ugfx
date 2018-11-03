@@ -69,7 +69,7 @@ static GFXINLINE void post_init_board(GDisplay* g)
 	(void)g;
 }
 
-static GFXINLINE void set_backlight(GDisplay* g, uint8_t percent)
+static GFXINLINE void set_backlight(GDisplay* g, gU8 percent)
 {
 	// This is function may be called with the display for either the foreground
 	// or the background layer.

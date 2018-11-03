@@ -33,27 +33,27 @@ static gBool init_board(GMouse* m, unsigned instance)
 	return gTrue;
 }
 
-static void write_reg(GMouse* m, uint8_t reg, uint8_t val)
+static void write_reg(GMouse* m, gU8 reg, gU8 val)
 {
 	(void)m;
 	(void)reg;
 	(void)val;
 }
 
-static uint8_t read_byte(GMouse* m, uint8_t reg)
+static gU8 read_byte(GMouse* m, gU8 reg)
 {
 	(void)m;
 	(void)reg;
 
-	return (uint16_t)0x00;
+	return (gU16)0x00;
 }
 
-static uint16_t read_word(GMouse* m, uint8_t reg)
+static gU16 read_word(GMouse* m, gU8 reg)
 {
 	(void)m;
 	(void)reg;
 
-	return (uint16_t)0x0000;
+	return (gU16)0x0000;
 }
 
 #endif /* _GINPUT_LLD_MOUSE_BOARD_H */

@@ -14,7 +14,7 @@
 
 	static gfxQueueASync	playList;
 	static gfxSem			playComplete;
-	static uint16_t			playFlags;
+	static gU16			playFlags;
 		#define PLAYFLG_USEEVENTS	0x0001
 		#define PLAYFLG_PLAYING		0x0002
 		#define PLAYFLG_ISINIT		0x0004
@@ -28,7 +28,7 @@
 	#include "gaudio_driver_record.h"
 
 	static gfxQueueGSync	recordList;
-	static uint16_t			recordFlags;
+	static gU16			recordFlags;
 		#define RECORDFLG_USEEVENTS		0x0001
 		#define RECORDFLG_RECORDING		0x0002
 		#define RECORDFLG_STALLED		0x0004
@@ -76,7 +76,7 @@ void _gaudioDeinit(void)
 
 #if GAUDIO_NEED_PLAY
 
-	gBool gaudioPlayInit(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
+	gBool gaudioPlayInit(gU16 channel, gU32 frequency, ArrayDataFormat format) {
 		gaudioPlayStop();
 		playFlags &= ~PLAYFLG_ISINIT;
 		if (!gaudio_play_lld_init(channel, frequency, format))
@@ -115,7 +115,7 @@ void _gaudioDeinit(void)
 			gfxBufferRelease(pd);
 	}
 
-	gBool gaudioPlaySetVolume(uint8_t vol) {
+	gBool gaudioPlaySetVolume(gU8 vol) {
 		return gaudio_play_lld_set_volume(vol);
 	}
 
@@ -185,7 +185,7 @@ void _gaudioDeinit(void)
 #endif
 
 #if GAUDIO_NEED_RECORD
-	gBool gaudioRecordInit(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
+	gBool gaudioRecordInit(gU16 channel, gU32 frequency, ArrayDataFormat format) {
 		gaudioRecordStop();
 		recordFlags &= ~RECORDFLG_ISINIT;
 		if (!gaudio_record_lld_init(channel, frequency, format))

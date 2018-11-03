@@ -29,12 +29,12 @@ static GFXINLINE void release_bus(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE void write_index(GDisplay *g, uint16_t index) {
+static GFXINLINE void write_index(GDisplay *g, gU16 index) {
 	(void) g;
 	(void) index;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint16_t data) {
+static GFXINLINE void write_data(GDisplay *g, gU16 data) {
 	(void) g;
 	(void) data;
 }
@@ -47,7 +47,7 @@ static GFXINLINE void setwritemode(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE uint16_t read_data(GDisplay *g) {
+static GFXINLINE gU16 read_data(GDisplay *g) {
 	(void) g;
 }
 

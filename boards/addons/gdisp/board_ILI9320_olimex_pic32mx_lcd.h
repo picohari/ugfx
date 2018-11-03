@@ -76,7 +76,7 @@ static noinline void setpin_reset(GDisplay *g, gBool state) {
 		palSetPad(IOPORTA, 7);
 }
 
-static void set_backlight(GDisplay *g, uint8_t percent) {
+static void set_backlight(GDisplay *g, gU8 percent) {
 	(void) g;
 	if (percentage)
 		palClearPad(IOPORTD, 3);
@@ -92,8 +92,8 @@ static GFXINLINE void release_bus(GDisplay *g) {
 	(void) g;
 }
 
-static noinline void write_index(GDisplay *g, uint16_t index) {
-	volatile uint16_t dummy;
+static noinline void write_index(GDisplay *g, gU16 index) {
+	volatile gU16 dummy;
 	(void) g;
 
 	PmpWaitBusy();
@@ -106,7 +106,7 @@ static noinline void write_index(GDisplay *g, uint16_t index) {
 	(void)dummy;
 }
 
-static noinline void write_data(GDisplay *g, uint16_t data) {
+static noinline void write_data(GDisplay *g, gU16 data) {
 	(void) g;
 	PMDIN = data;
 	PmpWaitBusy();
@@ -120,7 +120,7 @@ static GFXINLINE void setwritemode(GDisplay *g) {
 	(void) g;
 }
 
-static noinline uint16_t read_data(GDisplay *g) {
+static noinline gU16 read_data(GDisplay *g) {
 	(void) g;
 	PmpWaitBusy();
 	return PMDIN;

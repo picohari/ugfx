@@ -79,7 +79,7 @@
 
 	// Forward definitions
 	static gBool SDL_KeyboardInit(GKeyboard *k, unsigned driverinstance);
-	static int SDL_KeyboardGetData(GKeyboard *k, uint8_t *pch, int sz);
+	static int SDL_KeyboardGetData(GKeyboard *k, gU8 *pch, int sz);
 
 	const GKeyboardVMT GKEYBOARD_DRIVER_VMT[1] = {{
 		{
@@ -97,7 +97,7 @@
 
 	static struct KeyMap {
 		SDL_Keycode k_sdl;
-		uint16_t k_ugfx;
+		gU16 k_ugfx;
 	} SDL_keymap[] =
 	{
 		{SDLK_UP,				GKEY_UP},
@@ -136,7 +136,7 @@
 	};
 	static struct ModMap {
 		SDL_Keycode s_sdl;
-		uint32_t s_ugfx;
+		gU32 s_ugfx;
 	} SDL_modmap[] = {
 		{KMOD_LSHIFT,	GKEYSTATE_SHIFT_L},
 		{KMOD_RSHIFT,	GKEYSTATE_SHIFT_R},
@@ -149,23 +149,23 @@
 		{0,0}
 	};
 	struct SDL_keymsg {
-		uint32_t key;
-		uint32_t keystate;
+		gU32 key;
+		gU32 keystate;
 	};
 	static GKeyboard *keyboard = 0;
 #endif
 
 // shared IPC context
 struct SDL_UGFXContext {
-	uint32_t 	framebuf[GDISP_SCREEN_WIDTH*GDISP_SCREEN_HEIGHT];
-	int16_t		need_redraw;
+	gU32 	framebuf[GDISP_SCREEN_WIDTH*GDISP_SCREEN_HEIGHT];
+	gI16		need_redraw;
 	int		minx,miny,maxx,maxy;
 #if GINPUT_NEED_MOUSE
 	gCoord 	mousex, mousey;
-	uint16_t 	buttons;
+	gU16 	buttons;
 #endif
 #if GINPUT_NEED_KEYBOARD
-	uint16_t 	keypos;
+	gU16 	keypos;
 	struct 		SDL_keymsg keybuffer[8];
 #endif
 };
@@ -198,7 +198,7 @@ static int SDL_loop (void) {
 			context->maxx = 0;
 			context->maxy = 0;
 			
-			SDL_UpdateTexture(texture, &r, context->framebuf+r.y*GDISP_SCREEN_WIDTH+r.x, GDISP_SCREEN_WIDTH*sizeof(uint32_t));
+			SDL_UpdateTexture(texture, &r, context->framebuf+r.y*GDISP_SCREEN_WIDTH+r.x, GDISP_SCREEN_WIDTH*sizeof(gU32));
 			SDL_RenderCopy(render, texture, 0, 0);
 			SDL_RenderPresent(render);
 		}
@@ -249,8 +249,8 @@ static int SDL_loop (void) {
 			case SDL_KEYDOWN: 
 			case SDL_KEYUP: {
 				SDL_Keycode k_sdl = event.key.keysym.sym;
-				uint8_t k_ugfx = 0;
-				uint32_t s_ugfx = (event.type==SDL_KEYDOWN)?0:GKEYSTATE_KEYUP;
+				gU8 k_ugfx = 0;
+				gU32 s_ugfx = (event.type==SDL_KEYDOWN)?0:GKEYSTATE_KEYUP;
 				int i;
 				if (!(k_sdl & ~0x7f) && (k_sdl <32 || k_sdl == 127)) {
 					k_ugfx = k_sdl;
@@ -409,7 +409,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g)
 		LLDCOLOR_TYPE c = gdispColor2Native(g->p.color);
 		if (context) {
 			int x,y;
-			uint32_t *pbuf = context->framebuf + g->p.y*GDISP_SCREEN_WIDTH + g->p.x;
+			gU32 *pbuf = context->framebuf + g->p.y*GDISP_SCREEN_WIDTH + g->p.x;
 			int dy = GDISP_SCREEN_WIDTH - g->p.cx;
 			for (y = 0; y < g->p.cy; ++y) {
 				for (x = 0; x < g->p.cx; ++x)
@@ -458,7 +458,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g)
 		return gTrue;
 	}
 
-	static int SDL_KeyboardGetData(GKeyboard *k, uint8_t *pch, int sz) {
+	static int SDL_KeyboardGetData(GKeyboard *k, gU8 *pch, int sz) {
 		int i = 0;
 		if (!context || !context->keypos || !sz)
 			return 0;

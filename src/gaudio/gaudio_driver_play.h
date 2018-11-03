@@ -81,7 +81,7 @@ void gaudioPlayDoneI(void);
  *
  * @api
  */
-gBool gaudio_play_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat format);
+gBool gaudio_play_lld_init(gU16 channel, gU32 frequency, ArrayDataFormat format);
 
 /**
  * @brief				Start the audio output playing
@@ -117,7 +117,7 @@ void gaudio_play_lld_stop(void);
  *
  * @api
  */
-gBool gaudio_play_lld_set_volume(uint8_t vol);
+gBool gaudio_play_lld_set_volume(gU8 vol);
 
 #ifdef __cplusplus
 }

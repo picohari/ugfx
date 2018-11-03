@@ -75,12 +75,19 @@
 	#define GFX_TYPE_64				GFXON
 
 /*#elif defined(__GNUC__) || defined(__GNUG__)
-	typedef __INT8_TYPE__	int8_t;
-	typedef __UINT8_TYPE__	uint8_t;
-	typedef __INT16_TYPE__	int16_t;
-	typedef __UINT16_TYPE__	uint16_t;
-	typedef __INT32_TYPE__	int32_t;
-	typedef __UINT32_TYPE__	uint32_t;
+	typedef __INT8_TYPE__			gI8;
+	typedef __UINT8_TYPE__			gU8;
+	typedef __INT16_TYPE__			gI16;
+	typedef __UINT16_TYPE__			gU16;
+	typedef __INT32_TYPE__			gI32;
+	typedef __UINT32_TYPE__			gU32;
+	#define GI8_C(v)	  			v
+	#define GU8_C(v)  				v ## U
+	#define GI16_C(v)	  			v
+	#define GU16_C(v)  				v ## U
+	#define GI32_C(v)	  			v
+	#define GU32_C(v)  				v ## U
+	#define GFX_TYPE_64				GFXOFF
 */
 #else
 	#include <limits.h>
@@ -139,8 +146,15 @@
 	#endif
 #endif
 
+typedef void *				gAny;
 typedef void *				gPtr;
 typedef ptrdiff_t			gPtrDiff;
+#if GFX_MEM_LT64K
+	typedef gU16			gMemSize;
+#else
+	typedef gU32			gMemSize;
+#endif
+typedef gI32				gFileSize;
 typedef gI8					gBool;
 #define gTrue				(-1)
 #define gFalse				(0)

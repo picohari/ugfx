@@ -461,7 +461,7 @@ static GFXINLINE void post_init_board(GDisplay* g) {
 	(void) g;
 }
 
-static GFXINLINE void set_backlight(GDisplay* g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay* g, gU8 percent) {
 	(void) g;
 
 	// ST was stupid enought not to hook this up to a pin that

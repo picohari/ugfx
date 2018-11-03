@@ -39,7 +39,7 @@
 
 // Some common routines and macros
 #define PRIV(g)					((UC1610_Window *)g->priv)
-#define RAM(g)					((uint8_t *)(PRIV(g) + 1))
+#define RAM(g)					((gU8 *)(PRIV(g) + 1))
 #define xyaddr(x, y)			((x) + GDISP_SCREEN_WIDTH * ((y) >> 2))
 #define xybit(y, c)				((c) << (((y) & 3) << 1))
 #define GDISP_FLG_NEEDFLUSH		(GDISP_FLG_DRIVER << 0)
@@ -55,7 +55,7 @@ typedef struct UC1610_Window {
 /* Driver local varriables.                                                  */
 /*===========================================================================*/
 
-static uint8_t cmdBuffer[11];
+static gU8 cmdBuffer[11];
 
 /*===========================================================================*/
 /* Driver local functions.                                                   */
@@ -70,7 +70,7 @@ static void GFXINLINE power_on_sequence(GDisplay* g) {
 	cmdBuffer[2]  = UC1610_SET_PANEL_LOADING;
 	cmdBuffer[3]  = UC1610_SET_LCD_BIAS_RATIO;
 	cmdBuffer[4]  = UC1610_SET_VBIAS_POT;                // set contrast
-	cmdBuffer[5]  = (uint8_t) (GDISP_INITIAL_CONTRAST * 254 / 100);
+	cmdBuffer[5]  = (gU8) (GDISP_INITIAL_CONTRAST * 254 / 100);
 	cmdBuffer[6]  = UC1610_SET_MAPPING_CONTROL;          // bottom view
 	cmdBuffer[7]  = UC1610_SET_SCROLL_LINES_LSB | 0;
 	cmdBuffer[8]  = UC1610_SET_SCROLL_LINES_MSB | 0;     // set scroll line on line 0
@@ -134,7 +134,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_DRAWPIXEL
 	LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 		gCoord x, y;
-		uint8_t *c;
+		gU8 *c;
 
 		// handle orientation
 		switch (g->g.Orientation) {
@@ -171,7 +171,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	LLDSPEC void gdisp_lld_flush(GDisplay* g)
 	{
 		gCoord x1, y1, x2, y2, cx;
-		uint8_t *c;
+		gU8 *c;
 
 		// Don't flush unless we really need to
 		if (!(g->flags & GDISP_FLG_NEEDFLUSH))
@@ -307,7 +307,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				if ((unsigned)g->p.ptr > 100) { g->p.ptr = (void *)100; }
 				acquire_bus(g);
 				cmdBuffer[0] = UC1610_SET_VBIAS_POT;
-				cmdBuffer[1] = (uint8_t)((unsigned)g->p.ptr * 254 / 100);
+				cmdBuffer[1] = (gU8)((unsigned)g->p.ptr * 254 / 100);
 				write_cmd(g, cmdBuffer, 2);
 				release_bus(g);
 				g->g.Contrast = (unsigned)g->p.ptr;

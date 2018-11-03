@@ -67,6 +67,7 @@
 //    #define GFX_OS_CALL_UGFXMAIN                     GFXOFF
 //    #define GFX_OS_UGFXMAIN_STACKSIZE                0
 //    #define GFX_EMULATE_MALLOC                       GFXOFF
+//    #define GFX_MEM_LT64K                            GFXOFF
 
 
 ///////////////////////////////////////////////////////////////////////////

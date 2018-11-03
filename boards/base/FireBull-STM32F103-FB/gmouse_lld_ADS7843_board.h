@@ -66,11 +66,11 @@ static GFXINLINE void release_bus(GMouse* m)
 	spiReleaseBus(&SPID1);
 }
 
-static GFXINLINE uint16_t read_value(GMouse* m, uint16_t port)
+static GFXINLINE gU16 read_value(GMouse* m, gU16 port)
 {
-    static uint8_t txbuf[3] = {0};
-    static uint8_t rxbuf[3] = {0};
-    uint16_t ret;
+    static gU8 txbuf[3] = {0};
+    static gU8 rxbuf[3] = {0};
+    gU16 ret;
 	(void)	m;
 
     txbuf[0] = port;

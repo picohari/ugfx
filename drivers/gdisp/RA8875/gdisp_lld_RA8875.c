@@ -38,7 +38,7 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define dummy_read(g)					{ volatile uint16_t dummy; dummy = read_data(g); (void) dummy; }
+#define dummy_read(g)					{ volatile gU16 dummy; dummy = read_data(g); (void) dummy; }
 #define write_reg8(g, reg, data)		{ write_index(g, reg); write_data(g, data); }
 #define write_reg16(g, reg, data)		{ write_index(g, reg); write_data(g, data); write_index(g, reg+1); write_data(g, (data)>>8); }
 #define write_reg8x2(g, reg, d1, d2)	{ write_index(g, reg); write_data(g, d1); write_data(g, d2); }
@@ -58,8 +58,8 @@ static GFXINLINE void set_viewport(GDisplay* g) {
 
 // On this controller the back-light is controlled by the controllers internal PWM
 //	which is why it is in this file rather than the board file.
-static GFXINLINE void set_backlight(GDisplay* g, uint8_t percent) {
-	uint8_t temp;
+static GFXINLINE void set_backlight(GDisplay* g, gU8 percent) {
+	gU8 temp;
 
 	//Work in progress: the RA8875 has a built-in PWM, its output can
 	//be used by a Dynamic Background Control or by a host (user)

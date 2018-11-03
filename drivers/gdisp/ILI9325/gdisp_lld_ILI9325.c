@@ -52,7 +52,7 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define dummy_read(g)				{ volatile uint16_t dummy; dummy = read_data(g); (void) dummy; }
+#define dummy_read(g)				{ volatile gU16 dummy; dummy = read_data(g); (void) dummy; }
 #define write_reg(g, reg, data)		{ write_index(g, reg); write_data(g, data); }
 
 static void set_cursor(GDisplay *g) {
@@ -95,7 +95,7 @@ static void set_viewport(GDisplay* g) {
 }
 
 LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
-	uint16_t cver;
+	gU16 cver;
 
 	// No private area for this controller
 	g->priv = 0;
@@ -217,7 +217,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		dummy_read(g);
 	}
 	LLDSPEC	gColor gdisp_lld_read_color(GDisplay *g) {
-		uint16_t	data;
+		gU16	data;
 
 		data = read_data(g);
 		return gdispNative2Color(data);

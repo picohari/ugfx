@@ -12,10 +12,10 @@
 
 #if MF_USE_TABS
 /* Round the X coordinate up to the nearest tab stop. */
-static int16_t mf_round_to_tab(const struct mf_font_s *font,
-                               int16_t x0, int16_t x)
+static gI16 mf_round_to_tab(const struct mf_font_s *font,
+                               gI16 x0, gI16 x)
 {
-    int16_t tabw, dx;
+    gI16 tabw, dx;
     
     tabw = mf_character_width(font, 'm') * MF_TABSIZE;
     
@@ -30,10 +30,10 @@ static int16_t mf_round_to_tab(const struct mf_font_s *font,
 }
 
 /* Round the X coordinate down to the nearest tab stop. */
-static int16_t mf_round_to_prev_tab(const struct mf_font_s *font,
-                                    int16_t x0, int16_t x)
+static gI16 mf_round_to_prev_tab(const struct mf_font_s *font,
+                                    gI16 x0, gI16 x)
 {
-    int16_t tabw, dx;
+    gI16 tabw, dx;
     
     tabw = mf_character_width(font, 'm') * MF_TABSIZE;
     
@@ -48,11 +48,11 @@ static int16_t mf_round_to_prev_tab(const struct mf_font_s *font,
 }
 #endif
 
-int16_t mf_get_string_width(const struct mf_font_s *font, mf_str text,
-                            uint16_t count, bool kern)
+gI16 mf_get_string_width(const struct mf_font_s *font, mf_str text,
+                            gU16 count, bool kern)
 {
-    int16_t result = 0;
-    uint16_t c1 = 0, c2;
+    gI16 result = 0;
+    gU16 c1 = 0, c2;
     
     if (!count)
         count = 0xFFFF;
@@ -83,9 +83,9 @@ int16_t mf_get_string_width(const struct mf_font_s *font, mf_str text,
 }
 
 /* Return the length of the string without trailing spaces. */
-static uint16_t strip_spaces(mf_str text, uint16_t count, mf_char *last_char)
+static gU16 strip_spaces(mf_str text, gU16 count, mf_char *last_char)
 {
-    uint16_t i = 0, result = 0;
+    gU16 i = 0, result = 0;
     mf_char tmp = 0;
     
     if (!count)
@@ -115,12 +115,12 @@ static uint16_t strip_spaces(mf_str text, uint16_t count, mf_char *last_char)
 
 /* Render left-aligned string, left edge at x0. */
 static void render_left(const struct mf_font_s *font,
-                        int16_t x0, int16_t y0,
-                        mf_str text, uint16_t count,
+                        gI16 x0, gI16 y0,
+                        mf_str text, gU16 count,
                         mf_character_callback_t callback,
                         void *state)
 {
-    int16_t x;
+    gI16 x;
     mf_char c1 = 0, c2;
     
     x = x0 - font->baseline_x;
@@ -150,13 +150,13 @@ static void render_left(const struct mf_font_s *font,
 #if !MF_USE_ALIGN
 
 void mf_render_aligned(const struct mf_font_s *font,
-                       int16_t x0, int16_t y0,
+                       gI16 x0, gI16 y0,
                        enum mf_align_t align,
-                       mf_str text, uint16_t count,
+                       mf_str text, gU16 count,
                        mf_character_callback_t callback,
                        void *state)
 {
-    int16_t string_width;
+    gI16 string_width;
     count = strip_spaces(text, count, 0);
     render_left(font, x0, y0, text, count, callback, state);
 }
@@ -165,13 +165,13 @@ void mf_render_aligned(const struct mf_font_s *font,
 
 /* Render right-aligned string, right edge at x0. */
 static void render_right(const struct mf_font_s *font,
-                         int16_t x0, int16_t y0,
-                         mf_str text, uint16_t count,
+                         gI16 x0, gI16 y0,
+                         mf_str text, gU16 count,
                          mf_character_callback_t callback,
                          void *state)
 {
-    int16_t x;
-    uint16_t i;
+    gI16 x;
+    gU16 i;
     mf_char c1, c2 = 0;
     mf_str tmp;
     
@@ -211,13 +211,13 @@ static void render_right(const struct mf_font_s *font,
 }
 
 void mf_render_aligned(const struct mf_font_s *font,
-                       int16_t x0, int16_t y0,
+                       gI16 x0, gI16 y0,
                        enum mf_align_t align,
-                       mf_str text, uint16_t count,
+                       mf_str text, gU16 count,
                        mf_character_callback_t callback,
                        void *state)
 {
-    int16_t string_width;
+    gI16 string_width;
     count = strip_spaces(text, count, 0);
     
     if (align == MF_ALIGN_LEFT)
@@ -242,8 +242,8 @@ void mf_render_aligned(const struct mf_font_s *font,
 #if !MF_USE_JUSTIFY
 
 void mf_render_justified(const struct mf_font_s *font,
-                         int16_t x0, int16_t y0, int16_t width,
-                         mf_str text, uint16_t count,
+                         gI16 x0, gI16 y0, gI16 width,
+                         mf_str text, gU16 count,
                          mf_character_callback_t callback,
                          void *state)
 {
@@ -255,15 +255,15 @@ void mf_render_justified(const struct mf_font_s *font,
 
 /* Returns true if the character is a justification point, i.e. expands
  * when the text is being justified. */
-static bool is_justify_space(uint16_t c)
+static bool is_justify_space(gU16 c)
 {
     return c == ' ' || c == 0xA0;
 }
 
 /* Count the number of space characters in string */
-static uint16_t count_spaces(mf_str text, uint16_t count)
+static gU16 count_spaces(mf_str text, gU16 count)
 {
-    uint16_t spaces = 0;
+    gU16 spaces = 0;
     while (count-- && *text)
     {
         if (is_justify_space(mf_getchar(&text)))
@@ -273,13 +273,13 @@ static uint16_t count_spaces(mf_str text, uint16_t count)
 }
 
 void mf_render_justified(const struct mf_font_s *font,
-                         int16_t x0, int16_t y0, int16_t width,
-                         mf_str text, uint16_t count,
+                         gI16 x0, gI16 y0, gI16 width,
+                         mf_str text, gU16 count,
                          mf_character_callback_t callback,
                          void *state)
 {
-    int16_t string_width, adjustment;
-    uint16_t num_spaces;
+    gI16 string_width, adjustment;
+    gU16 num_spaces;
     mf_char last_char;
     
     count = strip_spaces(text, count, &last_char);
@@ -296,7 +296,7 @@ void mf_render_justified(const struct mf_font_s *font,
     num_spaces = count_spaces(text, count);
     
     {
-        int16_t x, tmp;
+        gI16 x, tmp;
         mf_char c1 = 0, c2;
         
         x = x0 - font->baseline_x;

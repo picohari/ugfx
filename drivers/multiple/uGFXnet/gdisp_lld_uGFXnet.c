@@ -157,10 +157,10 @@
 typedef struct netPriv {
 	SOCKET_TYPE		netfd;					// The current socket
 	unsigned		databytes;				// How many bytes have been read
-	uint16_t		data[2];				// Buffer for storing data read.
+	gU16		data[2];				// Buffer for storing data read.
 	#if GINPUT_NEED_MOUSE
 		gCoord		mousex, mousey;
-		uint16_t	mousebuttons;
+		gU16	mousebuttons;
 		GMouse *	mouse;
 	#endif
 } netPriv;
@@ -180,19 +180,19 @@ static gThread	hThread;
 
 /**
  * Send a whole packet of data.
- * Len is specified in the number of uint16_t's we want to send as our protocol only talks uint16_t's.
+ * Len is specified in the number of gU16's we want to send as our protocol only talks gU16's.
  * Note that contents of the packet are modified to ensure it will cross the wire in the correct format.
  * If the connection closes before we send all the data - the call returns gFalse.
  */
-static gBool sendpkt(SOCKET_TYPE netfd, uint16_t *pkt, int len) {
+static gBool sendpkt(SOCKET_TYPE netfd, gU16 *pkt, int len) {
 	int		i;
 
-	// Convert each uint16_t to network order
+	// Convert each gU16 to network order
 	for(i = 0; i < len; i++)
 		pkt[i] = htons(pkt[i]);
 
 	// Send it
-	len *= sizeof(uint16_t);
+	len *= sizeof(gU16);
 	return send(netfd, (const char *)pkt, len, 0) == len;
 }
 
@@ -465,7 +465,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_FLUSH
 	LLDSPEC void gdisp_lld_flush(GDisplay *g) {
 		netPriv	*	priv;
-		uint16_t	buf[1];
+		gU16	buf[1];
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
 			if (!(g->flags & GDISP_FLG_CONNECTED))
@@ -486,7 +486,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_DRAWPIXEL
 	LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 		netPriv	*	priv;
-		uint16_t	buf[4];
+		gU16	buf[4];
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
 			if (!(g->flags & GDISP_FLG_CONNECTED))
@@ -512,7 +512,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_FILLS
 	LLDSPEC void gdisp_lld_fill_area(GDisplay *g) {
 		netPriv	*	priv;
-		uint16_t	buf[6];
+		gU16	buf[6];
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
 			if (!(g->flags & GDISP_FLG_CONNECTED))
@@ -539,7 +539,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	LLDSPEC void gdisp_lld_blit_area(GDisplay *g) {
 		netPriv	*	priv;
 		gPixel	*	buffer;
-		uint16_t	buf[5];
+		gU16	buf[5];
 		gCoord		x, y;
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
@@ -576,7 +576,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_PIXELREAD
 	LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay *g) {
 		netPriv	*	priv;
-		uint16_t	buf[3];
+		gU16	buf[3];
 		gColor		data;
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
@@ -609,7 +609,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_NEED_SCROLL && GDISP_HARDWARE_SCROLL
 	LLDSPEC void gdisp_lld_vertical_scroll(GDisplay *g) {
 		netPriv	*	priv;
-		uint16_t	buf[6];
+		gU16	buf[6];
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
 			if (!(g->flags & GDISP_FLG_CONNECTED))
@@ -635,7 +635,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_NEED_CONTROL && GDISP_HARDWARE_CONTROL
 	LLDSPEC void gdisp_lld_control(GDisplay *g) {
 		netPriv	*	priv;
-		uint16_t	buf[3];
+		gU16	buf[3];
 		gBool		allgood;
 
 		#if GDISP_DONT_WAIT_FOR_NET_DISPLAY
@@ -657,9 +657,9 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				return;
 			break;
 		case GDISP_CONTROL_BACKLIGHT:
-			if (g->g.Backlight == (uint16_t)(int)g->p.ptr)
+			if (g->g.Backlight == (gU16)(int)g->p.ptr)
 				return;
-			if ((uint16_t)(int)g->p.ptr > 100)
+			if ((gU16)(int)g->p.ptr > 100)
 				g->p.ptr = (void *)100;
 			break;
 		default:
@@ -670,7 +670,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		priv = g->priv;
 		buf[0] = GNETCODE_CONTROL;
 		buf[1] = g->p.x;
-		buf[2] = (uint16_t)(int)g->p.ptr;
+		buf[2] = (gU16)(int)g->p.ptr;
 		MUTEX_ENTER;
 		sendpkt(priv->netfd, buf, 3);
 		MUTEX_EXIT;
@@ -709,7 +709,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 			g->g.Powermode = (gPowermode)g->p.ptr;
 			break;
 		case GDISP_CONTROL_BACKLIGHT:
-			g->g.Backlight = (uint16_t)(int)g->p.ptr;
+			g->g.Backlight = (gU16)(int)g->p.ptr;
 			break;
 		}
 	}

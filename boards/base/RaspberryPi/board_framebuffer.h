@@ -26,16 +26,16 @@
 	#include "rpi_mailbox.h"
 
 	typedef struct FrameBufferDescription {
-		uint32_t	width;
-		uint32_t	height;
-		uint32_t	vWidth;
-		uint32_t	vHeight;
-		uint32_t	pitch;
-		uint32_t	bitDepth;
-		uint32_t	x;
-		uint32_t	y;
+		gU32	width;
+		gU32	height;
+		gU32	vWidth;
+		gU32	vHeight;
+		gU32	pitch;
+		gU32	bitDepth;
+		gU32	x;
+		gU32	y;
 		void *		pointer;
-		uint32_t	size;
+		gU32	size;
 		} FrameBufferDescription;
 
 	static FrameBufferDescription FrameBufferInfo __attribute__((aligned (16))) = { 1024, 768, 1024, 768, 0, 24, 0, 0, 0, 0 };
@@ -49,7 +49,7 @@
 		FrameBufferInfo.vHeight = GDISP_SCREEN_HEIGHT;
 		FrameBufferInfo.bitDepth = LLDCOLOR_BITS;
 
-		rpi_writemailbox(1, 0x40000000 + (uint32_t) &FrameBufferInfo);
+		rpi_writemailbox(1, 0x40000000 + (gU32) &FrameBufferInfo);
 
 		if (rpi_readmailbox(1) != 0)
 			gfxHalt("Could not set display parameters")
@@ -70,12 +70,12 @@
 	#endif
 
 	#if GDISP_NEED_CONTROL
-		static void board_backlight(GDisplay *g, uint8_t percent) {
+		static void board_backlight(GDisplay *g, gU8 percent) {
 			(void) g;
 			(void) percent;
 		}
 
-		static void board_contrast(GDisplay *g, uint8_t percent) {
+		static void board_contrast(GDisplay *g, gU8 percent) {
 			(void) g;
 			(void) percent;
 		}

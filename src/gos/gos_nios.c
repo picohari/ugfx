@@ -35,7 +35,7 @@ void _gosDeinit(void)
 
 void gfxHalt(const char *msg)
 {
-	volatile uint32_t dummy;
+	volatile gU32 dummy;
 
 	(void)msg;
 
@@ -45,7 +45,7 @@ void gfxHalt(const char *msg)
 }
 
 void gfxExit(void) {
-	volatile uint32_t dummy;
+	volatile gU32 dummy;
 
 	while(1) {
 		dummy++;

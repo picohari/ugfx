@@ -16,7 +16,7 @@ GHandle jg10SelectionWidgetGCreate(GDisplay* g, jg10WidgetObject* wo, GWidgetIni
 
 
 typedef struct {          // Node properties
-  uint8_t num;            // Node number
+  gU8 num;            // Node number
   gBool check;           // Node needs to be checked or not
   gBool sel;             // Node selected or not
 } nodeProps;
@@ -29,7 +29,7 @@ gdispImage            jg10Image[JG10_MAX_COUNT];
 #define JG10_ANIM_DELAY 60
 const char            *jg10GraphAnim[] = {"a1.bmp","a2.bmp","a3.bmp","a4.bmp","background.bmp"}; // 5 elements (0-4)
 gdispImage            jg10ImageAnim[JG10_ANIM_IMAGES];
-uint8_t               jg10MaxVal=4;                                     // Max value in field...
+gU8               jg10MaxVal=4;                                     // Max value in field...
 gFont font;
 #if JG10_SHOW_SPLASH
 GTimer                jg10SplashBlink;
@@ -42,7 +42,7 @@ static void initRng(void) {
     srand(gfxSystemTicks());
 }
 
-static uint32_t randomInt(uint32_t max) {
+static gU32 randomInt(gU32 max) {
     return rand() % max;
 }
 
@@ -86,12 +86,12 @@ static int uitoa(unsigned int value, char * buf, int max) {
   return n;
 }
 
-static gBool inRange(int16_t x, int16_t y) {
+static gBool inRange(gI16 x, gI16 y) {
     if ((x >= 0) && (x < JG10_FIELD_WIDTH) && (y >= 0) && (y < JG10_FIELD_HEIGHT)) return gTrue; else return gFalse;
 }
 
 static void clean_SelCheck(void) {
-    uint16_t i ,j;
+    gU16 i ,j;
     for (i = 0; i < JG10_FIELD_WIDTH; i++) {
         for (j = 0; j < JG10_FIELD_HEIGHT; j++) {
             jg10Field[i][j].check = gFalse;
@@ -101,7 +101,7 @@ static void clean_SelCheck(void) {
 }
 
 static void remove_Selected(void) {
-    uint16_t i ,j, step;
+    gU16 i ,j, step;
     gTicks delay_start = 0;
     gTicks delay=0;
     for (step = 0; step < JG10_ANIM_IMAGES; step++) {
@@ -129,12 +129,12 @@ static void remove_Selected(void) {
 //    gwinRedraw(mainWin);
 }
 
-static uint8_t jg10_randomer(uint8_t max, uint8_t th) {
-    uint32_t r = randomInt((1<<max)-1);
+static gU8 jg10_randomer(gU8 max, gU8 th) {
+    gU32 r = randomInt((1<<max)-1);
 	
     if (r != 0) {
-        for (int8_t i = max; i >= 0; i--) {
-            if (r >= (uint32_t)(1<<i)) {
+        for (gI8 i = max; i >= 0; i--) {
+            if (r >= (gU32)(1<<i)) {
                 if ((max-i) >= th) {
                     return randomInt(max-i)+1;
                 } else {
@@ -147,20 +147,20 @@ static uint8_t jg10_randomer(uint8_t max, uint8_t th) {
 }
 
 static void movePiecesDown(void) {
-    uint8_t tmp = 0;
+    gU8 tmp = 0;
     gBool needToCheck = gTrue;
     while (needToCheck) {
         needToCheck = gFalse;
-        for (int8_t y = (JG10_FIELD_HEIGHT-1); y >= 0; y--) {
-            for (uint8_t x = 0; x < JG10_FIELD_WIDTH; x++) {
+        for (gI8 y = (JG10_FIELD_HEIGHT-1); y >= 0; y--) {
+            for (gU8 x = 0; x < JG10_FIELD_WIDTH; x++) {
                 if (jg10Field[x][y].num == 0) {
                     // check if there is at least single none empty piece
                     tmp = 0;
-                    for (int8_t tmpy = y; tmpy >= 0; tmpy--) {
+                    for (gI8 tmpy = y; tmpy >= 0; tmpy--) {
                         if (jg10Field[x][tmpy].num != 0) tmp++;
                     }
                     if (tmp != 0) {
-                        for (int8_t tmpy = y; tmpy > 0; tmpy--) {
+                        for (gI8 tmpy = y; tmpy > 0; tmpy--) {
                             jg10Field[x][tmpy].num = jg10Field[x][tmpy-1].num;
                         }
                         jg10Field[x][0].num = 0;
@@ -175,10 +175,10 @@ static void movePiecesDown(void) {
     needToCheck = gTrue;
     while (needToCheck) {
         needToCheck = gFalse;
-        for (int8_t y = (JG10_FIELD_HEIGHT-1); y >= 0; y--) {
-            for (uint8_t x = 0; x < JG10_FIELD_WIDTH; x++) {
+        for (gI8 y = (JG10_FIELD_HEIGHT-1); y >= 0; y--) {
+            for (gU8 x = 0; x < JG10_FIELD_WIDTH; x++) {
                 if (jg10Field[x][y].num == 0) {
-                    for (int8_t tmpy = y; tmpy > 0; tmpy--) {
+                    for (gI8 tmpy = y; tmpy > 0; tmpy--) {
                         jg10Field[x][tmpy].num = jg10Field[x][tmpy-1].num;
                     }
                     jg10Field[x][0].num = jg10_randomer(jg10MaxVal, 3);
@@ -193,7 +193,7 @@ static void movePiecesDown(void) {
 
 static gBool checkForPossibleMove(void) {
     gBool canMove = gFalse;
-    uint16_t i ,j;
+    gU16 i ,j;
     for (i = 0; i < JG10_FIELD_WIDTH; i++) {
         for (j = 0; j < JG10_FIELD_HEIGHT; j++) {
             if ((inRange(i,j-1) && jg10Field[i][j-1].num == jg10Field[i][j].num) ||
@@ -225,7 +225,7 @@ static void printCongrats(void) {
 
 static DECLARE_THREAD_FUNCTION(thdJg10, msg) {
     (void)msg;
-    uint16_t x,y;
+    gU16 x,y;
     while (!jg10GameOver) {
         srand(gfxSystemTicks());
         ginputGetMouseStatus(0, &ev);
@@ -278,8 +278,8 @@ static DECLARE_THREAD_FUNCTION(thdJg10, msg) {
 
 static void initField(void) {
     jg10MaxVal = 4;
-    for (uint8_t x = 0; x < JG10_FIELD_WIDTH; x++) {
-        for (uint8_t y = 0; y < JG10_FIELD_HEIGHT; y++) {
+    for (gU8 x = 0; x < JG10_FIELD_WIDTH; x++) {
+        for (gU8 y = 0; y < JG10_FIELD_HEIGHT; y++) {
           jg10Field[x][y].num = randomInt(jg10MaxVal)+1;
             //jg10Field[x][y].num = 1;      // good for animation testing
             //jg10Field[x][y].num = x+x+5;    // good to get high score fast
@@ -295,15 +295,15 @@ static void initField(void) {
 static void mainWinDraw(GWidgetObject* gw, void* param) {
 	(void)param;
 	
-    for (uint8_t x = 0; x < JG10_FIELD_WIDTH; x++) {
-        for (uint8_t y = 0; y < JG10_FIELD_HEIGHT; y++) {
+    for (gU8 x = 0; x < JG10_FIELD_WIDTH; x++) {
+        for (gU8 y = 0; y < JG10_FIELD_HEIGHT; y++) {
             gdispGImageDraw(gw->g.display, &jg10Image[jg10Field[x][y].num], (x*JG10_CELL_HEIGHT)+1, (y*JG10_CELL_WIDTH)+1, JG10_CELL_WIDTH, JG10_CELL_HEIGHT, 0, 0);
         }
     }
 }
 
 static void jg10SelectionWidget_Draw(GWidgetObject* gw, void* param) {
-    int16_t x, y;
+    gI16 x, y;
     gBool needToCheck = gTrue;
 
 	(void)param;
@@ -468,11 +468,11 @@ void jg10Start(void) {
 
 void jg10Init(void) {
     initRng();
-    for (uint8_t i = 0; i < JG10_MAX_COUNT; i++) {
+    for (gU8 i = 0; i < JG10_MAX_COUNT; i++) {
          gdispImageOpenFile(&jg10Image[i], jg10Graph[i]);
          gdispImageCache(&jg10Image[i]);
     }
-    for (uint8_t i = 0; i < JG10_ANIM_IMAGES; i++) {
+    for (gU8 i = 0; i < JG10_ANIM_IMAGES; i++) {
          gdispImageOpenFile(&jg10ImageAnim[i], jg10GraphAnim[i]);
          gdispImageCache(&jg10ImageAnim[i]);
     }

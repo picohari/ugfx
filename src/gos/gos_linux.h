@@ -28,11 +28,11 @@ typedef void *				gThreadreturn;
 typedef unsigned long		gDelay;
 typedef pthread_t 			gThread;
 typedef int					gThreadpriority;
-typedef uint32_t			gSemcount;
+typedef gU32			gSemcount;
 typedef pthread_mutex_t		gfxMutex;
 
 #define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
-#define DECLARE_THREAD_STACK(name, sz)			uint8_t name[0];
+#define DECLARE_THREAD_STACK(name, sz)			gU8 name[0];
 #define THREAD_RETURN(retval)					return retval
 
 #define gfxExit()						exit(0)
@@ -85,7 +85,7 @@ void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit);
 void gfxSemDestroy(gfxSem *psem);
 gBool gfxSemWait(gfxSem *psem, gDelay ms);
 void gfxSemSignal(gfxSem *psem);
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 gThreadreturn gfxThreadWait(gThread thread);
 
 #endif /* GFX_USE_OS_LINUX */

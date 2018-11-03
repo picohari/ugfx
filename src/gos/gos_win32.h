@@ -32,7 +32,7 @@ typedef DWORD				gThreadreturn;
 typedef int					gThreadpriority;
 
 #define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn (WINAPI fnName)(void *param)
-#define DECLARE_THREAD_STACK(name, sz)			uint8_t name[1];
+#define DECLARE_THREAD_STACK(name, sz)			gU8 name[1];
 #define THREAD_RETURN(retval)					return retval
 
 #define gDelayNone					0
@@ -75,7 +75,7 @@ void gfxSleepMicroseconds(gDelay ms);
 gBool gfxSemWait(gfxSem *psem, gDelay ms);
 void gfxSystemLock(void);
 void gfxSystemUnlock(void);
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param);
 gThreadreturn gfxThreadWait(gThread thread);
 
 #endif /* GFX_USE_OS_WIN32 */

@@ -95,7 +95,7 @@ void gdriverUnRegister(GDriver *driver) {
 	gfxFree(driver);
 }
 
-GDriver *gdriverGetInstance(uint16_t type, unsigned instance) {
+GDriver *gdriverGetInstance(gU16 type, unsigned instance) {
 	GDriver		*pd;
 	unsigned	sinstance;
 
@@ -111,7 +111,7 @@ GDriver *gdriverGetInstance(uint16_t type, unsigned instance) {
 	return 0;
 }
 
-unsigned gdriverInstanceCount(uint16_t type) {
+unsigned gdriverInstanceCount(gU16 type) {
 	GDriver		*pd;
 	unsigned	sinstance;
 
@@ -124,7 +124,7 @@ unsigned gdriverInstanceCount(uint16_t type) {
 	return sinstance;
 }
 
-GDriver *gdriverGetNext(uint16_t type, GDriver *driver) {
+GDriver *gdriverGetNext(gU16 type, GDriver *driver) {
 	driver = driver ? driver->driverchain : dhead;
 
 	while(driver && driver->vmt->type != type)

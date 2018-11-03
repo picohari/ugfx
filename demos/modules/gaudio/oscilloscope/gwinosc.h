@@ -81,7 +81,7 @@ extern "C" {
 	/**
 	 * Create a scope window.
 	 */
-	GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, uint16_t channel, uint32_t frequency, ArrayDataFormat format);
+	GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, gU16 channel, gU32 frequency, ArrayDataFormat format);
 	#define gwinScopeCreate(gs,pI,ch,f,fmt)		gwinGScopeCreate(GDISP,gs,pI,ch,f,fmt)
 
 	/**

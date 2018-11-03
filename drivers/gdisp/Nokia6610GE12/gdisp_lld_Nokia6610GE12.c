@@ -66,8 +66,8 @@
 /*===========================================================================*/
 
 // Use the priv pointer itself to save our color. This save allocating ram for it
-//	and works provided sizeof(uint16_t) <= sizeof(void *)
-#define savecolor(g)					(*(uint16_t *)&g->priv)
+//	and works provided sizeof(gU16) <= sizeof(void *)
+#define savecolor(g)					(*(gU16 *)&g->priv)
 
 #define GDISP_FLG_ODDBYTE				(GDISP_FLG_DRIVER<<0)
 
@@ -139,7 +139,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		g->flags &= ~GDISP_FLG_ODDBYTE;
 	}
 	LLDSPEC	void gdisp_lld_write_color(GDisplay *g) {
-		uint16_t	c;
+		gU16	c;
 
 		c = gdispColor2Native(g->p.color);
 		if ((g->flags & GDISP_FLG_ODDBYTE)) {

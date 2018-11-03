@@ -47,9 +47,9 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define dummy_read(g)						{ volatile uint16_t dummy; dummy = read_data(g); (void) dummy; }
+#define dummy_read(g)						{ volatile gU16 dummy; dummy = read_data(g); (void) dummy; }
 #define write_reg(g, reg, data)				{ write_index(g, reg); write_data(g, data); }
-#define write_reg2x16(g, reg, data1, data2)	{ write_index(g, reg); write_data(g, (data1)>>8); write_data(g, (uint8_t)(data1)); write_data(g, (data2)>>8); write_data(g, (uint8_t)(data2));}
+#define write_reg2x16(g, reg, data1, data2)	{ write_index(g, reg); write_data(g, (data1)>>8); write_data(g, (gU8)(data1)); write_data(g, (data2)>>8); write_data(g, (gU8)(data2));}
 
 static void set_viewport(GDisplay* g) {
 	write_reg2x16(g, 0x2A, g->p.x, g->p.x + g->p.cx - 1);
@@ -221,7 +221,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		dummy_read(g);
 	}
 	LLDSPEC	gColor gdisp_lld_read_color(GDisplay *g) {
-		uint16_t	data;
+		gU16	data;
 
 		data = read_data(g);
 		return gdispNative2Color(data);

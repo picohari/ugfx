@@ -63,8 +63,8 @@
 
 	static void spi_delay(volatile unsigned long a) { while (a!=0) a--; }
 
-	static void spi_write(uint8_t data) {
-		uint8_t bit;
+	static void spi_write(gU8 data) {
+		gU8 bit;
 
 		for(bit = 0x80; bit; bit >>= 1) {
 			if(data & bit)
@@ -182,7 +182,7 @@ static GFXINLINE void setpin_reset(GDisplay *g, gBool state) {
 		PinSet(PORT_RESET, PIN_RESET);
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
 	(void) g;
 	(void) percent;
 }
@@ -200,7 +200,7 @@ static GFXINLINE void release_bus(GDisplay *g) {
 	SPI_RELEASEBUS();
 }
 
-static GFXINLINE void write_cmd(GDisplay *g, uint8_t cmd) {
+static GFXINLINE void write_cmd(GDisplay *g, gU8 cmd) {
 	(void) g;
 
 	// Command mode please
@@ -210,7 +210,7 @@ static GFXINLINE void write_cmd(GDisplay *g, uint8_t cmd) {
 	SPI_WRITEBYTE(cmd);
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint8_t data) {
+static GFXINLINE void write_data(GDisplay *g, gU8 data) {
 	(void) g;
 
 	// Data mode please

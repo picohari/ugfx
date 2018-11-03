@@ -67,7 +67,7 @@ typedef struct GEventADC_t {
 	/**
 	 * @brief The event flags
 	 */
-	uint16_t		flags;
+	gU16		flags;
 		/**
 		 * @brief   The event flag values.
 		 * @{
@@ -121,7 +121,7 @@ typedef void (*GADCISRCallbackFunction)(void);
  *
  * @api
  */
-void gadcHighSpeedInit(uint32_t physdev, uint32_t frequency);
+void gadcHighSpeedInit(gU32 physdev, gU32 frequency);
 
 #if GFX_USE_GEVENT || defined(__DOXYGEN__)
 	/**
@@ -211,7 +211,7 @@ void gadcHighSpeedStop(void);
  *
  * @api
  */
-void gadcLowSpeedGet(uint32_t physdev, adcsample_t *buffer);
+void gadcLowSpeedGet(gU32 physdev, adcsample_t *buffer);
 
 /**
  * @brief	Perform a low speed ADC conversion with callback (in a thread context)
@@ -236,7 +236,7 @@ void gadcLowSpeedGet(uint32_t physdev, adcsample_t *buffer);
  *
  * @api
  */
-gBool gadcLowSpeedStart(uint32_t physdev, adcsample_t *buffer, GADCCallbackFunction fn, void *param);
+gBool gadcLowSpeedStart(gU32 physdev, adcsample_t *buffer, GADCCallbackFunction fn, void *param);
 
 #endif /* GFX_USE_GADC */
 

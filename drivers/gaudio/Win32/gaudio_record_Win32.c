@@ -124,7 +124,7 @@ static DWORD WINAPI waveProc(LPVOID arg) {
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-gBool gaudio_record_lld_init(uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
+gBool gaudio_record_lld_init(gU16 channel, gU32 frequency, ArrayDataFormat format) {
 	WAVEFORMATEX	wfx;
 
 	if (format != ARRAY_DATA_8BITUNSIGNED && format != ARRAY_DATA_16BITSIGNED)

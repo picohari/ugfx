@@ -49,7 +49,7 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define RAM(g)							((uint8_t *)g->priv)
+#define RAM(g)							((gU8 *)g->priv)
 #define write_cmd2(g, cmd1, cmd2)		{ write_cmd(g, cmd1); write_cmd(g, cmd2); }
 #define write_cmd3(g, cmd1, cmd2, cmd3)	{ write_cmd(g, cmd1); write_cmd(g, cmd2); write_cmd(g, cmd3); }
 
@@ -114,7 +114,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	#else
 		write_cmd2(g, SSD1306_SETCOMPINS, 0x22);
 	#endif
-	write_cmd2(g, SSD1306_SETCONTRAST, (uint8_t)(GDISP_INITIAL_CONTRAST*256/101));	// Set initial contrast.
+	write_cmd2(g, SSD1306_SETCONTRAST, (gU8)(GDISP_INITIAL_CONTRAST*256/101));	// Set initial contrast.
 	write_cmd2(g, SSD1306_SETVCOMDETECT, 0x10);
 	write_cmd(g, SSD1306_DISPLAYON);
 	write_cmd(g, SSD1306_NORMALDISPLAY);
@@ -139,7 +139,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 #if GDISP_HARDWARE_FLUSH
 	LLDSPEC void gdisp_lld_flush(GDisplay *g) {
-		uint8_t * ram;
+		gU8 * ram;
 		unsigned pages;
 
 		// Don't flush if we don't need it.
@@ -173,8 +173,8 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		gCoord		sx, ex;
 		gCoord		col;
 		unsigned	spage, zpages;
-		uint8_t *	base;
-		uint8_t		mask;
+		gU8 *	base;
+		gU8		mask;
 
 		switch(g->g.Orientation) {
 		default:

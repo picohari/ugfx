@@ -94,7 +94,7 @@ static GFXINLINE void release_bus(GDisplay* g)
 	nrf_gpio_pin_set(PIN_CS);
 }
 
-static GFXINLINE void write_cmd(GDisplay* g, uint8_t cmd)
+static GFXINLINE void write_cmd(GDisplay* g, gU8 cmd)
 {
 	(void)g;
 
@@ -102,7 +102,7 @@ static GFXINLINE void write_cmd(GDisplay* g, uint8_t cmd)
 	nrf_drv_spi_transfer(&spi, &cmd, 1, 0, 0);
 }
 
-static GFXINLINE void write_data(GDisplay* g, uint8_t data)
+static GFXINLINE void write_data(GDisplay* g, gU8 data)
 {
 	(void)g;
 	
@@ -110,7 +110,7 @@ static GFXINLINE void write_data(GDisplay* g, uint8_t data)
 	nrf_drv_spi_transfer(&spi, &data, 1, 0, 0);
 }
 
-static GFXINLINE void write_data_burst(GDisplay* g, uint8_t* data, uint8_t length)
+static GFXINLINE void write_data_burst(GDisplay* g, gU8* data, gU8 length)
 {
 	(void)g;
 	

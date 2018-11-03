@@ -322,16 +322,16 @@ struct GDisplay {
 		gCoord					Height;
 		gOrientation			Orientation;
 		gPowermode				Powermode;
-		uint8_t					Backlight;
-		uint8_t					Contrast;
+		gU8					Backlight;
+		gU8					Contrast;
 	} g;
 
 	void *						priv;				// A private area just for the drivers use.
 	void *						board;				// A private area just for the board interfaces use.
 
-	uint8_t						systemdisplay;
-	uint8_t						controllerdisplay;
-	uint16_t					flags;
+	gU8						systemdisplay;
+	gU8						controllerdisplay;
+	gU16					flags;
 		#define GDISP_FLG_INSTREAM		0x0001		// We are in a user based stream operation
 		#define GDISP_FLG_SCRSTREAM		0x0002		// The stream area currently covers the whole screen
 		#define GDISP_FLG_DRIVER		0x0004		// This flags and above are for use by the driver
@@ -828,13 +828,13 @@ typedef struct GDISPVMT {
 
 		// From the number of bits determine COLOR_TYPE, COLOR_TYPE_BITS and masking
 		#if LLDCOLOR_BITS <= 8
-			#define LLDCOLOR_TYPE			uint8_t
+			#define LLDCOLOR_TYPE			gU8
 			#define LLDCOLOR_TYPE_BITS		8
 		#elif LLDCOLOR_BITS <= 16
-			#define LLDCOLOR_TYPE			uint16_t
+			#define LLDCOLOR_TYPE			gU16
 			#define LLDCOLOR_TYPE_BITS		16
 		#elif LLDCOLOR_BITS <= 32
-			#define LLDCOLOR_TYPE			uint32_t
+			#define LLDCOLOR_TYPE			gU32
 			#define LLDCOLOR_TYPE_BITS		32
 		#else
 			#error "GDISP: Cannot define low level driver color types with more than 32 bits"
@@ -888,11 +888,11 @@ typedef struct GDISPVMT {
 			#define LLDBLUE_OF(c)			(((c) & (((1<<LLDCOLOR_BITS_B)-1) << LLDCOLOR_SHIFT_B)) << (8-(LLDCOLOR_BITS_B+LLDCOLOR_SHIFT_B)))
 			#define LLDRGB2COLOR_B(b)		(((LLDCOLOR_TYPE)((b) & (0xFF & ~((1<<(8-LLDCOLOR_BITS_B))-1)))) >> (8-(LLDCOLOR_BITS_B+LLDCOLOR_SHIFT_B)))
 		#endif
-		#define LLDLUMA_OF(c)				((LLDRED_OF(c)+((uint16_t)LLDGREEN_OF(c)<<1)+LLDBLUE_OF(c))>>2)
-		#define LLDEXACT_RED_OF(c)			(((uint16_t)(((c)>>LLDCOLOR_SHIFT_R)&((1<<LLDCOLOR_BITS_R)-1))*255)/((1<<LLDCOLOR_BITS_R)-1))
-		#define LLDEXACT_GREEN_OF(c)		(((uint16_t)(((c)>>LLDCOLOR_SHIFT_G)&((1<<LLDCOLOR_BITS_G)-1))*255)/((1<<LLDCOLOR_BITS_G)-1))
-		#define LLDEXACT_BLUE_OF(c)			(((uint16_t)(((c)>>LLDCOLOR_SHIFT_B)&((1<<LLDCOLOR_BITS_B)-1))*255)/((1<<LLDCOLOR_BITS_B)-1))
-		#define LLDEXACT_LUMA_OF(c)			((LLDEXACT_RED_OF(c)+((uint16_t)LLDEXACT_GREEN_OF(c)<<1)+LLDEXACT_BLUE_OF(c))>>2)
+		#define LLDLUMA_OF(c)				((LLDRED_OF(c)+((gU16)LLDGREEN_OF(c)<<1)+LLDBLUE_OF(c))>>2)
+		#define LLDEXACT_RED_OF(c)			(((gU16)(((c)>>LLDCOLOR_SHIFT_R)&((1<<LLDCOLOR_BITS_R)-1))*255)/((1<<LLDCOLOR_BITS_R)-1))
+		#define LLDEXACT_GREEN_OF(c)		(((gU16)(((c)>>LLDCOLOR_SHIFT_G)&((1<<LLDCOLOR_BITS_G)-1))*255)/((1<<LLDCOLOR_BITS_G)-1))
+		#define LLDEXACT_BLUE_OF(c)			(((gU16)(((c)>>LLDCOLOR_SHIFT_B)&((1<<LLDCOLOR_BITS_B)-1))*255)/((1<<LLDCOLOR_BITS_B)-1))
+		#define LLDEXACT_LUMA_OF(c)			((LLDEXACT_RED_OF(c)+((gU16)LLDEXACT_GREEN_OF(c)<<1)+LLDEXACT_BLUE_OF(c))>>2)
 		#define LLDLUMA2COLOR(l)			(LLDRGB2COLOR_R(l) | LLDRGB2COLOR_G(l) | LLDRGB2COLOR_B(l))
 		#define LLDRGB2COLOR(r,g,b)			(LLDRGB2COLOR_R(r) | LLDRGB2COLOR_G(g) | LLDRGB2COLOR_B(b))
 
@@ -937,7 +937,7 @@ typedef struct GDISPVMT {
 
 		// From the number of bits determine COLOR_TYPE, COLOR_TYPE_BITS and masking
 		#if LLDCOLOR_BITS <= 8
-			#define LLDCOLOR_TYPE		uint8_t
+			#define LLDCOLOR_TYPE		gU8
 			#define LLDCOLOR_TYPE_BITS	8
 		#else
 			#error "GDISP: Cannot define gray-scale low level driver color types with more than 8 bits"
@@ -957,11 +957,11 @@ typedef struct GDISPVMT {
 			#define LLDEXACT_LUMA_OF(c)		LLDLUMA_OF(c)
 		#else
 			// They eye is more sensitive to green
-			#define LLDRGB2COLOR(r,g,b)		((LLDCOLOR_TYPE)(((uint16_t)(r)+(g)+(g)+(b)) >> (10-LLDCOLOR_BITS)))
+			#define LLDRGB2COLOR(r,g,b)		((LLDCOLOR_TYPE)(((gU16)(r)+(g)+(g)+(b)) >> (10-LLDCOLOR_BITS)))
 			#define LLDLUMA2COLOR(l)		((LLDCOLOR_TYPE)((l)>>(8-LLDCOLOR_BITS)))
 			#define LLDHTML2COLOR(h)		((LLDCOLOR_TYPE)(((((h)&0xFF0000)>>16)+(((h)&0x00FF00)>>7)+((h)&0x0000FF)) >> (10-LLDCOLOR_BITS)))
 			#define LLDLUMA_OF(c)			(((c) & ((1<<LLDCOLOR_BITS)-1)) << (8-LLDCOLOR_BITS))
-			#define LLDEXACT_LUMA_OF(c)		((((uint16_t)(c) & ((1<<LLDCOLOR_BITS)-1))*255)/((1<<LLDCOLOR_BITS)-1))
+			#define LLDEXACT_LUMA_OF(c)		((((gU16)(c) & ((1<<LLDCOLOR_BITS)-1))*255)/((1<<LLDCOLOR_BITS)-1))
 		#endif
 
 		#define LLDRED_OF(c)			LLDLUMA_OF(c)

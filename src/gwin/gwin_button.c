@@ -67,14 +67,14 @@
 
 #if GINPUT_NEED_TOGGLE
 	// A toggle off has occurred
-	static void ButtonToggleOff(GWidgetObject *gw, uint16_t role) {
+	static void ButtonToggleOff(GWidgetObject *gw, gU16 role) {
 		(void) role;
 		gw->g.flags &= ~GBUTTON_FLG_PRESSED;
 		_gwinUpdate((GHandle)gw);
 	}
 
 	// A toggle on has occurred
-	static void ButtonToggleOn(GWidgetObject *gw, uint16_t role) {
+	static void ButtonToggleOn(GWidgetObject *gw, gU16 role) {
 		(void) role;
 		gw->g.flags |= GBUTTON_FLG_PRESSED;
 		_gwinUpdate((GHandle)gw);
@@ -82,12 +82,12 @@
 		_gwinSendEvent(&gw->g, GEVENT_GWIN_BUTTON);
 	}
 
-	static void ButtonToggleAssign(GWidgetObject *gw, uint16_t role, uint16_t instance) {
+	static void ButtonToggleAssign(GWidgetObject *gw, gU16 role, gU16 instance) {
 		(void) role;
 		((GButtonObject *)gw)->toggle = instance;
 	}
 
-	static uint16_t ButtonToggleGet(GWidgetObject *gw, uint16_t role) {
+	static gU16 ButtonToggleGet(GWidgetObject *gw, gU16 role) {
 		(void) role;
 		return ((GButtonObject *)gw)->toggle;
 	}

@@ -57,7 +57,7 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define RAM(g)							((uint8_t *)g->priv)
+#define RAM(g)							((gU8 *)g->priv)
 #define write_cmd2(g, cmd1, cmd2)		{ write_cmd(g, cmd1); write_cmd(g, cmd2); }
 #define write_cmd3(g, cmd1, cmd2, cmd3)	{ write_cmd(g, cmd1); write_cmd(g, cmd2); write_cmd(g, cmd3); }
 
@@ -150,7 +150,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 			return;
 
 		acquire_bus(g);
-		uint8_t pagemap[8]={ST7565_PAGE_ORDER};
+		gU8 pagemap[8]={ST7565_PAGE_ORDER};
 		for (p = 0; p < 8; p++) {
 			write_cmd(g, ST7565_PAGE | pagemap[p]);
 			write_cmd(g, ST7565_COLUMN_MSB | 0);

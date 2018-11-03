@@ -35,9 +35,9 @@
 
 typedef struct GEventDial_t {
 	GEventType		type;				// The type of this event (GEVENT_DIAL)
-	uint16_t		instance;			// The dial instance
-	uint16_t		value;				// The dial value
-	uint16_t		maxvalue;			// The maximum dial value
+	gU16		instance;			// The dial instance
+	gU16		value;				// The dial value
+	gU16		maxvalue;			// The maximum dial value
 	} GEventDial;
 
 /*===========================================================================*/
@@ -51,14 +51,14 @@ typedef struct GEventDial_t {
  *
  * @return	The soure handle of the created dial instance
  */
-GSourceHandle ginputGetDial(uint16_t instance);				
+GSourceHandle ginputGetDial(gU16 instance);				
 
 /**
  * @brief	Reset the value back to the hardware default
  *
  * @param[in] instance	The ID of the dial input instance
  */
-void ginputResetDialRange(uint16_t instance);				
+void ginputResetDialRange(gU16 instance);				
 
 /**
  * @brief	Get the maximum value
@@ -68,7 +68,7 @@ void ginputResetDialRange(uint16_t instance);
  *
  * @return	The maximum value
  */
-uint16_t ginputGetDialRange(uint16_t instance);
+gU16 ginputGetDialRange(gU16 instance);
 
 /**
  * @brief	Set the maximum value
@@ -77,7 +77,7 @@ uint16_t ginputGetDialRange(uint16_t instance);
  * @param[in] instance	The ID of the dial input instance
  * @param[in] max		The maximum value to be set
  */
-void ginputSetDialRange(uint16_t instance, uint16_t max);
+void ginputSetDialRange(gU16 instance, gU16 max);
 
 /**
  * @brief	Set the level change required before a dial even is generated (threshold)
@@ -86,7 +86,7 @@ void ginputSetDialRange(uint16_t instance, uint16_t max);
  * @param[in] instance	The ID of the dial input instance
  * @param[in] diff		The amount of level changes
  */
-void ginputSetDialSensitivity(uint16_t instance, uint16_t diff);
+void ginputSetDialSensitivity(gU16 instance, gU16 diff);
 																
 /**
  * @brief	Get the current dial status
@@ -96,7 +96,7 @@ void ginputSetDialSensitivity(uint16_t instance, uint16_t diff);
  *
  * @return	Returns gFalse on an error (eg invalid instance)
  */
-gBool ginputGetDialStatus(uint16_t instance, GEventDial *pdial);
+gBool ginputGetDialStatus(gU16 instance, GEventDial *pdial);
 
 #endif /* GINPUT_NEED_DIAL */
 

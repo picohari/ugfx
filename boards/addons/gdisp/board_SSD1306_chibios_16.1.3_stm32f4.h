@@ -72,17 +72,17 @@ static GFXINLINE void release_bus(GDisplay* g)
 	spiReleaseBus(SPI_DRIVER);
 }
 
-static GFXINLINE void write_cmd(GDisplay* g, uint8_t cmd)
+static GFXINLINE void write_cmd(GDisplay* g, gU8 cmd)
 {
 	(void)g;
 
-	static uint8_t buf;
+	static gU8 buf;
 	palClearPad(DC_PORT, DC_PAD);
 	buf = cmd;
 	spiSend(SPI_DRIVER, 1, &buf);
 }
 
-static GFXINLINE void write_data(GDisplay* g, uint8_t* data, uint16_t length)
+static GFXINLINE void write_data(GDisplay* g, gU8* data, gU16 length)
 {
 	(void)g;
 

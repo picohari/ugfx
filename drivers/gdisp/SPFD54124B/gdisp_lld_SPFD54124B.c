@@ -68,8 +68,8 @@
 /*===========================================================================*/
 
 // Use the priv pointer itself to save our color. This save allocating ram for it
-//	and works provided sizeof(uint16_t) <= sizeof(void *)
-#define savecolor(g)				(*(uint16_t *)&g->priv)
+//	and works provided sizeof(gU16) <= sizeof(void *)
+#define savecolor(g)				(*(gU16 *)&g->priv)
 
 /*===========================================================================*/
 /* Driver local functions.                                                   */
@@ -94,7 +94,7 @@ static GFXINLINE void set_viewport(GDisplay* g)
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-const uint16_t lcd_init_list[] = {
+const gU16 lcd_init_list[] = {
 	SPFD54124B_CMD_SLPOUT,
 	SPFD54124B_CMD_COLMOD, SPFD54124B_SEND_DATA | SPFD54124B_CMD_COLMOD_MCU16bit,
 	SPFD54124B_CMD_DISPON,
@@ -118,8 +118,8 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 
 	acquire_bus(g);
 
-	const uint16_t *list = &lcd_init_list[0];
-	uint8_t size = sizeof(lcd_init_list) / sizeof(lcd_init_list[0]);
+	const gU16 *list = &lcd_init_list[0];
+	gU8 size = sizeof(lcd_init_list) / sizeof(lcd_init_list[0]);
 
 	while(size--) {
 		write_index(g, *list++);

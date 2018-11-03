@@ -63,7 +63,7 @@
 	#endif
 
 	#if GDISP_NEED_CONTROL
-		static void board_backlight(GDisplay *g, uint8_t percent) {
+		static void board_backlight(GDisplay *g, gU8 percent) {
 			(void) g;
 			#if (CYG_FB_FLAGS0(FRAMEBUF) & CYG_FB_FLAGS0_BACKLIGHT)
 				cyg_fb_ioctl_backlight backlight;
@@ -74,12 +74,12 @@
 				if (backlight.fbbl_max == 1)
 					backlight.fbbl_current = percent ? 1 : 0;
 				else
-					backlight.fbbl_current = (((uint32_t)percent)*backlight.fbbl_max)/100;
+					backlight.fbbl_current = (((gU32)percent)*backlight.fbbl_max)/100;
 				CYG_FB_IOCTL(FRAMEBUF, CYG_FB_IOCTL_BACKLIGHT_SET, &backlight, &len);
 			#endif
 		}
 
-		static void board_contrast(GDisplay *g, uint8_t percent) {
+		static void board_contrast(GDisplay *g, gU8 percent) {
 			(void) g;
 			(void) percent;
 		}

@@ -70,11 +70,11 @@ gBool		gfileDelete(const char *fname);
  * 
  * @param[in] fname			The file name
  * 
- * @return					File size on success, -1 on error
+ * @return					File size on success, (gFileSize)-1 on error
  * 
  * @api
  */
-long int	gfileGetFilesize(const char *fname);
+gFileSize	gfileGetFilesize(const char *fname);
 
 /**
  * @brief					Rename file
@@ -145,7 +145,7 @@ void		gfileClose(GFILE *f);
  *
  * @api
  */
-size_t		gfileRead(GFILE *f, void *buf, size_t len);
+gMemSize	gfileRead(GFILE *f, void *buf, gMemSize len);
 
 /**
  * @brief					Write to file
@@ -160,7 +160,7 @@ size_t		gfileRead(GFILE *f, void *buf, size_t len);
  *
  * @api
  */
-size_t		gfileWrite(GFILE *f, const void *buf, size_t len);
+gMemSize	gfileWrite(GFILE *f, const void *buf, gMemSize len);
 
 /**
  * @brief					Get the current position of the read/write cursor
@@ -171,7 +171,7 @@ size_t		gfileWrite(GFILE *f, const void *buf, size_t len);
  *
  * @api
  */
-long int	gfileGetPos(GFILE *f);
+gFileSize	gfileGetPos(GFILE *f);
 
 /**
  * @brief					Set the position of the read/write cursor
@@ -183,7 +183,7 @@ long int	gfileGetPos(GFILE *f);
  *
  * @api
  */
-gBool		gfileSetPos(GFILE *f, long int pos);
+gBool		gfileSetPos(GFILE *f, gFileSize pos);
 
 /**
  * @brief					Get the size of file
@@ -195,7 +195,7 @@ gBool		gfileSetPos(GFILE *f, long int pos);
  *
  * @api
  */
-long int	gfileGetSize(GFILE *f);
+gFileSize	gfileGetSize(GFILE *f);
 
 /**
  * @brief					Check for EOF
@@ -399,7 +399,7 @@ gBool gfileSync(GFILE *f);
 	// Needed routines and definitions
 	size_t gstdioRead(void * ptr, size_t size, size_t count, GFILE *f);
 	size_t gstdioWrite(const void * ptr, size_t size, size_t count, GFILE *f);
-	int gstdioGetpos(GFILE *f, long int *pos);
+	int gstdioGetpos(GFILE *f, long *pos);
 	int gstdioSeek(GFILE *f, size_t offset, int origin);
 	#define SEEK_SET	0
 	#define SEEK_CUR	1
@@ -424,7 +424,7 @@ gBool gfileSync(GFILE *f);
 	#define rename(o,n)				(!gfileRename(o,n))
 	#define fflush(f)				(0)
 	#define ftell(f)				gfileGetPos(f)
-	#define fpos_t					long int
+	#define fpos_t					gFileSize
 	#define fgetpos(f,pos)			gstdioGetpos(f,pos)
 	#define fsetpos(f, pos)			(!gfileSetPos(f, *pos))
 	#define rewind(f)				gfileSetPos(f, 0);

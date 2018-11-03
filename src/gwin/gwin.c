@@ -84,7 +84,7 @@ void _gwinDeinit(void)
 
 // Internal routine for use by GWIN components only
 // Initialise a window creating it dynamically if required.
-GHandle _gwindowCreate(GDisplay *g, GWindowObject *pgw, const GWindowInit *pInit, const gwinVMT *vmt, uint32_t flags) {
+GHandle _gwindowCreate(GDisplay *g, GWindowObject *pgw, const GWindowInit *pInit, const gwinVMT *vmt, gU32 flags) {
 	// Allocate the structure if necessary
 	if (!pgw) {
 		if (!(pgw = gfxAlloc(vmt->size)))
@@ -324,13 +324,13 @@ void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord s
 #endif
 
 #if GDISP_NEED_ARCSECTORS
-	void gwinDrawArcSectors(GHandle gh, gCoord x, gCoord y, gCoord radius, uint8_t sectors) {
+	void gwinDrawArcSectors(GHandle gh, gCoord x, gCoord y, gCoord radius, gU8 sectors) {
 		if (!_gwinDrawStart(gh)) return;
 		gdispGDrawArcSectors(gh->display, gh->x+x, gh->y+y, radius, sectors, gh->color);
 		_gwinDrawEnd(gh);
 	}
 
-	void gwinFillArcSectors(GHandle gh, gCoord x, gCoord y, gCoord radius, uint8_t sectors) {
+	void gwinFillArcSectors(GHandle gh, gCoord x, gCoord y, gCoord radius, gU8 sectors) {
 		if (!_gwinDrawStart(gh)) return;
 		gdispGFillArcSectors(gh->display, gh->x+x, gh->y+y, radius, sectors, gh->color);
 		_gwinDrawEnd(gh);

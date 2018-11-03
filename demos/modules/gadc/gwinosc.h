@@ -80,7 +80,7 @@ extern "C" {
 	/**
 	 * Create a scope window.
 	 */
-	GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, uint32_t physdev, uint32_t frequency);
+	GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, gU32 physdev, gU32 frequency);
 	#define gwinScopeCreate(gs,pI,pd,f)		gwinGScopeCreate(GDISP,gs,pI,pd,f)
 
 	/**

@@ -16,7 +16,7 @@
 
 struct GFILE {
 	const struct GFILEVMT *	vmt;
-	uint16_t				flags;
+	gU16				flags;
 		#define	GFILEFLG_OPEN			0x0001		// File is open
 		#define	GFILEFLG_READ			0x0002		// Read the file
 		#define	GFILEFLG_WRITE			0x0004		// Write the file
@@ -29,7 +29,7 @@ struct GFILE {
 		#define GFILEFLG_MUSTNOTEXIST	0x0200		// On open file must not exist
 		#define GFILEFLG_TRUNC			0x0400		// On open truncate the file
 	void *					obj;
-	long int				pos;
+	gFileSize				pos;
 };
 
 struct gfileList {
@@ -38,7 +38,7 @@ struct gfileList {
 };
 
 typedef struct GFILEVMT {
-	uint8_t					flags;
+	gU8					flags;
 		#define GFSFLG_WRITEABLE		0x0001
 		#define GFSFLG_CASESENSITIVE	0x0002
 		#define GFSFLG_SEEKABLE			0x0004
@@ -48,14 +48,14 @@ typedef struct GFILEVMT {
 	char					prefix;
 	gBool		(*del)		(const char *fname);
 	gBool		(*exists)	(const char *fname);
-	long int	(*filesize)	(const char *fname);
+	gFileSize	(*filesize)	(const char *fname);
 	gBool		(*ren)		(const char *oldname, const char *newname);
 	gBool		(*open)		(GFILE *f, const char *fname);
 	void		(*close)	(GFILE *f);
 	int			(*read)		(GFILE *f, void *buf, int size);
 	int			(*write)	(GFILE *f, const void *buf, int size);
-	gBool		(*setpos)	(GFILE *f, long int pos);
-	long int	(*getsize)	(GFILE *f);
+	gBool		(*setpos)	(GFILE *f, gFileSize pos);
+	gFileSize	(*getsize)	(GFILE *f);
 	gBool		(*eof)		(GFILE *f);
 	gBool		(*mount)	(const char *drive);
 	gBool		(*unmount)	(const char *drive);

@@ -82,26 +82,26 @@ static GFXINLINE void release_bus(GMouse* m) {
     (void)m;
 }
 
-static void write_reg(GMouse* m, uint8_t reg, uint8_t val) {
+static void write_reg(GMouse* m, gU8 reg, gU8 val) {
     (void)m;
 
-    HAL_I2C_Mem_Write(&i2cHandle, FT6x06_SLAVE_ADDR, (uint16_t)reg, I2C_MEMADD_SIZE_8BIT, &val, 1, 1000);
+    HAL_I2C_Mem_Write(&i2cHandle, FT6x06_SLAVE_ADDR, (gU16)reg, I2C_MEMADD_SIZE_8BIT, &val, 1, 1000);
 }
 
-static uint8_t read_byte(GMouse* m, uint8_t reg) {
+static gU8 read_byte(GMouse* m, gU8 reg) {
     (void)m;
-    uint8_t result;
+    gU8 result;
 
-    HAL_I2C_Mem_Read(&i2cHandle, FT6x06_SLAVE_ADDR, (uint16_t)reg, I2C_MEMADD_SIZE_8BIT, &result, 1, 1000);
+    HAL_I2C_Mem_Read(&i2cHandle, FT6x06_SLAVE_ADDR, (gU16)reg, I2C_MEMADD_SIZE_8BIT, &result, 1, 1000);
 
     return result;
 }
 
-static uint16_t read_word(GMouse* m, uint8_t reg) {
+static gU16 read_word(GMouse* m, gU8 reg) {
 	(void)m;
-	uint8_t result[2];
+	gU8 result[2];
 
-    HAL_I2C_Mem_Read(&i2cHandle, FT6x06_SLAVE_ADDR, (uint16_t)reg, I2C_MEMADD_SIZE_8BIT, result, 2, 1000);
+    HAL_I2C_Mem_Read(&i2cHandle, FT6x06_SLAVE_ADDR, (gU16)reg, I2C_MEMADD_SIZE_8BIT, result, 2, 1000);
 
 	return (result[0]<<8 | result[1]);
 

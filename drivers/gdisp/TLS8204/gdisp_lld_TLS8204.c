@@ -33,7 +33,7 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define RAM(g)			((uint8_t *)g->priv)
+#define RAM(g)			((gU8 *)g->priv)
 
 #define xyaddr(x, y)	((x) + ((y) >> 3) * GDISP_TLS8204_WIDTH)
 #define xybit(y)		(1 << ((y) & 7))
@@ -261,7 +261,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		case GDISP_CONTROL_CONTRAST:
 			if ((unsigned)g->p.ptr > 100) g->p.ptr = (void *)100;
 			{
-				uint8_t		cval;
+				gU8		cval;
 
 				cval = (unsigned)g->p.ptr * 2 + 22;
 				acquire_bus(g);

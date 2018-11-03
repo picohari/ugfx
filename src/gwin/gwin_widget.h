@@ -78,7 +78,7 @@ typedef void (*CustomWidgetDrawFunction)(struct GWidgetObject *gw, void *param);
 /**
  * @brief	Defines a the type of a tag on a widget
  */
-typedef uint16_t	WidgetTag;
+typedef gU16	WidgetTag;
 
 /**
  * @brief	The structure to initialise a widget.
@@ -333,7 +333,7 @@ void gwinSetCustomDraw(GHandle gh, CustomWidgetDrawFunction fn, void *param);
 gBool gwinAttachListener(GListener *pl);
 
 #if (GFX_USE_GINPUT && GINPUT_NEED_MOUSE) || defined(__DOXYGEN__)
-	gBool DEPRECATED("This call can now be removed. Attaching the mouse to GWIN is now automatic.") gwinAttachMouse(uint16_t instance);
+	gBool DEPRECATED("This call can now be removed. Attaching the mouse to GWIN is now automatic.") gwinAttachMouse(gU16 instance);
 #endif
 
 #if (GFX_USE_GINPUT && GINPUT_NEED_TOGGLE) || defined(__DOXYGEN__)
@@ -351,7 +351,7 @@ gBool gwinAttachListener(GListener *pl);
 	 *
 	 * @api
 	 */
-	gBool gwinAttachToggle(GHandle gh, uint16_t role, uint16_t instance);
+	gBool gwinAttachToggle(GHandle gh, gU16 role, gU16 instance);
 	/**
 	 * @brief	Detach a toggle from a widget
 	 * @return	gTrue on success
@@ -365,7 +365,7 @@ gBool gwinAttachListener(GListener *pl);
 	 *
 	 * @api
 	 */
-	gBool gwinDetachToggle(GHandle gh, uint16_t role);
+	gBool gwinDetachToggle(GHandle gh, gU16 role);
 #endif
 
 #if (GFX_USE_GINPUT && GINPUT_NEED_DIAL) || defined(__DOXYGEN__)
@@ -383,7 +383,7 @@ gBool gwinAttachListener(GListener *pl);
 	 *
 	 * @api
 	 */
-	gBool gwinAttachDial(GHandle gh, uint16_t role, uint16_t instance);
+	gBool gwinAttachDial(GHandle gh, gU16 role, gU16 instance);
 #endif
 
 #if (GFX_USE_GINPUT && GINPUT_NEED_KEYBOARD) || GWIN_NEED_KEYBOARD || defined(__DOXYGEN__)

@@ -134,7 +134,7 @@ static const gcontainerVMT containerVMT = {
 	0,									// A child has been deleted (optional)
 };
 
-GHandle gwinGContainerCreate(GDisplay *g, GContainerObject *gc, const GWidgetInit *pInit, uint32_t flags) {
+GHandle gwinGContainerCreate(GDisplay *g, GContainerObject *gc, const GWidgetInit *pInit, gU32 flags) {
 	if (!(gc = (GContainerObject *)_gcontainerCreate(g, gc, pInit, &containerVMT)))
 		return 0;
 

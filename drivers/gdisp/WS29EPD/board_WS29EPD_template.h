@@ -31,23 +31,23 @@ static GFXINLINE void release_bus(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint8_t data) {
+static GFXINLINE void write_data(GDisplay *g, gU8 data) {
 	(void) g;
   (void) data;
 }
 
-static GFXINLINE void write_reg(GDisplay *g, uint8_t reg, uint8_t data){
+static GFXINLINE void write_reg(GDisplay *g, gU8 reg, gU8 data){
   (void) g;
   (void) reg;
   (void) data;
 }
 
-static GFXINLINE void write_cmd(GDisplay *g, uint8_t reg){
+static GFXINLINE void write_cmd(GDisplay *g, gU8 reg){
   (void) g;
   (void) reg;
 }
 
-static GFXINLINE void write_reg_data(GDisplay *g, uint8_t reg, uint8_t *data, uint8_t len) {
+static GFXINLINE void write_reg_data(GDisplay *g, gU8 reg, gU8 *data, gU8 len) {
   (void) g;
   (void) reg;
   (void) data;

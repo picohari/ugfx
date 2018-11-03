@@ -50,7 +50,7 @@ typedef struct GWindowObject {
 	gCoord					height;				/**< The height of this window */
 	gColor					color;				/**< The current foreground drawing color */
 	gColor					bgcolor;			/**< The current background drawing color */
-	uint32_t				flags;				/**< Window flags (the meaning is private to the GWIN class) */
+	gU32				flags;				/**< Window flags (the meaning is private to the GWIN class) */
 	#if GDISP_NEED_TEXT
 		gFont				font;				/**< The current font */
 	#endif
@@ -830,7 +830,7 @@ void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord s
 	 *
 	 * @api
 	 */
-	void gwinDrawArcSectors(GHandle gh, gCoord x, gCoord y, gCoord radius, uint8_t sectors);
+	void gwinDrawArcSectors(GHandle gh, gCoord x, gCoord y, gCoord radius, gU8 sectors);
 
 	/*
 	 * @brief	Draw a filled selection of 45 degree arcs of a circle in the window.
@@ -853,7 +853,7 @@ void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord s
 	 *
 	 * @api
 	 */
-	void gwinFillArcSectors(GHandle gh, gCoord x, gCoord y, gCoord radius, uint8_t sectors);
+	void gwinFillArcSectors(GHandle gh, gCoord x, gCoord y, gCoord radius, gU8 sectors);
 #endif
 
 /*-------------------------------------------------

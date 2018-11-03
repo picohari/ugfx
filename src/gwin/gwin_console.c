@@ -42,23 +42,23 @@
 	#define Stream2GWindow(ip)		((GHandle)(((char *)(ip)) - (size_t)(&(((GConsoleObject *)0)->stream))))
 
 #if CH_KERNEL_MAJOR == 2
-	static size_t GWinStreamWrite(void *ip, const uint8_t *bp, size_t n) { gwinPutCharArray(Stream2GWindow(ip), (const char *)bp, n); return RDY_OK; }
-	static size_t GWinStreamRead(void *ip, uint8_t *bp, size_t n) {	(void)ip; (void)bp; (void)n; return 0; }
-	static msg_t GWinStreamPut(void *ip, uint8_t b) { gwinPutChar(Stream2GWindow(ip), (char)b); return RDY_OK; }
+	static size_t GWinStreamWrite(void *ip, const gU8 *bp, size_t n) { gwinPutCharArray(Stream2GWindow(ip), (const char *)bp, n); return RDY_OK; }
+	static size_t GWinStreamRead(void *ip, gU8 *bp, size_t n) {	(void)ip; (void)bp; (void)n; return 0; }
+	static msg_t GWinStreamPut(void *ip, gU8 b) { gwinPutChar(Stream2GWindow(ip), (char)b); return RDY_OK; }
 	static msg_t GWinStreamGet(void *ip) {(void)ip; return RDY_OK; }
-	static msg_t GWinStreamPutTimed(void *ip, uint8_t b, systime_t time) { (void)time; gwinPutChar(Stream2GWindow(ip), (char)b); return RDY_OK; }
+	static msg_t GWinStreamPutTimed(void *ip, gU8 b, systime_t time) { (void)time; gwinPutChar(Stream2GWindow(ip), (char)b); return RDY_OK; }
 	static msg_t GWinStreamGetTimed(void *ip, systime_t timeout) { (void)ip; (void)timeout; return RDY_OK; }
-	static size_t GWinStreamWriteTimed(void *ip, const uint8_t *bp, size_t n, systime_t time) { (void)time; gwinPutCharArray(Stream2GWindow(ip), (const char *)bp, n); return RDY_OK; }
-	static size_t GWinStreamReadTimed(void *ip, uint8_t *bp, size_t n, systime_t time) { (void)ip; (void)bp; (void)n; (void)time; return 0; }
+	static size_t GWinStreamWriteTimed(void *ip, const gU8 *bp, size_t n, systime_t time) { (void)time; gwinPutCharArray(Stream2GWindow(ip), (const char *)bp, n); return RDY_OK; }
+	static size_t GWinStreamReadTimed(void *ip, gU8 *bp, size_t n, systime_t time) { (void)ip; (void)bp; (void)n; (void)time; return 0; }
 #elif CH_KERNEL_MAJOR == 3
-    static size_t GWinStreamWrite(void *ip, const uint8_t *bp, size_t n) { gwinPutCharArray(Stream2GWindow(ip), (const char *)bp, n); return MSG_OK; }
-    static size_t GWinStreamRead(void *ip, uint8_t *bp, size_t n) { (void)ip; (void)bp; (void)n; return 0; }
-    static msg_t GWinStreamPut(void *ip, uint8_t b) { gwinPutChar(Stream2GWindow(ip), (char)b); return MSG_OK; }
+    static size_t GWinStreamWrite(void *ip, const gU8 *bp, size_t n) { gwinPutCharArray(Stream2GWindow(ip), (const char *)bp, n); return MSG_OK; }
+    static size_t GWinStreamRead(void *ip, gU8 *bp, size_t n) { (void)ip; (void)bp; (void)n; return 0; }
+    static msg_t GWinStreamPut(void *ip, gU8 b) { gwinPutChar(Stream2GWindow(ip), (char)b); return MSG_OK; }
     static msg_t GWinStreamGet(void *ip) {(void)ip; return MSG_OK; }
-    static msg_t GWinStreamPutTimed(void *ip, uint8_t b, systime_t time) { (void)time; gwinPutChar(Stream2GWindow(ip), (char)b); return MSG_OK; }
+    static msg_t GWinStreamPutTimed(void *ip, gU8 b, systime_t time) { (void)time; gwinPutChar(Stream2GWindow(ip), (char)b); return MSG_OK; }
     static msg_t GWinStreamGetTimed(void *ip, systime_t timeout) { (void)ip; (void)timeout; return MSG_OK; }
-    static size_t GWinStreamWriteTimed(void *ip, const uint8_t *bp, size_t n, systime_t time) { (void)time; gwinPutCharArray(Stream2GWindow(ip), (const char *)bp, n); return MSG_OK; }
-    static size_t GWinStreamReadTimed(void *ip, uint8_t *bp, size_t n, systime_t time) { (void)ip; (void)bp; (void)n; (void)time; return 0; }
+    static size_t GWinStreamWriteTimed(void *ip, const gU8 *bp, size_t n, systime_t time) { (void)time; gwinPutCharArray(Stream2GWindow(ip), (const char *)bp, n); return MSG_OK; }
+    static size_t GWinStreamReadTimed(void *ip, gU8 *bp, size_t n, systime_t time) { (void)ip; (void)bp; (void)n; (void)time; return 0; }
 #endif
 
 	struct GConsoleWindowVMT_t {
@@ -79,8 +79,8 @@
 
 #if GWIN_CONSOLE_ESCSEQ
 	// Convert escape sequences to attributes
-	static gBool ESCtoAttr(char c, uint8_t *pattr) {
-		uint8_t		attr;
+	static gBool ESCtoAttr(char c, gU8 *pattr) {
+		gU8		attr;
 
 		attr = pattr[0];
 		switch(c) {
@@ -157,7 +157,7 @@
 	 */
 	static void scrollBuffer(GConsoleObject *gcw) {
 		char	*p, *ep;
-		size_t	dp;
+		gPtrDiff	dp;
 
 		// Only scroll if we need to
 		if (!gcw->buffer || (gcw->g.flags & GCONSOLE_FLG_NOSTORE))
@@ -256,7 +256,7 @@
 		// Do we have enough space in the buffer
 		if (gcw->bufpos >= gcw->bufsize) {
 			char	*p, *ep;
-			size_t	dp;
+			gPtrDiff	dp;
 
 			/**
 			 * This should never really happen except if the user has changed the window
@@ -433,7 +433,7 @@ GHandle gwinGConsoleCreate(GDisplay *g, GConsoleObject *gc, const GWindowInit *p
 
 void gwinPutChar(GHandle gh, char c) {
 	#define gcw		((GConsoleObject *)gh)
-	uint8_t			width, fy;
+	gU8			width, fy;
 
 	if (gh->vmt != &consoleVMT || !gh->font)
 		return;
@@ -625,7 +625,7 @@ void gwinPutString(GHandle gh, const char *str) {
 		gwinPutChar(gh, *str++);
 }
 
-void gwinPutCharArray(GHandle gh, const char *str, size_t n) {
+void gwinPutCharArray(GHandle gh, const char *str, gMemSize n) {
 	while(n--)
 		gwinPutChar(gh, *str++);
 }

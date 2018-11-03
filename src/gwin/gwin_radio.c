@@ -69,18 +69,18 @@ static void SendRadioEvent(GWidgetObject *gw) {
 
 #if GINPUT_NEED_TOGGLE
 	// A toggle on has occurred
-	static void RadioToggleOn(GWidgetObject *gw, uint16_t role) {
+	static void RadioToggleOn(GWidgetObject *gw, gU16 role) {
 		(void) role;
 
 		gwinRadioPress((GHandle)gw);
 	}
 
-	static void RadioToggleAssign(GWidgetObject *gw, uint16_t role, uint16_t instance) {
+	static void RadioToggleAssign(GWidgetObject *gw, gU16 role, gU16 instance) {
 		(void) role;
 		((GRadioObject *)gw)->toggle = instance;
 	}
 
-	static uint16_t RadioToggleGet(GWidgetObject *gw, uint16_t role) {
+	static gU16 RadioToggleGet(GWidgetObject *gw, gU16 role) {
 		(void) role;
 		return ((GRadioObject *)gw)->toggle;
 	}
@@ -127,7 +127,7 @@ static const gwidgetVMT radioVMT = {
 	#endif
 };
 
-GHandle gwinGRadioCreate(GDisplay *g, GRadioObject *gw, const GWidgetInit *pInit, uint16_t group) {
+GHandle gwinGRadioCreate(GDisplay *g, GRadioObject *gw, const GWidgetInit *pInit, gU16 group) {
 	if (!(gw = (GRadioObject *)_gwidgetCreate(g, &gw->w, pInit, &radioVMT)))
 		return 0;
 
@@ -161,7 +161,7 @@ gBool gwinRadioIsPressed(GHandle gh) {
 	return (gh->flags & GRADIO_FLG_PRESSED) ? gTrue : gFalse;
 }
 
-GHandle gwinRadioGetActive(uint16_t group) {
+GHandle gwinRadioGetActive(gU16 group) {
 	GHandle		gh;
 
 	for(gh = gwinGetNextWindow(0); gh; gh = gwinGetNextWindow(gh)) {

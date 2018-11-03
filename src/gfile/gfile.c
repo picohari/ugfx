@@ -175,9 +175,9 @@ gBool gfileDelete(const char *fname) {
 	return gFalse;
 }
 
-long int gfileGetFilesize(const char *fname) {
+gFileSize gfileGetFilesize(const char *fname) {
 	const GFILEVMT * const *p;
-	long int res;
+	gFileSize res;
 
 	#if GFILE_ALLOW_DEVICESPECIFIC
 		if (fname[0] && fname[1] == '|') {
@@ -185,7 +185,7 @@ long int gfileGetFilesize(const char *fname) {
 				if (p[0]->prefix == fname[0])
 					return p[0]->filesize ? p[0]->filesize(fname+2) : -1;
 			}
-			return -1;
+			return (gFileSize)-1;
 		}
 	#endif
 
@@ -286,8 +286,8 @@ void gfileClose(GFILE *f) {
 	f->flags = 0;
 }
 
-size_t gfileRead(GFILE *f, void *buf, size_t len) {
-	size_t	res;
+gMemSize gfileRead(GFILE *f, void *buf, gMemSize len) {
+	gMemSize	res;
 
 	if (!f || (f->flags & (GFILEFLG_OPEN|GFILEFLG_READ)) != (GFILEFLG_OPEN|GFILEFLG_READ))
 		return 0;
@@ -299,8 +299,8 @@ size_t gfileRead(GFILE *f, void *buf, size_t len) {
 	return res;
 }
 
-size_t gfileWrite(GFILE *f, const void *buf, size_t len) {
-	size_t	res;
+gMemSize gfileWrite(GFILE *f, const void *buf, gMemSize len) {
+	gMemSize	res;
 
 	if (!f || (f->flags & (GFILEFLG_OPEN|GFILEFLG_WRITE)) != (GFILEFLG_OPEN|GFILEFLG_WRITE))
 		return 0;
@@ -312,13 +312,13 @@ size_t gfileWrite(GFILE *f, const void *buf, size_t len) {
 	return res;
 }
 
-long int gfileGetPos(GFILE *f) {
+gFileSize gfileGetPos(GFILE *f) {
 	if (!f || !(f->flags & GFILEFLG_OPEN))
 		return 0;
 	return f->pos;
 }
 
-gBool gfileSetPos(GFILE *f, long int pos) {
+gBool gfileSetPos(GFILE *f, gFileSize pos) {
 	if (!f || !(f->flags & GFILEFLG_OPEN))
 		return gFalse;
 	if (!f->vmt->setpos || !f->vmt->setpos(f, pos))
@@ -327,7 +327,7 @@ gBool gfileSetPos(GFILE *f, long int pos) {
 	return gTrue;
 }
 
-long int gfileGetSize(GFILE *f) {
+gFileSize gfileGetSize(GFILE *f) {
 	if (!f || !(f->flags & GFILEFLG_OPEN))
 		return 0;
 	if (!f->vmt->getsize)

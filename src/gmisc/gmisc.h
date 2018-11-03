@@ -57,7 +57,7 @@ typedef enum ArrayDataFormat_e {
  * @brief   The type for a fixed point type.
  * @details	The top 16 bits are the integer component, the bottom 16 bits are the real component.
  */
-typedef int32_t	fixed;
+typedef gI32	fixed;
 
 /**
  * @brief   Macros to convert to and from a fixed point.
@@ -112,20 +112,20 @@ typedef int32_t	fixed;
 	 *
 	 * @api
 	 */
-	void gmiscArrayConvert(ArrayDataFormat srcfmt, void *src, ArrayDataFormat dstfmt, void *dst, size_t cnt);
+	void gmiscArrayConvert(ArrayDataFormat srcfmt, void *src, ArrayDataFormat dstfmt, void *dst, gMemSize cnt);
 
 	#if 0
-		void gmiscArrayTranslate(ArrayDataFormat fmt, void *src, void *dst, size_t cnt, int trans);
+		void gmiscArrayTranslate(ArrayDataFormat fmt, void *src, void *dst, gMemSize cnt, int trans);
 
-		void gmiscArrayMultiply(ArrayDataFormat fmt, void *src, void *dst, size_t cnt, int mult);
+		void gmiscArrayMultiply(ArrayDataFormat fmt, void *src, void *dst, gMemSize cnt, int mult);
 
-		void gmiscArrayDivide(ArrayDataFormat fmt, void *src, void *dst, size_t cnt, int mdiv);
+		void gmiscArrayDivide(ArrayDataFormat fmt, void *src, void *dst, gMemSize cnt, int mdiv);
 
-		void gmiscArrayMultDiv(ArrayDataFormat fmt, void *src, void *dst, size_t cnt, int mult, int div);
+		void gmiscArrayMultDiv(ArrayDataFormat fmt, void *src, void *dst, gMemSize cnt, int mult, int div);
 
-		void gmiscArrayAdd(ArrayDataFormat fmt, void *src1, void *src2, void *dst, size_t cnt);
+		void gmiscArrayAdd(ArrayDataFormat fmt, void *src1, void *src2, void *dst, gMemSize cnt);
 
-		void gmiscArrayAddNoOverflow(ArrayDataFormat fmt, void *src1, void *src2, void *dst, size_t cnt);
+		void gmiscArrayAddNoOverflow(ArrayDataFormat fmt, void *src1, void *src2, void *dst, gMemSize cnt);
 	#endif
 #endif
 

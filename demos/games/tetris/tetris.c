@@ -62,7 +62,7 @@ F     B
 E     C
    D
 */
-const uint8_t   sevenSegNumbers[10]                                   = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F}; // 0,1,2,3,4,5,6,7,8,9
+const gU8   sevenSegNumbers[10]                                   = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F}; // 0,1,2,3,4,5,6,7,8,9
 const gColor   tetrisShapeColors[9]                                  = {GFX_BLACK, HTML2COLOR(0x009000), GFX_RED, GFX_BLUE, GFX_MAGENTA, GFX_SKYBLUE, GFX_ORANGE, HTML2COLOR(0xBBBB00), GFX_WHITE}; // shape colors
 // default tetris shapes
 const int       tetrisShapes[TETRIS_SHAPE_COUNT][4][2]                = {
@@ -143,7 +143,7 @@ static int uitoa(unsigned int value, char * buf, int max) {
   return n;
 }
 
-static void sevenSegDraw(int x, int y, uint8_t number, gColor color) {
+static void sevenSegDraw(int x, int y, gU8 number, gColor color) {
   if (number & 0x01) gdispFillArea(x+SEVEN_SEG_HEIGHT+SEVEN_SEG_SIZE, y, SEVEN_SEG_WIDTH, SEVEN_SEG_HEIGHT, color); // A
   if (number & 0x02) gdispFillArea(x+SEVEN_SEG_HEIGHT+(SEVEN_SEG_SIZE*2)+SEVEN_SEG_WIDTH, y+SEVEN_SEG_HEIGHT+SEVEN_SEG_SIZE, SEVEN_SEG_HEIGHT, SEVEN_SEG_WIDTH, color); // B
   if (number & 0x04) gdispFillArea(x+SEVEN_SEG_HEIGHT+(SEVEN_SEG_SIZE*2)+SEVEN_SEG_WIDTH, y+(SEVEN_SEG_HEIGHT*2)+SEVEN_SEG_WIDTH+(SEVEN_SEG_SIZE*3), SEVEN_SEG_HEIGHT, SEVEN_SEG_WIDTH, color); // C
@@ -153,7 +153,7 @@ static void sevenSegDraw(int x, int y, uint8_t number, gColor color) {
   if (number & 0x40) gdispFillArea(x+SEVEN_SEG_HEIGHT+SEVEN_SEG_SIZE, y+SEVEN_SEG_HEIGHT+SEVEN_SEG_WIDTH+(SEVEN_SEG_SIZE*2), SEVEN_SEG_WIDTH, SEVEN_SEG_HEIGHT, color); // G
 }
 
-static void drawShape(uint8_t color) {
+static void drawShape(gU8 color) {
   int i;
   for (i = 0; i <= 3; i++) {
     if (tetrisCurrentShape[i][1] <= 16 || tetrisCurrentShape[i][1] >= 19) {
@@ -167,14 +167,14 @@ static void drawShape(uint8_t color) {
   }
 }
 
-// static uint32_t randomInt(uint32_t max) { //getting random number from STM32 hardware RNG
-//   static uint32_t new_value=0;
+// static gU32 randomInt(gU32 max) { //getting random number from STM32 hardware RNG
+//   static gU32 new_value=0;
 //   while ((RNG->SR & RNG_SR_DRDY) == 0) { }
 //   new_value=RNG->DR % max;
 //   return new_value;
 // }
 
-static uint32_t randomInt(uint32_t max) {
+static gU32 randomInt(gU32 max) {
   return rand() % max;
 }
 
@@ -200,9 +200,9 @@ static void createShape(void) {
   memcpy(tetrisCurrentShape, tetrisOldShape, sizeof(tetrisCurrentShape)); // tetrisCurrentShape = tetrisOldShape;
 }
 
-static void tellScore(uint8_t color) {
+static void tellScore(gU8 color) {
   char pps_str[12];
-  uint8_t i;
+  gU8 i;
   uitoa(tetrisLines, pps_str, sizeof(pps_str));
   gdispFillArea((TETRIS_FIELD_WIDTH*TETRIS_CELL_WIDTH)+5, gdispGetHeight()-50, gdispGetStringWidth(pps_str, font16)+4,  gdispGetCharWidth('A', font16)+2, tetrisShapeColors[0]);
   gdispDrawString((TETRIS_FIELD_WIDTH*TETRIS_CELL_WIDTH)+5, gdispGetHeight()-50, pps_str, font16, tetrisShapeColors[color]);
@@ -237,7 +237,7 @@ static void initField(void) {
   tellScore(8);
 }
 
-static void drawCell(int x, int y, uint8_t color) {
+static void drawCell(int x, int y, gU8 color) {
   gdispFillArea((x*TETRIS_CELL_WIDTH)+2, gdispGetHeight()-TETRIS_CELL_HEIGHT-(y*TETRIS_CELL_HEIGHT)-3, TETRIS_CELL_WIDTH-2, TETRIS_CELL_HEIGHT-2, tetrisShapeColors[color]);
   if (color != 0) {
     gdispDrawBox((x*TETRIS_CELL_WIDTH)+2, gdispGetHeight()-TETRIS_CELL_HEIGHT-(y*TETRIS_CELL_HEIGHT)-3, TETRIS_CELL_WIDTH-1, TETRIS_CELL_HEIGHT-1, tetrisShapeColors[8]);
@@ -246,7 +246,7 @@ static void drawCell(int x, int y, uint8_t color) {
   }
 }
 
-static void printText(uint8_t color) {
+static void printText(gU8 color) {
   gdispDrawString((TETRIS_FIELD_WIDTH*TETRIS_CELL_WIDTH)+TETRIS_CELL_WIDTH, gdispGetHeight()-(TETRIS_FIELD_HEIGHT*TETRIS_CELL_HEIGHT), "Next", font16, tetrisShapeColors[color]);
   gdispDrawString((TETRIS_FIELD_WIDTH*TETRIS_CELL_WIDTH)+5,   gdispGetHeight()-70, "Lines", font16, tetrisShapeColors[color]);
 }
@@ -294,7 +294,7 @@ static gBool stay(gBool down) {
 
 static void clearCompleteLines(void) {
   gBool t;
-  uint8_t reiz = 0;
+  gU8 reiz = 0;
   int l,k,j;
   l = 0;
   while (l <= 16) {
@@ -429,7 +429,7 @@ static void goLeft(void) {
 
 static DECLARE_THREAD_FUNCTION(thdTetris, arg) {
   (void)arg;
-  uint8_t i;
+  gU8 i;
   while (!tetrisGameOver) {
     // key handling
     if (gfxSystemTicks() - tetrisPreviousKeyTime >= gfxMillisecondsToTicks(tetrisKeySpeed) || gfxSystemTicks() <= gfxMillisecondsToTicks(tetrisKeySpeed)) {

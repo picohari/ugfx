@@ -13,9 +13,9 @@
 
 mf_char mf_getchar(mf_str *str)
 {
-    uint8_t c;
-    uint8_t tmp, seqlen;
-    uint16_t result;
+    gU8 c;
+    gU8 tmp, seqlen;
+    gU16 result;
     
     c = **str;
     if (!c)

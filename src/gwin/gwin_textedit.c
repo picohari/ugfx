@@ -88,7 +88,7 @@ static gBool TextEditAddChars(GHandle gh, unsigned cnt) {
 // and do the comparation directly inside of that loop so we only iterate
 // the string once.
 static void TextEditMouseDown(GWidgetObject* gw, gCoord x, gCoord y) {
-	uint16_t i = 0;
+	gU16 i = 0;
 
 	(void)y;
 
@@ -118,7 +118,7 @@ static void TextEditMouseDown(GWidgetObject* gw, gCoord x, gCoord y) {
 		// Is it a special key?
 		if (pke->keystate & GKEYSTATE_SPECIAL) {
 			// Arrow keys to move the cursor
-			gwinTextEditSendSpecialKey(&gw->g, (uint8_t)pke->c[0]);
+			gwinTextEditSendSpecialKey(&gw->g, (gU8)pke->c[0]);
 			return;
 
 		}
@@ -167,7 +167,7 @@ static const gwidgetVMT texteditVMT = {
 	#endif
 };
 
-GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit, size_t maxSize)
+GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit, gMemSize maxSize)
 {
 	// Create the underlying widget
 	if (!(wt = (GTexteditObject*)_gwidgetCreate(g, &wt->w, pInit, &texteditVMT)))
@@ -184,7 +184,7 @@ GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit
 }
 
 #if (GFX_USE_GINPUT && GINPUT_NEED_KEYBOARD) || GWIN_NEED_KEYBOARD
-	void gwinTextEditSendSpecialKey(GHandle gh, uint8_t key) {
+	void gwinTextEditSendSpecialKey(GHandle gh, gU8 key) {
 		// Is it a valid handle?
 		if (gh->vmt != (gwinVMT*)&texteditVMT)
 			return;
@@ -224,7 +224,7 @@ GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit
 			return;
 
 		// Normal key press
-		switch((uint8_t)key[0]) {
+		switch((gU8)key[0]) {
 		case GKEY_BACKSPACE:
 			// Backspace
 			if (!gh2obj->cursorPos)
@@ -246,7 +246,7 @@ GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit
 			break;
 		default:
 			// Ignore any other control characters
-			if ((uint8_t)key[0] < GKEY_SPACE)
+			if ((gU8)key[0] < GKEY_SPACE)
 				return;
 
 			// Keep the edit length to less than the maximum

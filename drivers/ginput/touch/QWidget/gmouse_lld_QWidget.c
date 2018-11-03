@@ -17,7 +17,7 @@ GMouse* qwidgetMouse;
 gCoord qwidgetMouseX;
 gCoord qwidgetMouseY;
 gCoord qwidgetMouseZ;
-uint16_t qwidgetMouseButtons;
+gU16 qwidgetMouseButtons;
 
 static gBool _init(GMouse* m, unsigned driverinstance)
 {

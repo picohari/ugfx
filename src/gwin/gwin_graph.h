@@ -61,7 +61,7 @@ typedef struct GGraphStyle_t {
 	GGraphLineStyle		yaxis;
 	GGraphGridStyle		xgrid;
 	GGraphGridStyle		ygrid;
-	uint16_t			flags;
+	gU16			flags;
 		#define GWIN_GRAPH_STYLE_XAXIS_POSITIVE_ARROWS	0x0001
 		#define GWIN_GRAPH_STYLE_XAXIS_NEGATIVE_ARROWS	0x0002
 		#define GWIN_GRAPH_STYLE_YAXIS_POSITIVE_ARROWS	0x0004

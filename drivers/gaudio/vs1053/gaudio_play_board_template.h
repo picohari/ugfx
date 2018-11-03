@@ -59,12 +59,12 @@ static void board_enddatawrite(void) {
 }
 
 // Write data to the SPI port
-static void board_spiwrite(const uint8_t *buf, unsigned len) {
+static void board_spiwrite(const gU8 *buf, unsigned len) {
 
 }
 
 // Read data from the SPI port
-static void board_spiread(uint8_t *buf, unsigned len) {
+static void board_spiread(gU8 *buf, unsigned len) {
 
 }
 

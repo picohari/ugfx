@@ -47,7 +47,7 @@
 
 typedef struct GEventToggle_t {
 	GEventType		type;				// The type of this event (GEVENT_TOGGLE)
-	uint16_t		instance;			// The toggle instance
+	gU16		instance;			// The toggle instance
 	gBool			on;					// True if the toggle/button is on
 	} GEventToggle;
 
@@ -66,7 +66,7 @@ typedef struct GEventToggle_t {
  *
  * @return	The source handle of the created instance
  */
-GSourceHandle ginputGetToggle(uint16_t instance);	
+GSourceHandle ginputGetToggle(gU16 instance);	
 
 /** 
  * @brief	Can be used to invert the sense of a toggle
@@ -74,7 +74,7 @@ GSourceHandle ginputGetToggle(uint16_t instance);
  * @param[in] instance	The ID of the toggle input instance
  * @param[in] invert	If gTrue, will be inverted
  */
-void ginputInvertToggle(uint16_t instance, gBool invert);
+void ginputInvertToggle(gU16 instance, gBool invert);
 
 /**
  * @brief	Get the current toggle status
@@ -84,7 +84,7 @@ void ginputInvertToggle(uint16_t instance, gBool invert);
  *
  * @return Returns gFalse on an error (eg invalid instance)
  */
-gBool ginputGetToggleStatus(uint16_t instance, GEventToggle *ptoggle);
+gBool ginputGetToggleStatus(gU16 instance, GEventToggle *ptoggle);
 
 #endif /* GINPUT_NEED_TOGGLE */
 

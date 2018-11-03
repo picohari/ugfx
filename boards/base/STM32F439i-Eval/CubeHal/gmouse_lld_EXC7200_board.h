@@ -82,12 +82,12 @@ static gBool init_board(GMouse* m, unsigned driverinstance)
 	return gTrue;
 }
 
-static gBool read_bytes(GMouse* m, uint8_t reg, uint8_t* buffer, uint8_t nbrBytes)
+static gBool read_bytes(GMouse* m, gU8 reg, gU8* buffer, gU8 nbrBytes)
 {
 	(void)m;
 
-	HAL_I2C_Master_Transmit(&_i2cHandle, (uint16_t)EXC7200_SLAVE_ADDR, (uint8_t*)&reg, 1, 10000);
-	HAL_I2C_Master_Receive(&_i2cHandle, (uint16_t)EXC7200_SLAVE_ADDR, buffer, nbrBytes, 10000);
+	HAL_I2C_Master_Transmit(&_i2cHandle, (gU16)EXC7200_SLAVE_ADDR, (gU8*)&reg, 1, 10000);
+	HAL_I2C_Master_Receive(&_i2cHandle, (gU16)EXC7200_SLAVE_ADDR, buffer, nbrBytes, 10000);
 	
 	return gTrue;
 }

@@ -106,14 +106,14 @@
 		#endif
 
 		// Forward definitions
-		extern uint8_t	GKEYBOARD_X_DEFAULT_LAYOUT[];
+		extern gU8	GKEYBOARD_X_DEFAULT_LAYOUT[];
 
 		#include "../../../src/ginput/ginput_keyboard_microcode.h"
 		#include <X11/keysym.h>
 
 		// This is the layout code for the English US keyboard.
 		//	We make it public so that a user can switch to a different layout if required.
-		uint8_t	KeyboardLayout_X_US[] = {
+		gU8	KeyboardLayout_X_US[] = {
 			KMC_HEADERSTART, KMC_HEADER_ID1, KMC_HEADER_ID2, KMC_HEADER_VER_1,
 
 			// TODO
@@ -141,7 +141,7 @@
 
 	// Forward definitions
 	static gBool XKeyboardInit(GKeyboard *k, unsigned driverinstance);
-	static int XKeyboardGetData(GKeyboard *k, uint8_t *pch, int sz);
+	static int XKeyboardGetData(GKeyboard *k, gU8 *pch, int sz);
 
 	const GKeyboardVMT const GKEYBOARD_DRIVER_VMT[1] = {{
 		{
@@ -163,7 +163,7 @@
 	}};
 
 	static int			keypos;
-	static uint8_t		keybuffer[8];
+	static gU8		keybuffer[8];
 	static GKeyboard	*keyboard;
 #endif
 
@@ -182,7 +182,7 @@ typedef struct xPriv {
 	Window			win;
 	#if GINPUT_NEED_MOUSE
 		gCoord		mousex, mousey;
-		uint16_t	buttons;
+		gU16	buttons;
 		GMouse *	mouse;
 	#endif
 } xPriv;
@@ -509,7 +509,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g)
 		return gTrue;
 	}
 
-	static int XKeyboardGetData(GKeyboard *k, uint8_t *pch, int sz) {
+	static int XKeyboardGetData(GKeyboard *k, gU8 *pch, int sz) {
 		int		i, j;
 		(void)	k;
 

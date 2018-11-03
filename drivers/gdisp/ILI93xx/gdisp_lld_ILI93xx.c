@@ -52,10 +52,10 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define dummy_read(g)               { volatile uint16_t dummy; dummy = read_data(g); (void) dummy; }
+#define dummy_read(g)               { volatile gU16 dummy; dummy = read_data(g); (void) dummy; }
 #define write_reg(g, reg, data)     { write_index(g, reg); write_data(g, data); }
 
-static GFXINLINE uint16_t read_reg(GDisplay *g, uint32_t reg) {
+static GFXINLINE gU16 read_reg(GDisplay *g, gU32 reg) {
   write_index(g, reg);
   return read_data(g);
  }
@@ -290,7 +290,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		dummy_read(g);
 	}
 	LLDSPEC	gColor gdisp_lld_read_color(GDisplay *g) {
-		uint16_t	data;
+		gU16	data;
 
 		data = read_data(g);
         return gdispNative2Color(data);

@@ -37,7 +37,7 @@
 #if USE_HARD_SPI
 
 #if GFX_USE_OS_CHIBIOS
-static int32_t thdPriority = 0;
+static gI32 thdPriority = 0;
 #endif
 
 /*
@@ -58,9 +58,9 @@ static GFXINLINE void soft_spi_sck(void){
   palClearPad(SPFD54124B_SPI_PORT, SPFD54124B_SPI_SCK);
 }
 
-static GFXINLINE void soft_spi_write_9bit(uint16_t data){
+static GFXINLINE void soft_spi_write_9bit(gU16 data){
 
-  uint8_t i;
+  gU8 i;
 
   // activate lcd by low on CS pin
   palClearPad(SPFD54124B_SPI_PORT, SPFD54124B_SPI_NSS);
@@ -131,7 +131,7 @@ static GFXINLINE void acquire_bus(GDisplay *g) {
   (void) g;
 #if USE_HARD_SPI
 #if GFX_USE_OS_CHIBIOS
-  thdPriority = (int32_t)chThdGetPriority();
+  thdPriority = (gI32)chThdGetPriority();
   chThdSetPriority(HIGHPRIO);
 #endif
   spiAcquireBus(&SPFD54124B_SPID);
@@ -148,10 +148,10 @@ static GFXINLINE void release_bus(GDisplay *g) {
 #endif
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint16_t data) {
+static GFXINLINE void write_data(GDisplay *g, gU16 data) {
   (void) g;
 
-  uint16_t b;
+  gU16 b;
 
 #if USE_HARD_SPI
 
@@ -176,7 +176,7 @@ static GFXINLINE void write_data(GDisplay *g, uint16_t data) {
 
 }
 
-static GFXINLINE void write_index(GDisplay *g, uint16_t index) {
+static GFXINLINE void write_index(GDisplay *g, gU16 index) {
   (void)    g;
 
 #if USE_HARD_SPI
@@ -195,7 +195,7 @@ static GFXINLINE void post_init_board(GDisplay *g) {
   (void) g;
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
   (void) g;
   (void) percent;
 }

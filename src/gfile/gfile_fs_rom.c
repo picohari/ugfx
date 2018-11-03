@@ -24,11 +24,11 @@
 #define ROMFS_CMP_UNCOMPRESSED		0
 
 typedef struct ROMFS_DIRENTRY {
-	uint16_t						ver;			// Directory Entry Version
-	uint16_t						cmp;			// Compression format
+	gU16						ver;			// Directory Entry Version
+	gU16						cmp;			// Compression format
 	const struct ROMFS_DIRENTRY *	next;			// The next entry
 	const char *					name;			// The file name
-	long int						size;			// The file size
+	gFileSize						size;			// The file size
 	const char *					file;			// The file data
 } ROMFS_DIRENTRY;
 
@@ -43,12 +43,12 @@ typedef struct ROMFileList {
 
 
 static gBool ROMExists(const char *fname);
-static long int	ROMFilesize(const char *fname);
+static gFileSize	ROMFilesize(const char *fname);
 static gBool ROMOpen(GFILE *f, const char *fname);
 static void ROMClose(GFILE *f);
 static int ROMRead(GFILE *f, void *buf, int size);
-static gBool ROMSetpos(GFILE *f, long int pos);
-static long int ROMGetsize(GFILE *f);
+static gBool ROMSetpos(GFILE *f, gFileSize pos);
+static gFileSize ROMGetsize(GFILE *f);
 static gBool ROMEof(GFILE *f);
 #if GFILE_NEED_FILELISTS
 	static gfileList *ROMFlOpen(const char *path, gBool dirs);
@@ -84,11 +84,11 @@ static gBool ROMExists(const char *fname)
 	return ROMFindFile(fname) != 0;
 }
 
-static long int	ROMFilesize(const char *fname)
+static gFileSize	ROMFilesize(const char *fname)
 {
 	const ROMFS_DIRENTRY *p;
 
-	if (!(p = ROMFindFile(fname))) return -1;
+	if (!(p = ROMFindFile(fname))) return (gFileSize)-1;
 	return p->size;
 }
 
@@ -118,12 +118,12 @@ static int ROMRead(GFILE *f, void *buf, int size)
 	return size;
 }
 
-static gBool ROMSetpos(GFILE *f, long int pos)
+static gBool ROMSetpos(GFILE *f, gFileSize pos)
 {
 	return pos <= ((const ROMFS_DIRENTRY *)f->obj)->size;
 }
 
-static long int ROMGetsize(GFILE *f)
+static gFileSize ROMGetsize(GFILE *f)
 {
 	return ((const ROMFS_DIRENTRY *)f->obj)->size;
 }

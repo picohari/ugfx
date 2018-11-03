@@ -49,24 +49,24 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define dummy_read(g)				{ volatile uint16_t dummy; dummy = read_data(g); (void) dummy; }
+#define dummy_read(g)				{ volatile gU16 dummy; dummy = read_data(g); (void) dummy; }
 #define write_reg(g, reg, data)		{ write_index(g, reg); write_data(g, data); }
-#define write_data16(g, data)		{ write_data(g, data >> 8); write_data(g, (uint8_t)data); }
+#define write_data16(g, data)		{ write_data(g, data >> 8); write_data(g, (gU8)data); }
 #define delay(us)					gfxSleepMicroseconds(us)
 #define delayms(ms)					gfxSleepMilliseconds(ms)
 
 static void set_viewport(GDisplay *g) {
 	write_index(g, 0x2A);
 	write_data(g, (g->p.x >> 8));
-	write_data(g, (uint8_t) g->p.x);
+	write_data(g, (gU8) g->p.x);
 	write_data(g, (g->p.x + g->p.cx - 1) >> 8);
-	write_data(g, (uint8_t) (g->p.x + g->p.cx - 1));
+	write_data(g, (gU8) (g->p.x + g->p.cx - 1));
 
 	write_index(g, 0x2B);
 	write_data(g, (g->p.y >> 8));
-	write_data(g, (uint8_t) g->p.y);
+	write_data(g, (gU8) g->p.y);
 	write_data(g, (g->p.y + g->p.cy - 1) >> 8);
-	write_data(g, (uint8_t) (g->p.y + g->p.cy - 1));
+	write_data(g, (gU8) (g->p.y + g->p.cy - 1));
 }
 
 /*===========================================================================*/
@@ -257,7 +257,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		dummy_read(g);
 	}
 	LLDSPEC	gColor gdisp_lld_read_color(GDisplay *g) {
-		uint16_t	data;
+		gU16	data;
 
 		data = read_data(g);
 		return gdispNative2Color(data);

@@ -73,37 +73,37 @@
  *  @brief LCD_OrientationTypeDef
  *  Possible values of Display Orientation
  */
-#define OTM8009A_ORIENTATION_PORTRAIT    ((uint32_t)0x00) /* Portrait orientation choice of LCD screen  */
-#define OTM8009A_ORIENTATION_LANDSCAPE   ((uint32_t)0x01) /* Landscape orientation choice of LCD screen */
+#define OTM8009A_ORIENTATION_PORTRAIT    ((gU32)0x00) /* Portrait orientation choice of LCD screen  */
+#define OTM8009A_ORIENTATION_LANDSCAPE   ((gU32)0x01) /* Landscape orientation choice of LCD screen */
 
 /**
  *  @brief  Possible values of
  *  pixel data format (ie color coding) transmitted on DSI Data lane in DSI packets
  */
-#define OTM8009A_FORMAT_RGB888    ((uint32_t)0x00) /* Pixel format chosen is RGB888 : 24 bpp */
-#define OTM8009A_FORMAT_RBG565    ((uint32_t)0x02) /* Pixel format chosen is RGB565 : 16 bpp */
+#define OTM8009A_FORMAT_RGB888    ((gU32)0x00) /* Pixel format chosen is RGB888 : 24 bpp */
+#define OTM8009A_FORMAT_RBG565    ((gU32)0x02) /* Pixel format chosen is RGB565 : 16 bpp */
 
 /**
   * @brief  otm8009a_480x800 Size
   */
 
 /* Width and Height in Portrait mode */
-#define  OTM8009A_480X800_WIDTH             ((uint16_t)480)     /* LCD PIXEL WIDTH   */
-#define  OTM8009A_480X800_HEIGHT            ((uint16_t)800)     /* LCD PIXEL HEIGHT  */
+#define  OTM8009A_480X800_WIDTH             ((gU16)480)     /* LCD PIXEL WIDTH   */
+#define  OTM8009A_480X800_HEIGHT            ((gU16)800)     /* LCD PIXEL HEIGHT  */
 
 /* Width and Height in Landscape mode */
-#define  OTM8009A_800X480_WIDTH             ((uint16_t)800)     /* LCD PIXEL WIDTH   */
-#define  OTM8009A_800X480_HEIGHT            ((uint16_t)480)     /* LCD PIXEL HEIGHT  */
+#define  OTM8009A_800X480_WIDTH             ((gU16)800)     /* LCD PIXEL WIDTH   */
+#define  OTM8009A_800X480_HEIGHT            ((gU16)480)     /* LCD PIXEL HEIGHT  */
 
 /**
   * @brief  OTM8009A_480X800 Timing parameters for Portrait orientation mode
   */
-#define  OTM8009A_480X800_HSYNC             ((uint16_t)2)      /* Horizontal synchronization */
-#define  OTM8009A_480X800_HBP               ((uint16_t)34)     /* Horizontal back porch      */
-#define  OTM8009A_480X800_HFP               ((uint16_t)34)     /* Horizontal front porch     */
-#define  OTM8009A_480X800_VSYNC             ((uint16_t)1)      /* Vertical synchronization   */
-#define  OTM8009A_480X800_VBP               ((uint16_t)15)      /* Vertical back porch        */
-#define  OTM8009A_480X800_VFP               ((uint16_t)16)      /* Vertical front porch       */
+#define  OTM8009A_480X800_HSYNC             ((gU16)2)      /* Horizontal synchronization */
+#define  OTM8009A_480X800_HBP               ((gU16)34)     /* Horizontal back porch      */
+#define  OTM8009A_480X800_HFP               ((gU16)34)     /* Horizontal front porch     */
+#define  OTM8009A_480X800_VSYNC             ((gU16)1)      /* Vertical synchronization   */
+#define  OTM8009A_480X800_VBP               ((gU16)15)      /* Vertical back porch        */
+#define  OTM8009A_480X800_VFP               ((gU16)16)      /* Vertical front porch       */
 
 /**
   * @brief  OTM8009A_800X480 Timing parameters for Landscape orientation mode
@@ -198,9 +198,9 @@
 /** @addtogroup OTM8009A_Exported_Functions
   * @{
   */
-void DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams);
-uint8_t OTM8009A_Init(uint32_t ColorCoding, uint32_t orientation);
-void OTM8009A_IO_Delay(uint32_t Delay);
+void DSI_IO_WriteCmd(gU32 NbrParams, gU8 *pParams);
+gU8 OTM8009A_Init(gU32 ColorCoding, gU32 orientation);
+void OTM8009A_IO_Delay(gU32 Delay);
 /**
   * @}
   */

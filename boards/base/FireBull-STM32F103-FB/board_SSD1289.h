@@ -56,7 +56,7 @@ static GFXINLINE void setpin_reset(GDisplay *g, gBool state)
 	/* Nothing to do here - reset pin tied to Vcc */
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent)
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent)
 {
 	(void) g;
 	(void) percent;
@@ -74,7 +74,7 @@ static GFXINLINE void release_bus(GDisplay *g)
 	(void) g;
 }
 
-static GFXINLINE void write_index(GDisplay *g, uint16_t index)
+static GFXINLINE void write_index(GDisplay *g, gU16 index)
 {
 	(void) g;
 
@@ -85,7 +85,7 @@ static GFXINLINE void write_index(GDisplay *g, uint16_t index)
 	SET_RS;
 }
 
-static GFXINLINE void write_data(GDisplay *g, uint16_t data)
+static GFXINLINE void write_data(GDisplay *g, gU16 data)
 {
 	(void) g;
 
@@ -112,7 +112,7 @@ static GFXINLINE void setwritemode(GDisplay *g)
 	palSetGroupMode(GPIOE, PAL_WHOLE_PORT, 0, PAL_MODE_OUTPUT_PUSHPULL);
 }
 
-static GFXINLINE uint16_t read_data(GDisplay *g) {
+static GFXINLINE gU16 read_data(GDisplay *g) {
 	(void) g;
 
 	return palReadPort(GPIOE);

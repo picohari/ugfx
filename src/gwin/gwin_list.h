@@ -57,8 +57,8 @@ typedef struct GListObject {
         gCoord last_mouse_y;
     #endif
 	#if GINPUT_NEED_TOGGLE
-		uint16_t	t_up;
-		uint16_t	t_dn;
+		gU16	t_up;
+		gU16	t_dn;
 	#endif
 
 	int				cnt;		// Number of items currently in the list (quicker than counting each time)
@@ -95,9 +95,9 @@ typedef enum scroll_t { scrollAlways, scrollAuto, scrollSmooth } scroll_t;
 typedef struct ListItem {
 	gfxQueueASyncItem	q_item;		// This must be the first member in the struct
 
-	uint16_t			flags;
+	gU16			flags;
 		#define GLIST_FLG_SELECTED			0x0001
-	uint16_t			param;		// A parameter the user can specify himself
+	gU16			param;		// A parameter the user can specify himself
 	const char*			text;
 	#if GWIN_NEED_LIST_IMAGES
 		gdispImage*		pimg;
@@ -218,7 +218,7 @@ int gwinListFindText(GHandle gh, const char* text);
  *
  * @api
  */
-void gwinListItemSetParam(GHandle gh, int item, uint16_t param);
+void gwinListItemSetParam(GHandle gh, int item, gU16 param);
 
 /**
  * @brief				Get the custom parameter of an item with a given ID
@@ -230,7 +230,7 @@ void gwinListItemSetParam(GHandle gh, int item, uint16_t param);
  *
  * @api
  */
-uint16_t gwinListItemGetParam(GHandle gh, int item);
+gU16 gwinListItemGetParam(GHandle gh, int item);
 
 /**
  * @brief				Delete all the items of the list

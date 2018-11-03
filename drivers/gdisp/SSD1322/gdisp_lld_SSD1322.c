@@ -47,7 +47,7 @@
 /*===========================================================================*/
 
 // Some common routines and macros
-#define RAM(g)							((uint8_t *)g->priv)
+#define RAM(g)							((gU8 *)g->priv)
 
 // Some common routines and macros
 #define xyaddr(x, y)		((x) + (y)*SSD1322_ROW_WIDTH)
@@ -157,7 +157,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 #if GDISP_HARDWARE_FLUSH
 	LLDSPEC void gdisp_lld_flush(GDisplay *g) {
-		uint8_t * ram;
+		gU8 * ram;
 		unsigned cols,rows;
 
 		// Don't flush if we don't need it.
@@ -190,7 +190,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_DRAWPIXEL
 	LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
 		gCoord		x, y;
-		uint8_t		*ram;
+		gU8		*ram;
 
 		switch(g->g.Orientation) {
 		default:

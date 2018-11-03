@@ -73,7 +73,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 	IOWR(ALT_VIP_VFR_0_BASE, 0x00, 0x00); // stop for config
 
 	// Frame 0
-	IOWR(ALT_VIP_VFR_0_BASE, 0x04, (uint32_t)PRIV(g)->frame0);	
+	IOWR(ALT_VIP_VFR_0_BASE, 0x04, (gU32)PRIV(g)->frame0);	
 	IOWR(ALT_VIP_VFR_0_BASE, 0x05, SCREEN_WIDTH*SCREEN_HEIGHT/2);
 	IOWR(ALT_VIP_VFR_0_BASE, 0x06, SCREEN_WIDTH*SCREEN_HEIGHT);	
 	IOWR(ALT_VIP_VFR_0_BASE, 0x08, SCREEN_WIDTH);
@@ -81,7 +81,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g)
 	IOWR(ALT_VIP_VFR_0_BASE, 0x0a, 0x00);
 	
 	// Frame 1
-	IOWR(ALT_VIP_VFR_0_BASE, 0x0b, (uint32_t)PRIV(g)->frame1);	
+	IOWR(ALT_VIP_VFR_0_BASE, 0x0b, (gU32)PRIV(g)->frame1);	
 	IOWR(ALT_VIP_VFR_0_BASE, 0x0c, SCREEN_WIDTH*SCREEN_HEIGHT/2);
 	IOWR(ALT_VIP_VFR_0_BASE, 0x0d, SCREEN_WIDTH*SCREEN_HEIGHT);	
 	IOWR(ALT_VIP_VFR_0_BASE, 0x0f, SCREEN_WIDTH);
@@ -244,7 +244,7 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g)
 		unsigned int addr;
 		int bytes_per_line;
 		int bytes_per_pixel;
-		uint8_t* line;
+		gU8* line;
 	
 		// Calculate some values required for further calculations
 		bytes_per_pixel = ((fbPriv*)g->priv)->linelen/g->g.Width; // must be 4

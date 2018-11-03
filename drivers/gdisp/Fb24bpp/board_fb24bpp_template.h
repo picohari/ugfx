@@ -35,13 +35,13 @@
 	#endif
 
 	#if GDISP_NEED_CONTROL
-		static void board_backlight(GDisplay *g, uint8_t percent) {
+		static void board_backlight(GDisplay *g, gU8 percent) {
 			// TODO: Can be an empty function if your hardware doesn't support this
 			(void) g;
 			(void) percent;
 		}
 
-		static void board_contrast(GDisplay *g, uint8_t percent) {
+		static void board_contrast(GDisplay *g, gU8 percent) {
 			// TODO: Can be an empty function if your hardware doesn't support this
 			(void) g;
 			(void) percent;

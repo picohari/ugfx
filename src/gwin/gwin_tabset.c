@@ -288,7 +288,7 @@ static const gcontainerVMT tabsetVMT = {
 	0,									// A child has been deleted (optional)
 };
 
-GHandle gwinGTabsetCreate(GDisplay *g, GTabsetObject *fo, GWidgetInit *pInit, uint32_t flags) {
+GHandle gwinGTabsetCreate(GDisplay *g, GTabsetObject *fo, GWidgetInit *pInit, gU32 flags) {
 	if (!(fo = (GTabsetObject *)_gcontainerCreate(g, (GContainerObject *)fo, pInit, &tabsetVMT)))
 		return 0;
 

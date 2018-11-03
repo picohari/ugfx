@@ -48,10 +48,10 @@ int main(void) {
 	gFont			font;
 	GFILE			*f;
 	char 			*errmsg;
-	uint32_t		toplay;
-	uint32_t		frequency;
+	gU32		toplay;
+	gU32		frequency;
 	ArrayDataFormat datafmt;
-	uint32_t		len;
+	gU32		len;
 	GDataBuffer		*pd;
 
 	// Initialise everything
@@ -92,8 +92,8 @@ repeatplay:
 	}
 
 	// Read the fmt block
-	len = (((uint32_t)(uint8_t)whdr[16])<<0) | (((uint32_t)(uint8_t)whdr[17])<<8)
-					| (((uint32_t)(uint8_t)whdr[18])<<16) | (((uint32_t)(uint8_t)whdr[19])<<24);
+	len = (((gU32)(gU8)whdr[16])<<0) | (((gU32)(gU8)whdr[17])<<8)
+					| (((gU32)(gU8)whdr[18])<<16) | (((gU32)(gU8)whdr[19])<<24);
 	if (len > sizeof(whdr) || len < 16) {
 		errmsg = "Err: Bad fmt len";
 		goto theend;
@@ -123,8 +123,8 @@ repeatplay:
 	#endif
 
 	// Get the sample frequency (little endian format) and format
-	frequency = (((uint32_t)(uint8_t)whdr[4])<<0) | (((uint32_t)(uint8_t)whdr[5])<<8)
-					| (((uint32_t)(uint8_t)whdr[6])<<16) | (((uint32_t)(uint8_t)whdr[7])<<24);
+	frequency = (((gU32)(gU8)whdr[4])<<0) | (((gU32)(gU8)whdr[5])<<8)
+					| (((gU32)(gU8)whdr[6])<<16) | (((gU32)(gU8)whdr[7])<<24);
 	datafmt = whdr[14] == 8 ? ARRAY_DATA_8BITUNSIGNED : ARRAY_DATA_16BITSIGNED;
 
 	// Initialise the audio output device
@@ -146,8 +146,8 @@ repeatplay:
 		}
 
 		// Get the block length (little endian format)
-		toplay = (((uint32_t)(uint8_t)whdr[4])<<0) | (((uint32_t)(uint8_t)whdr[5])<<8)
-						| (((uint32_t)(uint8_t)whdr[6])<<16) | (((uint32_t)(uint8_t)whdr[7])<<24);
+		toplay = (((gU32)(gU8)whdr[4])<<0) | (((gU32)(gU8)whdr[5])<<8)
+						| (((gU32)(gU8)whdr[6])<<16) | (((gU32)(gU8)whdr[7])<<24);
 
 		// Stop scanning when this is a data block
 		if (whdr[0] == 'd' && whdr[1] == 'a' && whdr[2] == 't' && whdr[3] == 'a')

@@ -55,7 +55,7 @@
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
-static const uint8_t initdata[] = {
+static const gU8 initdata[] = {
 	SSD1331_DISPLAY_OFF,
 	SSD1331_START_LINE, 0x00,
 	SSD1331_COM_OFFSET, 0x00,
@@ -157,7 +157,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 #if GDISP_HARDWARE_FILLS
 	LLDSPEC void gdisp_lld_fill_area(GDisplay *g) {
-		uint8_t		a6, b6, c6;
+		gU8		a6, b6, c6;
 
 		acquire_bus(g);
 

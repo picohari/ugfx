@@ -75,7 +75,7 @@ gBool gfxSemWaitI(gfxSem* psem)
 	return gFalse;
 }
 
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
 	RAW_U16 ret;
 	gThread taskobj;

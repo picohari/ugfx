@@ -26,13 +26,13 @@
 #include MF_FONT_FILE_NAME
 /* Include fonts end here */
 
-uint8_t mf_render_character(const struct mf_font_s *font,
-                            int16_t x0, int16_t y0,
+gU8 mf_render_character(const struct mf_font_s *font,
+                            gI16 x0, gI16 y0,
                             mf_char character,
                             mf_pixel_callback_t callback,
                             void *state)
 {
-    uint8_t width;
+    gU8 width;
     width = font->render_character(font, x0, y0, MFCHAR2UINT16(character), callback, state);
     
     if (!width)
@@ -44,10 +44,10 @@ uint8_t mf_render_character(const struct mf_font_s *font,
     return width;
 }
 
-uint8_t mf_character_width(const struct mf_font_s *font,
+gU8 mf_character_width(const struct mf_font_s *font,
                            mf_char character)
 {
-    uint8_t width;
+    gU8 width;
     width = font->character_width(font, MFCHAR2UINT16(character));
     
     if (!width)

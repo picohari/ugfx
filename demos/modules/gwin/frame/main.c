@@ -8,7 +8,7 @@ static GHandle      ghButton1, ghButton2, ghButton3;
 static GHandle      ghWindow1;
 
 static void _updateColor(void) {
-    uint32_t color;
+    gU32 color;
 
     color  = (unsigned)gwinSliderGetPosition(ghSliderR) << 16;
     color |= (unsigned)gwinSliderGetPosition(ghSliderG) <<  8;

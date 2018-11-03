@@ -27,9 +27,9 @@
 
 #define gDelayNone			0
 #define gDelayForever		osWaitForever
-typedef uint32_t			gDelay;
-typedef uint32_t			gTicks;
-typedef uint16_t			gSemcount;
+typedef gU32			gDelay;
+typedef gU32			gTicks;
+typedef gU16			gSemcount;
 typedef void				gThreadreturn;
 typedef osPriority_t		gThreadpriority;
 
@@ -44,7 +44,7 @@ typedef osMutexId_t 		gfxMutex;
 
 typedef osThreadId_t		gThread;
 
-#define DECLARE_THREAD_STACK(name, sz)			uint8_t name[1];	// Some compilers don't allow zero sized arrays. Let's waste one byte
+#define DECLARE_THREAD_STACK(name, sz)			gU8 name[1];	// Some compilers don't allow zero sized arrays. Let's waste one byte
 #define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void* param)
 #define THREAD_RETURN(retval)
 
@@ -72,7 +72,7 @@ gBool gfxSemWait(gfxSem* psem, gDelay ms);
 #define gfxSemSignal(psem)		osSemaphoreRelease(*(psem))
 #define gfxSemSignalI(psem)		osSemaphoreRelease(*(psem))
 
-gThread gfxThreadCreate(void* stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param);
+gThread gfxThreadCreate(void* stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param);
 #define gfxYield()					osThreadYield()
 #define gfxThreadMe()				osThreadGetId()
 #define gfxThreadClose(thread)		{}

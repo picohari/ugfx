@@ -26,7 +26,7 @@ void _gtransDeinit(void)
 const char* gtransString(const char* string)
 {
 	// Find the index of the specified string in the base language table
-	size_t i = 0;
+	unsigned i = 0;
 	while (1) {
 		// Prevent overflow
 		if (i >= _languageBase->numEntries) {

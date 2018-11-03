@@ -18,16 +18,16 @@
 
 typedef struct LCD_Parameters {
 	gCoord		width, height;					// Panel width and height
-	uint16_t	hbporch;						// Horizontal Back Porch
-	uint16_t	hfporch;						// Horizontal Front Porch
-	uint16_t	hpulse;							// Horizontal Pulse
-	uint16_t	hperiod;						// Horizontal Period (Total)
-	uint16_t	vbporch;						// Vertical Back Porch
-	uint16_t	vfporch;						// Vertical Front Porch
-	uint16_t	vpulse;							// Vertical Pulse
-	uint16_t	vperiod;						// Vertical Period (Total)
-	uint32_t	fpr;							// Calculated FPR
-	uint16_t	mode;							// For command "SSD1963_SET_LCD_MODE"
+	gU16	hbporch;						// Horizontal Back Porch
+	gU16	hfporch;						// Horizontal Front Porch
+	gU16	hpulse;							// Horizontal Pulse
+	gU16	hperiod;						// Horizontal Period (Total)
+	gU16	vbporch;						// Vertical Back Porch
+	gU16	vfporch;						// Vertical Front Porch
+	gU16	vpulse;							// Vertical Pulse
+	gU16	vperiod;						// Vertical Period (Total)
+	gU32	fpr;							// Calculated FPR
+	gU16	mode;							// For command "SSD1963_SET_LCD_MODE"
 		/* Set the pannel data width */
 		#define LCD_PANEL_DATA_WIDTH_24BIT 				(1<<5)						// 18bit default
 		/* Set the color deeph enhancement */
@@ -71,7 +71,7 @@ typedef struct LCD_Parameters {
 
 #include "ssd1963.h"
 
-#define dummy_read(g)               { volatile uint16_t dummy; dummy = read_data(g); (void) dummy; }
+#define dummy_read(g)               { volatile gU16 dummy; dummy = read_data(g); (void) dummy; }
 #define write_reg(g, reg, data)		{ write_index(g, reg); write_data(g, data); }
 #define write_data16(g, data)		{ write_data(g, (data)>>8); write_data(g, (data) & 0xFF); }
 #define read_reg(g, reg)            { write_index(g, reg); read_data(g); }
@@ -124,7 +124,7 @@ static GFXINLINE void set_viewport(GDisplay* g) {
  *
  *	Backlight appears to be forced off (by chip) when display blanked
  */
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
 	// The SSD1963 has a built-in PWM (duty_cycle 00..FF).
 	// Its output can be used by a Dynamic Background Control or by a host (user)
 	// Check your LCD's hardware, the PWM connection is default left open and instead

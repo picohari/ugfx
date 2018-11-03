@@ -33,21 +33,21 @@ typedef struct {
 /* Decompressor object structure */
 typedef struct JDEC {
 	unsigned dctr;				/* Number of bytes available in the input buffer */
-	uint8_t* dptr;				/* Current data read ptr */
-	uint8_t* inbuf;				/* Bit stream input buffer */
-	uint8_t dmsk;				/* Current bit in the current read byte */
-	uint8_t scale;				/* Output scaling ratio */
-	uint8_t msx, msy;			/* MCU size in unit of block (width, height) */
-	uint8_t qtid[3];			/* Quantization table ID of each component */
-	int16_t dcv[3];				/* Previous DC element of each component */
-	uint16_t nrst;				/* Restart inverval */
+	gU8* dptr;				/* Current data read ptr */
+	gU8* inbuf;				/* Bit stream input buffer */
+	gU8 dmsk;				/* Current bit in the current read byte */
+	gU8 scale;				/* Output scaling ratio */
+	gU8 msx, msy;			/* MCU size in unit of block (width, height) */
+	gU8 qtid[3];			/* Quantization table ID of each component */
+	gI16 dcv[3];				/* Previous DC element of each component */
+	gU16 nrst;				/* Restart inverval */
 	unsigned width, height;		/* Size of the input image (pixel) */
-	uint8_t* huffbits[2][2];	/* Huffman bit distribution tables [id][dcac] */
-	uint16_t* huffcode[2][2];	/* Huffman code word tables [id][dcac] */
-	uint8_t* huffdata[2][2];	/* Huffman decoded data tables [id][dcac] */
-	int32_t* qttbl[4];			/* Dequaitizer tables [id] */
+	gU8* huffbits[2][2];	/* Huffman bit distribution tables [id][dcac] */
+	gU16* huffcode[2][2];	/* Huffman code word tables [id][dcac] */
+	gU8* huffdata[2][2];	/* Huffman decoded data tables [id][dcac] */
+	gI32* qttbl[4];			/* Dequaitizer tables [id] */
 	void* workbuf;				/* Working buffer for IDCT and RGB output */
-	uint8_t* mcubuf;			/* Working buffer for the MCU */
+	gU8* mcubuf;			/* Working buffer for the MCU */
 	void* pool;					/* Pointer to available memory pool */
 	unsigned sz_pool;			/* Size of momory pool (bytes available) */
 	gdispImage* img;			/* Pointer to I/O device identifiler for the session */
@@ -55,7 +55,7 @@ typedef struct JDEC {
 
 /* TJpgDec API functions */
 gdispImageError jd_prepare(JDEC*, void*, gdispImage*);
-gdispImageError jd_decomp(JDEC*, unsigned(*)(gdispImage*,void*,JRECT*), uint8_t);
+gdispImageError jd_decomp(JDEC*, unsigned(*)(gdispImage*,void*,JRECT*), gU8);
 
 /*---------------------------------------------------------------------------*/
 typedef struct gdispImagePrivate_JPG {
@@ -64,7 +64,7 @@ typedef struct gdispImagePrivate_JPG {
 
 gdispImageError gdispImageOpen_JPG(gdispImage *img){
     gdispImagePrivate_JPG *priv;
-	uint8_t		hdr[4];
+	gU8		hdr[4];
 	unsigned	len;
 
 	/* Read the file identifier */
@@ -132,7 +132,7 @@ void gdispImageClose_JPG(gdispImage *img){
 static unsigned gdispImage_JPG_WriteToCache(gdispImage *img, void *bitmap, JRECT *rect)
 {
 	gdispImagePrivate_JPG	*priv;
-    uint8_t					*in;
+    gU8					*in;
 	gPixel					*out;
     gCoord					x, y;
 
@@ -233,7 +233,7 @@ gDelay gdispImageNext_JPG(gdispImage *img) {
 #define ZIG(n)	Zig[n]
 
 static
-const uint8_t Zig[64] = {	/* Zigzag-order to raster-order conversion table */
+const gU8 Zig[64] = {	/* Zigzag-order to raster-order conversion table */
 	 0,  1,  8, 16,  9,  2,  3, 10, 17, 24, 32, 25, 18, 11,  4,  5,
 	12, 19, 26, 33, 40, 48, 41, 34, 27, 20, 13,  6,  7, 14, 21, 28,
 	35, 42, 49, 56, 57, 50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51,
@@ -250,15 +250,15 @@ const uint8_t Zig[64] = {	/* Zigzag-order to raster-order conversion table */
 #define IPSF(n)	Ipsf[n]
 
 static
-const uint16_t Ipsf[64] = {	/* See also aa_idct.png */
-	(uint16_t)(1.00000*8192), (uint16_t)(1.38704*8192), (uint16_t)(1.30656*8192), (uint16_t)(1.17588*8192), (uint16_t)(1.00000*8192), (uint16_t)(0.78570*8192), (uint16_t)(0.54120*8192), (uint16_t)(0.27590*8192),
-	(uint16_t)(1.38704*8192), (uint16_t)(1.92388*8192), (uint16_t)(1.81226*8192), (uint16_t)(1.63099*8192), (uint16_t)(1.38704*8192), (uint16_t)(1.08979*8192), (uint16_t)(0.75066*8192), (uint16_t)(0.38268*8192),
-	(uint16_t)(1.30656*8192), (uint16_t)(1.81226*8192), (uint16_t)(1.70711*8192), (uint16_t)(1.53636*8192), (uint16_t)(1.30656*8192), (uint16_t)(1.02656*8192), (uint16_t)(0.70711*8192), (uint16_t)(0.36048*8192),
-	(uint16_t)(1.17588*8192), (uint16_t)(1.63099*8192), (uint16_t)(1.53636*8192), (uint16_t)(1.38268*8192), (uint16_t)(1.17588*8192), (uint16_t)(0.92388*8192), (uint16_t)(0.63638*8192), (uint16_t)(0.32442*8192),
-	(uint16_t)(1.00000*8192), (uint16_t)(1.38704*8192), (uint16_t)(1.30656*8192), (uint16_t)(1.17588*8192), (uint16_t)(1.00000*8192), (uint16_t)(0.78570*8192), (uint16_t)(0.54120*8192), (uint16_t)(0.27590*8192),
-	(uint16_t)(0.78570*8192), (uint16_t)(1.08979*8192), (uint16_t)(1.02656*8192), (uint16_t)(0.92388*8192), (uint16_t)(0.78570*8192), (uint16_t)(0.61732*8192), (uint16_t)(0.42522*8192), (uint16_t)(0.21677*8192),
-	(uint16_t)(0.54120*8192), (uint16_t)(0.75066*8192), (uint16_t)(0.70711*8192), (uint16_t)(0.63638*8192), (uint16_t)(0.54120*8192), (uint16_t)(0.42522*8192), (uint16_t)(0.29290*8192), (uint16_t)(0.14932*8192),
-	(uint16_t)(0.27590*8192), (uint16_t)(0.38268*8192), (uint16_t)(0.36048*8192), (uint16_t)(0.32442*8192), (uint16_t)(0.27590*8192), (uint16_t)(0.21678*8192), (uint16_t)(0.14932*8192), (uint16_t)(0.07612*8192)
+const gU16 Ipsf[64] = {	/* See also aa_idct.png */
+	(gU16)(1.00000*8192), (gU16)(1.38704*8192), (gU16)(1.30656*8192), (gU16)(1.17588*8192), (gU16)(1.00000*8192), (gU16)(0.78570*8192), (gU16)(0.54120*8192), (gU16)(0.27590*8192),
+	(gU16)(1.38704*8192), (gU16)(1.92388*8192), (gU16)(1.81226*8192), (gU16)(1.63099*8192), (gU16)(1.38704*8192), (gU16)(1.08979*8192), (gU16)(0.75066*8192), (gU16)(0.38268*8192),
+	(gU16)(1.30656*8192), (gU16)(1.81226*8192), (gU16)(1.70711*8192), (gU16)(1.53636*8192), (gU16)(1.30656*8192), (gU16)(1.02656*8192), (gU16)(0.70711*8192), (gU16)(0.36048*8192),
+	(gU16)(1.17588*8192), (gU16)(1.63099*8192), (gU16)(1.53636*8192), (gU16)(1.38268*8192), (gU16)(1.17588*8192), (gU16)(0.92388*8192), (gU16)(0.63638*8192), (gU16)(0.32442*8192),
+	(gU16)(1.00000*8192), (gU16)(1.38704*8192), (gU16)(1.30656*8192), (gU16)(1.17588*8192), (gU16)(1.00000*8192), (gU16)(0.78570*8192), (gU16)(0.54120*8192), (gU16)(0.27590*8192),
+	(gU16)(0.78570*8192), (gU16)(1.08979*8192), (gU16)(1.02656*8192), (gU16)(0.92388*8192), (gU16)(0.78570*8192), (gU16)(0.61732*8192), (gU16)(0.42522*8192), (gU16)(0.21677*8192),
+	(gU16)(0.54120*8192), (gU16)(0.75066*8192), (gU16)(0.70711*8192), (gU16)(0.63638*8192), (gU16)(0.54120*8192), (gU16)(0.42522*8192), (gU16)(0.29290*8192), (gU16)(0.14932*8192),
+	(gU16)(0.27590*8192), (gU16)(0.38268*8192), (gU16)(0.36048*8192), (gU16)(0.32442*8192), (gU16)(0.27590*8192), (gU16)(0.21678*8192), (gU16)(0.14932*8192), (gU16)(0.07612*8192)
 };
 
 
@@ -272,7 +272,7 @@ const uint16_t Ipsf[64] = {	/* See also aa_idct.png */
 #define BYTECLIP(v) Clip8[(unsigned)(v) & 0x3FF]
 
 static
-const uint8_t Clip8[1024] = {
+const gU8 Clip8[1024] = {
 	/* 0..255 */
 	0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
 	32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
@@ -314,14 +314,14 @@ const uint8_t Clip8[1024] = {
 #else	/* JD_TBLCLIP */
 
 inline
-uint8_t BYTECLIP (
+gU8 BYTECLIP (
 	int val
 )
 {
 	if (val < 0) val = 0;
 	if (val > 255) val = 255;
 
-	return (uint8_t)val;
+	return (gU8)val;
 }
 
 #endif
@@ -362,13 +362,13 @@ void* alloc_pool (	/* Pointer to allocated memory block (NULL:no memory availabl
 static
 unsigned create_qt_tbl (	/* 0:OK, !0:Failed */
 	JDEC* jd,			/* Pointer to the decompressor object */
-	const uint8_t* data,	/* Pointer to the quantizer tables */
+	const gU8* data,	/* Pointer to the quantizer tables */
 	unsigned ndata			/* Size of input data */
 )
 {
 	unsigned i;
-	uint8_t d, z;
-	int32_t *pb;
+	gU8 d, z;
+	gI32 *pb;
 
 
 	while (ndata) {	/* Process all tables in the segment */
@@ -377,12 +377,12 @@ unsigned create_qt_tbl (	/* 0:OK, !0:Failed */
 		d = *data++;							/* Get table property */
 		if (d & 0xF0) return GDISP_IMAGE_ERR_BADDATA;			/* Err: not 8-bit resolution */
 		i = d & 3;								/* Get table ID */
-		pb = alloc_pool(jd, 64 * sizeof (int32_t));/* Allocate a memory block for the table */
+		pb = alloc_pool(jd, 64 * sizeof (gI32));/* Allocate a memory block for the table */
 		if (!pb) return GDISP_IMAGE_ERR_NOMEMORY;				/* Err: not enough memory */
 		jd->qttbl[i] = pb;						/* Register the table */
 		for (i = 0; i < 64; i++) {				/* Load the table */
 			z = ZIG(i);							/* Zigzag-order to raster-order conversion */
-			pb[z] = (int32_t)((uint32_t)*data++ * IPSF(z));	/* Apply scale factor of Arai algorithm to the de-quantizers */
+			pb[z] = (gI32)((gU32)*data++ * IPSF(z));	/* Apply scale factor of Arai algorithm to the de-quantizers */
 		}
 	}
 
@@ -399,13 +399,13 @@ unsigned create_qt_tbl (	/* 0:OK, !0:Failed */
 static
 unsigned create_huffman_tbl (	/* 0:OK, !0:Failed */
 	JDEC* jd,				/* Pointer to the decompressor object */
-	const uint8_t* data,		/* Pointer to the packed huffman tables */
+	const gU8* data,		/* Pointer to the packed huffman tables */
 	unsigned ndata				/* Size of input data */
 )
 {
 	unsigned i, j, b, np, cls, num;
-	uint8_t d, *pb, *pd;
-	uint16_t hc, *ph;
+	gU8 d, *pb, *pd;
+	gU16 hc, *ph;
 
 
 	while (ndata) {	/* Process all tables in the segment */
@@ -422,7 +422,7 @@ unsigned create_huffman_tbl (	/* 0:OK, !0:Failed */
 			np += b;	/* Get sum of code words for each code */
 		}
 
-		ph = alloc_pool(jd, np * sizeof (uint16_t));/* Allocate a memory block for the code word table */
+		ph = alloc_pool(jd, np * sizeof (gU16));/* Allocate a memory block for the code word table */
 		if (!ph) return GDISP_IMAGE_ERR_NOMEMORY;			/* Err: not enough memory */
 		jd->huffcode[num][cls] = ph;
 		hc = 0;
@@ -460,7 +460,7 @@ int bitext (	/* >=0: extracted data, <0: error code */
 	unsigned nbit	/* Number of bits to extract (1 to 11) */
 )
 {
-	uint8_t msk, s, *dp;
+	gU8 msk, s, *dp;
 	unsigned dc, v, f;
 
 
@@ -508,12 +508,12 @@ int bitext (	/* >=0: extracted data, <0: error code */
 static
 int huffext (			/* >=0: decoded data, <0: error code */
 	JDEC* jd,			/* Pointer to the decompressor object */
-	const uint8_t* hbits,	/* Pointer to the bit distribution table */
-	const uint16_t* hcode,	/* Pointer to the code word table */
-	const uint8_t* hdata	/* Pointer to the data table */
+	const gU8* hbits,	/* Pointer to the bit distribution table */
+	const gU16* hcode,	/* Pointer to the code word table */
+	const gU8* hdata	/* Pointer to the data table */
 )
 {
-	uint8_t msk, s, *dp;
+	gU8 msk, s, *dp;
 	unsigned dc, v, f, bl, nd;
 
 
@@ -569,13 +569,13 @@ int huffext (			/* >=0: decoded data, <0: error code */
 
 static
 void block_idct (
-	int32_t* src,	/* Input block data (de-quantized and pre-scaled for Arai Algorithm) */
-	uint8_t* dst	/* Pointer to the destination to store the block as byte array */
+	gI32* src,	/* Input block data (de-quantized and pre-scaled for Arai Algorithm) */
+	gU8* dst	/* Pointer to the destination to store the block as byte array */
 )
 {
-	const int32_t M13 = (int32_t)(1.41421*4096), M2 = (int32_t)(1.08239*4096), M4 = (int32_t)(2.61313*4096), M5 = (int32_t)(1.84776*4096);
-	int32_t v0, v1, v2, v3, v4, v5, v6, v7;
-	int32_t t10, t11, t12, t13;
+	const gI32 M13 = (gI32)(1.41421*4096), M2 = (gI32)(1.08239*4096), M4 = (gI32)(2.61313*4096), M5 = (gI32)(1.84776*4096);
+	gI32 v0, v1, v2, v3, v4, v5, v6, v7;
+	gI32 t10, t11, t12, t13;
 	unsigned i;
 
 	/* Process columns */
@@ -685,13 +685,13 @@ gdispImageError mcu_load (
 	JDEC* jd		/* Pointer to the decompressor object */
 )
 {
-	int32_t *tmp = (int32_t*)jd->workbuf;	/* Block working buffer for de-quantize and IDCT */
+	gI32 *tmp = (gI32*)jd->workbuf;	/* Block working buffer for de-quantize and IDCT */
 	unsigned blk, nby, nbc, i, z, id, cmp;
 	int b, d, e;
-	uint8_t *bp;
-	const uint8_t *hb, *hd;
-	const uint16_t *hc;
-	const int32_t *dqf;
+	gU8 *bp;
+	const gU8 *hb, *hd;
+	const gU16 *hc;
+	const gI32 *dqf;
 
 
 	nby = jd->msx * jd->msy;	/* Number of Y blocks (1, 2 or 4) */
@@ -715,7 +715,7 @@ gdispImageError mcu_load (
 			b = 1 << (b - 1);					/* MSB position */
 			if (!(e & b)) e -= (b << 1) - 1;	/* Restore sign if needed */
 			d += e;								/* Get current value */
-			jd->dcv[cmp] = (int16_t)d;			/* Save current DC value for next block */
+			jd->dcv[cmp] = (gI16)d;			/* Save current DC value for next block */
 		}
 		dqf = jd->qttbl[jd->qtid[cmp]];			/* De-quantizer table ID for this component */
 		tmp[0] = d * dqf[0] >> 8;				/* De-quantize, apply scale factor of Arai algorithm and descale 8 bits */
@@ -774,7 +774,7 @@ gdispImageError mcu_output (
 	const int CVACC = (sizeof (int) > 2) ? 1024 : 128;
 	unsigned ix, iy, mx, my, rx, ry;
 	int yy, cb, cr;
-	uint8_t *py, *pc, *rgb24;
+	gU8 *py, *pc, *rgb24;
 	JRECT rect;
 
 
@@ -793,7 +793,7 @@ gdispImageError mcu_output (
 	if (!JD_USE_SCALE || jd->scale != 3) {	/* Not for 1/8 scaling */
 
 		/* Build an RGB MCU from discrete comopnents */
-		rgb24 = (uint8_t*)jd->workbuf;
+		rgb24 = (gU8*)jd->workbuf;
 		for (iy = 0; iy < my; iy++) {
 			pc = jd->mcubuf;
 			py = pc + iy * 8;
@@ -824,16 +824,16 @@ gdispImageError mcu_output (
 		/* Descale the MCU rectangular if needed */
 		if (JD_USE_SCALE && jd->scale) {
 			unsigned x, y, r, g, b, s, w, a;
-			uint8_t *op;
+			gU8 *op;
 
 			/* Get averaged RGB value of each square correcponds to a pixel */
 			s = jd->scale * 2;	/* Bumber of shifts for averaging */
 			w = 1 << jd->scale;	/* Width of square */
 			a = (mx - w) * 3;	/* Bytes to skip for next line in the square */
-			op = (uint8_t*)jd->workbuf;
+			op = (gU8*)jd->workbuf;
 			for (iy = 0; iy < my; iy += w) {
 				for (ix = 0; ix < mx; ix += w) {
-					rgb24 = (uint8_t*)jd->workbuf + (iy * mx + ix) * 3;
+					rgb24 = (gU8*)jd->workbuf + (iy * mx + ix) * 3;
 					r = g = b = 0;
 					for (y = 0; y < w; y++) {	/* Accumulate RGB value in the square */
 						for (x = 0; x < w; x++) {
@@ -843,9 +843,9 @@ gdispImageError mcu_output (
 						}
 						rgb24 += a;
 					}							/* Put the averaged RGB value as a pixel */
-					*op++ = (uint8_t)(r >> s);
-					*op++ = (uint8_t)(g >> s);
-					*op++ = (uint8_t)(b >> s);
+					*op++ = (gU8)(r >> s);
+					*op++ = (gU8)(g >> s);
+					*op++ = (gU8)(b >> s);
 				}
 			}
 		}
@@ -853,7 +853,7 @@ gdispImageError mcu_output (
 	} else {	/* For only 1/8 scaling (left-top pixel in each block are the DC value of the block) */
 
 		/* Build a 1/8 descaled RGB MCU from discrete comopnents */
-		rgb24 = (uint8_t*)jd->workbuf;
+		rgb24 = (gU8*)jd->workbuf;
 		pc = jd->mcubuf + mx * my;
 		cb = pc[0] - 128;		/* Get Cb/Cr component and restore right level */
 		cr = pc[64] - 128;
@@ -875,10 +875,10 @@ gdispImageError mcu_output (
 	/* Squeeze up pixel table if a part of MCU is to be truncated */
 	mx >>= jd->scale;
 	if (rx < mx) {
-		uint8_t *s, *d;
+		gU8 *s, *d;
 		unsigned x, y;
 
-		s = d = (uint8_t*)jd->workbuf;
+		s = d = (gU8*)jd->workbuf;
 		for (y = 0; y < ry; y++) {
 			for (x = 0; x < rx; x++) {	/* Copy effective pixels */
 				*d++ = *s++;
@@ -892,8 +892,8 @@ gdispImageError mcu_output (
 #if 0
 	/* Convert RGB888 to RGB565 if needed */
 	if (JD_FORMAT == 1) {
-		uint8_t *s = (uint8_t*)jd->workbuf;
-		uint16_t w, *d = (uint16_t*)s;
+		gU8 *s = (gU8*)jd->workbuf;
+		gU16 w, *d = (gU16*)s;
 		unsigned n = rx * ry;
 
 		do {
@@ -919,12 +919,12 @@ gdispImageError mcu_output (
 static
 gdispImageError restart (
 	JDEC* jd,	/* Pointer to the decompressor object */
-	uint16_t rstn	/* Expected restert sequense number */
+	gU16 rstn	/* Expected restert sequense number */
 )
 {
 	unsigned i, dc;
-	uint16_t d;
-	uint8_t *dp;
+	gU16 d;
+	gU8 *dp;
 
 
 	/* Discard padding bits and get two bytes from the input stream */
@@ -966,9 +966,9 @@ gdispImageError jd_prepare (
 	gdispImage* img			/* I/O device identifier for the session */
 )
 {
-	uint8_t *seg, b;
-	uint16_t marker;
-	uint32_t ofs;
+	gU8 *seg, b;
+	gU16 marker;
+	gU32 ofs;
 	unsigned n, i, j, len;
 	gdispImageError rc;
 
@@ -1125,11 +1125,11 @@ gdispImageError jd_prepare (
 gdispImageError jd_decomp (
 	JDEC* jd,											/* Initialized decompression object */
 	unsigned (*outfunc)(gdispImage*, void*, JRECT*),	/* RGB output function */
-	uint8_t scale										/* Output de-scaling factor (0 to 3) */
+	gU8 scale										/* Output de-scaling factor (0 to 3) */
 )
 {
 	unsigned x, y, mx, my;
-	uint16_t rst, rsc;
+	gU16 rst, rsc;
 	gdispImageError rc;
 
 

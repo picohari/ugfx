@@ -18,7 +18,7 @@
 static adcsample_t samplebuf[GINPUT_DIAL_NUM_PORTS];
 
 #if GINPUT_DIAL_CYCLE_POLL
-	static uint16_t		cycle;
+	static gU16		cycle;
 #endif
 
 static void GADCCallback(adcsample_t *buffer, void *param) {

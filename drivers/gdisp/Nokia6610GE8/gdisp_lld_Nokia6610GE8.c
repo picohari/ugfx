@@ -104,9 +104,9 @@
 
 #if GDISP_HARDWARE_STREAM_WRITE
 	typedef struct dvrPriv {
-		uint16_t			savecolor;
+		gU16			savecolor;
 		#if GDISP_GE8_BROKEN_CONTROLLER
-			uint16_t		firstcolor;
+			gU16		firstcolor;
 		#endif
 	} dvrPriv;
 	#define PRIV		((dvrPriv *)g->priv)
@@ -255,7 +255,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		g->flags &= ~(GDISP_FLG_ODDBYTE|GDISP_FLG_RUNBYTE);
 	}
 	LLDSPEC	void gdisp_lld_write_color(GDisplay *g) {
-		uint16_t	c;
+		gU16	c;
 
 		c = gdispColor2Native(g->p.color);
 		#if GDISP_GE8_BROKEN_CONTROLLER
@@ -311,7 +311,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 
 #if GDISP_HARDWARE_DRAWPIXEL
 	LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
-		uint16_t	c;
+		gU16	c;
 
 		c = gdispColor2Native(g->p.color);
 		acquire_bus(g);
@@ -326,7 +326,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_FILLS
 	LLDSPEC void gdisp_lld_fill_area(GDisplay *g) {
 		unsigned	tuples;
-		uint16_t	c;
+		gU16	c;
 
 		tuples = (g->p.cx*g->p.cy+1)>>1;	// With an odd sized area we over-print by one pixel.
 											// This extra pixel overwrites the first pixel (harmless as it is the same colour)
@@ -343,12 +343,12 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 #if GDISP_HARDWARE_BITFILLS
 	LLDSPEC void gdisp_lld_blit_area(GDisplay *g) {
 		gCoord			lg, x, y;
-		uint16_t		c1, c2;
+		gU16		c1, c2;
 		unsigned		tuples;
 		const gPixel	*buffer;
 		#if GDISP_PACKED_PIXELS
 			unsigned		pnum, pstart;
-			const uint8_t	*p;
+			const gU8	*p;
 		#else
 			const gPixel	*p;
 		#endif
@@ -428,10 +428,10 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 				srccx = (g->p.x2 + 1) & ~1;
 			#endif
 			pstart = g->p.y1 * g->p.x2 + g->p.x1;										// The starting pixel number
-			buffer = (const gPixel)(((const uint8_t *)buffer) + ((pstart>>1) * 3));	// The buffer start position
+			buffer = (const gPixel)(((const gU8 *)buffer) + ((pstart>>1) * 3));	// The buffer start position
 			lg = ((g->p.x2-g->p.cx)>>1)*3;												// The buffer gap between lines
 			pnum = pstart + g->p.x2*y + x;												// Adjustment for controller craziness
-			p = ((const uint8_t *)buffer) + (((g->p.x2*y + x)>>1)*3);					// Adjustment for controller craziness
+			p = ((const gU8 *)buffer) + (((g->p.x2*y + x)>>1)*3);					// Adjustment for controller craziness
 
 			while (tuples--) {
 				/* Get a pixel */
@@ -447,7 +447,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					pnum += g->p.x2 - g->p.cx;
 					if (++y >= g->p.cy) {
 						y = 0;
-						p = (const uint8_t *)buffer;
+						p = (const gU8 *)buffer;
 						pnum = pstart;
 					}
 				}
@@ -465,7 +465,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 					pnum += g->p.x2 - g->p.cx;
 					if (++y >= g->p.cy) {
 						y = 0;
-						p = (const uint8_t *)buffer;
+						p = (const gU8 *)buffer;
 						pnum = pstart;
 					}
 				}

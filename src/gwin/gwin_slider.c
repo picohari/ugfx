@@ -42,7 +42,7 @@ static int SliderCalcPosFromDPos(GSliderObject *gsw) {
 }
 
 // Send the slider event
-static void SendSliderEvent(GSliderObject *gsw, uint8_t action) {
+static void SendSliderEvent(GSliderObject *gsw, gU8 action) {
 	GSourceListener	*	psl;
 	GEvent *			pe;
 	#define pse			((GEventGWinSlider *)pe)
@@ -178,7 +178,7 @@ static void SliderResetDisplayPos(GSliderObject *gsw) {
 
 #if GINPUT_NEED_TOGGLE
 	// A toggle on has occurred
-	static void SliderToggleOn(GWidgetObject *gw, uint16_t role) {
+	static void SliderToggleOn(GWidgetObject *gw, gU16 role) {
 		#define gsw		((GSliderObject *)gw)
 
 		if (role) {
@@ -191,26 +191,26 @@ static void SliderResetDisplayPos(GSliderObject *gsw) {
 		#undef gsw
 	}
 
-	static void SliderToggleAssign(GWidgetObject *gw, uint16_t role, uint16_t instance) {
+	static void SliderToggleAssign(GWidgetObject *gw, gU16 role, gU16 instance) {
 		if (role)
 			((GSliderObject *)gw)->t_up = instance;
 		else
 			((GSliderObject *)gw)->t_dn = instance;
 	}
 
-	static uint16_t SliderToggleGet(GWidgetObject *gw, uint16_t role) {
+	static gU16 SliderToggleGet(GWidgetObject *gw, gU16 role) {
 		return role ? ((GSliderObject *)gw)->t_up : ((GSliderObject *)gw)->t_dn;
 	}
 #endif
 
 #if GINPUT_NEED_DIAL
 	// A dial move event
-	static void SliderDialMove(GWidgetObject *gw, uint16_t role, uint16_t value, uint16_t max) {
+	static void SliderDialMove(GWidgetObject *gw, gU16 role, gU16 value, gU16 max) {
 		#define gsw		((GSliderObject *)gw)
 		(void)			role;
 
 		// Set the new position
-		gsw->pos = (uint16_t)((uint32_t)value*(gsw->max-gsw->min)/max + gsw->min);
+		gsw->pos = (gU16)((gU32)value*(gsw->max-gsw->min)/max + gsw->min);
 
 		SliderResetDisplayPos(gsw);
 		_gwinUpdate(&gsw->w.g);
@@ -220,12 +220,12 @@ static void SliderResetDisplayPos(GSliderObject *gsw) {
 		#undef gsw
 	}
 
-	static void SliderDialAssign(GWidgetObject *gw, uint16_t role, uint16_t instance) {
+	static void SliderDialAssign(GWidgetObject *gw, gU16 role, gU16 instance) {
 		(void) role;
 		((GSliderObject *)gw)->dial = instance;
 	}
 
-	static uint16_t SliderDialGet(GWidgetObject *gw, uint16_t role) {
+	static gU16 SliderDialGet(GWidgetObject *gw, gU16 role) {
 		(void) role;
 		return ((GSliderObject *)gw)->dial;
 	}

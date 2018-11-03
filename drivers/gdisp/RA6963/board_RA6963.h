@@ -177,7 +177,7 @@ static GFXINLINE void setpin_reset(GDisplay *g, gBool state) {
 #endif
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
   (void) g;
   (void) percent;
 #if RA6963_NEED_BACKLIGHT
@@ -199,9 +199,9 @@ static GFXINLINE void release_bus(GDisplay *g) {
 
 
 #if RA6963_NEED_READ
-static GFXINLINE uint8_t RA6963_busy_wait(uint8_t pattern, gBool lh){
+static GFXINLINE gU8 RA6963_busy_wait(gU8 pattern, gBool lh){
 
-  uint8_t data;
+  gU8 data;
   int ii;
 
   for(ii = 0; ii < 2; ii++) //Only interested in Bit 0 and 1
@@ -229,7 +229,7 @@ static GFXINLINE uint8_t RA6963_busy_wait(uint8_t pattern, gBool lh){
 }
 #endif
 
-static GFXINLINE void RA6963_write(uint8_t value){
+static GFXINLINE void RA6963_write(gU8 value){
   int ii;
   for(ii = 0; ii < 8; ii++){
       if(value & (1 << ii))
@@ -239,7 +239,7 @@ static GFXINLINE void RA6963_write(uint8_t value){
   }
 }
 
-static GFXINLINE void write_data(GDisplay* g, uint8_t data){
+static GFXINLINE void write_data(GDisplay* g, gU8 data){
   (void)g;
 #if RA6963_NEED_READ
   RA6963_busy_wait(RA6963_STATUS_BUSY1 | RA6963_STATUS_BUSY2, ~(RA6963_STATUS_BUSY1 | RA6963_STATUS_BUSY2));
@@ -254,7 +254,7 @@ static GFXINLINE void write_data(GDisplay* g, uint8_t data){
   palSetLine(lcdpins.CD);
 }
 
-static GFXINLINE void write_cmd(GDisplay* g, uint8_t data){
+static GFXINLINE void write_cmd(GDisplay* g, gU8 data){
   (void)g;
 #if RA6963_NEED_READ
   RA6963_busy_wait(RA6963_STATUS_BUSY1 | RA6963_STATUS_BUSY2, ~(RA6963_STATUS_BUSY1 | RA6963_STATUS_BUSY2));
@@ -275,11 +275,11 @@ static GFXINLINE void setwritemode(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE uint8_t read_data(GDisplay *g) {
+static GFXINLINE gU8 read_data(GDisplay *g) {
   (void) g;
 #if RA6963_NEED_READ
   int ii;
-  uint8_t data;
+  gU8 data;
   write_cmd(g, RA6963_DATA_READ_AND_NONVARIABLE);
   //RA6963_busy_wait(RA6963_STATUS_BUSY1 | RA6963_STATUS_BUSY2, ~(RA6963_STATUS_BUSY1 | RA6963_STATUS_BUSY2));
 

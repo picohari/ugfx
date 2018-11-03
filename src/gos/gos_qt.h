@@ -11,7 +11,7 @@
 #if GFX_USE_OS_QT
 
 #define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
-#define DECLARE_THREAD_STACK(name, sz)          uint8_t name[0]
+#define DECLARE_THREAD_STACK(name, sz)          gU8 name[0]
 #define THREAD_RETURN(retval)					return retval
 
 #define gDelayNone					0
@@ -35,8 +35,8 @@ void _gosDeinit();
 
 void gfxHalt(const char* msg);
 void gfxExit(void);
-void* gfxAlloc(size_t sz);
-void* gfxRealloc(void *ptr, size_t oldsz, size_t newsz);
+void* gfxAlloc(gMemSize sz);
+void* gfxRealloc(void *ptr, gMemSize oldsz, gMemSize newsz);
 void gfxFree(void* ptr);
 void gfxYield(void);
 void gfxSleepMilliseconds(gDelay ms);
@@ -55,7 +55,7 @@ gBool gfxSemWait(gfxSem *psem, gDelay ms);
 gBool gfxSemWaitI(gfxSem *psem);
 void gfxSemSignal(gfxSem *psem);
 void gfxSemSignalI(gfxSem *psem);
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
 gThreadreturn gfxThreadWait(gThread thread);
 gThread gfxThreadMe(void);
 void gfxThreadClose(gThread thread);

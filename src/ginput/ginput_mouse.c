@@ -245,15 +245,15 @@ static void GetMouseReading(GMouse *m) {
 	#if !GINPUT_TOUCH_NOTOUCH
 	{
 		const GMouseJitter	*pj;
-		uint32_t			diff;
+		gU32			diff;
 
 		// Are we in pen or finger mode
 		pj = (m->flags & GMOUSE_FLG_FINGERMODE) ? &gmvmt(m)->finger_jitter : &gmvmt(m)->pen_jitter;
 
 		// Is this just movement jitter
 		if (pj->move > 0) {
-			diff = (uint32_t)(r.x - m->r.x) * (uint32_t)(r.x - m->r.x) + (uint32_t)(r.y - m->r.y) * (uint32_t)(r.y - m->r.y);
-			if (diff < (uint32_t)pj->move * (uint32_t)pj->move) {
+			diff = (gU32)(r.x - m->r.x) * (gU32)(r.x - m->r.x) + (gU32)(r.y - m->r.y) * (gU32)(r.y - m->r.y);
+			if (diff < (gU32)pj->move * (gU32)pj->move) {
 				r.x = m->r.x;
 				r.y = m->r.y;
 			}
@@ -261,8 +261,8 @@ static void GetMouseReading(GMouse *m) {
 
 		// Check if the click has moved outside the click area and if so cancel the click
 		if (pj->click > 0 && (m->flags & GMOUSE_FLG_CLICK_TIMER)) {
-			diff = (uint32_t)(r.x - m->clickpos.x) * (uint32_t)(r.x - m->clickpos.x) + (uint32_t)(r.y - m->clickpos.y) * (uint32_t)(r.y - m->clickpos.y);
-			if (diff > (uint32_t)pj->click * (uint32_t)pj->click)
+			diff = (gU32)(r.x - m->clickpos.x) * (gU32)(r.x - m->clickpos.x) + (gU32)(r.y - m->clickpos.y) * (gU32)(r.y - m->clickpos.y);
+			if (diff > (gU32)pj->click * (gU32)pj->click)
 				m->flags &= ~GMOUSE_FLG_CLICK_TIMER;
 		}
 	}
@@ -270,7 +270,7 @@ static void GetMouseReading(GMouse *m) {
 
 	// Step 5 - Click, context-click and other meta event detection
 	{
-		uint16_t		upbtns, dnbtns;
+		gU16		upbtns, dnbtns;
 
 		// Calculate button transitions
 		dnbtns = r.buttons & ~m->r.buttons;
@@ -461,11 +461,11 @@ static void MousePoll(void *param) {
 							+ c2 * ((float)points[0].x * (float)points[1].y - (float)points[1].x * (float)points[0].y)) / dx;
 	}
 
-	static uint32_t CalibrateMouse(GMouse *m) {
+	static gU32 CalibrateMouse(GMouse *m) {
 		gCoord		w, h;
 		gPoint		cross[4];		// The locations of the test points on the display
 		gPoint		points[4];		// The x, y readings obtained from the mouse for each test point
-		uint32_t	err;
+		gU32	err;
 		#if GDISP_NEED_TEXT
 			gFont		font1, font2;
 		#endif
@@ -516,7 +516,7 @@ static void MousePoll(void *param) {
 
 			// Loop through the calibration points
 			for(i = 0; i < maxpoints; i++) {
-				int32_t		px, py;
+				gI32		px, py;
 				unsigned	j;
 
 				// Draw the current calibration point
@@ -597,7 +597,7 @@ static void MousePoll(void *param) {
 
 			// Is this accurate enough?
 			err = (points[3].x - cross[3].x) * (points[3].x - cross[3].x) + (points[3].y - cross[3].y) * (points[3].y - cross[3].y);
-			if (err > (uint32_t)pj->calibrate * (uint32_t)pj->calibrate) {
+			if (err > (gU32)pj->calibrate * (gU32)pj->calibrate) {
 				#if GDISP_NEED_TEXT
 					// No - Display error and return
 					gdispGFillStringBox(m->display,
@@ -803,7 +803,7 @@ gBool ginputGetMouseStatus(unsigned instance, GEventMouse *pe) {
 #endif
 
 #if !GINPUT_TOUCH_NOCALIBRATE_GUI
-	uint32_t ginputCalibrateMouse(unsigned instance) {
+	gU32 ginputCalibrateMouse(unsigned instance) {
 		GMouse *m;
 
 		// Find the instance

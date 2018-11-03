@@ -66,7 +66,7 @@ void _gosDeinit(void)
 	#endif
 }
 
-void* gfxRealloc(void *ptr, size_t oldsz, size_t newsz)
+void* gfxRealloc(void *ptr, gMemSize oldsz, gMemSize newsz)
 {
 	void *np;
 
@@ -146,7 +146,7 @@ void gfxSemSignalI(gfxSem* psem)
 	xSemaphoreGiveFromISR(*psem,&xHigherPriorityTaskWoken);
 }
 
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
 	gThread task;
 	(void) stackarea;

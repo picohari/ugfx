@@ -107,7 +107,7 @@ static void gwidgetEvent(void *param, GEvent *pe) {
 			GHandle			gh;
 		#endif
 		#if GINPUT_NEED_TOGGLE || GINPUT_NEED_DIAL
-			uint16_t		role;
+			gU16		role;
 		#endif
 	#endif
 	
@@ -346,9 +346,9 @@ static void gwidgetEvent(void *param, GEvent *pe) {
 #endif
 
 #if GFX_USE_GINPUT && GINPUT_NEED_TOGGLE
-	static GHandle FindToggleUser(uint16_t instance) {
+	static GHandle FindToggleUser(gU16 instance) {
 		GHandle			gh;
-		uint16_t		role;
+		gU16		role;
 
 		for(gh = gwinGetNextWindow(0); gh; gh = gwinGetNextWindow(gh)) {
 			if (!(gh->flags & GWIN_FLG_WIDGET))		// check if it a widget
@@ -364,9 +364,9 @@ static void gwidgetEvent(void *param, GEvent *pe) {
 #endif
 
 #if GFX_USE_GINPUT && GINPUT_NEED_DIAL
-	static GHandle FindDialUser(uint16_t instance) {
+	static GHandle FindDialUser(gU16 instance) {
 		GHandle			gh;
-		uint16_t		role;
+		gU16		role;
 
 		for(gh = gwinGetNextWindow(0); gh; gh = gwinGetNextWindow(gh)) {
 			if (!(gh->flags & GWIN_FLG_WIDGET))		// check if it a widget
@@ -420,7 +420,7 @@ GHandle _gwidgetCreate(GDisplay *g, GWidgetObject *pgw, const GWidgetInit *pInit
 
 void _gwidgetDestroy(GHandle gh) {
 	#if GFX_USE_GINPUT && (GINPUT_NEED_TOGGLE || GINPUT_NEED_DIAL)
-		uint16_t	role, instance;
+		gU16	role, instance;
 	#endif
 
 	// Make the window is invisible so it is not eligible for focus
@@ -635,7 +635,7 @@ gBool gwinAttachListener(GListener *pl) {
 }
 
 #if GFX_USE_GINPUT && GINPUT_NEED_MOUSE
-	gBool DEPRECATED("This call can now be removed. Attaching the mouse to GWIN is now automatic.") gwinAttachMouse(uint16_t instance) {
+	gBool DEPRECATED("This call can now be removed. Attaching the mouse to GWIN is now automatic.") gwinAttachMouse(gU16 instance) {
 		// This is now a NULL event because we automatically attach to all mice in the system.
 		(void) instance;
 		return gTrue;
@@ -643,9 +643,9 @@ gBool gwinAttachListener(GListener *pl) {
 #endif
 
 #if GFX_USE_GINPUT && GINPUT_NEED_TOGGLE
-	gBool gwinAttachToggle(GHandle gh, uint16_t role, uint16_t instance) {
+	gBool gwinAttachToggle(GHandle gh, gU16 role, gU16 instance) {
 		GSourceHandle	gsh;
-		uint16_t		oi;
+		gU16		oi;
 
 		// Is this a widget
 		if (!(gh->flags & GWIN_FLG_WIDGET))
@@ -676,8 +676,8 @@ gBool gwinAttachListener(GListener *pl) {
 		return geventAttachSource(&gl, gsh, GLISTEN_TOGGLE_ON|GLISTEN_TOGGLE_OFF);
 	}
 
-	gBool gwinDetachToggle(GHandle gh, uint16_t role) {
-		uint16_t		oi;
+	gBool gwinDetachToggle(GHandle gh, gU16 role) {
+		gU16		oi;
 
 		// Is this a widget
 		if (!(gh->flags & GWIN_FLG_WIDGET))
@@ -701,9 +701,9 @@ gBool gwinAttachListener(GListener *pl) {
 #endif
 
 #if GFX_USE_GINPUT && GINPUT_NEED_DIAL
-	gBool gwinAttachDial(GHandle gh, uint16_t role, uint16_t instance) {
+	gBool gwinAttachDial(GHandle gh, gU16 role, gU16 instance) {
 		GSourceHandle	gsh;
-		uint16_t		oi;
+		gU16		oi;
 
 		if (!(gh->flags & GWIN_FLG_WIDGET))
 			return gFalse;

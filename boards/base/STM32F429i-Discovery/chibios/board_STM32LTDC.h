@@ -82,8 +82,8 @@ static void release_bus(GDisplay *g) {
 	spiUnselect(SPI_PORT);
 }
 
-static void write_index(GDisplay *g, uint8_t index) {
-	static uint8_t	sindex;
+static void write_index(GDisplay *g, gU8 index) {
+	static gU8	sindex;
 	(void) g;
 
 	palClearPad(DC_PORT, DC_PIN);
@@ -91,8 +91,8 @@ static void write_index(GDisplay *g, uint8_t index) {
 	spiSend(SPI_PORT, 1, &sindex);
 }
 
-static void write_data(GDisplay *g, uint8_t data) {
-	static uint8_t	sdata;
+static void write_data(GDisplay *g, gU8 data) {
+	static gU8	sdata;
 	(void) g;
 
 	palSetPad(DC_PORT, DC_PIN);
@@ -108,7 +108,7 @@ static void Init9341(GDisplay *g) {
 	#define REG_COMMAND		0x0100
 	#define REG_DELAY		0x0200
 
-	static const uint16_t initdata[] = {
+	static const gU16 initdata[] = {
 			REG_COMMAND | ILI9341_CMD_RESET,
 			REG_DELAY   | 5,
 			REG_COMMAND | ILI9341_CMD_DISPLAY_OFF,
@@ -152,7 +152,7 @@ static void Init9341(GDisplay *g) {
 			REG_COMMAND | ILI9341_SET_MEM
 	};
 
-	const uint16_t	*p;
+	const gU16	*p;
 
 	acquire_bus(g);
 	for(p = initdata; p < &initdata[sizeof(initdata)/sizeof(initdata[0])]; p++) {
@@ -206,7 +206,7 @@ static GFXINLINE void post_init_board(GDisplay *g) {
 	(void) g;
 }
 
-static GFXINLINE void set_backlight(GDisplay *g, uint8_t percent) {
+static GFXINLINE void set_backlight(GDisplay *g, gU8 percent) {
 	(void) g;
 	(void) percent;
 }

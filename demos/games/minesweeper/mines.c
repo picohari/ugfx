@@ -3,25 +3,25 @@
 #include "mines.h"
 
 typedef struct {            // Node properties
-      uint8_t num;          // Node number, how many mines around
+      gU8 num;          // Node number, how many mines around
       gBool open;          // Node shown or hidden
       gBool check;         // Node needs to be checked or not, used for opening up empty nodes
       gBool flag;          // Node is marked with flag by player
-      uint16_t fieldNum;    // Node number, used to randomize gamestart "animation"
+      gU16 fieldNum;    // Node number, used to randomize gamestart "animation"
 } nodeProps;
 
 static GEventMouse ev;
 static nodeProps minesField[MINES_FIELD_WIDTH][MINES_FIELD_HEIGHT];   // Mines field array
 static gBool minesGameOver = gFalse;
 static gBool minesGameWinner = gFalse;
-static int16_t minesEmptyNodes;                        // Empty node counter
-static int16_t minesFlags;                             // Flag counter
-static int16_t minesTime;                              // Time counter
+static gI16 minesEmptyNodes;                        // Empty node counter
+static gI16 minesFlags;                             // Flag counter
+static gI16 minesTime;                              // Time counter
 static GTimer minesTimeCounterTimer;
 static const char* minesGraph[] = {"1.bmp","2.bmp","3.bmp","4.bmp","5.bmp","6.bmp","7.bmp","8.bmp", "closed.bmp", "empty.bmp", "explode.bmp", "flag.bmp", "mine.bmp", "wrong.bmp"}; // 14 elements (0-13)
 static gdispImage minesImage;
-static uint8_t minesStatusIconWidth = 0;
-static uint8_t minesStatusIconHeight = 0;
+static gU8 minesStatusIconWidth = 0;
+static gU8 minesStatusIconHeight = 0;
 static gBool minesFirstGame = gTrue;                  // Just don't clear field for the first time, as we have black screen already... :/
 static gBool minesSplashTxtVisible = gFalse;
 #if MINES_SHOW_SPLASH
@@ -84,7 +84,7 @@ static void initRng(void)
     srand(gfxSystemTicks());
 }
 
-static uint32_t randomInt(uint32_t max)
+static gU32 randomInt(gU32 max)
 {
     return rand() % max;
 }
@@ -125,7 +125,7 @@ static void minesTimeCounter(void* arg)
     minesUpdateTime();
 }
 
-static gBool inRange(int16_t x, int16_t y)
+static gBool inRange(gI16 x, gI16 y)
 {
     if ((x >= 0) && (x < MINES_FIELD_WIDTH) && (y >= 0) && (y < MINES_FIELD_HEIGHT))
         return gTrue;
@@ -133,7 +133,7 @@ static gBool inRange(int16_t x, int16_t y)
         return gFalse;
 }
 
-static void showOne(int16_t x, int16_t y)
+static void showOne(gI16 x, gI16 y)
 {
     minesField[x][y].open = gTrue;
     if (minesField[x][y].flag) {
@@ -167,7 +167,7 @@ static void showOne(int16_t x, int16_t y)
 
 static void openEmptyNodes(void)
 {
-    int16_t x, y, i, j;
+    gI16 x, y, i, j;
     gBool needToCheck = gTrue;
 
     while (needToCheck) {
@@ -195,7 +195,7 @@ static void openEmptyNodes(void)
 static DECLARE_THREAD_FUNCTION(thdMines, msg)
 {
     (void)msg;
-    uint16_t x,y, delay;
+    gU16 x,y, delay;
     gBool delayed = gFalse;
     while (!minesGameOver) {
         if (minesEmptyNodes == 0) {
@@ -265,7 +265,7 @@ static void printGameOver(void)
 
 static void initField(void)
 {
-    int16_t x, y, mines, i, j;
+    gI16 x, y, mines, i, j;
 
     minesFlags = 0;
     minesGameOver = gFalse;
@@ -374,7 +374,7 @@ static void initField(void)
 
 void minesStart(void)
 {
-    int16_t x, y;
+    gI16 x, y;
 
 #if MINES_SHOW_SPLASH
     gtimerStop(&minesSplashBlink);

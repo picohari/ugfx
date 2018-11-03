@@ -36,8 +36,8 @@ typedef struct GTexteditObject {
 	GWidgetObject	w;
 
 	char*			textBuffer;
-	size_t			maxSize;
-	uint16_t		cursorPos;
+	gMemSize		maxSize;
+	gU16		cursorPos;
 } GTexteditObject;
 
 /**
@@ -56,7 +56,7 @@ typedef struct GTexteditObject {
  * @note				If the initial text set is larger than maxSize then the text is truncated at maxSize characters.
  * @api
  */
-GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit, size_t maxSize);
+GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit, gMemSize maxSize);
 #define gwinTexteditCreate(wt, pInit, maxSize)			gwinGTexteditCreate(GDISP, wt, pInit, maxSize)
 
 /**
@@ -67,7 +67,7 @@ GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit
  * @pre					Requires GINPUT_NEED_KEYBOARD or GWIN_NEED_KEYBOARD to be on
  * @api
  */
-void gwinTextEditSendSpecialKey(GHandle gh, uint8_t key);
+void gwinTextEditSendSpecialKey(GHandle gh, gU8 key);
 
 /**
  * @brief				Send a normal utf8 character to the textedit

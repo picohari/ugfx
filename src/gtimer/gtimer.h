@@ -54,7 +54,7 @@ typedef struct GTimer_t {
 	void				*param;
 	gTicks		when;
 	gTicks		period;
-	uint16_t			flags;
+	gU16			flags;
 	struct GTimer_t		*next;
 	struct GTimer_t		*prev;
 } GTimer;

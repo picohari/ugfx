@@ -96,7 +96,7 @@ static void nbtnColorBarDraw(GHandle gh, gBool enabled, gBool isdown, const char
 		// Update selection - this is like lazy release.
 		if (k >= 0 && k <= 7) {
 		  selPenWidth = k + 1;
-		  ncoreSetPenWidth((uint8_t) selPenWidth);
+		  ncoreSetPenWidth((gU8) selPenWidth);
 		}
 
 		gdispFillArea(gh->x + NPAD_TOOLBAR_BTN_WIDTH * i, gh->y,

@@ -50,19 +50,19 @@ typedef struct ltdcLayerConfig {
 	LLDCOLOR_TYPE*	frame;			// Frame buffer address
 	gCoord			width, height;	// Frame size in pixels
 	gCoord			pitch;			// Line pitch, in bytes
-	uint16_t		fmt;			// Pixel format in LTDC format
+	gU16		fmt;			// Pixel format in LTDC format
 
 	// Window
 	gCoord			x, y;			// Start pixel position of the virtual layer
 	gCoord			cx, cy;			// Size of the virtual layer
 
-	uint32_t		defcolor;		// Default color, ARGB8888
-	uint32_t		keycolor;		// Color key, RGB888
-	uint32_t		blending;		// Blending factors
-	const uint32_t* palette;		// The palette, RGB888 (can be NULL)
-	uint16_t		palettelen;		// Palette length
-	uint8_t			alpha;			// Constant alpha factor
-	uint8_t			layerflags;		// Layer configuration
+	gU32		defcolor;		// Default color, ARGB8888
+	gU32		keycolor;		// Color key, RGB888
+	gU32		blending;		// Blending factors
+	const gU32* palette;		// The palette, RGB888 (can be NULL)
+	gU16		palettelen;		// Palette length
+	gU8			alpha;			// Constant alpha factor
+	gU8			layerflags;		// Layer configuration
 } ltdcLayerConfig;
 
 typedef struct ltdcConfig {
@@ -70,8 +70,8 @@ typedef struct ltdcConfig {
 	gCoord		hsync, vsync;				// Horizontal and Vertical sync pixels
 	gCoord		hbackporch, vbackporch;		// Horizontal and Vertical back porch pixels
 	gCoord		hfrontporch, vfrontporch;	// Horizontal and Vertical front porch pixels
-	uint32_t	syncflags;					// Sync flags
-	uint32_t	bgcolor;					// Clear screen color RGB888
+	gU32	syncflags;					// Sync flags
+	gU32	bgcolor;					// Clear screen color RGB888
 
 	ltdcLayerConfig	bglayer;				// Background layer config
 	ltdcLayerConfig	fglayer;				// Foreground layer config
@@ -109,7 +109,7 @@ typedef struct ltdcConfig {
 /*===========================================================================*/
 
 #define PIXIL_POS(g, x, y)		((y) * ((ltdcLayerConfig *)g->priv)->pitch + (x) * LTDC_PIXELBYTES)
-#define PIXEL_ADDR(g, pos)		((LLDCOLOR_TYPE *)((uint8_t *)((ltdcLayerConfig *)g->priv)->frame+pos))
+#define PIXEL_ADDR(g, pos)		((LLDCOLOR_TYPE *)((gU8 *)((ltdcLayerConfig *)g->priv)->frame+pos))
 
 /*===========================================================================*/
 /* Driver exported functions.                                                */
@@ -124,7 +124,7 @@ static void _ltdc_reload(void) {
 }
 
 static void _ltdc_layer_init(LTDC_Layer_TypeDef* pLayReg, const ltdcLayerConfig* pCfg) {
-	static const uint8_t fmt2Bpp[] = {
+	static const gU8 fmt2Bpp[] = {
 		4, /* LTDC_FMT_ARGB8888 */
 		3, /* LTDC_FMT_RGB888 */
 		2, /* LTDC_FMT_RGB565 */
@@ -134,37 +134,37 @@ static void _ltdc_layer_init(LTDC_Layer_TypeDef* pLayReg, const ltdcLayerConfig*
 		1, /* LTDC_FMT_AL44 */
 		2  /* LTDC_FMT_AL88 */
 	};
-	uint32_t start, stop;
+	gU32 start, stop;
 
 	// Set the framebuffer dimensions and format
-	pLayReg->PFCR = (pLayReg->PFCR & ~LTDC_LxPFCR_PF) | ((uint32_t)pCfg->fmt & LTDC_LxPFCR_PF);
-	pLayReg->CFBAR = (uint32_t)pCfg->frame & LTDC_LxCFBAR_CFBADD;
-	pLayReg->CFBLR = ((((uint32_t)pCfg->pitch << 16) & LTDC_LxCFBLR_CFBP) | (((uint32_t)fmt2Bpp[pCfg->fmt] * pCfg->width + 3) & LTDC_LxCFBLR_CFBLL));
-	pLayReg->CFBLNR = (uint32_t)pCfg->height & LTDC_LxCFBLNR_CFBLNBR;
+	pLayReg->PFCR = (pLayReg->PFCR & ~LTDC_LxPFCR_PF) | ((gU32)pCfg->fmt & LTDC_LxPFCR_PF);
+	pLayReg->CFBAR = (gU32)pCfg->frame & LTDC_LxCFBAR_CFBADD;
+	pLayReg->CFBLR = ((((gU32)pCfg->pitch << 16) & LTDC_LxCFBLR_CFBP) | (((gU32)fmt2Bpp[pCfg->fmt] * pCfg->width + 3) & LTDC_LxCFBLR_CFBLL));
+	pLayReg->CFBLNR = (gU32)pCfg->height & LTDC_LxCFBLNR_CFBLNBR;
 
 	// Set the display window boundaries
-	start = (uint32_t)pCfg->x + driverCfg.hsync + driverCfg.hbackporch;
+	start = (gU32)pCfg->x + driverCfg.hsync + driverCfg.hbackporch;
 	stop  = start + pCfg->cx - 1;
 	pLayReg->WHPCR = ((start <<  0) & LTDC_LxWHPCR_WHSTPOS) | ((stop  << 16) & LTDC_LxWHPCR_WHSPPOS);
-	start = (uint32_t)pCfg->y + driverCfg.vsync + driverCfg.vbackporch;
+	start = (gU32)pCfg->y + driverCfg.vsync + driverCfg.vbackporch;
 	stop  = start + pCfg->cy - 1;
 	pLayReg->WVPCR = ((start <<  0) & LTDC_LxWVPCR_WVSTPOS) | ((stop  << 16) & LTDC_LxWVPCR_WVSPPOS);
 
 	// Set colors
 	pLayReg->DCCR = pCfg->defcolor;
 	pLayReg->CKCR = (pLayReg->CKCR & ~0x00FFFFFF) | (pCfg->keycolor & 0x00FFFFFF);
-	pLayReg->CACR = (pLayReg->CACR & ~LTDC_LxCACR_CONSTA) | ((uint32_t)pCfg->alpha & LTDC_LxCACR_CONSTA);
-	pLayReg->BFCR = (pLayReg->BFCR & ~(LTDC_LxBFCR_BF1 | LTDC_LxBFCR_BF2)) | ((uint32_t)pCfg->blending & (LTDC_LxBFCR_BF1 | LTDC_LxBFCR_BF2));
+	pLayReg->CACR = (pLayReg->CACR & ~LTDC_LxCACR_CONSTA) | ((gU32)pCfg->alpha & LTDC_LxCACR_CONSTA);
+	pLayReg->BFCR = (pLayReg->BFCR & ~(LTDC_LxBFCR_BF1 | LTDC_LxBFCR_BF2)) | ((gU32)pCfg->blending & (LTDC_LxBFCR_BF1 | LTDC_LxBFCR_BF2));
 	for (start = 0; start < pCfg->palettelen; start++)
-		pLayReg->CLUTWR = ((uint32_t)start << 24) | (pCfg->palette[start] & 0x00FFFFFF);
+		pLayReg->CLUTWR = ((gU32)start << 24) | (pCfg->palette[start] & 0x00FFFFFF);
 
 	// Final flags
-	pLayReg->CR = (pLayReg->CR & ~LTDC_LEF_MASK) | ((uint32_t)pCfg->layerflags & LTDC_LEF_MASK);
+	pLayReg->CR = (pLayReg->CR & ~LTDC_LEF_MASK) | ((gU32)pCfg->layerflags & LTDC_LEF_MASK);
 }
 
 static void _ltdc_init(void) {
 	// Set up the display scanning
-	uint32_t hacc, vacc;
+	gU32 hacc, vacc;
 
 	// Reset the LTDC peripheral
 	RCC->APB2RSTR |= RCC_APB2RSTR_LTDCRST;
@@ -446,9 +446,9 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 	// Uses p.x,p.y  p.cx,p.cy  p.color
 	LLDSPEC void gdisp_lld_fill_area(GDisplay* g)
 	{
-		uint32_t pos;
-		uint32_t lineadd;
-		uint32_t shape;
+		gU32 pos;
+		gU32 lineadd;
+		gU32 shape;
 
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
@@ -484,13 +484,13 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 		{
 			// This is slightly less than optimal as we flush the whole line in the source and destination image
 			// instead of just the cx portion but this saves us having to iterate over each line.
-			uint32_t	f, e;
+			gU32	f, e;
 
 			// Data memory barrier
 			__ugfxDSB();
 
 			// Flush then invalidate the destination area
-			e = pos + (g->p.cy > 1 ? ((uint32_t)((ltdcLayerConfig *)g->priv)->pitch*(shape & 0xFFFF)) : ((shape>>16)*LTDC_PIXELBYTES));
+			e = pos + (g->p.cy > 1 ? ((gU32)((ltdcLayerConfig *)g->priv)->pitch*(shape & 0xFFFF)) : ((shape>>16)*LTDC_PIXELBYTES));
 			for(f=(pos & ~31); f < e; f += 32) {
 			    SCB->DCCIMVAC = f;
 			    SCB->DCIMVAC = f;
@@ -505,16 +505,16 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 		while(DMA2D->CR & DMA2D_CR_START);
 
 		// Start the DMA2D
-		DMA2D->OMAR = (uint32_t)PIXEL_ADDR(g, pos);
+		DMA2D->OMAR = (gU32)PIXEL_ADDR(g, pos);
 		DMA2D->OOR = lineadd;
 		DMA2D->NLR = shape;
 		#if GDISP_LLD_PIXELFORMAT == GDISP_PIXELFORMAT_RGB888
 			// As we don't support ARGB pixel types in uGFX yet we will
 			// use RGB with an inverted alpha value for compatibility
 			// ie. 0x00FFFFFF is fully opaque white, 0xFFFFFFFF is fully transparent white
-			DMA2D->OCOLR = (uint32_t)(gdispColor2Native(g->p.color)) ^ 0xFF000000;
+			DMA2D->OCOLR = (gU32)(gdispColor2Native(g->p.color)) ^ 0xFF000000;
 		#else
-			DMA2D->OCOLR = (uint32_t)(gdispColor2Native(g->p.color));
+			DMA2D->OCOLR = (gU32)(gdispColor2Native(g->p.color));
 		#endif
 		;
 		DMA2D->CR = DMA2D_CR_MODE_R2M | DMA2D_CR_START;
@@ -540,27 +540,27 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 	#if GDISP_HARDWARE_BITFILLS
 		// Uses p.x,p.y  p.cx,p.cy  p.x1,p.y1 (=srcx,srcy)  p.x2 (=srccx), p.ptr (=buffer)
 		LLDSPEC void gdisp_lld_blit_area(GDisplay* g) {
-			uint32_t	srcstart, dststart;
+			gU32	srcstart, dststart;
 
-			srcstart = LTDC_PIXELBYTES * ((uint32_t)g->p.x2 * g->p.y1 * + g->p.x1) + (uint32_t)g->p.ptr;
-			dststart = (uint32_t)PIXEL_ADDR(g, PIXIL_POS(g, g->p.x, g->p.y));
+			srcstart = LTDC_PIXELBYTES * ((gU32)g->p.x2 * g->p.y1 * + g->p.x1) + (gU32)g->p.ptr;
+			dststart = (gU32)PIXEL_ADDR(g, PIXIL_POS(g, g->p.x, g->p.y));
 
 			#if LTDC_DMA_CACHE_FLUSH
 			{
 				// This is slightly less than optimal as we flush the whole line in the source and destination image
 				// instead of just the cx portion but this saves us having to iterate over each line.
-				uint32_t	f, e;
+				gU32	f, e;
 
 				// Data memory barrier
 				__ugfxDSB();
 
 				// Flush the source area
-				e = srcstart + (g->p.cy > 1 ? ((uint32_t)g->p.x2*g->p.cy) : (uint32_t)g->p.cx)*LTDC_PIXELBYTES;
+				e = srcstart + (g->p.cy > 1 ? ((gU32)g->p.x2*g->p.cy) : (gU32)g->p.cx)*LTDC_PIXELBYTES;
 				for(f=(srcstart & ~31); f < e; f += 32)
 				    SCB->DCCIMVAC = f;
 
 				// Flush then invalidate the destination area
-				e = dststart + (g->p.cy > 1 ? ((uint32_t)((ltdcLayerConfig *)g->priv)->pitch*g->p.cy) : ((uint32_t)g->p.cx*LTDC_PIXELBYTES));
+				e = dststart + (g->p.cy > 1 ? ((gU32)((ltdcLayerConfig *)g->priv)->pitch*g->p.cy) : ((gU32)g->p.cx*LTDC_PIXELBYTES));
 				for(f=(dststart & ~31); f < e; f += 32) {
 				    SCB->DCCIMVAC = f;
 				    SCB->DCIMVAC = f;

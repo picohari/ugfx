@@ -64,7 +64,7 @@ static const gwinVMT scopeVMT = {
 		0,						// The after-clear routine
 };
 
-GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, uint16_t channel, uint32_t frequency, ArrayDataFormat format) {
+GHandle gwinGScopeCreate(GDisplay *g, GScopeObject *gs, GWindowInit *pInit, gU16 channel, gU32 frequency, ArrayDataFormat format) {
 	/* Make sure the audio parameters are valid first */
 	if (!gaudioRecordInit(channel, frequency, format))
 		return 0;
@@ -100,10 +100,10 @@ void gwinScopeWaitForTrace(GHandle gh) {
 	int				i;
 	gCoord			x, y;
 	gCoord			yoffset;
-	uint8_t			*pa8;
-	uint16_t		*pa16;
+	gU8			*pa8;
+	gU16		*pa16;
 	gCoord			*pc;
-	uint8_t			shr;
+	gU8			shr;
 
 	#if TRIGGER_METHOD == TRIGGER_POSITIVERAMP
 		gBool			rdytrigger;
@@ -132,8 +132,8 @@ void gwinScopeWaitForTrace(GHandle gh) {
 
 	x = gs->nextx;
 	pc = gs->lastscopetrace+x;
-	pa8 = (uint8_t *)(paud+1);
-	pa16 = (uint16_t *)(paud+1);
+	pa8 = (gU8 *)(paud+1);
+	pa16 = (gU16 *)(paud+1);
 
 	#if TRIGGER_METHOD == TRIGGER_POSITIVERAMP
 		rdytrigger = gFalse;

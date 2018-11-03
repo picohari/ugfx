@@ -19,21 +19,21 @@ struct PNG_decode;
 
 // PNG info (comes from the PNG header)
 typedef struct PNG_info {
-	uint8_t		flags;								// Flags (global)
+	gU8		flags;								// Flags (global)
 		#define PNG_FLG_HEADERDONE			0x01		// The header has been processed
 		#define PNG_FLG_TRANSPARENT			0x02		// Has transparency
 		#define PNG_FLG_INTERLACE			0x04		// Is Interlaced
 		#define PNG_FLG_BACKGROUND			0x08		// Has a specified background color
-	uint8_t		bitdepth;							// 1, 2, 4, 8, 16
-	uint8_t		mode;								// The PNG color-mode
+	gU8		bitdepth;							// 1, 2, 4, 8, 16
+	gU8		mode;								// The PNG color-mode
 		#define PNG_COLORMODE_GRAY			0x00		// Grayscale
 		#define PNG_COLORMODE_RGB			0x02		// RGB
 		#define PNG_COLORMODE_PALETTE		0x03		// Pallete
 		#define PNG_COLORMODE_GRAYALPHA		0x04		// Grayscale with Alpha
 		#define PNG_COLORMODE_RGBA			0x06		// RGBA
-	uint8_t		bpp;								// Bits per pixel
+	gU8		bpp;								// Bits per pixel
 
-	uint8_t		*cache;								// The image cache
+	gU8		*cache;								// The image cache
 	unsigned	cachesz;							// The image cache size
 
 	void 		(*out)(struct PNG_decode *);		// The scan line output function
@@ -42,13 +42,13 @@ typedef struct PNG_info {
 		gColor		bg;								// The background color
 	#endif
 	#if GDISP_NEED_IMAGE_PNG_TRANSPARENCY
-		uint16_t	trans_r;						// Red/grayscale component of the transparent color (PNG_COLORMODE_GRAY and PNG_COLORMODE_RGB only)
-		uint16_t	trans_g;						// Green component of the transparent color (PNG_COLORMODE_RGB only)
-		uint16_t	trans_b;						// Blue component of the transparent color (PNG_COLORMODE_RGB only)
+		gU16	trans_r;						// Red/grayscale component of the transparent color (PNG_COLORMODE_GRAY and PNG_COLORMODE_RGB only)
+		gU16	trans_g;						// Green component of the transparent color (PNG_COLORMODE_RGB only)
+		gU16	trans_b;						// Blue component of the transparent color (PNG_COLORMODE_RGB only)
 	#endif
 	#if GDISP_NEED_IMAGE_PNG_PALETTE_124 || GDISP_NEED_IMAGE_PNG_PALETTE_8
-		uint16_t	palsize;						// palette size in number of colors
-		uint8_t 	*palette;						// palette in RGBA RGBA... order (4 bytes per entry - PNG_COLORMODE_PALETTE only)
+		gU16	palsize;						// palette size in number of colors
+		gU8 	*palette;						// palette in RGBA RGBA... order (4 bytes per entry - PNG_COLORMODE_PALETTE only)
 	#endif
 	} PNG_info;
 
@@ -56,10 +56,10 @@ typedef struct PNG_info {
 typedef struct PNG_input {
 	GFILE *		f;								// The gfile to retrieve data from
 	unsigned	buflen;							// The number of bytes left in the buffer
-	uint8_t		*pbuf;							// The pointer to the next byte
-	uint32_t	chunklen;						// The number of bytes left in the current PNG chunk
-	uint32_t	chunknext;						// The file position of the next PNG chunk
-	uint8_t		buf[GDISP_IMAGE_PNG_FILE_BUFFER_SIZE];		// Must be a minimum of 8 bytes to hold a chunk header
+	gU8		*pbuf;							// The pointer to the next byte
+	gU32	chunklen;						// The number of bytes left in the current PNG chunk
+	gU32	chunknext;						// The file position of the next PNG chunk
+	gU8		buf[GDISP_IMAGE_PNG_FILE_BUFFER_SIZE];		// Must be a minimum of 8 bytes to hold a chunk header
 	} PNG_input;
 
 // Handle the display output and windowing
@@ -77,20 +77,20 @@ typedef struct PNG_output {
 typedef struct PNG_filter {
 	unsigned	scanbytes;
 	unsigned	bytewidth;
-	uint8_t		*line;
-	uint8_t		*prev;
+	gU8		*line;
+	gU8		*prev;
 	} PNG_filter;
 
 // Handle the PNG inflate decompression
 typedef struct PNG_zTree {
-	uint16_t table[16];			// Table of code length counts
-	uint16_t trans[288];		// Code to symbol translation table
+	gU16 table[16];			// Table of code length counts
+	gU16 trans[288];		// Code to symbol translation table
 	} PNG_zTree;
 
 typedef struct PNG_zinflate {
-	uint8_t		data;					// The current input stream data byte
-	uint8_t		bits;					// The number of bits left in the data byte
-	uint8_t		flags;					// Decompression flags
+	gU8		data;					// The current input stream data byte
+	gU8		bits;					// The number of bits left in the data byte
+	gU8		flags;					// Decompression flags
 	#define PNG_ZFLG_EOF			0x01	// No more input data
 	#define PNG_ZFLG_FINAL			0x02	// This is the final block
 	#define PNG_ZFLG_RESUME_MASK	0x0C	// The mask of bits for the resume state
@@ -104,8 +104,8 @@ typedef struct PNG_zinflate {
 
 	PNG_zTree	ltree;					// The dynamic length tree
 	PNG_zTree	dtree;					// The dynamic distance tree
-	uint8_t		tmp[288+32];			// Temporary space for decoding dynamic trees and other temporary uses
-	uint8_t		buf[GDISP_IMAGE_PNG_Z_BUFFER_SIZE];	// The decoding buffer and sliding window
+	gU8		tmp[288+32];			// Temporary space for decoding dynamic trees and other temporary uses
+	gU8		buf[GDISP_IMAGE_PNG_Z_BUFFER_SIZE];	// The decoding buffer and sliding window
 	} PNG_zinflate;
 
 // Put all the decoding structures together.
@@ -139,7 +139,7 @@ static void PNG_iInit(PNG_decode *d) {
 
 // Load the next byte of image data from the PNG file
 static gBool PNG_iLoadData(PNG_decode *d) {
-	uint32_t	sz;
+	gU32	sz;
 
 	// Is there data still left in the buffer?
 	if (d->i.buflen)
@@ -188,7 +188,7 @@ gotchunk:
 }
 
 // Get the last loaded byte of image data from the PNG file
-static uint8_t PNG_iGetByte(PNG_decode *d) {
+static gU8 PNG_iGetByte(PNG_decode *d) {
 	d->i.buflen--;
 	return *d->i.pbuf++;
 }
@@ -338,9 +338,9 @@ static unsigned PNG_zGetBits(PNG_decode *d, unsigned num) {
 }
 
 // Build an inflate dynamic tree using a string of byte lengths
-static void PNG_zBuildTree(PNG_zTree *t, const uint8_t *lengths, unsigned num) {
+static void PNG_zBuildTree(PNG_zTree *t, const gU8 *lengths, unsigned num) {
 	unsigned		i, sum;
-	uint16_t		offs[16];
+	gU16		offs[16];
 
 	for (i = 0; i < 16; ++i)
 		t->table[i] = 0;
@@ -360,7 +360,7 @@ static void PNG_zBuildTree(PNG_zTree *t, const uint8_t *lengths, unsigned num) {
 }
 
 // Get an inflate decode symbol
-static uint16_t PNG_zGetSymbol(PNG_decode *d, PNG_zTree *t) {
+static gU16 PNG_zGetSymbol(PNG_decode *d, PNG_zTree *t) {
 	int			sum, cur;
 	unsigned	len;
 
@@ -401,11 +401,11 @@ static void PNG_zBuildFixedTrees(PNG_decode *d) {
 
 // Build inflate dynamic length and distance trees
 static gBool PNG_zDecodeTrees(PNG_decode *d) {
-	static const uint8_t IndexLookup[19] = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
+	static const gU8 IndexLookup[19] = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
 	unsigned	hlit, hdist, hclen;
 	unsigned	i, num;
-	uint16_t	symbol;
-	uint8_t		val;
+	gU16	symbol;
+	gU8		val;
 
 	hlit	= PNG_zGetBits(d, 5) + 257;		// 257 - 286
 	hdist	= PNG_zGetBits(d, 5) + 1;		// 1 - 32
@@ -501,7 +501,7 @@ static gBool PNG_zUncompressedBlock(PNG_decode *d) {
 	length = gdispImageGetAlignedLE16(d->z.tmp, 0);
 
 	// Check length
-	if ((uint16_t)length != (uint16_t)~gdispImageGetAlignedLE16(d->z.tmp, 2)) {
+	if ((gU16)length != (gU16)~gdispImageGetAlignedLE16(d->z.tmp, 2)) {
 		d->z.flags |= PNG_ZFLG_EOF;
 		return gFalse;
 	}
@@ -512,12 +512,12 @@ static gBool PNG_zUncompressedBlock(PNG_decode *d) {
 
 // Inflate a compressed inflate block into the output
 static gBool PNG_zInflateBlock(PNG_decode *d) {
-	static const uint8_t	lbits[30]	= { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 6 };
-	static const uint16_t	lbase[30]	= { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 323 };
-	static const uint8_t	dbits[30]	= { 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13 };
-	static const uint16_t	dbase[30]	= { 1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577 };
+	static const gU8	lbits[30]	= { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 6 };
+	static const gU16	lbase[30]	= { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 323 };
+	static const gU8	dbits[30]	= { 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13 };
+	static const gU16	dbase[30]	= { 1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577 };
 	unsigned	length, dist, offset;
-	uint16_t	symbol;
+	gU16	symbol;
 
 	while(1) {
 		symbol = PNG_zGetSymbol(d, &d->z.ltree);							// EOF?
@@ -532,7 +532,7 @@ static gBool PNG_zInflateBlock(PNG_decode *d) {
 
 		if (symbol < 256) {
 			// The symbol is the data
-			d->z.buf[d->z.bufend++] = (uint8_t)symbol;
+			d->z.buf[d->z.bufend++] = (gU8)symbol;
 			WRAP_ZBUF(d->z.bufend);
 			if (d->z.bufend == d->z.bufpos) {								// Buffer full?
 				d->z.flags = (d->z.flags & ~PNG_ZFLG_RESUME_MASK) | PNG_ZFLG_RESUME_INFLATE;
@@ -643,8 +643,8 @@ static gBool PNG_zResumeOffset(PNG_decode *d, unsigned length, unsigned offset) 
 }
 
 // Get a fully decompressed byte from the inflate data stream
-static uint8_t PNG_zGetByte(PNG_decode *d) {
-	uint8_t		data;
+static gU8 PNG_zGetByte(PNG_decode *d) {
+	gU8		data;
 
 	// Do we have any data in the buffers
 	while (d->z.bufpos == d->z.bufend) {
@@ -688,7 +688,7 @@ static uint8_t PNG_zGetByte(PNG_decode *d) {
  *---------------------------------------------------------------*/
 
 // Initialise the scan-line engine
-static void PNG_fInit(PNG_filter *f, uint8_t *buf, unsigned bytewidth, unsigned scanbytes) {
+static void PNG_fInit(PNG_filter *f, gU8 *buf, unsigned bytewidth, unsigned scanbytes) {
 	f->scanbytes = scanbytes;
 	f->bytewidth = bytewidth;
 	f->line = buf;
@@ -707,21 +707,21 @@ static void PNG_fNext(PNG_filter *f) {
 }
 
 // Predictor function for filter0 mode 4
-static uint8_t PNG_fCalcPath(uint16_t a, uint16_t b, uint16_t c) {
-	uint16_t pa = b > c ? (b - c) : (c - b);
-	uint16_t pb = a > c ? (a - c) : (c - a);
-	uint16_t pc = a + b > c + c ? (a + b - c - c) : (c + c - a - b);
+static gU8 PNG_fCalcPath(gU16 a, gU16 b, gU16 c) {
+	gU16 pa = b > c ? (b - c) : (c - b);
+	gU16 pb = a > c ? (a - c) : (c - a);
+	gU16 pc = a + b > c + c ? (a + b - c - c) : (c + c - a - b);
 
 	if (pc < pa && pc < pb)
-		return (uint8_t)c;
+		return (gU8)c;
 	if (pb < pa)
-		return (uint8_t)b;
-	return (uint8_t)a;
+		return (gU8)b;
+	return (gU8)a;
 }
 
 // Scan-line filter type 0
 static gBool PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
-	uint8_t		ft;
+	gU8		ft;
 	unsigned	i;
 
 	// Get the filter type and check for validity (eg not EOF)
@@ -781,15 +781,15 @@ static gBool PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
 	static void PNG_OutGRAY124(PNG_decode *d) {
 		unsigned	i;
 		PNG_info 	*pinfo;
-		uint8_t		px;
-		uint8_t		bits;
+		gU8		px;
+		gU8		bits;
 
 		pinfo = d->pinfo;
 		for(i = 0; i < d->f.scanbytes; i++) {
 			for(bits = 8; bits; bits -= pinfo->bitdepth) {
 				px = (d->f.line[i] >> (bits - pinfo->bitdepth)) & ((1U << pinfo->bitdepth)-1);
 				#if GDISP_NEED_IMAGE_PNG_TRANSPARENCY
-					if ((pinfo->flags & PNG_FLG_TRANSPARENT) && (uint16_t)px == pinfo->trans_r) {
+					if ((pinfo->flags & PNG_FLG_TRANSPARENT) && (gU16)px == pinfo->trans_r) {
 						#if GDISP_NEED_IMAGE_PNG_BACKGROUND
 							if ((pinfo->flags & PNG_FLG_BACKGROUND)) {
 								PNG_oColor(&d->o, pinfo->bg);
@@ -810,7 +810,7 @@ static gBool PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
 #if GDISP_NEED_IMAGE_PNG_GRAYSCALE_8
 	static void PNG_OutGRAY8(PNG_decode *d) {
 		unsigned		i;
-		uint8_t			px;
+		gU8			px;
 		#if GDISP_NEED_IMAGE_PNG_TRANSPARENCY
 			PNG_info 	*pinfo = d->pinfo;
 		#endif
@@ -818,7 +818,7 @@ static gBool PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
 		for(i = 0; i < d->f.scanbytes; i++) {
 			px = d->f.line[i];
 			#if GDISP_NEED_IMAGE_PNG_TRANSPARENCY
-				if ((pinfo->flags & PNG_FLG_TRANSPARENT) && (uint16_t)px == pinfo->trans_r) {
+				if ((pinfo->flags & PNG_FLG_TRANSPARENT) && (gU16)px == pinfo->trans_r) {
 					#if GDISP_NEED_IMAGE_PNG_BACKGROUND
 						if ((pinfo->flags & PNG_FLG_BACKGROUND)) {
 							PNG_oColor(&d->o, pinfo->bg);
@@ -836,7 +836,7 @@ static gBool PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
 #if GDISP_NEED_IMAGE_PNG_GRAYSCALE_16
 	static void PNG_OutGRAY16(PNG_decode *d) {
 		unsigned		i;
-		uint8_t			px;
+		gU8			px;
 		#if GDISP_NEED_IMAGE_PNG_TRANSPARENCY
 			PNG_info 	*pinfo = d->pinfo;
 		#endif
@@ -869,9 +869,9 @@ static gBool PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
 		for(i = 0; i < d->f.scanbytes; i+=3) {
 			#if GDISP_NEED_IMAGE_PNG_TRANSPARENCY
 				if ((pinfo->flags & PNG_FLG_TRANSPARENT)
-							&& (uint16_t)d->f.line[i+0] == pinfo->trans_r
-							&& (uint16_t)d->f.line[i+1] == pinfo->trans_g
-							&& (uint16_t)d->f.line[i+2] == pinfo->trans_b) {
+							&& (gU16)d->f.line[i+0] == pinfo->trans_r
+							&& (gU16)d->f.line[i+1] == pinfo->trans_g
+							&& (gU16)d->f.line[i+2] == pinfo->trans_b) {
 					#if GDISP_NEED_IMAGE_PNG_BACKGROUND
 						if ((pinfo->flags & PNG_FLG_BACKGROUND)) {
 							PNG_oColor(&d->o, pinfo->bg);
@@ -918,14 +918,14 @@ static gBool PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
 		unsigned	i;
 		PNG_info 	*pinfo;
 		unsigned	idx;
-		uint8_t 	bits;
+		gU8 	bits;
 
 		pinfo = d->pinfo;
 		for(i = 0; i < d->f.scanbytes; i++) {
 			for(bits = 8; bits; bits -= pinfo->bitdepth) {
 				idx = (d->f.line[i] >> (bits - pinfo->bitdepth)) & ((1U << pinfo->bitdepth)-1);
 
-				if ((uint16_t)idx >= pinfo->palsize) {
+				if ((gU16)idx >= pinfo->palsize) {
 					PNG_oColor(&d->o, RGB2COLOR(0, 0, 0));
 					continue;
 				}
@@ -967,7 +967,7 @@ static gBool PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
 		for(i = 0; i < d->f.scanbytes; i++) {
 			idx = (unsigned)d->f.line[i];
 
-			if ((uint16_t)idx >= pinfo->palsize) {
+			if ((gU16)idx >= pinfo->palsize) {
 				PNG_oColor(&d->o, RGB2COLOR(0, 0, 0));
 				continue;
 			}
@@ -1143,9 +1143,9 @@ void gdispImageClose_PNG(gdispImage *img) {
 
 gdispImageError gdispImageOpen_PNG(gdispImage *img) {
 	PNG_info	*pinfo;
-	uint32_t	pos;
-	uint32_t	len;
-	uint8_t		buf[13];
+	gU32	pos;
+	gU32	len;
+	gU8		buf[13];
 
 	/* Read the file identifier */
 	if (gfileRead(img->f, buf, 8) != 8)
@@ -1199,9 +1199,9 @@ gdispImageError gdispImageOpen_PNG(gdispImage *img) {
 
 			img->width = gdispImageGetAlignedBE16(buf, 2);
 			img->height = gdispImageGetAlignedBE16(buf, 6);
-			pinfo->bitdepth = gdispImageGetVar(uint8_t, buf, 8);
-			pinfo->mode = gdispImageGetVar(uint8_t, buf, 9);
-			if (gdispImageGetVar(uint8_t, buf, 12)) {
+			pinfo->bitdepth = gdispImageGetVar(gU8, buf, 8);
+			pinfo->mode = gdispImageGetVar(gU8, buf, 9);
+			if (gdispImageGetVar(gU8, buf, 12)) {
 				pinfo->flags |= PNG_FLG_INTERLACE;
 				#if !GDISP_NEED_IMAGE_PNG_INTERLACED
 					goto exit_unsupported;
@@ -1209,11 +1209,11 @@ gdispImageError gdispImageOpen_PNG(gdispImage *img) {
 			}
 
 			// Check width and height, filter, compression and interlacing
-			if (gdispImageGetVar(uint16_t, buf, 0) != 0 || img->width <= 0			// width
-					|| gdispImageGetVar(uint16_t, buf, 4) != 0  || img->height <= 0	// height
-					|| gdispImageGetVar(uint8_t, buf, 10) != 0						// compression
-					|| gdispImageGetVar(uint8_t, buf, 11) != 0						// filter
-					|| gdispImageGetVar(uint8_t, buf, 12) > 1						// interlace
+			if (gdispImageGetVar(gU16, buf, 0) != 0 || img->width <= 0			// width
+					|| gdispImageGetVar(gU16, buf, 4) != 0  || img->height <= 0	// height
+					|| gdispImageGetVar(gU8, buf, 10) != 0						// compression
+					|| gdispImageGetVar(gU8, buf, 11) != 0						// filter
+					|| gdispImageGetVar(gU8, buf, 12) > 1						// interlace
 					)
 				goto exit_unsupported;
 
@@ -1343,8 +1343,8 @@ gdispImageError gdispImageOpen_PNG(gdispImage *img) {
 
 				// Read the palette
 				{
-					uint16_t	idx;
-					uint8_t		*p;
+					gU16	idx;
+					gU8		*p;
 
 					for(idx=pinfo->palsize, p=pinfo->palette; idx; p += 4, idx--) {
 						if (gfileRead(img->f, p, 3) != 3)
@@ -1373,8 +1373,8 @@ gdispImageError gdispImageOpen_PNG(gdispImage *img) {
 
 						// Adjust the palette
 						{
-							uint16_t	idx;
-							uint8_t		*p;
+							gU16	idx;
+							gU8		*p;
 
 							for(idx=len, p=pinfo->palette+3; idx; p += 4, idx--) {
 								if (gfileRead(img->f, p, 1) != 1)
@@ -1427,7 +1427,7 @@ gdispImageError gdispImageOpen_PNG(gdispImage *img) {
 
 				#if GDISP_NEED_IMAGE_PNG_PALETTE_124 || GDISP_NEED_IMAGE_PNG_PALETTE_8
 					case PNG_COLORMODE_PALETTE:
-						if (!pinfo->palette || len < 1 || gfileRead(img->f, buf, 1) != 1 || (uint16_t)buf[0] >= pinfo->palsize)
+						if (!pinfo->palette || len < 1 || gfileRead(img->f, buf, 1) != 1 || (gU16)buf[0] >= pinfo->palsize)
 							goto exit_baddata;
 						pinfo->bg = RGB2COLOR(pinfo->palette[((unsigned)buf[0])*4+0],
 												pinfo->palette[((unsigned)buf[0])*4+1],
@@ -1526,7 +1526,7 @@ gdispImageError gdispGImageDraw_PNG(GDisplay *g, gdispImage *img, gCoord x, gCoo
 	#endif
 	{
 		// Non-interlaced decoding
-		PNG_fInit(&d->f, (uint8_t *)(d+1), (pinfo->bpp + 7) / 8, (img->width * pinfo->bpp + 7) / 8);
+		PNG_fInit(&d->f, (gU8 *)(d+1), (pinfo->bpp + 7) / 8, (img->width * pinfo->bpp + 7) / 8);
 		for(y = 0; y < sy+cy; PNG_fNext(&d->f), y++) {
 			if (!PNG_unfilter_type0(d))
 				goto exit_baddata;
@@ -1550,8 +1550,8 @@ gdispImageError gdispImageCache_PNG(gdispImage *img) {
 	PNG_info 	*pinfo;
 	unsigned	chunknext;
 	unsigned	chunklen;
-	uint8_t		*pcache;
-	uint8_t		buf[8];
+	gU8		*pcache;
+	gU8		buf[8];
 
 	// If we are already cached - just return OK
 	pinfo = (PNG_info *)img->priv;

@@ -66,8 +66,8 @@ static char _pointCrossingSegment(const gPoint *a, const gPoint *b, const gPoint
 
 gBool gmiscHittestPoly(const gPoint *pntarray, unsigned cnt, const gPoint *p) {
     unsigned i = 0;
-    uint8_t nbrIntersection = 0;
-    int8_t crossResult;
+    gU8 nbrIntersection = 0;
+    gI8 crossResult;
 
     // For each pair of points
     for (i = 0; i < cnt-1; i++) {

@@ -22,14 +22,14 @@
 
 static gBool fatfsDel(const char* fname);
 static gBool fatfsExists(const char* fname);
-static long int fatfsFileSize(const char* fname);
+static gFileSize fatfsFileSize(const char* fname);
 static gBool fatfsRename(const char* oldname, const char* newname);
 static gBool fatfsOpen(GFILE* f, const char* fname);
 static void fatfsClose(GFILE* f);
 static int fatfsRead(GFILE* f, void* buf, int size);
 static int fatfsWrite(GFILE* f, const void* buf, int size);
-static gBool fatfsSetPos(GFILE* f, long int pos);
-static long int fatfsGetSize(GFILE* f);
+static gBool fatfsSetPos(GFILE* f, gFileSize pos);
+static gFileSize fatfsGetSize(GFILE* f);
 static gBool fatfsEOF(GFILE* f);
 static gBool fatfsMount(const char* drive);
 static gBool fatfsUnmount(const char* drive);
@@ -118,7 +118,7 @@ static gBool fatfsExists(const char* fname)
 	return gTrue;
 }
 
-static long int fatfsFileSize(const char* fname)
+static gFileSize fatfsFileSize(const char* fname)
 {
 	FRESULT ferr;
 	FILINFO fno;
@@ -127,7 +127,7 @@ static long int fatfsFileSize(const char* fname)
 	if (ferr != FR_OK)
 		return 0;
 
-	return (long int)fno.fsize;
+	return (gFileSize)fno.fsize;
 }
 
 static gBool fatfsRename(const char* oldname, const char* newname)
@@ -201,7 +201,7 @@ static int fatfsWrite(GFILE* f, const void* buf, int size)
 	return wr;
 }
 
-static gBool fatfsSetPos(GFILE* f, long int pos)
+static gBool fatfsSetPos(GFILE* f, gFileSize pos)
 {
 	FRESULT ferr;
 
@@ -212,9 +212,9 @@ static gBool fatfsSetPos(GFILE* f, long int pos)
 	return gTrue;
 }
 
-static long int fatfsGetSize(GFILE* f)
+static gFileSize fatfsGetSize(GFILE* f)
 {
-	return (long int)f_size( (FIL*)f->obj );
+	return (gFileSize)f_size( (FIL*)f->obj );
 }
 
 static gBool fatfsEOF(GFILE* f)

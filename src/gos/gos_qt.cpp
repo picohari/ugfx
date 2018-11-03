@@ -64,7 +64,7 @@ void _gosDeinit(void)
 
 void gfxHalt(const char *msg)
 {
-    volatile uint32_t dummy;
+    volatile gU32 dummy;
 
     (void)msg;
 
@@ -75,19 +75,19 @@ void gfxHalt(const char *msg)
 
 void gfxExit(void)
 {
-    volatile uint32_t dummy;
+    volatile gU32 dummy;
 
     while(1) {
         dummy++;
     }
 }
 
-void* gfxAlloc(size_t sz)
+void* gfxAlloc(gMemSize sz)
 {
     return malloc(sz);
 }
 
-void* gfxRealloc(void* ptr, size_t oldsz, size_t newsz)
+void* gfxRealloc(void* ptr, gMemSize oldsz, gMemSize newsz)
 {
     Q_UNUSED(oldsz)
     return realloc(ptr, newsz);
@@ -185,7 +185,7 @@ void gfxSemSignalI(gfxSem *psem)
     static_cast<QSemaphore*>(*psem)->release(1);
 }
 
-gThread gfxThreadCreate(void *stackarea, size_t stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
 {
     Q_UNUSED(stackarea)
 

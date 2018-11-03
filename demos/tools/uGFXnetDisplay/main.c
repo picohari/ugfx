@@ -134,15 +134,15 @@ static gFont					font;
 
 /**
  * Get a whole packet of data.
- * Len is specified in the number of uint16_t's we want as our protocol only talks uint16_t's.
+ * Len is specified in the number of gU16's we want as our protocol only talks gU16's.
  * If the connection closes before we get all the data - the call returns gFalse.
  */
-static gBool getpkt(uint16_t *pkt, int len) {
+static gBool getpkt(gU16 *pkt, int len) {
 	int		got;
 	int		have;
 
 	// Get the packet of data
-	len *= sizeof(uint16_t);
+	len *= sizeof(gU16);
 	have = 0;
 	while(len && (got = recv(netfd, ((char *)pkt)+have, len, 0)) > 0) {
 		have += got;
@@ -151,7 +151,7 @@ static gBool getpkt(uint16_t *pkt, int len) {
 	if (len)
 		return gFalse;
 
-	// Convert each uint16_t to host order
+	// Convert each gU16 to host order
 	for(got = 0, have /= 2; got < have; got++)
 		pkt[got] = ntohs(pkt[got]);
 
@@ -160,19 +160,19 @@ static gBool getpkt(uint16_t *pkt, int len) {
 
 /**
  * Send a whole packet of data.
- * Len is specified in the number of uint16_t's we want to send as our protocol only talks uint16_t's.
+ * Len is specified in the number of gU16's we want to send as our protocol only talks gU16's.
  * Note that contents of the packet are modified to ensure it will cross the wire in the correct format.
  * If the connection closes before we send all the data - the call returns gFalse.
  */
-static gBool sendpkt(uint16_t *pkt, int len) {
+static gBool sendpkt(gU16 *pkt, int len) {
 	int		i;
 
-	// Convert each uint16_t to network order
+	// Convert each gU16 to network order
 	for(i = 0; i < len; i++)
 		pkt[i] = htons(pkt[i]);
 
 	// Send it
-	len *= sizeof(uint16_t);
+	len *= sizeof(gU16);
 	return send(netfd, (const char *)pkt, len, 0) == len;
 }
 
@@ -185,8 +185,8 @@ static gBool sendpkt(uint16_t *pkt, int len) {
 	static DECLARE_THREAD_STACK(waNetThread, 512);
 	static DECLARE_THREAD_FUNCTION(NetThread, param) {
 		GEventMouse				*pem;
-		uint16_t				cmd[2];
-		uint16_t				lbuttons;
+		gU16				cmd[2];
+		gU16				lbuttons;
 		gCoord					lx, ly;
 		(void)					param;
 
@@ -327,7 +327,7 @@ static SOCKET_TYPE doConnect(proto_args) {
  * There are two prototypes - one for systems with a command line and one for embedded systems without one.
  */
 int main(proto_args) {
-	uint16_t			cmd[5];
+	gU16			cmd[5];
 	unsigned			cnt;
 
 
@@ -403,13 +403,13 @@ int main(proto_args) {
 			gdispControl(cmd[0], (void *)(unsigned)cmd[1]);
 			switch(cmd[0]) {
 			case GDISP_CONTROL_ORIENTATION:
-				cmd[1] = (uint16_t)gdispGetOrientation() == cmd[1] ? 1 : 0;
+				cmd[1] = (gU16)gdispGetOrientation() == cmd[1] ? 1 : 0;
 				break;
 			case GDISP_CONTROL_POWER:
-				cmd[1] = (uint16_t)gdispGetPowerMode() == cmd[1] ? 1 : 0;
+				cmd[1] = (gU16)gdispGetPowerMode() == cmd[1] ? 1 : 0;
 				break;
 			case GDISP_CONTROL_BACKLIGHT:
-				cmd[1] = (uint16_t)gdispGetBacklight() == cmd[1] ? 1 : 0;
+				cmd[1] = (gU16)gdispGetBacklight() == cmd[1] ? 1 : 0;
 				break;
 			default:
 				cmd[1] = 0;

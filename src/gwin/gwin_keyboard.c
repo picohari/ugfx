@@ -17,12 +17,12 @@
 #include "gwin_class.h"
 #include "gwin_keyboard_layout.h"
 
-typedef uint8_t		utf8;
-typedef uint16_t	utf16;
-typedef uint32_t	utf32;
+typedef gU8		utf8;
+typedef gU16	utf16;
+typedef gU32	utf32;
 
 // A character code - note this is not UTF-32 but a representation of the UTF-8 code stream for a single character.
-typedef uint32_t	ucode;
+typedef gU32	ucode;
 
 static GSourceHandle	AllKeyboards;
 
@@ -393,7 +393,7 @@ void gwinKeyboardDraw_Normal(GWidgetObject *gw, void *param) {
 	const char *pcap;
 	const utf8 *krow;
 	gCoord x, y, cx, cy;
-	uint8_t rows, cols, row, col, kcols;
+	gU8 rows, cols, row, col, kcols;
 	ucode key;
 	fixed fx, fy;
 	const GColorSet *pcol;

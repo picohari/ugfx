@@ -202,39 +202,39 @@
 
 /* Section 3: Common PHY Registers */
 
-#define PHY_BCR                         ((uint16_t)0x00U)    /*!< Transceiver Basic Control Register   */
-#define PHY_BSR                         ((uint16_t)0x01U)    /*!< Transceiver Basic Status Register    */
+#define PHY_BCR                         ((gU16)0x00U)    /*!< Transceiver Basic Control Register   */
+#define PHY_BSR                         ((gU16)0x01U)    /*!< Transceiver Basic Status Register    */
  
-#define PHY_RESET                       ((uint16_t)0x8000U)  /*!< PHY Reset */
-#define PHY_LOOPBACK                    ((uint16_t)0x4000U)  /*!< Select loop-back mode */
-#define PHY_FULLDUPLEX_100M             ((uint16_t)0x2100U)  /*!< Set the full-duplex mode at 100 Mb/s */
-#define PHY_HALFDUPLEX_100M             ((uint16_t)0x2000U)  /*!< Set the half-duplex mode at 100 Mb/s */
-#define PHY_FULLDUPLEX_10M              ((uint16_t)0x0100U)  /*!< Set the full-duplex mode at 10 Mb/s  */
-#define PHY_HALFDUPLEX_10M              ((uint16_t)0x0000U)  /*!< Set the half-duplex mode at 10 Mb/s  */
-#define PHY_AUTONEGOTIATION             ((uint16_t)0x1000U)  /*!< Enable auto-negotiation function     */
-#define PHY_RESTART_AUTONEGOTIATION     ((uint16_t)0x0200U)  /*!< Restart auto-negotiation function    */
-#define PHY_POWERDOWN                   ((uint16_t)0x0800U)  /*!< Select the power down mode           */
-#define PHY_ISOLATE                     ((uint16_t)0x0400U)  /*!< Isolate PHY from MII                 */
+#define PHY_RESET                       ((gU16)0x8000U)  /*!< PHY Reset */
+#define PHY_LOOPBACK                    ((gU16)0x4000U)  /*!< Select loop-back mode */
+#define PHY_FULLDUPLEX_100M             ((gU16)0x2100U)  /*!< Set the full-duplex mode at 100 Mb/s */
+#define PHY_HALFDUPLEX_100M             ((gU16)0x2000U)  /*!< Set the half-duplex mode at 100 Mb/s */
+#define PHY_FULLDUPLEX_10M              ((gU16)0x0100U)  /*!< Set the full-duplex mode at 10 Mb/s  */
+#define PHY_HALFDUPLEX_10M              ((gU16)0x0000U)  /*!< Set the half-duplex mode at 10 Mb/s  */
+#define PHY_AUTONEGOTIATION             ((gU16)0x1000U)  /*!< Enable auto-negotiation function     */
+#define PHY_RESTART_AUTONEGOTIATION     ((gU16)0x0200U)  /*!< Restart auto-negotiation function    */
+#define PHY_POWERDOWN                   ((gU16)0x0800U)  /*!< Select the power down mode           */
+#define PHY_ISOLATE                     ((gU16)0x0400U)  /*!< Isolate PHY from MII                 */
 
-#define PHY_AUTONEGO_COMPLETE           ((uint16_t)0x0020U)  /*!< Auto-Negotiation process completed   */
-#define PHY_LINKED_STATUS               ((uint16_t)0x0004U)  /*!< Valid link established               */
-#define PHY_JABBER_DETECTION            ((uint16_t)0x0002U)  /*!< Jabber condition detected            */
+#define PHY_AUTONEGO_COMPLETE           ((gU16)0x0020U)  /*!< Auto-Negotiation process completed   */
+#define PHY_LINKED_STATUS               ((gU16)0x0004U)  /*!< Valid link established               */
+#define PHY_JABBER_DETECTION            ((gU16)0x0002U)  /*!< Jabber condition detected            */
   
 /* Section 4: Extended PHY Registers */
 
-#define PHY_SR                          ((uint16_t)0x10U)    /*!< PHY status register Offset                      */
-#define PHY_MICR                        ((uint16_t)0x11U)    /*!< MII Interrupt Control Register                  */
-#define PHY_MISR                        ((uint16_t)0x12U)    /*!< MII Interrupt Status and Misc. Control Register */
+#define PHY_SR                          ((gU16)0x10U)    /*!< PHY status register Offset                      */
+#define PHY_MICR                        ((gU16)0x11U)    /*!< MII Interrupt Control Register                  */
+#define PHY_MISR                        ((gU16)0x12U)    /*!< MII Interrupt Status and Misc. Control Register */
  
-#define PHY_LINK_STATUS                 ((uint16_t)0x0001U)  /*!< PHY Link mask                                   */
-#define PHY_SPEED_STATUS                ((uint16_t)0x0002U)  /*!< PHY Speed mask                                  */
-#define PHY_DUPLEX_STATUS               ((uint16_t)0x0004U)  /*!< PHY Duplex mask                                 */
+#define PHY_LINK_STATUS                 ((gU16)0x0001U)  /*!< PHY Link mask                                   */
+#define PHY_SPEED_STATUS                ((gU16)0x0002U)  /*!< PHY Speed mask                                  */
+#define PHY_DUPLEX_STATUS               ((gU16)0x0004U)  /*!< PHY Duplex mask                                 */
 
-#define PHY_MICR_INT_EN                 ((uint16_t)0x0002U)  /*!< PHY Enable interrupts                           */
-#define PHY_MICR_INT_OE                 ((uint16_t)0x0001U)  /*!< PHY Enable output interrupt events              */
+#define PHY_MICR_INT_EN                 ((gU16)0x0002U)  /*!< PHY Enable interrupts                           */
+#define PHY_MICR_INT_OE                 ((gU16)0x0001U)  /*!< PHY Enable output interrupt events              */
 
-#define PHY_MISR_LINK_INT_EN            ((uint16_t)0x0020U)  /*!< Enable Interrupt on change of link status       */
-#define PHY_LINK_INTERRUPT              ((uint16_t)0x2000U)  /*!< PHY link status interrupt mask                  */
+#define PHY_MISR_LINK_INT_EN            ((gU16)0x0020U)  /*!< Enable Interrupt on change of link status       */
+#define PHY_LINK_INTERRUPT              ((gU16)0x2000U)  /*!< PHY link status interrupt mask                  */
 
 /* ################## SPI peripheral configuration ########################## */
 
@@ -436,9 +436,9 @@
   *         If expr is true, it returns no value.
   * @retval None
   */
-  #define assert_param(expr) ((expr) ? (void)0 : assert_failed((uint8_t *)__FILE__, __LINE__))
+  #define assert_param(expr) ((expr) ? (void)0 : assert_failed((gU8 *)__FILE__, __LINE__))
 /* Exported functions ------------------------------------------------------- */
-  void assert_failed(uint8_t* file, uint32_t line);
+  void assert_failed(gU8* file, gU32 line);
 #else
   #define assert_param(expr) ((void)0)
 #endif /* USE_FULL_ASSERT */
