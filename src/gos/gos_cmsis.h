@@ -27,33 +27,33 @@
 
 #define gDelayNone			0
 #define gDelayForever		osWaitForever
-typedef gU32			gDelay;
-typedef gU32			gTicks;
-typedef gU16			gSemcount;
+typedef gU32				gDelay;
+typedef gU32				gTicks;
+typedef gU16				gSemcount;
 typedef void				gThreadreturn;
 typedef osPriority			gThreadpriority;
 
-#define MAX_SEMAPHORE_COUNT	osFeature_Semaphore
+#define gSemMaxCount			osFeature_Semaphore
 #define gThreadpriorityLow		osPriorityLow
-#define gThreadpriorityNormal		osPriorityNormal
+#define gThreadpriorityNormal	osPriorityNormal
 #define gThreadpriorityHigh		osPriorityHigh
 
-typedef struct gfxSem {
+typedef struct gSem {
 	gU32		semaphore[2];
 	osSemaphoreId	id;
 	gSemcount		available;
-} gfxSem;
+} gSem;
 
-typedef struct gfxMutex {
+typedef struct gMutex {
 	gU32 mutex[4];
 	osMutexId id;
-} gfxMutex;
+} gMutex;
 
 typedef osThreadId			gThread;
 
-#define DECLARE_THREAD_STACK(name, sz)			gU8 name[1];	// Some compilers don't allow zero sized arrays. Let's waste one byte
-#define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void* param)
-#define THREAD_RETURN(retval)
+#define GFX_THREAD_STACK(name, sz)			gU8 name[1];	// Some compilers don't allow zero sized arrays. Let's waste one byte
+#define GFX_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void* param)
+#define gfxThreadReturn(retval)				return
 
 /*===========================================================================*/
 /* Function declarations.                                                    */
@@ -67,19 +67,19 @@ typedef osThreadId			gThread;
 #define gfxSystemUnlock()			osKernelStart()
 #define gfxSleepMilliseconds(ms) 	osDelay(ms)
 
-void gfxMutexInit(gfxMutex* pmutex);
+void gfxMutexInit(gMutex* pmutex);
 #define gfxMutexDestroy(pmutex)		osMutexDelete((pmutex)->id)
 #define gfxMutexEnter(pmutex)		osMutexWait((pmutex)->id, gDelayForever)
 #define gfxMutexExit(pmutex)		osMutexRelease((pmutex)->id)
 
-void gfxSemInit(gfxSem* psem, gSemcount val, gSemcount limit);
-void gfxSemDestroy(gfxSem* psem);
-gBool gfxSemWait(gfxSem* psem, gDelay ms);
-gBool gfxSemWaitI(gfxSem* psem);
-void gfxSemSignal(gfxSem* psem);
-void gfxSemSignalI(gfxSem* psem);
+void gfxSemInit(gSem* psem, gSemcount val, gSemcount limit);
+void gfxSemDestroy(gSem* psem);
+gBool gfxSemWait(gSem* psem, gDelay ms);
+gBool gfxSemWaitI(gSem* psem);
+void gfxSemSignal(gSem* psem);
+void gfxSemSignalI(gSem* psem);
 
-gThread gfxThreadCreate(void* stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param);
+gThread gfxThreadCreate(void* stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void* param);
 #define gfxYield()					osThreadYield()
 #define gfxThreadMe()				osThreadGetId()
 #define gfxThreadClose(thread)		{}

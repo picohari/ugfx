@@ -2,7 +2,7 @@
  * File: notepadCore.c
  *
  * This file is a part of the Notepad demo application for ChibiOS/GFX
- * Copyright © 2013, Kumar Abhishek [abhishek.kakkar@edaboard.com].
+ * Copyright 2013, Kumar Abhishek [abhishek.kakkar@edaboard.com].
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@
 									 (ev.y >= ncoreDrawingArea->y) && (ev.y <= (ncoreDrawingArea->y + ncoreDrawingArea->height)))
 
 /* This is the drawing core */
-static DECLARE_THREAD_STACK(waDrawThread, NCORE_THD_STACK_SIZE);
+static GFX_THREAD_STACK(waDrawThread, NCORE_THD_STACK_SIZE);
 
 static gU8 					nPenWidth = 1;
 static gU8 					nMode = NCORE_MODE_DRAW;
@@ -127,7 +127,7 @@ static void draw_line(gCoord x0, gCoord y0, gCoord x1, gCoord y1) {
 }
 
 /* Core thread */
-static DECLARE_THREAD_FUNCTION(ncoreDrawThread, msg) {
+static GFX_THREAD_FUNCTION(ncoreDrawThread, msg) {
 
   GEventMouse ev, evPrev;
   gCoord dx, dy;

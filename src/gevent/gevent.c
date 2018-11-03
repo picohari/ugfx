@@ -20,7 +20,7 @@
 #define GLISTENER_WITHSOURCE		0x0002			// The source is currently using the buffer
 
 /* This mutex protects access to our tables */
-static gfxMutex	geventMutex;
+static gMutex	geventMutex;
 
 /* Our table of listener/source pairs */
 static GSourceListener		Assignments[GEVENT_MAX_SOURCE_LISTENERS];
@@ -62,9 +62,9 @@ void _geventDeinit(void)
 }
 
 void geventListenerInit(GListener *pl) {
-	gfxSemInit(&pl->waitqueue, 0, MAX_SEMAPHORE_COUNT);		// Next wait'er will block
-	pl->callback = 0;										// No callback active
-	pl->event.type = GEVENT_NULL;							// Always safety
+	gfxSemInit(&pl->waitqueue, 0, gSemMaxCount);		// Next wait'er will block
+	pl->callback = 0;									// No callback active
+	pl->event.type = GEVENT_NULL;						// Always safety
 	pl->flags = 0;
 }
 

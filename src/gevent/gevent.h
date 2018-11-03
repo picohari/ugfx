@@ -55,8 +55,8 @@ typedef void (*GEventCallbackFn)(void *param, GEvent *pe);
 
 // The Listener Object
 typedef struct GListener {
-	gfxSem				waitqueue;			// Private: Semaphore for the listener to wait on.
-	gU16			flags;				// Private: Flags for operation
+	gSem				waitqueue;			// Private: Semaphore for the listener to wait on.
+	gU16				flags;				// Private: Flags for operation
 	GEventCallbackFn	callback;			// Private: Call back Function
 	void				*param;				// Private: Parameter for the callback function.
 	GEvent				event;				// Public:  The event object into which the event information is stored.

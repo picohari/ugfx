@@ -18,8 +18,8 @@ CHANGE:		Added types gI8, gU8 .. gI32, gU32 to replace V2.x int8_t etc
 CHANGE:		Added type gBool           to replace V2.x bool_t,        and values gTrue/gFalse to replace TRUE/FALSE
 CHANGE:		Added type gDelay          to replace V2.x delaytime_t    and values gDelayNone/gDelayForever to replace TIME_IMMEDIATE/TIME_INFINITE
 CHANGE:		Added type gTicks          to replace V2.x systemticks_t
-CHANGE:		Added type gThread         to replace V2.x gfxThreadHandle
-CHANGE:		Added type gThreadreturn   to replace V2.x threadreturn_t
+CHANGE:		Added type gThread         to replace V2.x gfxThreadHandle and macros GFX_THREAD_FUNCTION/STACK to replace DECLARE_THREAD_FUNCTION & DECLARE_THREAD_STACK
+CHANGE:		Added type gThreadreturn   to replace V2.x threadreturn_t and pseudo function gfxThreadReturn() to replace THREAD_RETURN()
 CHANGE:		Added type gThreadpriority to replace V2.x threadpriority_t and values gThreadpriorityLow/Normal/High to replace LOW_/NORMAL_/HIGH_PRIORITY
 CHANGE:		Added type gPoint          to replace V2.x point and point_t
 CHANGE:		Added type gCoord          to replace V2.x coord_t
@@ -31,7 +31,9 @@ CHANGE:		Added type gPowermode      to replace V2.x powermode_t,   and values gP
 CHANGE:		Added type gJustify        to replace V2.x justify_t,     and values gJustifyXXX replace justifyXXX
 CHANGE:		Added type gFontmetric     to replace V2.x fontmetric_t,  and values gFontXXX replace fontXXX
 CHANGE:		Added type gOrientation    to replace V2.x orientation_t, and values gOrientationX replace GDISP_ROTATE_X
-CHANGE:		Added macros JUSTIFYMASK_HORIZONTAL, JUSTIFYMASK_VERTICAL to replace macros JUSTIFYMASK_LEFTRIGHT, JUSTIFYMASK_TOPBOTTOM
+CHANGE:		Added type gSem            to replace V2.x gfxSem, and values gSemMaxCount replace MAX_SEMAPHORE_COUNT
+CHANGE:		Added type gMutex          to replace V2.x gfxMutex
+CHANGE:		Added macros JUSTIFYMASK_HORIZONTAL, JUSTIFYMASK_VERTICAL to replace V2.x macros JUSTIFYMASK_LEFTRIGHT, JUSTIFYMASK_TOPBOTTOM
 FEATURE:	Added types gPtr, gPtrDiff and gAny
 FEATURE:	Added type gMemSize and config macro GFX_MEM_LT64K
 FEATURE:	Added type gFileSize

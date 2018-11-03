@@ -24,7 +24,7 @@
 	#define MIN_WIN_WIDTH	1
 	#define MIN_WIN_HEIGHT	1
 
-	static gfxMutex		gmutex;
+	static gMutex		gmutex;
 
 	void _gwmInit(void)	{
 		gfxMutexInit(&gmutex);
@@ -162,7 +162,7 @@
 extern const GWindowManager	GNullWindowManager;
 GWindowManager *			_GWINwm;
 gBool						_gwinFlashState;
-static gfxSem				gwinsem;
+static gSem					gwinsem;
 static gfxQueueASync		_GWINList;
 #if GWIN_NEED_FLASHING
 	static GTimer			FlashTimer;

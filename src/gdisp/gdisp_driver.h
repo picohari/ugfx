@@ -338,7 +338,7 @@ struct GDisplay {
 
 	// Multithread Mutex
 	#if GDISP_NEED_MULTITHREAD
-		gfxMutex				mutex;
+		gMutex				mutex;
 	#endif
 
 	// Software clipping

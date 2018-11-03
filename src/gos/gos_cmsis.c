@@ -38,7 +38,7 @@ void _gosDeinit(void)
 {
 }
 
-void gfxMutexInit(gfxMutex* pmutex)
+void gfxMutexInit(gMutex* pmutex)
 {
 	osMutexDef_t def;
 	def.mutex = pmutex->mutex;
@@ -46,7 +46,7 @@ void gfxMutexInit(gfxMutex* pmutex)
 	pmutex->id = osMutexCreate(&def);
 }
 
-void gfxSemInit(gfxSem* psem, gSemcount val, gSemcount limit)
+void gfxSemInit(gSem* psem, gSemcount val, gSemcount limit)
 {
 	osSemaphoreDef_t def;
 	def.semaphore = psem->semaphore;
@@ -56,12 +56,12 @@ void gfxSemInit(gfxSem* psem, gSemcount val, gSemcount limit)
 	psem->id = osSemaphoreCreate(&def, val);
 }
 
-void gfxSemDestroy(gfxSem* psem)
+void gfxSemDestroy(gSem* psem)
 {
 	osSemaphoreDelete(psem->id);
 }
 
-gBool gfxSemWait(gfxSem* psem, gDelay ms)
+gBool gfxSemWait(gSem* psem, gDelay ms)
 {
 	if (osSemaphoreWait(psem->id, ms) > 0) {
 		psem->available++;
@@ -70,17 +70,17 @@ gBool gfxSemWait(gfxSem* psem, gDelay ms)
 	return gFalse;
 }
 
-gBool gfxSemWaitI(gfxSem* psem)
+gBool gfxSemWaitI(gSem* psem)
 {
 	return gfxSemWait(psem, 0);
 }
 
-void gfxSemSignal(gfxSem* psem)
+void gfxSemSignal(gSem* psem)
 {
 	gfxSemSignalI(psem);
 }
 
-void gfxSemSignalI(gfxSem* psem)
+void gfxSemSignalI(gSem* psem)
 {
 	if (psem->available) {
 		psem->available--;
@@ -88,7 +88,7 @@ void gfxSemSignalI(gfxSem* psem)
 	}
 }
 
-gThread gfxThreadCreate(void* stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)
+gThread gfxThreadCreate(void* stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void* param)
 {	
 	osThreadDef_t def;
 

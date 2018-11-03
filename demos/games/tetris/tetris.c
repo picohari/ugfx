@@ -427,7 +427,7 @@ static void goLeft(void) {
   } 
 }
 
-static DECLARE_THREAD_FUNCTION(thdTetris, arg) {
+static GFX_THREAD_FUNCTION(thdTetris, arg) {
   (void)arg;
   gU8 i;
   while (!tetrisGameOver) {

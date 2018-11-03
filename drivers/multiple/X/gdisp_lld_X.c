@@ -270,8 +270,8 @@ static void ProcessEvent(GDisplay *g, xPriv *priv) {
 }
 
 /* this is the X11 thread which keeps track of all events */
-static DECLARE_THREAD_STACK(waXThread, 1024);
-static DECLARE_THREAD_FUNCTION(ThreadX, arg) {
+static GFX_THREAD_STACK(waXThread, 1024);
+static GFX_THREAD_FUNCTION(ThreadX, arg) {
 	GDisplay	*g;
 	(void)arg;
 

@@ -126,7 +126,7 @@ typedef struct netPriv {
 } netPriv;
 
 #if GDISP_GFXNET_UNSAFE_SOCKETS
-	static gfxMutex	uGFXnetMutex;
+	static gMutex	uGFXnetMutex;
 	#define MUTEX_INIT		gfxMutexInit(&uGFXnetMutex)
 	#define MUTEX_ENTER		gfxMutexEnter(&uGFXnetMutex)
 	#define MUTEX_EXIT		gfxMutexExit(&uGFXnetMutex)

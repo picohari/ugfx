@@ -66,7 +66,7 @@ static void mandelbrot(float x1, float y1, float x2, float y2) {
 	}
 }
 
-static DECLARE_THREAD_FUNCTION(task, param) {
+static GFX_THREAD_FUNCTION(task, param) {
 	float cx, cy;
 	float zoom = 1.0f;
 	(void) param;

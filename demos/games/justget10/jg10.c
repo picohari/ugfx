@@ -223,7 +223,7 @@ static void printCongrats(void) {
     gdispDrawString(JG10_TOTAL_FIELD_WIDTH+((gdispGetWidth()-JG10_TOTAL_FIELD_WIDTH)/2)-(gdispGetStringWidth(pps_str, font)/2), (gdispGetHeight()/2)+20, pps_str, font, GFX_RED);
 }
 
-static DECLARE_THREAD_FUNCTION(thdJg10, msg) {
+static GFX_THREAD_FUNCTION(thdJg10, msg) {
     (void)msg;
     gU16 x,y;
     while (!jg10GameOver) {
@@ -273,7 +273,7 @@ static DECLARE_THREAD_FUNCTION(thdJg10, msg) {
             }
         }
     }
-    THREAD_RETURN(0);
+    gfxThreadReturn(0);
 }
 
 static void initField(void) {

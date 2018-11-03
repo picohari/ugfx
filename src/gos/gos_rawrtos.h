@@ -7,24 +7,24 @@
 
 #define gDelayNone			(RAW_NO_WAIT)
 #define gDelayForever		(RAW_WAIT_FOREVER)
-typedef gU32			gDelay;
+typedef gU32				gDelay;
 typedef RAW_TICK_TYPE		gTicks;
 typedef gI32				gSemcount;
-typedef gU32			gThreadreturn;
+typedef gU32				gThreadreturn;
 typedef RAW_U8				gThreadpriority;
 
-#define MAX_SEMAPHORE_COUNT	RAW_SEMAPHORE_COUNT
+#define gSemMaxCount			RAW_SEMAPHORE_COUNT
 #define gThreadpriorityLow		(CONFIG_RAW_PRIO_MAX-2)
-#define gThreadpriorityNormal		(CONFIG_RAW_PRIO_MAX/2)
+#define gThreadpriorityNormal	(CONFIG_RAW_PRIO_MAX/2)
 #define gThreadpriorityHigh		1
 
-typedef RAW_SEMAPHORE		gfxSem;
-typedef RAW_MUTEX			gfxMutex;
+typedef RAW_SEMAPHORE		gSem;
+typedef RAW_MUTEX			gMutex;
 typedef RAW_TASK_OBJ*		gThread;
 
-#define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
-#define DECLARE_THREAD_STACK(name, sz)			PORT_STACK name[(sz) & ~3];
-#define THREAD_RETURN(retval)					return retval
+#define GFX_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
+#define GFX_THREAD_STACK(name, sz)			PORT_STACK name[(sz) & ~3];
+#define gfxThreadReturn(retval)				return retval
 
 #define gfxHalt(msg)					for(;;)
 #define gfxExit()						for(;;)
@@ -65,9 +65,9 @@ extern RAW_U16 raw_semaphore_put(RAW_SEMAPHORE *semaphore_ptr);
 
 void gfxSleepMilliseconds(gDelay ms);
 void gfxSleepMicroseconds(gDelay us);
-gBool gfxSemWait(gfxSem* psem, gDelay ms);
-gBool gfxSemWaitI(gfxSem* psem);
-gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gBool gfxSemWait(gSem* psem, gDelay ms);
+gBool gfxSemWaitI(gSem* psem);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void *param);
 
 #endif
 

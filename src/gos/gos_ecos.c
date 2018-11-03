@@ -50,7 +50,7 @@ void gfxSleepMicroseconds(gDelay ms)
 	}
 }
 
-void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit)
+void gfxSemInit(gSem *psem, gSemcount val, gSemcount limit)
 {
 	if (val > limit)
 		val = limit;
@@ -59,12 +59,12 @@ void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit)
 	cyg_semaphore_init(&psem->sem, val);
 }
 
-void gfxSemDestroy(gfxSem *psem)
+void gfxSemDestroy(gSem *psem)
 {
 	cyg_semaphore_destroy(&psem->sem);
 }
 
-gBool gfxSemWait(gfxSem *psem, gDelay ms)
+gBool gfxSemWait(gSem *psem, gDelay ms)
 {
 	switch(ms) {
 	case gDelayNone:	return cyg_semaphore_trywait(&psem->sem);
@@ -73,14 +73,14 @@ gBool gfxSemWait(gfxSem *psem, gDelay ms)
 	}
 }
 
-gBool gfxSemWaitI(gfxSem *psem)
+gBool gfxSemWaitI(gSem *psem)
 {
 	return cyg_semaphore_trywait(&psem->sem);
 }
 
-void gfxSemSignal(gfxSem *psem)
+void gfxSemSignal(gSem *psem)
 {
-	if (psem->limit == MAX_SEMAPHORE_COUNT)
+	if (psem->limit == gSemMaxCount)
 		cyg_semaphore_post(&psem->sem);
 	else {
 		cyg_scheduler_lock();
@@ -90,13 +90,13 @@ void gfxSemSignal(gfxSem *psem)
 	}
 }
 
-void gfxSemSignalI(gfxSem *psem)
+void gfxSemSignalI(gSem *psem)
 {
-	if (psem->limit == MAX_SEMAPHORE_COUNT || cyg_semaphore_peek(&psem->sem, &cnt) < psem->limit)
+	if (psem->limit == gSemMaxCount || cyg_semaphore_peek(&psem->sem, &cnt) < psem->limit)
 		cyg_semaphore_post(&psem->sem);
 }
 
-gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void *param)
 {
 	gThread		th;
 

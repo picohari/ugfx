@@ -22,24 +22,22 @@ typedef u32_t	gSemcount;
 typedef void	gThreadreturn;
 typedef int	gThreadpriority;
 
-#define DECLARE_THREAD_FUNCTION(fnName, param)\
-	gThreadreturn fnName(void* param, void* p2, void* p3)
+#define GFX_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void* param, void* p2, void* p3)
 
-#define DECLARE_THREAD_STACK(name, sz)\
-	K_THREAD_STACK_DEFINE(name, sz)
+#define GFX_THREAD_STACK(name, sz)			K_THREAD_STACK_DEFINE(name, sz)
 
-#define THREAD_RETURN(retval)		return
+#define gfxThreadReturn(retval)				return
 
 #define gDelayNone				K_NO_WAIT
 #define gDelayForever			K_FOREVER
-#define MAX_SEMAPHORE_COUNT		((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
-#define gThreadpriorityLow			CONFIG_NUM_PREEMPT_PRIORITIES-1
-#define gThreadpriorityNormal			1
-#define gThreadpriorityHigh			0
+#define gSemMaxCount			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
+#define gThreadpriorityLow		CONFIG_NUM_PREEMPT_PRIORITIES-1
+#define gThreadpriorityNormal	1
+#define gThreadpriorityHigh		0
 
-typedef struct k_sem gfxSem;
+typedef struct k_sem gSem;
 
-typedef struct k_mutex gfxMutex;
+typedef struct k_mutex gMutex;
 
 typedef k_tid_t gThread;
 

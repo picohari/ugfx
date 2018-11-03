@@ -38,33 +38,33 @@ typedef cnt_t		gSemcount;
 typedef msg_t		gThreadreturn;
 typedef tprio_t		gThreadpriority;
 
-#define MAX_SEMAPHORE_COUNT			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
-#define gThreadpriorityLow				LOWPRIO
-#define gThreadpriorityNormal				NORMALPRIO
-#define gThreadpriorityHigh				HIGHPRIO
+#define gSemMaxCount			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
+#define gThreadpriorityLow		LOWPRIO
+#define gThreadpriorityNormal	NORMALPRIO
+#define gThreadpriorityHigh		HIGHPRIO
 
-#define DECLARE_THREAD_STACK(name, sz)			WORKING_AREA(name, sz)
-#define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
-#define THREAD_RETURN(retval)					return retval
+#define GFX_THREAD_STACK(name, sz)			WORKING_AREA(name, sz)
+#define GFX_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
+#define gfxThreadReturn(retval)				return retval
 
 #if CH_KERNEL_MAJOR <= 2
 	typedef struct {
 		Semaphore	sem;
 		gSemcount	limit;
-	} gfxSem;
+	} gSem;
 
-	typedef Mutex		gfxMutex;
+	typedef Mutex		gMutex;
 	typedef Thread*		gThread;
 #else
-	#undef DECLARE_THREAD_STACK
-	#define DECLARE_THREAD_STACK(a, b)  THD_WORKING_AREA(a, b)
+	#undef GFX_THREAD_STACK
+	#define GFX_THREAD_STACK(a, b)  THD_WORKING_AREA(a, b)
 
 	typedef struct {
 		semaphore_t	sem;
 		gSemcount	limit;
-	} gfxSem;
+	} gSem;
 
-	typedef mutex_t		gfxMutex;
+	typedef mutex_t		gMutex;
 	typedef thread_t*	gThread;
 #endif
 
@@ -104,13 +104,13 @@ typedef tprio_t		gThreadpriority;
 void *gfxRealloc(void *ptr, gMemSize oldsz, gMemSize newsz);
 void gfxSleepMilliseconds(gDelay ms);
 void gfxSleepMicroseconds(gDelay ms);
-void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit);
-void gfxSemDestroy(gfxSem *psem);
-gBool gfxSemWait(gfxSem *psem, gDelay ms);
-gBool gfxSemWaitI(gfxSem *psem);
-void gfxSemSignal(gfxSem *psem);
-void gfxSemSignalI(gfxSem *psem);
-gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+void gfxSemInit(gSem *psem, gSemcount val, gSemcount limit);
+void gfxSemDestroy(gSem *psem);
+gBool gfxSemWait(gSem *psem, gDelay ms);
+gBool gfxSemWaitI(gSem *psem);
+void gfxSemSignal(gSem *psem);
+void gfxSemSignalI(gSem *psem);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadWait(thread)		chThdWait(thread)
 #define gfxThreadMe()				chThdSelf()
 #define gfxThreadClose(thread)		(void)thread

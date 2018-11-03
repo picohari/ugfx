@@ -20,7 +20,7 @@
 	/*------------------------------------------------------------------------*/
 	/* Static array of Synchronization Objects                                */
 	/*------------------------------------------------------------------------*/
-	static gfxSem ff_sem[_VOLUMES];
+	static gSem ff_sem[_VOLUMES];
 
 	/*------------------------------------------------------------------------*/
 	/* Create a Synchronization Object                                        */
@@ -28,7 +28,7 @@
 	int ff_cre_syncobj(BYTE vol, _SYNC_t *sobj)
 	{
 		*sobj = ff_sem[vol];
-		gfxSemInit(sobj, 1, MAX_SEMAPHORE_COUNT);
+		gfxSemInit(sobj, 1, gSemMaxCount);
 
 		return 1;
 	}
@@ -38,7 +38,7 @@
 	/*------------------------------------------------------------------------*/
 	int ff_del_syncobj(_SYNC_t sobj)
 	{
-		gfxSemDestroy( (gfxSem*)&sobj );
+		gfxSemDestroy( (gSem*)&sobj );
 
 		return 1;
 	}
@@ -48,7 +48,7 @@
 	/*------------------------------------------------------------------------*/
 	int ff_req_grant(_SYNC_t sobj)
 	{
-		if (gfxSemWait( (gfxSem*)&sobj, (gDelay)_FS_TIMEOUT) )
+		if (gfxSemWait( (gSem*)&sobj, (gDelay)_FS_TIMEOUT) )
 			return gTrue;
 		return gFalse;
 	}
@@ -58,7 +58,7 @@
 	/*------------------------------------------------------------------------*/
 	void ff_rel_grant(_SYNC_t sobj)
 	{
-		gfxSemSignal( (gfxSem*)&sobj );
+		gfxSemSignal( (gSem*)&sobj );
 	}
 #endif /* _FS_REENTRANT */
 

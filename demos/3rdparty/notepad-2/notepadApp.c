@@ -2,7 +2,7 @@
  * File: notepadApp.c
  *
  * This file is a part of the Notepad demo application for ChibiOS/GFX
- * Copyright © 2013, Kumar Abhishek [abhishek.kakkar@edaboard.com].
+ * Copyright 2013, Kumar Abhishek [abhishek.kakkar@edaboard.com].
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,7 @@ static int selColorIndex = 0, selPenWidth = 1, tbMode = 1;
 
 static NColorScheme nCurColorScheme;
 
-static DECLARE_THREAD_FUNCTION(notepadThread, param);
+static GFX_THREAD_FUNCTION(notepadThread, param);
 
 // Custom drawing functions for the buttons
 static void nbtnColorBarDraw(GHandle gh, gBool enabled, gBool isdown, const char *txt, const GButtonDrawStyle *pstyle, void *param) {
@@ -311,8 +311,8 @@ static void drawVButtons(void) {
   gwinButtonDraw(H(btnFill));
 }
 
-static DECLARE_THREAD_STACK(waNotepadThread, NPAD_THD_WA_SIZE);
-static DECLARE_THREAD_FUNCTION(notepadThread, param) {
+static GFX_THREAD_STACK(waNotepadThread, NPAD_THD_WA_SIZE);
+static GFX_THREAD_FUNCTION(notepadThread, param) {
 
   GEventMouse		*pem;
   GEventGWinButton	*peb;

@@ -62,7 +62,7 @@ static gThread	thread;
 #define FLOORCOLOR		HTML2COLOR(0x606060)
 #define SHADOWALPHA		(255-255*0.2)
 
-static DECLARE_THREAD_FUNCTION(task, param) {
+static GFX_THREAD_FUNCTION(task, param) {
 	gCoord		width, height, x, y, radius, ballx, bally, dx, floor;
 	gCoord		minx, miny, maxx, maxy, winx, winy;
 	gCoord		ballcx, ballcy;

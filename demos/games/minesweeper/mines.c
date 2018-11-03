@@ -192,7 +192,7 @@ static void openEmptyNodes(void)
     }
 }
 
-static DECLARE_THREAD_FUNCTION(thdMines, msg)
+static GFX_THREAD_FUNCTION(thdMines, msg)
 {
     (void)msg;
     gU16 x,y, delay;
@@ -245,7 +245,7 @@ static DECLARE_THREAD_FUNCTION(thdMines, msg)
             }
         }
     }
-    THREAD_RETURN(0);
+    gfxThreadReturn(0);
 }
 
 static void printGameOver(void)

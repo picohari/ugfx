@@ -182,8 +182,8 @@ static gBool sendpkt(gU16 *pkt, int len) {
 	 * We do the send in a single transaction to prevent it getting interspersed with
 	 * any reply we need to send on the main thread.
 	 */
-	static DECLARE_THREAD_STACK(waNetThread, 512);
-	static DECLARE_THREAD_FUNCTION(NetThread, param) {
+	static GFX_THREAD_STACK(waNetThread, 512);
+	static GFX_THREAD_FUNCTION(NetThread, param) {
 		GEventMouse				*pem;
 		gU16				cmd[2];
 		gU16				lbuttons;

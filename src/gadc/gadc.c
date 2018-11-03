@@ -25,7 +25,7 @@ typedef struct NonTimerData_t {
 	GADCCallbackFunction	callback;
 	union {
 		void				*param;
-		gfxSem				sigdone;
+		gSem				sigdone;
 	};
 	GadcNonTimerJob			job;
 	} NonTimerData;

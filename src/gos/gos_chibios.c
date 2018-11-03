@@ -99,7 +99,7 @@ void gfxSleepMicroseconds(gDelay ms)
 	}
 }
 
-void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit)
+void gfxSemInit(gSem *psem, gSemcount val, gSemcount limit)
 {
 	if (val > limit)
 		val = limit;
@@ -113,12 +113,12 @@ void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit)
 	#endif
 }
 
-void gfxSemDestroy(gfxSem *psem)
+void gfxSemDestroy(gSem *psem)
 {
 	chSemReset(&psem->sem, 1);
 }
 
-gBool gfxSemWait(gfxSem *psem, gDelay ms)
+gBool gfxSemWait(gSem *psem, gDelay ms)
 {
 	#if CH_KERNEL_MAJOR <= 2
 		switch(ms) {
@@ -135,7 +135,7 @@ gBool gfxSemWait(gfxSem *psem, gDelay ms)
 	#endif
 }
 
-gBool gfxSemWaitI(gfxSem *psem)
+gBool gfxSemWaitI(gSem *psem)
 {
 	#if CH_KERNEL_MAJOR <= 3
 		if (psem->sem.s_cnt <= 0)
@@ -148,7 +148,7 @@ gBool gfxSemWaitI(gfxSem *psem)
 	return gTrue;
 }
 
-void gfxSemSignal(gfxSem *psem)
+void gfxSemSignal(gSem *psem)
 {
 	chSysLock();
 
@@ -164,7 +164,7 @@ void gfxSemSignal(gfxSem *psem)
 	chSysUnlock();
 }
 
-void gfxSemSignalI(gfxSem *psem)
+void gfxSemSignalI(gSem *psem)
 {
 	#if CH_KERNEL_MAJOR <= 3
 		if (psem->sem.s_cnt < psem->limit)
@@ -175,7 +175,7 @@ void gfxSemSignalI(gfxSem *psem)
 	#endif
 }
 
-gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void *param)
 {
 	if (!stackarea) {
 		if (!stacksz) stacksz = 256;

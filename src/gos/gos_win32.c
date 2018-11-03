@@ -74,7 +74,7 @@ void gfxSystemUnlock(void) {
 	ReleaseMutex(SystemMutex);
 }
 
-gBool gfxSemWait(gfxSem *psem, gDelay ms) {
+gBool gfxSemWait(gSem *psem, gDelay ms) {
 	return WaitForSingleObject(*psem, ms) == WAIT_OBJECT_0;
 }
 
@@ -87,7 +87,7 @@ typedef LONG (__stdcall *_NtQuerySemaphore)(
 );
 
 /* - Left here simply because of its undocumented cleverness...
-gSemcount gfxSemCounter(gfxSem *pSem) {
+gSemcount gfxSemCounter(gSem *pSem) {
 	static _NtQuerySemaphore NtQuerySemaphore;
 	struct _SEMAPHORE_BASIC_INFORMATION {
 	    ULONG CurrentCount;
@@ -103,7 +103,7 @@ gSemcount gfxSemCounter(gfxSem *pSem) {
 }
 */
 
-gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION(*fn,p), void *param) {
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION(*fn,p), void *param) {
 	(void)	stackarea;
 	HANDLE	thd;
 

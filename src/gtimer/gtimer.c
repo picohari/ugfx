@@ -18,18 +18,18 @@
 #define TimeIsWithin(x, start, end)	((end >= start && x >= start && x <= end) || (end < start && (x >= start || x <= end)))
 
 /* This mutex protects access to our tables */
-static gfxMutex			mutex;
+static gMutex	mutex;
 static gThread	hThread = 0;
-static GTimer			*pTimerHead = 0;
-static gfxSem			waitsem;
+static GTimer	*pTimerHead = 0;
+static gSem		waitsem;
 static gTicks	ticks2ms;
-static DECLARE_THREAD_STACK(waTimerThread, GTIMER_THREAD_WORKAREA_SIZE);
+static GFX_THREAD_STACK(waTimerThread, GTIMER_THREAD_WORKAREA_SIZE);
 
 /*===========================================================================*/
 /* Driver local functions.                                                   */
 /*===========================================================================*/
 
-static DECLARE_THREAD_FUNCTION(GTimerThreadHandler, arg) {
+static GFX_THREAD_FUNCTION(GTimerThreadHandler, arg) {
 	GTimer			*pt;
 	gTicks	tm;
 	gTicks	nxtTimeout;
@@ -109,7 +109,7 @@ static DECLARE_THREAD_FUNCTION(GTimerThreadHandler, arg) {
 		lastTime = tm;
 		gfxMutexExit(&mutex);
 	}
-	THREAD_RETURN(0);
+	gfxThreadReturn(0);
 }
 
 void _gtimerInit(void)

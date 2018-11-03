@@ -30,23 +30,23 @@ typedef short			gSemcount;
 typedef int				gThreadreturn;
 typedef int				gThreadpriority;
 
-#define DECLARE_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
-#define DECLARE_THREAD_STACK(name, sz)			gU8 name[(sz) & ~3];
-#define THREAD_RETURN(retval)					return retval
+#define GFX_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
+#define GFX_THREAD_STACK(name, sz)			gU8 name[(sz) & ~3];
+#define gfxThreadReturn(retval)				return retval
 
-#define gDelayNone					0
-#define gDelayForever				((gDelay)-1)
-#define MAX_SEMAPHORE_COUNT			0x7FFF
-#define gThreadpriorityLow				0
-#define gThreadpriorityNormal				1
-#define gThreadpriorityHigh				2
+#define gDelayNone				0
+#define gDelayForever			((gDelay)-1)
+#define gSemMaxCount			0x7FFF
+#define gThreadpriorityLow		0
+#define gThreadpriorityNormal	1
+#define gThreadpriorityHigh		2
 
 typedef struct {
 	gSemcount		cnt;
 	gSemcount		limit;
-} gfxSem;
+} gSem;
 
-typedef gU32		gfxMutex;
+typedef gU32		gMutex;
 typedef void *			gThread;
 
 // Required timing functions - supplied by the user or the operating system
@@ -63,21 +63,21 @@ void gfxSystemLock(void);
 void gfxSystemUnlock(void);
 
 // Mutexes
-void gfxMutexInit(gfxMutex *pmutex);
+void gfxMutexInit(gMutex *pmutex);
 #define gfxMutexDestroy(pmutex)
-void gfxMutexEnter(gfxMutex *pmutex);
-void gfxMutexExit(gfxMutex *pmutex);
+void gfxMutexEnter(gMutex *pmutex);
+void gfxMutexExit(gMutex *pmutex);
 
 // Semaphores
-void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit);
+void gfxSemInit(gSem *psem, gSemcount val, gSemcount limit);
 #define gfxSemDestroy(psem)
-gBool gfxSemWait(gfxSem *psem, gDelay ms);
-gBool gfxSemWaitI(gfxSem *psem);
-void gfxSemSignal(gfxSem *psem);
-void gfxSemSignalI(gfxSem *psem);
+gBool gfxSemWait(gSem *psem, gDelay ms);
+gBool gfxSemWaitI(gSem *psem);
+void gfxSemSignal(gSem *psem);
+void gfxSemSignalI(gSem *psem);
 
 // Threads
-gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param);
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void *param);
 #define gfxThreadClose(thread)
 gThreadreturn gfxThreadWait(gThread thread);
 gThread gfxThreadMe(void);

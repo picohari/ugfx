@@ -22,7 +22,7 @@
 #include <mach/clock.h>
 #include <mach/mach.h>
 
-static gfxMutex		SystemMutex;
+static gMutex		SystemMutex;
 
 void _gosInit(void)
 {
@@ -92,7 +92,7 @@ gTicks gfxSystemTicks(void) {
 	return ts.tv_sec * 1000UL + ts.tv_nsec / 1000000;
 }
 
-gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void *param) {
 	gThread		th;
 	(void)				stackarea;
 	(void)				stacksz;
@@ -118,7 +118,7 @@ gThreadreturn gfxThreadWait(gThread thread) {
 	return retval;
 }
 
-void gfxSemInit(gfxSem *pSem, gSemcount val, gSemcount limit) {
+void gfxSemInit(gSem *pSem, gSemcount val, gSemcount limit) {
 	pthread_mutex_init(&pSem->mtx, 0);
 	pthread_cond_init(&pSem->cond, 0);
 	pthread_mutex_lock(&pSem->mtx);
@@ -127,12 +127,12 @@ void gfxSemInit(gfxSem *pSem, gSemcount val, gSemcount limit) {
 	pthread_mutex_unlock(&pSem->mtx);
 }
 
-void gfxSemDestroy(gfxSem *pSem) {
+void gfxSemDestroy(gSem *pSem) {
 	pthread_mutex_destroy(&pSem->mtx);
 	pthread_cond_destroy(&pSem->cond);
 }
 
-gBool gfxSemWait(gfxSem *pSem, gDelay ms) {
+gBool gfxSemWait(gSem *pSem, gDelay ms) {
 	pthread_mutex_lock(&pSem->mtx);
 	switch (ms) {
 	case gDelayForever:
@@ -171,7 +171,7 @@ gBool gfxSemWait(gfxSem *pSem, gDelay ms) {
 	return gTrue;
 }
 
-void gfxSemSignal(gfxSem *pSem) {
+void gfxSemSignal(gSem *pSem) {
 	pthread_mutex_lock(&pSem->mtx);
 	if (pSem->cnt < pSem->max) {
 		pSem->cnt++;

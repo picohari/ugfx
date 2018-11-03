@@ -168,7 +168,7 @@ typedef struct netPriv {
 static gThread	hThread;
 
 #if GDISP_GFXNET_UNSAFE_SOCKETS
-	static gfxMutex	uGFXnetMutex;
+	static gMutex	uGFXnetMutex;
 	#define MUTEX_INIT		gfxMutexInit(&uGFXnetMutex)
 	#define MUTEX_ENTER		gfxMutexEnter(&uGFXnetMutex)
 	#define MUTEX_EXIT		gfxMutexExit(&uGFXnetMutex)
@@ -318,8 +318,8 @@ static gBool rxdata(SOCKET_TYPE fd) {
 	return gTrue;
 }
 
-static DECLARE_THREAD_STACK(waNetThread, 512);
-static DECLARE_THREAD_FUNCTION(NetThread, param) {
+static GFX_THREAD_STACK(waNetThread, 512);
+static GFX_THREAD_FUNCTION(NetThread, param) {
 	SOCKET_TYPE			listenfd, fdmax, i, clientfd;
 	socklen_t			len;
 	fd_set				master, read_fds;

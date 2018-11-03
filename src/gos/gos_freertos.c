@@ -42,7 +42,7 @@ void _gosInit(void)
 }
 
 #if !GFX_OS_NO_INIT && GFX_OS_CALL_UGFXMAIN
-	static DECLARE_THREAD_FUNCTION(startUGFX_FreeRTOS, p) {
+	static GFX_THREAD_FUNCTION(startUGFX_FreeRTOS, p) {
 		(void) p;
 		uGFXMain();
 	}
@@ -98,7 +98,7 @@ void gfxSleepMicroseconds(gDelay ms)
 	// vUsDelay(ms%1000);
 }
 
-void gfxMutexInit(gfxMutex *pmutex)
+void gfxMutexInit(gMutex *pmutex)
 {
 	*pmutex = xSemaphoreCreateMutex();
 	#if GFX_FREERTOS_USE_TRACE
@@ -106,7 +106,7 @@ void gfxMutexInit(gfxMutex *pmutex)
 	#endif
 }
 
-void gfxSemInit(gfxSem* psem, gSemcount val, gSemcount limit)
+void gfxSemInit(gSem* psem, gSemcount val, gSemcount limit)
 {
 	if (val > limit)
 		val = limit;
@@ -117,14 +117,14 @@ void gfxSemInit(gfxSem* psem, gSemcount val, gSemcount limit)
 	#endif
 }
 
-gBool gfxSemWait(gfxSem* psem, gDelay ms)
+gBool gfxSemWait(gSem* psem, gDelay ms)
 {
 	if (xSemaphoreTake(*psem, gfxMillisecondsToTicks(ms)) == pdPASS)
 		return gTrue;
 	return gFalse;
 }
 
-gBool gfxSemWaitI(gfxSem* psem)
+gBool gfxSemWaitI(gSem* psem)
 {
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
@@ -133,20 +133,20 @@ gBool gfxSemWaitI(gfxSem* psem)
 	return gFalse;
 }
 
-void gfxSemSignal(gfxSem* psem)
+void gfxSemSignal(gSem* psem)
 {
 	xSemaphoreGive(*psem);
 	taskYIELD();
 }
 
-void gfxSemSignalI(gfxSem* psem)
+void gfxSemSignalI(gSem* psem)
 {
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
 	xSemaphoreGiveFromISR(*psem,&xHigherPriorityTaskWoken);
 }
 
-gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void *param)
 {
 	gThread task;
 	(void) stackarea;

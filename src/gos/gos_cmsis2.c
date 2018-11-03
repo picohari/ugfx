@@ -31,7 +31,7 @@ void _gosInit(void)
 }
 
 #if !GFX_OS_NO_INIT && GFX_OS_CALL_UGFXMAIN
-	static DECLARE_THREAD_FUNCTION(startUGFX_CMSIS2, p) {
+	static GFX_THREAD_FUNCTION(startUGFX_CMSIS2, p) {
 		(void) p;
 		uGFXMain();
 	}
@@ -59,24 +59,24 @@ void _gosDeinit(void)
 {
 }
 
-void gfxMutexInit(gfxMutex* pmutex)
+void gfxMutexInit(gMutex* pmutex)
 {
 	*pmutex = osMutexNew(NULL);
 }
 
-void gfxSemInit(gfxSem* psem, gSemcount val, gSemcount limit)
+void gfxSemInit(gSem* psem, gSemcount val, gSemcount limit)
 {
 	*psem = osSemaphoreNew(limit, val, NULL);
 }
 
-gBool gfxSemWait(gfxSem* psem, gDelay ms)
+gBool gfxSemWait(gSem* psem, gDelay ms)
 {
 	if (osSemaphoreAcquire(*psem, gfxMillisecondsToTicks(ms)) == osOK)
 		return gTrue;
 	return gFalse;
 }
 
-gThread gfxThreadCreate(void* stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void* param)
+gThread gfxThreadCreate(void* stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void* param)
 {
 	osThreadAttr_t def;
 

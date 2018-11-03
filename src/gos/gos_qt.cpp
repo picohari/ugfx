@@ -133,59 +133,59 @@ void gfxSystemUnlock(void)
     _systemMutex.unlock();
 }
 
-void gfxMutexInit(gfxMutex *pmutex)
+void gfxMutexInit(gMutex *pmutex)
 {
     *pmutex = new QMutex;
 }
 
-void gfxMutexDestroy(gfxMutex *pmutex)
+void gfxMutexDestroy(gMutex *pmutex)
 {
     delete static_cast<QMutex*>(*pmutex);
 }
 
-void gfxMutexEnter(gfxMutex *pmutex)
+void gfxMutexEnter(gMutex *pmutex)
 {
     static_cast<QMutex*>(*pmutex)->lock();
 }
 
-void gfxMutexExit(gfxMutex *pmutex)
+void gfxMutexExit(gMutex *pmutex)
 {
     static_cast<QMutex*>(*pmutex)->unlock();
 }
 
-void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit)
+void gfxSemInit(gSem *psem, gSemcount val, gSemcount limit)
 {
     *psem = new QSemaphore(limit);
 
     static_cast<QSemaphore*>(*psem)->release(val);
 }
 
-void gfxSemDestroy(gfxSem *psem)
+void gfxSemDestroy(gSem *psem)
 {
     delete static_cast<QSemaphore*>(*psem);
 }
 
-gBool gfxSemWait(gfxSem *psem, gDelay ms)
+gBool gfxSemWait(gSem *psem, gDelay ms)
 {
     return static_cast<QSemaphore*>(*psem)->tryAcquire(1, ms);
 }
 
-gBool gfxSemWaitI(gfxSem *psem)
+gBool gfxSemWaitI(gSem *psem)
 {
     return static_cast<QSemaphore*>(*psem)->tryAcquire(1);
 }
 
-void gfxSemSignal(gfxSem *psem)
+void gfxSemSignal(gSem *psem)
 {
     static_cast<QSemaphore*>(*psem)->release(1);
 }
 
-void gfxSemSignalI(gfxSem *psem)
+void gfxSemSignalI(gSem *psem)
 {
     static_cast<QSemaphore*>(*psem)->release(1);
 }
 
-gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param)
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void *param)
 {
     Q_UNUSED(stackarea)
 

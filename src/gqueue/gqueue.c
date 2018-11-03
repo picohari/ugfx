@@ -156,7 +156,7 @@ void _gqueueDeinit(void)
 #if GQUEUE_NEED_GSYNC
 	void gfxQueueGSyncInit(gfxQueueGSync *pqueue) {
 		pqueue->head = pqueue->tail = 0;
-		gfxSemInit(&pqueue->sem, 0, MAX_SEMAPHORE_COUNT);
+		gfxSemInit(&pqueue->sem, 0, gSemMaxCount);
 	}
 	void gfxQueueGSyncDeinit(gfxQueueGSync *pqueue) {
 		pqueue->head = pqueue->tail = 0;
@@ -294,7 +294,7 @@ void _gqueueDeinit(void)
 #if GQUEUE_NEED_FSYNC
 	void gfxQueueFSyncInit(gfxQueueFSync *pqueue) {
 		pqueue->head = pqueue->tail = 0;
-		gfxSemInit(&pqueue->sem, 0, MAX_SEMAPHORE_COUNT);
+		gfxSemInit(&pqueue->sem, 0, gSemMaxCount);
 	}
 	void gfxQueueFSyncDeinit(gfxQueueFSync *pqueue) {
 		while(gfxQueueFSyncGet(pqueue, gDelayNone));

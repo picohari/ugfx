@@ -13,8 +13,8 @@
 	#include "gaudio_driver_play.h"
 
 	static gfxQueueASync	playList;
-	static gfxSem			playComplete;
-	static gU16			playFlags;
+	static gSem				playComplete;
+	static gU16				playFlags;
 		#define PLAYFLG_USEEVENTS	0x0001
 		#define PLAYFLG_PLAYING		0x0002
 		#define PLAYFLG_ISINIT		0x0004

@@ -26,11 +26,11 @@ void gfxSystemUnlock(void) {
 	INTERRUPTS_ON();
 }
 
-void gfxMutexInit(gfxMutex *pmutex) {
+void gfxMutexInit(gMutex *pmutex) {
 	pmutex[0] = 0;
 }
 
-void gfxMutexEnter(gfxMutex *pmutex) {
+void gfxMutexEnter(gMutex *pmutex) {
 	INTERRUPTS_OFF();
 	while (pmutex[0]) {
 		INTERRUPTS_ON();
@@ -41,16 +41,16 @@ void gfxMutexEnter(gfxMutex *pmutex) {
 	INTERRUPTS_ON();
 }
 
-void gfxMutexExit(gfxMutex *pmutex) {
+void gfxMutexExit(gMutex *pmutex) {
 	pmutex[0] = 0;
 }
 
-void gfxSemInit(gfxSem *psem, gSemcount val, gSemcount limit) {
+void gfxSemInit(gSem *psem, gSemcount val, gSemcount limit) {
 	psem->cnt = val;
 	psem->limit = limit;
 }
 
-gBool gfxSemWait(gfxSem *psem, gDelay ms) {
+gBool gfxSemWait(gSem *psem, gDelay ms) {
 	gTicks	starttm, delay;
 
 	// Convert our delay to ticks
@@ -90,20 +90,20 @@ gBool gfxSemWait(gfxSem *psem, gDelay ms) {
 	return gTrue;
 }
 
-gBool gfxSemWaitI(gfxSem *psem) {
+gBool gfxSemWaitI(gSem *psem) {
 	if (psem->cnt <= 0)
 		return gFalse;
 	psem->cnt--;
 	return gTrue;
 }
 
-void gfxSemSignal(gfxSem *psem) {
+void gfxSemSignal(gSem *psem) {
 	INTERRUPTS_OFF();
 	gfxSemSignalI(psem);
 	INTERRUPTS_ON();
 }
 
-void gfxSemSignalI(gfxSem *psem) {
+void gfxSemSignalI(gSem *psem) {
 	if (psem->cnt < psem->limit)
 		psem->cnt++;
 }
@@ -508,7 +508,7 @@ void gfxThreadExit(gThreadreturn ret) {
 	// We never get back here as we didn't re-queue ourselves
 }
 
-gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, DECLARE_THREAD_FUNCTION((*fn),p), void *param) {
+gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void *param) {
 	thread *	t;
 	thread *	me;
 	(void)		prio;
