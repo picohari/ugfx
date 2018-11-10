@@ -67,6 +67,8 @@
 LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	// The private area is the display surface.
 	g->priv = gfxAlloc(GDISP_SCREEN_HEIGHT * SSD1322_ROW_WIDTH);
+	if (!g->priv)
+		return gFalse;
 
 	// Initialise the board interface
 	init_board(g);

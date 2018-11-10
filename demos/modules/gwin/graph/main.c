@@ -47,7 +47,7 @@ static GGraphStyle GraphStyle1 = {
     { GGRAPH_LINE_SOLID, 0, GFX_WHITE },        // Y axis
     { GGRAPH_LINE_DASH, 5, GFX_GRAY, 50 },      // X grid
     { GGRAPH_LINE_DOT, 7, GFX_YELLOW, 50 },     // Y grid
-    GWIN_GRAPH_STYLE_POSITIVE_AXIS_ARROWS   // Flags
+    GWIN_GRAPH_STYLE_POSITIVE_AXIS_ARROWS		// Flags
 };
 
 // Another graph styling 
@@ -58,7 +58,7 @@ static const GGraphStyle GraphStyle2 = {
     { GGRAPH_LINE_SOLID, 0, GFX_WHITE },        // Y axis
     { GGRAPH_LINE_DASH, 5, GFX_GRAY, 50 },      // X grid
     { GGRAPH_LINE_DOT, 7, GFX_YELLOW, 50 },     // Y grid
-    GWIN_GRAPH_STYLE_POSITIVE_AXIS_ARROWS   // Flags
+    GWIN_GRAPH_STYLE_POSITIVE_AXIS_ARROWS   	// Flags
 };
  
 int main(void) {

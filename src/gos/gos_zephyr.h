@@ -5,6 +5,12 @@
  *              http://ugfx.io/license.html
  */
 
+/**
+ * @file    src/gos/gos_zepyhr.h
+ * @brief   GOS - Operating System Support header file for Zephyr RTOS.
+ *			Zephyr SDK 0.9.1
+ */
+
 #ifndef _GOS_ZEPHYR_H
 #define _GOS_ZEPHYR_H
 

@@ -5,6 +5,12 @@
  *              http://ugfx.io/license.html
  */
 
+/**
+ * @file    src/gfx_mk.c
+ * @brief   Single File Make.
+ */
+
+// Include the "Single File Make" compatible parts of uGFX
 #include "gfx.c"
 #include "gos/gos_mk.c"
 #include "gdriver/gdriver_mk.c"

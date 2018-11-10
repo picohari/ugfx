@@ -27,7 +27,7 @@
 #define ADC_BUF_DEPTH      1
 
 static const ADCConversionGroup adcgrpcfg = {
-  FALSE,
+  0,
   ADC_NUM_CHANNELS,
   0,
   0,

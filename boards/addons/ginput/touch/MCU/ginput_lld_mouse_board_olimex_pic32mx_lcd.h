@@ -48,13 +48,13 @@ static struct ADCDriver ADCD;
 #define YPOS 11 // D
 
 static const ADCConversionGroup ADC_X_CG = {
-  .circular = FALSE,
+  .circular = 0,
   .num_channels = 1,
   .channels = 1 << XNEG,
 };
 
 static const ADCConversionGroup ADC_Y_CG = {
-  .circular = FALSE,
+  .circular = 0,
   .num_channels = 1,
   .channels = 1 << YPOS,
 };

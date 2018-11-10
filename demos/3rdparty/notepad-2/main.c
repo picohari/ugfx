@@ -2,7 +2,7 @@
  * File: main.c
  *
  * This file is a part of the Notepad demo application for ChibiOS/GFX
- * Copyright © 2013, Kumar Abhishek [abhishek.kakkar@edaboard.com].
+ * Copyright 2013, Kumar Abhishek [abhishek.kakkar@edaboard.com].
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

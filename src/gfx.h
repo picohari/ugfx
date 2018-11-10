@@ -33,13 +33,11 @@ extern "C" {
 #define GFX_COMPILESTAGE_PREP				1		// gfx.h: Initial preparation
 #define GFX_COMPILESTAGE_USERCONFIG			2		// gfx.h: Load the user configuration
 #define GFX_COMPILESTAGE_COMPILECONFIG		3		// gfx.h: Determine build environment info - COMPILER, CPU etc
-#define GFX_COMPILESTAGE_OPTIONS			3		// gfx.h: Enumerate all options
-#define GFX_COMPILESTAGE_DRIVERCONFIG		4		// gfx.h: Load driver configuration
-#define GFX_COMPILESTAGE_DRIVERAPI			5		// gfx.h: Load driver public api
-#define GFX_COMPILESTAGE_RULES				6		// gfx.h: Apply configuration rules
-#define GFX_COMPILESTAGE_APIDEFS			7		// gfx.h: Define API definitions
-#define GFX_COMPILESTAGE_COMPILEDRIVERS		100		// gfx.c: Compile drivers
-#define GFX_COMPILESTAGE_COMPILECAPI		101		// gfx.c: Compile the uGFX C API
+#define GFX_COMPILESTAGE_OPTIONS			4		// gfx.h: Enumerate all options
+#define GFX_COMPILESTAGE_RULES				5		// gfx.h: Apply configuration rules
+#define GFX_COMPILESTAGE_APIDEFS			6		// gfx.h: Define API definitions
+#define GFX_COMPILESTAGE_COMPILECAPI		100		// gfx.c: Compile the uGFX C API
+#define GFX_COMPILESTAGE_COMPILEDRIVERINIT	101		// gfx.c: Compile driver init structures
 #define GFX_COMPILESTAGE_COMPILECPPAPI		102		// gfx.cpp: Compile the uGFX C++ API
 
 // ------------------------------ Load the user configuration ---------------------------------
@@ -133,10 +131,6 @@ extern "C" {
 #include "ginput/ginput_options.h"
 #include "gadc/gadc_options.h"
 #include "gaudio/gaudio_options.h"
-
-// ------------------------------ Load driver configuration ---------------------------------
-#undef  GFX_COMPILESTAGE
-#define GFX_COMPILESTAGE				GFX_COMPILESTAGE_DRIVERCONFIG
 
 // ------------------------------ Apply configuration rules ---------------------------------
 #undef  GFX_COMPILESTAGE

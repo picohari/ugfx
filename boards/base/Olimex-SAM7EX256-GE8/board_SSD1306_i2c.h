@@ -84,9 +84,9 @@
 		gU8	data[2];											\
 		data[0] = 0;												\
 		data[1] = cmd;												\
-		i2cMasterTransmitTimeout (UEXT_I2C, I2C_ADDRESS, data, 2, 0, 0, gDelayForever);	\
+		i2cMasterTransmitTimeout (UEXT_I2C, I2C_ADDRESS, data, 2, 0, 0, TIME_INFINITE);	\
 	}
-	#define I2C_WRITEBYTES(pdata, len)		i2cMasterTransmitTimeout (UEXT_I2C, I2C_ADDRESS, pdata, length, 0, 0, gDelayForever)
+	#define I2C_WRITEBYTES(pdata, len)		i2cMasterTransmitTimeout (UEXT_I2C, I2C_ADDRESS, pdata, length, 0, 0, TIME_INFINITE)
 
 #else
 	#error "SSD1306 board file: Unsupported I2C method"

@@ -568,4 +568,4 @@ gThreadreturn gfxThreadWait(gThread th) {
 	return (gThreadreturn)t->param;
 }
 
-#endif /* GFX_USE_OS_RAW32 */
+#endif

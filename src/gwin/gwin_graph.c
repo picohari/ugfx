@@ -304,7 +304,7 @@ void gwinGraphDrawPoint(GHandle gh, gCoord x, gCoord y) {
 void gwinGraphDrawPoints(GHandle gh, const gPoint *points, unsigned count) {
 	#define gg	((GGraphObject *)gh)
 	unsigned		i;
-	const gPoint		*p;
+	const gPoint	*p;
 
 	if (gh->vmt != &graphVMT || !_gwinDrawStart(gh))
 		return;

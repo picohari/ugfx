@@ -12,3 +12,4 @@
 # NONE
 #
 OPT_CPU = x86
+LIBS += gdi32

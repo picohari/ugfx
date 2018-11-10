@@ -27,7 +27,7 @@
 #define ADC_BUF_DEPTH      1
 
 static const ADCConversionGroup adc_y_config = {
-    FALSE,
+    0,
     ADC_NUM_CHANNELS,
     0,
     0,
@@ -39,7 +39,7 @@ static const ADCConversionGroup adc_y_config = {
 };
 
 static const ADCConversionGroup adc_x_config = {
-    FALSE,
+    0,
     ADC_NUM_CHANNELS,
     0,
     0,
