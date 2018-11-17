@@ -34,6 +34,8 @@ static void TextEditRemoveChar(GHandle gh) {
 
 	sz = strlen(gh2obj->w.text);
 	pos = gh2obj->cursorPos;
+	if (pos > sz)
+		pos = gh2obj->cursorPos = sz;
 	q = gh2obj->w.text+pos;
 	
 	if (!(gh->flags & GWIN_FLG_ALLOCTXT)) {
@@ -62,6 +64,8 @@ static gBool TextEditAddChars(GHandle gh, unsigned cnt) {
 	// Get the size of the text buffer
 	sz = strlen(gh2obj->w.text)+1;
 	pos = gh2obj->cursorPos;
+	if (pos >= sz)
+		pos = gh2obj->cursorPos = sz-1;
 
 	if (!(gh->flags & GWIN_FLG_ALLOCTXT)) {
 		if (!(p = gfxAlloc(sz+cnt)))
@@ -185,9 +189,16 @@ GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit
 
 #if (GFX_USE_GINPUT && GINPUT_NEED_KEYBOARD) || GWIN_NEED_KEYBOARD
 	void gwinTextEditSendSpecialKey(GHandle gh, gU8 key) {
-		// Is it a valid handle?
-		if (gh->vmt != (gwinVMT*)&texteditVMT)
-			return;
+		unsigned sz;
+
+ 		// Is it a valid handle?
+ 		if (gh->vmt != (gwinVMT*)&texteditVMT)
+ 			return;
+ 
+		// Check that cursor position is within buffer (in case text has been changed)
+		sz = strlen(gh2obj->w.text);
+		if (gh2obj->cursorPos > sz)
+			gh2obj->cursorPos = sz;
 
 		// Arrow keys to move the cursor
 		switch (key) {
@@ -209,7 +220,7 @@ GHandle gwinGTexteditCreate(GDisplay* g, GTexteditObject* wt, GWidgetInit* pInit
 		case GKEY_END:
 			if (!gh2obj->w.text[gh2obj->cursorPos])
 				return;
-			gh2obj->cursorPos = strlen(gh2obj->w.text);
+			gh2obj->cursorPos = sz;
 			break;
 		default:
 			return;
