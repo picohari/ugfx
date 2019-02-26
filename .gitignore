@@ -1,4 +1,3 @@
-docs/html
 build
 .build
 .dep
@@ -9,5 +8,10 @@ build
 *.lst
 *.o
 *.map
+
 src/gdisp/fonts/*.dat
+
+docs/html
 docs/html.zip
+docs/*.db
+docs/*.tmp
