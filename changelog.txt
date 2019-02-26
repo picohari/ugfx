@@ -2,7 +2,7 @@
 *** Releases                                                              ***
 *****************************************************************************
 
-*** After Release 2.8 ***
+*** Release 2.9 ***
 FEATURE:	Added config vars GINPUT_TOUCH_CALIBRATION_FONT1 and GINPUT_TOUCH_CALIBRATION_FONT2
 FEATURE:	Added config vars GINPUT_TOUCH_CALIBRATION_TITLE and GINPUT_TOUCH_CALIBRATION_ERROR
 FIX:		Fixed ensuring the clock is fully started in STM32LTDC based boards
