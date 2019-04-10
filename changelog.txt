@@ -22,6 +22,7 @@ CHANGE:		Added type gThread         to replace V2.x gfxThreadHandle and macros G
 CHANGE:		Added type gThreadreturn   to replace V2.x threadreturn_t and pseudo function gfxThreadReturn() to replace THREAD_RETURN()
 CHANGE:		Added type gThreadpriority to replace V2.x threadpriority_t and values gThreadpriorityLow/Normal/High to replace LOW_/NORMAL_/HIGH_PRIORITY
 CHANGE:		Added type gPoint          to replace V2.x point and point_t
+CHANGE:		Added type gImage          to replace V2.x gdispImage
 CHANGE:		Added type gCoord          to replace V2.x coord_t
 CHANGE:		Added type gPixel          to replace V2.x pixel_t
 CHANGE:		Added type gColor          to replace V2.x color_t

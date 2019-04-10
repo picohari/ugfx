@@ -63,13 +63,13 @@ gPixel	*gdispPixmapGetBits(GDisplay *g);
 
 #if GDISP_NEED_PIXMAP_IMAGE || defined(__DOXYGEN__)
 	/**
-	 * @brief	Get a pointer to a native format gdispImage.
-	 * @return	A pointer to a NATIVE format gdispImage in memory or NULL if this display is not a pixmap.
+	 * @brief	Get a pointer to a native format gImage.
+	 * @return	A pointer to a NATIVE format gImage in memory or NULL if this display is not a pixmap.
 	 * @pre		GDISP_NEED_PIXAMP_IMAGE must be GFXON in your gfxconf.h
 	 *
 	 * @param[in] g  	The pixmap virtual display
 	 *
-	 * @return 	The pointer to the native gdispImage
+	 * @return 	The pointer to the native gImage
 	 *
 	 * @note	The pointer returned can be passed to @p gdispImageOpenMemory() or to @p gfileOpenMemory().
 	 * @note	If you are just wanting to copy to a real display it is more efficient to use @p gdispGetPixmapBits() and @p gdispGBlitArea().

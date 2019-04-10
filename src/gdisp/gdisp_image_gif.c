@@ -106,7 +106,7 @@ typedef struct gdispImagePrivate_GIF {
  *
  * Pre:		Frame info has been read.
  */
-static gdispImageError startDecodeGif(gdispImage *img) {
+static gdispImageError startDecodeGif(gImage *img) {
 	gdispImagePrivate_GIF *	priv;
 	gifimgdecode *			decode;
 	gU16				cnt;
@@ -170,7 +170,7 @@ baddatacleanup:
  *
  * Pre:		Frame info has been read.
  */
-static void stopDecodeGif(gdispImage *img) {
+static void stopDecodeGif(gImage *img) {
 	gdispImagePrivate_GIF *	priv;
 
 	priv = (gdispImagePrivate_GIF *)img->priv;
@@ -201,7 +201,7 @@ static gU16 getPrefixGif(gifimgdecode *decode, gU16 code) {
  *
  * Note:	The resulting pixels are stored in decode->buf
  */
-static gU16 getBytesGif(gdispImage *img) {
+static gU16 getBytesGif(gImage *img) {
 	gdispImagePrivate_GIF *	priv;
 	gifimgdecode *			decode;
 	gU16				cnt;
@@ -334,7 +334,7 @@ static gU16 getBytesGif(gdispImage *img) {
  *
  * Pre:		The file position is at the start of the frame.
  */
-static gdispImageError initFrameGif(gdispImage *img) {
+static gdispImageError initFrameGif(gImage *img) {
 	gdispImagePrivate_GIF *	priv;
 	gifimgcache *			cache;
 	gU8					blocktype;
@@ -493,7 +493,7 @@ static gdispImageError initFrameGif(gdispImage *img) {
 	}
 }
 
-void gdispImageClose_GIF(gdispImage *img) {
+void gdispImageClose_GIF(gImage *img) {
 	gdispImagePrivate_GIF *	priv;
 	gifimgcache *			cache;
 	gifimgcache *			ncache;
@@ -514,7 +514,7 @@ void gdispImageClose_GIF(gdispImage *img) {
 	}
 }
 
-gdispImageError gdispImageOpen_GIF(gdispImage *img) {
+gdispImageError gdispImageOpen_GIF(gImage *img) {
 	gdispImagePrivate_GIF *priv;
 	gU8		hdr[6];
 	gU16	aword;
@@ -595,7 +595,7 @@ gdispImageError gdispImageOpen_GIF(gdispImage *img) {
 	}
 }
 
-gdispImageError gdispImageCache_GIF(gdispImage *img) {
+gdispImageError gdispImageCache_GIF(gImage *img) {
 	gdispImagePrivate_GIF *	priv;
 	gifimgcache *			cache;
 	gifimgdecode *			decode;
@@ -766,7 +766,7 @@ baddatacleanup:
 	return GDISP_IMAGE_ERR_BADDATA;
 }
 
-gdispImageError gdispGImageDraw_GIF(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
+gdispImageError gdispGImageDraw_GIF(GDisplay *g, gImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
 	gdispImagePrivate_GIF *	priv;
 	gifimgdecode *			decode;
 	gU8 *				q = 0;
@@ -1106,7 +1106,7 @@ baddatacleanup:
 	return GDISP_IMAGE_ERR_BADDATA;
 }
 
-gDelay gdispImageNext_GIF(gdispImage *img) {
+gDelay gdispImageNext_GIF(gImage *img) {
 	gdispImagePrivate_GIF *	priv;
 	gDelay				delay;
 	gU8					blocksz;

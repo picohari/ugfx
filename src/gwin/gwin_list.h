@@ -100,7 +100,7 @@ typedef struct ListItem {
 	gU16			param;		// A parameter the user can specify himself
 	const char*			text;
 	#if GWIN_NEED_LIST_IMAGES
-		gdispImage*		pimg;
+		gImage*		pimg;
 	#endif
 } ListItem;
 
@@ -361,7 +361,7 @@ void gwinListViewItem(GHandle gh, int item);
 	 * 						for this list is to call gwinListDeleteAll().
 	 *
 	 */
-	void gwinListItemSetImage(GHandle gh, int item, gdispImage *pimg);
+	void gwinListItemSetImage(GHandle gh, int item, gImage *pimg);
 #endif
 
 /**
