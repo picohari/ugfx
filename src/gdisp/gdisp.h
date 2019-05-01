@@ -1235,7 +1235,6 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 	typedef gPixel			pixel_t;
 	typedef gCoord			coord_t;
 	typedef gPoint			point, point_t;
-	typedef gImage			gdispImage;
 	typedef gFont			font_t;
 	typedef gPowermode		powermode_t;
 		#define powerOff				gPowerOff
@@ -1271,6 +1270,9 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		#define fontMaxWidth			gFontMaxWidth
 		#define fontBaselineX			gFontBaselineX
 		#define fontBaselineY			gFontBaselineY
+	#if GDISP_NEED_IMAGE || defined(__DOXYGEN__)
+		typedef gImage			gdispImage;
+	#endif
 #endif
 
 #endif /* GFX_USE_GDISP */
