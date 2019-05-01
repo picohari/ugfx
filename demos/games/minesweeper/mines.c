@@ -19,7 +19,7 @@ static gI16 minesFlags;                             // Flag counter
 static gI16 minesTime;                              // Time counter
 static GTimer minesTimeCounterTimer;
 static const char* minesGraph[] = {"1.bmp","2.bmp","3.bmp","4.bmp","5.bmp","6.bmp","7.bmp","8.bmp", "closed.bmp", "empty.bmp", "explode.bmp", "flag.bmp", "mine.bmp", "wrong.bmp"}; // 14 elements (0-13)
-static gdispImage minesImage;
+static gImage minesImage;
 static gU8 minesStatusIconWidth = 0;
 static gU8 minesStatusIconHeight = 0;
 static gBool minesFirstGame = gTrue;                  // Just don't clear field for the first time, as we have black screen already... :/

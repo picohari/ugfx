@@ -106,7 +106,7 @@ void gwinFrameDraw_Std(GWidgetObject *gw, void *param);
  * @param[in] gw		The widget object (must be a frame object).
  * @param[in] param		A parameter passed in from the user. Ignored by this function.
  *
- * @note				The image custom draw function  @p gwinFrameDraw_Image() uses param to pass in the gdispImage pointer.
+ * @note				The image custom draw function  @p gwinFrameDraw_Image() uses param to pass in the gImage pointer.
  * 						The image must be already opened before calling  @p gwinSetCustomDraw().
  *
  * @api

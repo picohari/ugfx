@@ -1270,6 +1270,9 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 		#define fontMaxWidth			gFontMaxWidth
 		#define fontBaselineX			gFontBaselineX
 		#define fontBaselineY			gFontBaselineY
+	#if GDISP_NEED_IMAGE || defined(__DOXYGEN__)
+		typedef gImage			gdispImage;
+	#endif
 #endif
 
 #endif /* GFX_USE_GDISP */

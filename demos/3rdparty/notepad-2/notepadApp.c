@@ -61,7 +61,7 @@ static GButtonObject btnClose;
 /* static GButtonObject btnYes, btnNo; // Reserved for future use */
 
 // Image object
-static gdispImage toolbarImageFilmstrip;
+static gImage toolbarImageFilmstrip;
 
 static gColor myColors[] = { GFX_BLACK, GFX_RED, GFX_GREEN, GFX_BLUE, GFX_CYAN, GFX_MAGENTA, GFX_YELLOW, GFX_WHITE };
 

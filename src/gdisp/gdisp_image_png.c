@@ -111,7 +111,7 @@ typedef struct PNG_zinflate {
 // Put all the decoding structures together.
 // Note this is immediately followed by 2 scan lines of uncompressed image data for filtering (dynamic size).
 typedef struct PNG_decode {
-	gdispImage		*img;
+	gImage		*img;
 	PNG_info		*pinfo;
 	PNG_input		i;
 	PNG_output		o;
@@ -1127,7 +1127,7 @@ static gBool PNG_unfilter_type0(PNG_decode *d) {		// PNG filter method 0
  * Public PNG functions
  *---------------------------------------------------------------*/
 
-void gdispImageClose_PNG(gdispImage *img) {
+void gdispImageClose_PNG(gImage *img) {
 	PNG_info *pinfo;
 
 	pinfo = (PNG_info *)img->priv;
@@ -1141,7 +1141,7 @@ void gdispImageClose_PNG(gdispImage *img) {
 	}
 }
 
-gdispImageError gdispImageOpen_PNG(gdispImage *img) {
+gdispImageError gdispImageOpen_PNG(gImage *img) {
 	PNG_info	*pinfo;
 	gU32	pos;
 	gU32	len;
@@ -1497,7 +1497,7 @@ exit_nonmem:
 	return GDISP_IMAGE_ERR_NOMEMORY;
 }
 
-gdispImageError gdispGImageDraw_PNG(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
+gdispImageError gdispGImageDraw_PNG(GDisplay *g, gImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
 	PNG_info 	*pinfo;
 	PNG_decode	*d;
 
@@ -1546,7 +1546,7 @@ exit_baddata:
 	return GDISP_IMAGE_ERR_BADDATA;
 }
 
-gdispImageError gdispImageCache_PNG(gdispImage *img) {
+gdispImageError gdispImageCache_PNG(gImage *img) {
 	PNG_info 	*pinfo;
 	unsigned	chunknext;
 	unsigned	chunklen;
@@ -1621,7 +1621,7 @@ baddata:
 	return GDISP_IMAGE_ERR_BADDATA;
 }
 
-gDelay gdispImageNext_PNG(gdispImage *img) {
+gDelay gdispImageNext_PNG(gImage *img) {
 	(void) img;
 
 	/* No more frames/pages */

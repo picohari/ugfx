@@ -56,7 +56,7 @@ typedef gU16	gdispImageFlags;
 /**
  * @brief	The structure for an image
  */
-typedef struct gdispImage {
+typedef struct gImage {
 	gdispImageType						type;				/* @< The image type */
 	gdispImageFlags						flags;				/* @< The image flags */
 	gColor								bgcolor;			/* @< The default background color */
@@ -68,15 +68,15 @@ typedef struct gdispImage {
 	#endif
 	const struct gdispImageHandlers *	fns;				/* @< Don't mess with this! */
 	void *								priv;				/* @< Don't mess with this! */
-} gdispImage;
+} gImage;
 
 /**
- * @brief	Initialise a gdispImage object
+ * @brief	Initialise a gImage object
  *
  * @param[in] img  		The image structure to initialise
  *
  */
-void gdispImageInit(gdispImage *img);
+void gdispImageInit(gImage *img);
 
 /**
  * @brief	Open an image using an open GFILE and get it ready for drawing
@@ -89,7 +89,7 @@ void gdispImageInit(gdispImage *img);
  * @pre		The GFILE must be open for reading.
  *
  * @note	This determines which decoder to use and then initialises all other fields
- * 			in the gdispImage structure.
+ * 			in the gImage structure.
  * @note	The image background color is set to White.
  * @note	There are three types of return - everything OK, partial success and unrecoverable
  * 			failures. For everything OK it returns GDISP_IMAGE_ERR_OK. A partial success can
@@ -102,7 +102,7 @@ void gdispImageInit(gdispImage *img);
  * 			(eg GDISP_IMAGE_ERR_UNSUPPORTED_OK)
  * 			still need to be closed when you are finished with them.
  */
-gdispImageError gdispImageOpenGFile(gdispImage *img, GFILE *f);
+gdispImageError gdispImageOpenGFile(gImage *img, GFILE *f);
 
 /**
  * @brief	Open an image in a file and get it ready for drawing
@@ -156,7 +156,7 @@ gdispImageError gdispImageOpenGFile(gdispImage *img, GFILE *f);
  *
  * @note	Also calls the IO close function (if it hasn't already been called).
  */
-void gdispImageClose(gdispImage *img);
+void gdispImageClose(gImage *img);
 
 /**
  * @brief	Is an image open.
@@ -169,7 +169,7 @@ void gdispImageClose(gdispImage *img);
  * 			is open. Clearing the Image structure to 0's will guarantee the image
  * 			is seen as being closed.
  */
-gBool gdispImageIsOpen(gdispImage *img);
+gBool gdispImageIsOpen(gImage *img);
 
 /**
  * @brief	Set the background color of the image.
@@ -182,7 +182,7 @@ gBool gdispImageIsOpen(gdispImage *img);
  * @note	This color is only used when an image has to restore part of the background before
  * 			continuing with drawing that includes transparency eg some GIF animations.
  */
-void gdispImageSetBgColor(gdispImage *img, gColor bgcolor);
+void gdispImageSetBgColor(gImage *img, gColor bgcolor);
 
 /**
  * @brief	Cache the image
@@ -200,7 +200,7 @@ void gdispImageSetBgColor(gdispImage *img, gColor bgcolor);
  * 			example, a GDISP_IMAGE_ERR_NOMEMORY error simply means there isn't enough RAM to
  * 			cache the image.
  */
-gdispImageError gdispImageCache(gdispImage *img);
+gdispImageError gdispImageCache(gImage *img);
 
 /**
  * @brief	Draw the image
@@ -221,7 +221,7 @@ gdispImageError gdispImageCache(gdispImage *img);
  * 			is drawing. This may be significantly slower than if the image has been cached (but
  * 			uses a lot less RAM)
  */
-gdispImageError gdispGImageDraw(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
+gdispImageError gdispGImageDraw(GDisplay *g, gImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
 #define gdispImageDraw(img,x,y,cx,cy,sx,sy)		gdispGImageDraw(GDISP,img,x,y,cx,cy,sx,sy)
 
 /**
@@ -243,7 +243,7 @@ gdispImageError gdispGImageDraw(GDisplay *g, gdispImage *img, gCoord x, gCoord y
  * @note	Calling gdispImageDraw() after getting a gDelayForever will go back to drawing the first
  * 			frame/page.
  */
-gDelay gdispImageNext(gdispImage *img);
+gDelay gdispImageNext(gImage *img);
 
 /**
  * @brief	Get the number of entries in the color palette.
@@ -253,7 +253,7 @@ gDelay gdispImageNext(gdispImage *img);
  *
  * @pre		gdispImageOpen() must have returned successfully.
  */
-gU16 gdispImageGetPaletteSize(gdispImage *img);
+gU16 gdispImageGetPaletteSize(gImage *img);
 
 /**
  * @brief	Get an entry in the color palette.
@@ -266,7 +266,7 @@ gU16 gdispImageGetPaletteSize(gdispImage *img);
  *
  * @note	This function will return 0 if the index is out of bounds or if the image doesn't use a color palette.
  */
-gColor gdispImageGetPalette(gdispImage *img, gU16 index);
+gColor gdispImageGetPalette(gImage *img, gU16 index);
 
 /**
  * @brief	Modify an entry in the color palette.
@@ -279,7 +279,7 @@ gColor gdispImageGetPalette(gdispImage *img, gU16 index);
  * @pre		gdispImageOpen() must have returned successfully.
  * @note	This function will return @p gFalse if the index is out of bounds or if the image doesn't use a color palette.
  */
-gBool gdispImageAdjustPalette(gdispImage *img, gU16 index, gColor newColor);
+gBool gdispImageAdjustPalette(gImage *img, gU16 index, gColor newColor);
 
 #endif /* GFX_USE_GDISP && GDISP_NEED_IMAGE */
 #endif /* _GDISP_IMAGE_H */

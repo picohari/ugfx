@@ -97,7 +97,7 @@ static GHandle		ghRadioBlack, ghRadioWhite, ghRadioYellow;
 static GHandle		ghList1, ghList2, ghList3, ghList4;
 static GHandle		ghImage1;
 static GHandle		ghProgressbar1;
-static gdispImage	imgYesNo;
+static gImage		imgYesNo;
 
 /* Some useful macros */
 #define	ScrWidth			gdispGetWidth()

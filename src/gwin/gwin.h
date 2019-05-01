@@ -1056,7 +1056,7 @@ typedef enum { GWIN_NORMAL, GWIN_MAXIMIZE, GWIN_MINIMIZE } GWindowMinMax;
 		 *
 		 * @api
 		 */
-		gdispImageError gwinDrawImage(GHandle gh, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
+		gdispImageError gwinDrawImage(GHandle gh, gImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy);
 	#endif
 
 /*-------------------------------------------------

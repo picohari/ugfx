@@ -466,7 +466,7 @@ static const GColorSet *getButtonColors(GWidgetObject *gw) {
 			sy = 0;
 		}
 
-		gdispGImageDraw(gw->g.display, (gdispImage *)param, gw->g.x, gw->g.y, gw->g.width, gw->g.height, 0, sy);
+		gdispGImageDraw(gw->g.display, (gImage *)param, gw->g.x, gw->g.y, gw->g.width, gw->g.height, 0, sy);
 		gdispGDrawStringBox(gw->g.display, gw->g.x+1, gw->g.y+1, gw->g.width-2, gw->g.height-2, gw->text, gw->g.font, pcol->text, gJustifyCenter);
 	}
 #endif

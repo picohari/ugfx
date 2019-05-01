@@ -39,7 +39,7 @@
 #define USE_IMAGE_CACHE			GFXOFF						// Only if you want to get performance at the expense of RAM
 #define MY_BG_COLOR				RGB2COLOR(220, 220, 255)	// Pale blue so we can see the transparent parts
 
-static gdispImage myImage;
+static gImage myImage;
 
 #define SHOW_ERROR(color)		gdispFillArea(errx, erry, errcx, errcy, color)
 

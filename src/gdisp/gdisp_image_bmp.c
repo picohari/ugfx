@@ -45,7 +45,7 @@ typedef struct gdispImagePrivate_BMP {
 	gPixel		buf[GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE];
 	} gdispImagePrivate_BMP;
 
-void gdispImageClose_BMP(gdispImage *img) {
+void gdispImageClose_BMP(gImage *img) {
 	gdispImagePrivate_BMP *priv;
 
 	priv = (gdispImagePrivate_BMP *)img->priv;
@@ -61,7 +61,7 @@ void gdispImageClose_BMP(gdispImage *img) {
 	}
 }
 
-gdispImageError gdispImageOpen_BMP(gdispImage *img) {
+gdispImageError gdispImageOpen_BMP(gImage *img) {
 	gdispImagePrivate_BMP *priv;
 	gU8		hdr[2];
 	gU16	aword;
@@ -352,7 +352,7 @@ unsupportedcleanup:
 	return GDISP_IMAGE_ERR_UNSUPPORTED;		// Not supported
 }
 
-static gCoord getPixels(gdispImage *img, gCoord x) {
+static gCoord getPixels(gImage *img, gCoord x) {
 	gdispImagePrivate_BMP *	priv;
 	gColor *			pc;
 	gCoord				len;
@@ -691,7 +691,7 @@ static gCoord getPixels(gdispImage *img, gCoord x) {
 	}
 }
 
-gdispImageError gdispImageCache_BMP(gdispImage *img) {
+gdispImageError gdispImageCache_BMP(gImage *img) {
 	gdispImagePrivate_BMP *	priv;
 	gColor *			pcs;
 	gColor *			pcd;
@@ -749,7 +749,7 @@ gdispImageError gdispImageCache_BMP(gdispImage *img) {
 	return GDISP_IMAGE_ERR_OK;
 }
 
-gdispImageError gdispGImageDraw_BMP(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
+gdispImageError gdispGImageDraw_BMP(GDisplay *g, gImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
 	gdispImagePrivate_BMP *	priv;
 	gCoord				mx, my;
 	gCoord				pos, len, st;
@@ -815,14 +815,14 @@ gdispImageError gdispGImageDraw_BMP(GDisplay *g, gdispImage *img, gCoord x, gCoo
 	return GDISP_IMAGE_ERR_OK;
 }
 
-gDelay gdispImageNext_BMP(gdispImage *img) {
+gDelay gdispImageNext_BMP(gImage *img) {
 	(void) img;
 
 	/* No more frames/pages */
 	return gDelayForever;
 }
 
-gU16 gdispImageGetPaletteSize_BMP(gdispImage *img) {
+gU16 gdispImageGetPaletteSize_BMP(gImage *img) {
 	#if GDISP_NEED_IMAGE_BMP_1 || GDISP_NEED_IMAGE_BMP_4 || GDISP_NEED_IMAGE_BMP_8
 		gdispImagePrivate_BMP *priv;
 	
@@ -839,7 +839,7 @@ gU16 gdispImageGetPaletteSize_BMP(gdispImage *img) {
 	#endif
 }
 
-gColor gdispImageGetPalette_BMP(gdispImage *img, gU16 index) {
+gColor gdispImageGetPalette_BMP(gImage *img, gU16 index) {
 	#if GDISP_NEED_IMAGE_BMP_1 || GDISP_NEED_IMAGE_BMP_4 || GDISP_NEED_IMAGE_BMP_8
 		gdispImagePrivate_BMP *priv;
 	
@@ -860,7 +860,7 @@ gColor gdispImageGetPalette_BMP(gdispImage *img, gU16 index) {
 	#endif
 }
 
-gBool gdispImageAdjustPalette_BMP(gdispImage *img, gU16 index, gColor newColor) {
+gBool gdispImageAdjustPalette_BMP(gImage *img, gU16 index, gColor newColor) {
 	#if GDISP_NEED_IMAGE_BMP_1 || GDISP_NEED_IMAGE_BMP_4 || GDISP_NEED_IMAGE_BMP_8
 		gdispImagePrivate_BMP *priv;
 	

@@ -50,19 +50,19 @@ typedef struct JDEC {
 	gU8* mcubuf;			/* Working buffer for the MCU */
 	void* pool;					/* Pointer to available memory pool */
 	unsigned sz_pool;			/* Size of momory pool (bytes available) */
-	gdispImage* img;			/* Pointer to I/O device identifiler for the session */
+	gImage* img;			/* Pointer to I/O device identifiler for the session */
 	} JDEC;
 
 /* TJpgDec API functions */
-gdispImageError jd_prepare(JDEC*, void*, gdispImage*);
-gdispImageError jd_decomp(JDEC*, unsigned(*)(gdispImage*,void*,JRECT*), gU8);
+gdispImageError jd_prepare(JDEC*, void*, gImage*);
+gdispImageError jd_decomp(JDEC*, unsigned(*)(gImage*,void*,JRECT*), gU8);
 
 /*---------------------------------------------------------------------------*/
 typedef struct gdispImagePrivate_JPG {
 	gPixel		*frame0cache;
 	} gdispImagePrivate_JPG;
 
-gdispImageError gdispImageOpen_JPG(gdispImage *img){
+gdispImageError gdispImageOpen_JPG(gImage *img){
     gdispImagePrivate_JPG *priv;
 	gU8		hdr[4];
 	unsigned	len;
@@ -119,7 +119,7 @@ gdispImageError gdispImageOpen_JPG(gdispImage *img){
     }
 }
 
-void gdispImageClose_JPG(gdispImage *img){
+void gdispImageClose_JPG(gImage *img){
 	gdispImagePrivate_JPG *priv = (gdispImagePrivate_JPG *)img->priv;
     if(priv){
         if (priv->frame0cache){
@@ -129,7 +129,7 @@ void gdispImageClose_JPG(gdispImage *img){
     }
 }
 
-static unsigned gdispImage_JPG_WriteToCache(gdispImage *img, void *bitmap, JRECT *rect)
+static unsigned gdispImage_JPG_WriteToCache(gImage *img, void *bitmap, JRECT *rect)
 {
 	gdispImagePrivate_JPG	*priv;
     gU8					*in;
@@ -147,7 +147,7 @@ static unsigned gdispImage_JPG_WriteToCache(gdispImage *img, void *bitmap, JRECT
     return 1;
 }
 
-gdispImageError gdispImageCache_JPG(gdispImage *img) {
+gdispImageError gdispImageCache_JPG(gImage *img) {
 	gdispImagePrivate_JPG	*priv;
 	JDEC					*jd;
     gdispImageError 		r;
@@ -176,7 +176,7 @@ gdispImageError gdispImageCache_JPG(gdispImage *img) {
 	return r;
 }
 
-gdispImageError gdispGImageDraw_JPG(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy){
+gdispImageError gdispGImageDraw_JPG(GDisplay *g, gImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy){
     gdispImagePrivate_JPG *	priv;
 
     priv = (gdispImagePrivate_JPG *)img->priv;
@@ -198,7 +198,7 @@ gdispImageError gdispGImageDraw_JPG(GDisplay *g, gdispImage *img, gCoord x, gCoo
     return GDISP_IMAGE_ERR_OK;
 }
 
-gDelay gdispImageNext_JPG(gdispImage *img) {
+gDelay gdispImageNext_JPG(gImage *img) {
 	(void) img;
 
 	/* No more frames/pages */
@@ -766,7 +766,7 @@ gdispImageError mcu_load (
 static
 gdispImageError mcu_output (
 	JDEC* jd,	/* Pointer to the decompressor object */
-	unsigned (*outfunc)(gdispImage*, void*, JRECT*),	/* RGB output function */
+	unsigned (*outfunc)(gImage*, void*, JRECT*),	/* RGB output function */
 	unsigned x,		/* MCU position in the image (left of the MCU) */
 	unsigned y		/* MCU position in the image (top of the MCU) */
 )
@@ -963,7 +963,7 @@ gdispImageError restart (
 gdispImageError jd_prepare (
 	JDEC* jd,			/* Blank decompressor object */
 	void* pool,			/* Working buffer for the decompression session */
-	gdispImage* img			/* I/O device identifier for the session */
+	gImage* img			/* I/O device identifier for the session */
 )
 {
 	gU8 *seg, b;
@@ -1124,7 +1124,7 @@ gdispImageError jd_prepare (
 
 gdispImageError jd_decomp (
 	JDEC* jd,											/* Initialized decompression object */
-	unsigned (*outfunc)(gdispImage*, void*, JRECT*),	/* RGB output function */
+	unsigned (*outfunc)(gImage*, void*, JRECT*),	/* RGB output function */
 	gU8 scale										/* Output de-scaling factor (0 to 3) */
 )
 {

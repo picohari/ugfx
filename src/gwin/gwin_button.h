@@ -101,7 +101,7 @@ gBool gwinButtonIsPressed(GHandle gh);
  * @note				In your custom button drawing function you may optionally call these
  * 						standard functions and then draw your extra details on top.
  * @note				The standard functions below ignore the param parameter except for @p gwinButtonDraw_Image().
- * @note				The image custom draw function  @p gwinButtonDraw_Image() uses param to pass in the gdispImage pointer.
+ * @note				The image custom draw function  @p gwinButtonDraw_Image() uses param to pass in the gImage pointer.
  * @note				These custom drawing routines don't have to worry about setting clipping as the framework
  * 						sets clipping to the object window prior to calling these routines.
  *

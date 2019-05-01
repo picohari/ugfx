@@ -403,7 +403,7 @@ void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord s
 #endif
 
 #if GDISP_NEED_IMAGE
-	gdispImageError gwinDrawImage(GHandle gh, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
+	gdispImageError gwinDrawImage(GHandle gh, gImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
 		gdispImageError		ret;
 
 		if (!_gwinDrawStart(gh)) return GDISP_IMAGE_ERR_OK;

@@ -168,7 +168,7 @@ void gwinContainerDraw_Std(GWidgetObject *gw, void *param) {
 
 #if GDISP_NEED_IMAGE
 	void gwinContainerDraw_Image(GWidgetObject *gw, void *param) {
-		#define gi			((gdispImage *)param)
+		#define gi			((gImage *)param)
 		gCoord				x, y, iw, ih, mx, my;
 
 		if (gw->g.vmt != (gwinVMT *)&containerVMT)

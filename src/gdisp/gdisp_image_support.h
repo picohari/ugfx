@@ -120,8 +120,8 @@
 #endif
 
 
-void *gdispImageAlloc(gdispImage *img, gMemSize sz);
-void gdispImageFree(gdispImage *img, void *ptr, gMemSize sz);
+void *gdispImageAlloc(gImage *img, gMemSize sz);
+void gdispImageFree(gImage *img, void *ptr, gMemSize sz);
 
 #if GFX_CPU_ENDIAN == GFX_CPU_ENDIAN_UNKNOWN
 	extern const gU8 gdispImageEndianArray[4];

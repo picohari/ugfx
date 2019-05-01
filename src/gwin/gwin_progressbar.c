@@ -263,7 +263,7 @@ void gwinProgressbarDraw_Std(GWidgetObject *gw, void *param) {
 #if GDISP_NEED_IMAGE
 void gwinProgressbarDraw_Image(GWidgetObject *gw, void *param) {
 	#define gsw			((GProgressbarObject *)gw)
-	#define gi			((gdispImage *)param)
+	#define gi			((gImage *)param)
 	const GColorSet *	pcol;
 	gCoord				z, v;
 

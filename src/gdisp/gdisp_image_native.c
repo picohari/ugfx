@@ -23,15 +23,15 @@
 /**
  * Helper Routines Needed
  */
-void *gdispImageAlloc(gdispImage *img, gMemSize sz);
-void gdispImageFree(gdispImage *img, void *ptr, gMemSize sz);
+void *gdispImageAlloc(gImage *img, gMemSize sz);
+void gdispImageFree(gImage *img, void *ptr, gMemSize sz);
 
 typedef struct gdispImagePrivate_NATIVE {
 	gPixel		*frame0cache;
 	gPixel		buf[BLIT_BUFFER_SIZE_NATIVE];
 	} gdispImagePrivate_NATIVE;
 
-void gdispImageClose_NATIVE(gdispImage *img) {
+void gdispImageClose_NATIVE(gImage *img) {
 	gdispImagePrivate_NATIVE *	priv;
 
 	priv = (gdispImagePrivate_NATIVE *)img->priv;
@@ -43,7 +43,7 @@ void gdispImageClose_NATIVE(gdispImage *img) {
 	}
 }
 
-gdispImageError gdispImageOpen_NATIVE(gdispImage *img) {
+gdispImageError gdispImageOpen_NATIVE(gImage *img) {
 	gU8		hdr[HEADER_SIZE_NATIVE];
 
 	/* Read the 8 byte header */
@@ -70,7 +70,7 @@ gdispImageError gdispImageOpen_NATIVE(gdispImage *img) {
 	return GDISP_IMAGE_ERR_OK;
 }
 
-gdispImageError gdispImageCache_NATIVE(gdispImage *img) {
+gdispImageError gdispImageCache_NATIVE(gImage *img) {
 	gMemSize		len;
 	gdispImagePrivate_NATIVE *	priv;
 
@@ -93,7 +93,7 @@ gdispImageError gdispImageCache_NATIVE(gdispImage *img) {
 	return GDISP_IMAGE_ERR_OK;
 }
 
-gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
+gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gImage *img, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord sx, gCoord sy) {
 	gCoord		mx, mcx;
 	gFileSize	pos;
 	gMemSize	len;
@@ -141,7 +141,7 @@ gdispImageError gdispGImageDraw_NATIVE(GDisplay *g, gdispImage *img, gCoord x, g
 	return GDISP_IMAGE_ERR_OK;
 }
 
-gDelay gdispImageNext_NATIVE(gdispImage *img) {
+gDelay gdispImageNext_NATIVE(gImage *img) {
 	(void) img;
 
 	/* No more frames/pages */

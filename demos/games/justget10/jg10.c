@@ -24,17 +24,17 @@ typedef struct {          // Node properties
 nodeProps             jg10Field[JG10_FIELD_WIDTH][JG10_FIELD_HEIGHT];   // jg10 field array
 gBool                jg10GameOver                           = gFalse;
 const char            *jg10Graph[] = {"background.bmp", "1.bmp","2.bmp","3.bmp","4.bmp","5.bmp","6.bmp","7.bmp","8.bmp", "9.bmp", "10.bmp", "11.bmp", "12.bmp", "13.bmp", "14.bmp", "15.bmp", "16.bmp", "17.bmp", "18.bmp", "19.bmp", "20.bmp"}; // 21 elements (0-20)
-gdispImage            jg10Image[JG10_MAX_COUNT];
+gImage            jg10Image[JG10_MAX_COUNT];
 #define JG10_ANIM_IMAGES 5
 #define JG10_ANIM_DELAY 60
 const char            *jg10GraphAnim[] = {"a1.bmp","a2.bmp","a3.bmp","a4.bmp","background.bmp"}; // 5 elements (0-4)
-gdispImage            jg10ImageAnim[JG10_ANIM_IMAGES];
+gImage            jg10ImageAnim[JG10_ANIM_IMAGES];
 gU8               jg10MaxVal=4;                                     // Max value in field...
 gFont font;
 #if JG10_SHOW_SPLASH
 GTimer                jg10SplashBlink;
 gBool                jg10SplashTxtVisible = gFalse;
-gdispImage            jg10SplashImage;
+gImage            jg10SplashImage;
 #endif
 
 

@@ -40,7 +40,7 @@
 
 #include "gfx.h"
 
-static gdispImage _imgHome;
+static gImage _imgHome;
 
 int main(void)
 {
