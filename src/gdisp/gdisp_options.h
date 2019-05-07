@@ -389,8 +389,8 @@
 		#define GDISP_NEED_IMAGE_BMP_32		GFXON
 	#endif
 	/**
-	 * @brief   The BMP blit buffer size.
-	 * @details	Defaults to 32
+	 * @brief   The BMP blit buffer size in pixels.
+	 * @details	Defaults to 32 pixels
 	 * @note 	Bigger is faster but requires more RAM.
 	 * @note 	This must be greater than 40 bytes and 32 pixels as we read our headers into this space as well.
 	 */

@@ -11,6 +11,16 @@
 
 #include "gdisp_image_support.h"
 
+#if GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE * (COLOR_TYPE_BITS/8) < 40
+		#if GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_DIRECT
+			#warning "GDISP: GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE must be at least 40 bytes. It has been adjusted for you."
+		#elif GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_MACRO
+			COMPILER_WARNING("GDISP: GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE must be at least 40 bytes. It has been adjusted for you.")
+		#endif
+	#undef GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE
+	#define GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE	((40 + (COLOR_TYPE_BITS/8) - 1) / (COLOR_TYPE_BITS/8))
+#endif
+
 typedef struct gdispImagePrivate_BMP {
 	gU8		bmpflags;
 		#define BMP_V2				0x01		// Version 2 (old) header format
