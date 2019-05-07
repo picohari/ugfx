@@ -179,7 +179,7 @@
 		}
 
 		// Was there a newline, if not delete everything.
-		if (*p != '\n') {
+		if (p >= ep) {
 			gcw->bufpos = 0;
 			return;
 		}
