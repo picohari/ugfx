@@ -216,7 +216,7 @@ typedef gU16	gColorformat;
 	 */
 	#define LUMA_OF(c)			((RED_OF(c)+((gU16)GREEN_OF(c)<<1)+BLUE_OF(c))>>2)
 	#define RED_OF(c)			(((c) & 0xF800)>>8)
-	#define GREEN_OF(c)			(((c)&0x007E)>>3)
+	#define GREEN_OF(c)			(((c)&0x07E0)>>3)
 	#define BLUE_OF(c)			(((c)&0x001F)<<3)
 	/** @} */
 
