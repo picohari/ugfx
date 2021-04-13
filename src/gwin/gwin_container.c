@@ -72,7 +72,6 @@ gCoord gwinGetInnerHeight(GHandle gh) {
 }
 
 #endif /* GFX_USE_GWIN && GWIN_NEED_CONTAINERS */
-/** @} */
 
 /*-----------------------------------------------
  * The simplest container type - a container
@@ -201,6 +200,8 @@ void gwinContainerDraw_Std(GWidgetObject *gw, void *param) {
 
 		#undef gi
 	}
-#endif
+#endif /* GDISP_NEED_IMAGE */ 
 
-#endif
+#endif /* GFX_USE_GWIN && GWIN_NEED_CONTAINERS */
+
+/** @} */

@@ -66,4 +66,3 @@ typedef struct GVKeyTable {
 	} GVKeyTable;
 
 #endif /* _GWIN_KEYBOARD_LAYOUT_H */
-/** @} */

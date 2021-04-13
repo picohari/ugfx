@@ -127,5 +127,3 @@ gThreadreturn gfxThreadWait(gThread thread) {
 }
 
 #endif /* GFX_USE_OS_WIN32 */
-/** @} */
-

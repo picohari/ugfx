@@ -269,11 +269,11 @@ TAB_SIZE               = 4
 # commands \{ and \} for these it is advised to use the version @{ and @} or use
 # a double escape (\\{ and \\})
 
-ALIASES                = "iclass=@par Function Class:\n This is an <b>I-Class</b> API, this function can be invoked from within a system lock zone by both threads and interrupt handlers." \
-                         "sclass=@par Function Class:\n This is an <b>S-Class</b> API, this function can be invoked from within a system lock zone by threads only." \
-                         "api=@par Function Class:\n Normal API, this function can be invoked by regular system threads." \
-                         "notapi=@par Function Class:\n Not an API, this function is for internal use only." \
-                         "isr=@par Function Class:\n Interrupt handler, this function should not be directly invoked."
+ALIASES                = "iclass=@par Function Class: This is an <b>I-Class</b> API, this function can be invoked from within a system lock zone by both threads and interrupt handlers." \
+                         "sclass=@par Function Class: This is an <b>S-Class</b> API, this function can be invoked from within a system lock zone by threads only." \
+                         "api=@par Function Class: Normal API, this function can be invoked by regular system threads." \
+                         "notapi=@par Function Class: Not an API, this function is for internal use only." \
+                         "isr=@par Function Class: Interrupt handler, this function should not be directly invoked."
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C sources
 # only. Doxygen will then generate output that is more tailored for C. For

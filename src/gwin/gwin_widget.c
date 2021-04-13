@@ -747,5 +747,5 @@ gBool gwinAttachListener(GListener *pl) {
 
 #undef gw
 #undef wvmt
+
 #endif /* GFX_USE_GWIN && GWIN_NEED_WIDGET */
-/** @} */

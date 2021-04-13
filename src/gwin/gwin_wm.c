@@ -1029,4 +1029,3 @@ static void WM_Raise(GHandle gh) {
 }
 
 #endif /* GFX_USE_GWIN && GWIN_NEED_WINDOWMANAGER */
-/** @} */

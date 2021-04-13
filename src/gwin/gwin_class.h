@@ -445,4 +445,3 @@ gBool _gwinWMAdd(GHandle gh, const GWindowInit *pInit);
 #endif /* GFX_USE_GWIN */
 
 #endif /* _CLASS_GWIN_H */
-/** @} */

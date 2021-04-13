@@ -833,4 +833,3 @@ void _gmouseWakeupI(GMouse *m) {
 }
 
 #endif /* GFX_USE_GINPUT && GINPUT_NEED_MOUSE */
-/** @} */

@@ -90,4 +90,3 @@ gTicks gfxSystemTicks();
 
 #endif /* GFX_USE_OS_ZEPHYR */
 #endif /* _GOS_H */
-/** @} */

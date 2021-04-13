@@ -414,5 +414,3 @@ void gwinBlitArea(GHandle gh, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoord s
 #endif
 
 #endif /* GFX_USE_GWIN */
-/** @} */
-
