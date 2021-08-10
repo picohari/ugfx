@@ -565,7 +565,7 @@ static gCoord getPixels(gImage *img, gCoord x) {
 				} else if (b[1] == 2) {					// Delta x, y
 					// There are always at least 2 bytes in an RLE code
 					if (gfileRead(img->f, &b, 2) != 2)
-						return GDISP_IMAGE_ERR_BADDATA;
+						return (gCoord)GDISP_IMAGE_ERR_BADDATA;
 					priv->rlerun = b[0] + (gU16)b[1] * img->width;
 					priv->rlecode = 0;					// Who knows what color this should really be
 					priv->bmpflags |= BMP_RLE_ENC;
