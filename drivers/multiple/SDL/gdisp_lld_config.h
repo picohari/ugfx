@@ -12,6 +12,9 @@
 /* Driver hardware support.                                                  */
 /*===========================================================================*/
 
+// Whether to use separate processes or multi-threading approach for SDL management.
+#define GFX_SDL_USE_FORK				GFXOFF
+
 #define GDISP_HARDWARE_DRAWPIXEL		GFXON
 #define GDISP_HARDWARE_FILLS			GFXON
 #define GDISP_HARDWARE_BITFILLS			GFXOFF

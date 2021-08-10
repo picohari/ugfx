@@ -19,6 +19,9 @@
 #include <signal.h>
 #include <semaphore.h>
 #include <SDL.h>
+#if GFX_SDL_USE_FORK
+	#include <assert.h>
+#endif
 
 #define GDISP_DRIVER_VMT				GDISPVMT_SDL
 #include "gdisp_lld_config.h"
@@ -158,7 +161,7 @@
 // shared IPC context
 struct SDL_UGFXContext {
 	gU32 	framebuf[GDISP_SCREEN_WIDTH*GDISP_SCREEN_HEIGHT];
-	gI16		need_redraw;
+	gI16	need_redraw;
 	int		minx,miny,maxx,maxy;
 #if GINPUT_NEED_MOUSE
 	gCoord 	mousex, mousey;
@@ -166,7 +169,7 @@ struct SDL_UGFXContext {
 #endif
 #if GINPUT_NEED_KEYBOARD
 	gU16 	keypos;
-	struct 		SDL_keymsg keybuffer[8];
+	struct	SDL_keymsg keybuffer[8];
 #endif
 };
  
@@ -176,7 +179,6 @@ static sem_t *input_event;
 
 #define CTX_MUTEX_NAME 		"ugfx_ctx_mutex"
 #define INPUT_EVENT_NAME 	"ugfx_input_event"
-
 
 static int SDL_loop (void) {
 	SDL_Window   *window = SDL_CreateWindow("uGFX", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GDISP_SCREEN_WIDTH, GDISP_SCREEN_HEIGHT, 0);
@@ -291,6 +293,40 @@ static int SDL_loop (void) {
     return 0;
 }
 
+static void* SDL_start(void* arg)
+{
+	// Get the PID (if supposed to)
+	#if GFX_SDL_USE_FORK
+		int status;
+		pid_t gui_pid = (pid_t)arg;
+		assert(gui_pid != 0);
+	#else
+		(void)arg;
+	#endif
+
+	// Main proccess. It's for host UI and SDL
+	memset (context,0,sizeof (*context));
+	context->need_redraw = 1;
+	context->maxx = GDISP_SCREEN_WIDTH-1;
+	context->maxy = GDISP_SCREEN_HEIGHT-1;
+	context->minx = 0;
+	context->miny = 0;
+	SDL_loop();
+
+	// cleanup
+	#if GFX_SDL_USE_FORK
+		kill(gui_pid, SIGKILL);
+		waitpid(gui_pid, &status, 0);
+	#endif
+	SDL_Quit();
+	munmap(context,sizeof (*context));
+	sem_close(ctx_mutex);
+	sem_unlink(CTX_MUTEX_NAME);
+	sem_close(input_event);
+	sem_unlink(INPUT_EVENT_NAME);
+	exit(0);
+}
+
 static void *SDL_input_event_loop (void *arg) {
 	(void)arg;
 	for (;;) {
@@ -334,35 +370,22 @@ void sdl_driver_init (void) {
 		perror("Failed init semaphore");
 		exit(1);
 	}
-	pid_t gui_pid = fork ();
-
-	if (gui_pid) {
-		// Main proccess. It's for host UI and SDL
-		int status;
-		memset (context,0,sizeof (*context));
-		context->need_redraw = 1;
-		context->maxx = GDISP_SCREEN_WIDTH-1;
-		context->maxy = GDISP_SCREEN_HEIGHT-1;
-		context->minx = 0;
-		context->miny = 0;
-		SDL_loop ();
-		// cleanup
-		kill(gui_pid,SIGKILL);
-		waitpid(gui_pid, &status, 0);
-		SDL_Quit ();
-		munmap (context,sizeof (*context));
-		sem_close (ctx_mutex);
-		sem_unlink (CTX_MUTEX_NAME);
-		sem_close (input_event);
-		sem_unlink (INPUT_EVENT_NAME);
-		exit (0);
-	}
 	
+	#if GFX_SDL_USE_FORK
+		pid_t gui_pid = fork();
+		if (gui_pid)
+			SDL_start((void*)gui_pid);
+	#else
+		pthread_t thread_sdl;
+		pthread_create(&thread_sdl, NULL, SDL_start, NULL);
+		pthread_detach(thread_sdl);
+	#endif
+
 	// Create thread for input events processing
 	pthread_t thread;
 	pthread_create(&thread, NULL, SDL_input_event_loop, NULL);
 	pthread_detach (thread);
-	// Continue execution of ugfx UI in forked process
+	// Continue execution of ugfx UI in forked process (or corresponding thread_sdl) 
 }
 
 
