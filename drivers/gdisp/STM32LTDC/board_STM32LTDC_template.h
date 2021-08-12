@@ -55,7 +55,20 @@ static const ltdcConfig driverCfg = {
 #endif
 };
 
-static GFXINLINE void init_board(GDisplay* g) {
+static GFXINLINE void init_ltdc_clock()
+{
+	// Setup LTDC clock and enable the peripheral
+}
+
+#if LTDC_USE_DMA2D
+	static GFXINLINE void init_dma2d_clock()
+	{
+		// Setup DMA2D clock and enable the peripheral
+	}
+#endif
+
+static GFXINLINE void init_board(GDisplay* g)
+{
 	// This is function only called once with the display for the background layer.
 	(void)g;
 }

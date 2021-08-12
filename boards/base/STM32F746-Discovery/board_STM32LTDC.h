@@ -393,6 +393,27 @@ static void configureLcdPins(void) {
 	#endif
 }
 
+static GFXINLINE void init_ltdc_clock()
+{
+	// Reset the LTDC peripheral
+	RCC->APB2RSTR |= RCC_APB2RSTR_LTDCRST;
+	RCC->APB2RSTR = 0;
+	
+	// Enable the LTDC clock
+	RCC->DCKCFGR1 = (RCC->DCKCFGR1 & ~RCC_DCKCFGR1_PLLSAIDIVR) | (1 << 16);
+	
+	// Enable the peripheral
+	RCC->APB2ENR |= RCC_APB2ENR_LTDCEN;
+}
+
+#if LTDC_USE_DMA2D
+	static GFXINLINE void init_dma2d_clock()
+	{
+		// Enable DMA2D clock
+		RCC->AHB1ENR |= RCC_AHB1ENR_DMA2DEN;
+	}
+#endif
+
 static GFXINLINE void init_board(GDisplay *g) {
 	(void) g;
 

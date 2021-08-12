@@ -8,6 +8,7 @@ FIX:		Fixed GWIN console widget scroll
 FIX:		A warning and adjusted is made if GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE is less than 40 bytes.
 FIX:        Prevent compiler warnings on duplicate const specifiers.
 FEATURE:	Added support for ChibiOS 6.x kernel.
+CHANGE:		Refactor STM32LTDC driver to outsource hardware specifics such as clock setup to the board file.
 
 
 *** Release 2.9 ***

@@ -166,25 +166,8 @@ static void _ltdc_init(void) {
 	// Set up the display scanning
 	gU32 hacc, vacc;
 
-	// Reset the LTDC peripheral
-	RCC->APB2RSTR |= RCC_APB2RSTR_LTDCRST;
-	RCC->APB2RSTR = 0;
-
-	// Enable the LTDC clock
-	#if !LTDC_NO_CLOCK_INIT
-		#if defined(STM32F469xx)
-			RCC->DCKCFGR = (RCC->DCKCFGR & ~RCC_DCKCFGR_PLLSAIDIVR);
-		#elif defined(STM32F4) || defined(STM32F429_439xx) || defined(STM32F429xx)
-			RCC->DCKCFGR = (RCC->DCKCFGR & ~RCC_DCKCFGR_PLLSAIDIVR) | (1 << 16);
-		#elif defined(STM32F7) || defined(STM32F746xx)
-			RCC->DCKCFGR1 = (RCC->DCKCFGR1 & ~RCC_DCKCFGR1_PLLSAIDIVR) | (1 << 16);
-		#else
-			#error STM32LTDC driver not implemented for your platform
-		#endif
-	#endif
-
-	// Enable the peripheral
-	RCC->APB2ENR |= RCC_APB2ENR_LTDCEN;
+	// Let the board handle LTDC clock setups
+	init_ltdc_clock();
 
 	// Turn off the controller and its interrupts
 	LTDC->GCR = 0;
@@ -425,8 +408,8 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 
 
 	static void dma2d_init(void) {
-		// Enable DMA2D clock
-		RCC->AHB1ENR |= RCC_AHB1ENR_DMA2DEN;
+		// Let the board handle the clock setup
+		init_dma2d_clock();
 
 		// Output color format
 		#if GDISP_LLD_PIXELFORMAT == GDISP_PIXELFORMAT_RGB565
