@@ -55,13 +55,13 @@ static const ltdcConfig driverCfg = {
 #endif
 };
 
-static GFXINLINE void init_ltdc_clock()
+static GFXINLINE void init_ltdc_clock(void)
 {
 	// Setup LTDC clock and enable the peripheral
 }
 
 #if LTDC_USE_DMA2D
-	static GFXINLINE void init_dma2d_clock()
+	static GFXINLINE void init_dma2d_clock(void)
 	{
 		// Setup DMA2D clock and enable the peripheral
 	}
