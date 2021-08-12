@@ -36,8 +36,11 @@
 /**
  * The order of the file-systems below determines the order
  * that they are searched to find a file.
+ *
+ * This should read: static const GFILEVMT const * FsArray[] = {
+ * However, some major C compilers complain about duplicate const specifiers although this is perfectly valid standard C.
  */
-static const GFILEVMT const * FsArray[] = {
+static const GFILEVMT* FsArray[] = {
 	#if GFILE_NEED_USERFS
 		&FsUSERVMT,
 	#endif

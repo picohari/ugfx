@@ -732,7 +732,11 @@ typedef struct GDISPVMT {
 	#endif
 
 	// Build the VMT
-	const GDISPVMT const GDISP_DRIVER_VMT[1] = {{
+	/*
+	 * This should read: const GDISPVMT const GDISP_DRIVER_VMT[1] = {{
+	 * However, some major C compilers complain about duplicate const specifiers although this is perfectly valid standard C.
+	 */
+	const GDISPVMT GDISP_DRIVER_VMT[1] = {{
 		{ GDRIVER_TYPE_DISPLAY, 0, sizeof(GDisplay), _gdispInitDriver, _gdispPostInitDriver, _gdispDeInitDriver },
 		gdisp_lld_init,
 		#if GDISP_HARDWARE_DEINIT

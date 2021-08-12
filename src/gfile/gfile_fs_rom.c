@@ -34,7 +34,12 @@ typedef struct ROMFS_DIRENTRY {
 
 #define ROMFS_DIRENTRY_HEAD		0
 #include "romfs_files.h"
-static const ROMFS_DIRENTRY const *FsROMHead = ROMFS_DIRENTRY_HEAD;
+
+/*
+ * This should be: static const ROMFS_DIRENTRY const *FsROMHead = ROMFS_DIRENTRY_HEAD;
+ * However, some major compilers complain about the duplicate const specifier even though this is perfectly valid standard C.
+ */
+static const ROMFS_DIRENTRY *FsROMHead = ROMFS_DIRENTRY_HEAD;
 
 typedef struct ROMFileList {
 	gfileList				fl;
