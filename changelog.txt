@@ -6,6 +6,7 @@
 CHANGE:		Added type gImage to replace V2.x gdispImage
 FIX:		Fixed GWIN console widget scroll
 FIX:		A warning and adjusted is made if GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE is less than 40 bytes.
+FIX:        Prevent compiler warnings on duplicate const specifiers.
 
 
 *** Release 2.9 ***
