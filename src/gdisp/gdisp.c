@@ -555,15 +555,22 @@ static void line_clip(GDisplay *g) {
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
+// Gather GDISP VMT(S)
+// These are only needed in _gdispInit(). However, we want to prevent generating nested-externs compiler warnings.
+#if defined(GDISP_DRIVER_LIST)
+	extern GDISPVMTLIST GDISP_DRIVER_LIST;
+#else
+	extern const GDISPVMT GDISPVMT_OnlyOne[1];
+#endif
+
 void _gdispInit(void)
 {
 	// GDISP_DRIVER_LIST is defined - create each driver instance
 	#if defined(GDISP_DRIVER_LIST)
 		{
-			unsigned	i;
+			unsigned i;
 			typedef const GDISPVMT const GDISPVMTLIST[1];
 
-			extern GDISPVMTLIST						  GDISP_DRIVER_LIST;
 			static const GDISPVMT * const dclist[] = {GDISP_DRIVER_LIST};
 
 			for(i = 0; i < sizeof(dclist)/sizeof(dclist[0]); i++) {
@@ -573,8 +580,7 @@ void _gdispInit(void)
 		}
 	#elif GDISP_TOTAL_DISPLAYS > 1
 		{
-			unsigned	i;
-			extern const GDISPVMT GDISPVMT_OnlyOne[1];
+			unsigned i;
 
 			if (!(GDISPVMT_OnlyOne->d.flags & GDISP_VFLG_DYNAMICONLY)) {
 				for(i = 0; i < GDISP_TOTAL_DISPLAYS; i++)
@@ -583,8 +589,6 @@ void _gdispInit(void)
 		}
 	#else
 		{
-			extern const GDISPVMT GDISPVMT_OnlyOne[1];
-
 			if (!(GDISPVMT_OnlyOne->d.flags & GDISP_VFLG_DYNAMICONLY))
 				gdriverRegister(&GDISPVMT_OnlyOne->d, 0);
 		}
