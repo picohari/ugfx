@@ -18,7 +18,7 @@ Configuration options available in `gfxconf.h`:
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `STM32LTDC_DMA_CACHE_FLUSH` | `GFOFF` | Whether to flush the DMA cache on DMA2D operations. This will be turned on automatically on certian platforms/systems. |
+| `STM32LTDC_DMA_CACHE_FLUSH` | `GFXOFF` | Whether to flush the DMA cache on DMA2D operations. This will be turned on automatically on certian platforms/systems. |
 | `STM32LTDC_USE_DMA2D` | `GFXON` | Whether to use the DMA2D peripheral for hardware acceleration. |
 | `STM32LTDC_USE_LAYER2` | `GFXOFF` | Whether to use the 2nd LTDC layer. |
 | `STM32LTDC_USE_RGB565` | `GFXOFF` | Whether to use RGB565 instead of RGB888. |
