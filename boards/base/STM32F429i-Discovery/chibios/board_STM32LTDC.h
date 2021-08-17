@@ -23,7 +23,9 @@ static const SPIConfig spi_cfg = {
 	((1 << 3) & SPI_CR1_BR) | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_MSTR
 };
 
+#define LTDC_USE_DMA2D			GFXON
 #define LTDC_USE_2ND_LAYER		GFXON
+#define LTDC_DMA_CACHE_FLUSH	GFXOFF		// This will be turned on automatically on certain systems/platforms
 
 static const ltdcConfig driverCfg = {
 	240, 320,

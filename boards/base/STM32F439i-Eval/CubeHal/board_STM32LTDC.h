@@ -19,7 +19,9 @@
 #include "stm32f4xx_hal.h"
 #include "stm324x9i_eval_sdram.h"
 
+#define LTDC_USE_DMA2D			GFXON
 #define LTDC_USE_2ND_LAYER		GFXON
+#define LTDC_DMA_CACHE_FLUSH	GFXOFF		// This will be turned on automatically on certain systems/platforms
 
 // Panel parameters
 // This panel is a AMPIRE640480 panel.

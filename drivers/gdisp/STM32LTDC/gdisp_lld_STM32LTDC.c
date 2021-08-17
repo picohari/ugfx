@@ -12,6 +12,10 @@
 #define GDISP_DRIVER_VMT			GDISPVMT_STM32LTDC
 #include "gdisp_lld_config.h"
 #include "../../../src/gdisp/gdisp_driver.h"
+#include "stm32_ltdc.h"
+#if LTDC_USE_DMA2D
+ 	#include "stm32_dma2d.h"
+#endif
 
 #if defined(GDISP_SCREEN_HEIGHT) || defined(GDISP_SCREEN_HEIGHT)
 	#if GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_DIRECT
@@ -22,25 +26,6 @@
 	#undef GDISP_SCREEN_WIDTH
 	#undef GDISP_SCREEN_HEIGHT
 #endif
-
-#ifndef LTDC_USE_DMA2D
- 	#define LTDC_USE_DMA2D 			GFXOFF
-#endif
-#ifndef	LTDC_DMA_CACHE_FLUSH
-	#define	LTDC_DMA_CACHE_FLUSH	GFXOFF
-#endif
-
-#include "stm32_ltdc.h"
-
-#if LTDC_USE_DMA2D
- 	#include "stm32_dma2d.h"
-
-	#if defined(STM32F7) || defined(STM32H7) || defined(STM32F746xx)
-		#undef 	LTDC_DMA_CACHE_FLUSH
-		#define	LTDC_DMA_CACHE_FLUSH	GFXON
-	#endif
-#endif
-
 
 typedef struct ltdcLayerConfig {
 	// Frame
@@ -89,6 +74,20 @@ typedef struct ltdcConfig {
 #endif
 
 #include "board_STM32LTDC.h"
+
+#ifndef LTDC_USE_DMA2D
+ 	#define LTDC_USE_DMA2D 			GFXOFF
+#endif
+#ifndef	LTDC_DMA_CACHE_FLUSH
+	#define	LTDC_DMA_CACHE_FLUSH	GFXOFF
+#endif
+
+#if LTDC_USE_DMA2D
+	#if defined(STM32F7) || defined(STM32H7) || defined(STM32F746xx)
+		#undef 	LTDC_DMA_CACHE_FLUSH
+		#define	LTDC_DMA_CACHE_FLUSH	GFXON
+	#endif
+#endif
 
 /*===========================================================================*/
 /* Driver local definitions.                                                 */

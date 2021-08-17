@@ -36,7 +36,9 @@
 	#define AFRH	AFR[1]
 #endif
 
+#define LTDC_USE_DMA2D			GFXON
 #define LTDC_USE_2ND_LAYER		GFXON
+#define LTDC_DMA_CACHE_FLUSH	GFXOFF		// This will be turned on automatically on certain systems/platforms
 
 static const ltdcConfig driverCfg = {
 	480, 272,								// Width, Height (pixels)

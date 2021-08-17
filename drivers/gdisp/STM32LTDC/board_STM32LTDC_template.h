@@ -8,7 +8,9 @@
 #ifndef _GDISP_LLD_BOARD_H
 #define _GDISP_LLD_BOARD_H
 
-#define LTDC_USE_2ND_LAYER		GFXON
+#define LTDC_USE_DMA2D			GFXON
+#define LTDC_USE_2ND_LAYER		GFXOFF
+#define LTDC_DMA_CACHE_FLUSH	GFXOFF		// This will be turned on automatically on certain systems/platforms
 
 static const ltdcConfig driverCfg = {
 	480, 272,								// Width, Height (pixels)
