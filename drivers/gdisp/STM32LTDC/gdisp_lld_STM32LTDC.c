@@ -26,9 +26,6 @@
 #ifndef LTDC_USE_DMA2D
  	#define LTDC_USE_DMA2D 			GFXOFF
 #endif
-#ifndef LTDC_NO_CLOCK_INIT
-	#define LTDC_NO_CLOCK_INIT		GFXOFF
-#endif
 #ifndef	LTDC_DMA_CACHE_FLUSH
 	#define	LTDC_DMA_CACHE_FLUSH	GFXOFF
 #endif
