@@ -23,6 +23,9 @@
 	#undef GDISP_SCREEN_HEIGHT
 #endif
 
+#ifndef LTDC_USE_DOUBLE_BUFFERING
+	#define LTDC_USE_DOUBLE_BUFFERING GFXOFF
+#endif
 #ifndef LTDC_USE_DMA2D
  	#define LTDC_USE_DMA2D 			GFXOFF
 #endif
@@ -38,7 +41,7 @@
 #if LTDC_USE_DMA2D
  	#include "stm32_dma2d.h"
 
-	#if defined(STM32F7) || defined(STM32F746xx)
+	#if defined(STM32F7) || defined(STM32H7) || defined(STM32F746xx)
 		#undef 	LTDC_DMA_CACHE_FLUSH
 		#define	LTDC_DMA_CACHE_FLUSH	GFXON
 	#endif
