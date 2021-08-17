@@ -36,7 +36,7 @@
 	#define AFRH	AFR[1]
 #endif
 
-#define ALLOW_2ND_LAYER		GFXON
+#define LTDC_USE_2ND_LAYER		GFXON
 
 static const ltdcConfig driverCfg = {
 	480, 272,								// Width, Height (pixels)
@@ -62,7 +62,7 @@ static const ltdcConfig driverCfg = {
 		LTDC_LEF_ENABLE						// Layer configuration flags
 	},
 
-#if ALLOW_2ND_LAYER
+#if LTDC_USE_2ND_LAYER
 	{										// Foreground layer config (if turned on)
 		(LLDCOLOR_TYPE *)(SDRAM_DEVICE_ADDR+(480 * 272 * LTDC_PIXELBYTES)), // Frame buffer address
 		480, 272,							// Width, Height (pixels)

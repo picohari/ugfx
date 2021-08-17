@@ -23,9 +23,6 @@
 	#undef GDISP_SCREEN_HEIGHT
 #endif
 
-#ifndef LTDC_USE_DOUBLE_BUFFERING
-	#define LTDC_USE_DOUBLE_BUFFERING GFXOFF
-#endif
 #ifndef LTDC_USE_DMA2D
  	#define LTDC_USE_DMA2D 			GFXOFF
 #endif
