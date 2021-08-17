@@ -36,10 +36,6 @@
 	#define AFRH	AFR[1]
 #endif
 
-#define LTDC_USE_DMA2D			GFXON
-#define LTDC_USE_2ND_LAYER		GFXON
-#define LTDC_DMA_CACHE_FLUSH	GFXOFF		// This will be turned on automatically on certain systems/platforms
-
 static const ltdcConfig driverCfg = {
 	480, 272,								// Width, Height (pixels)
 	41, 10,									// Horizontal, Vertical sync (pixels)
@@ -64,7 +60,7 @@ static const ltdcConfig driverCfg = {
 		LTDC_LEF_ENABLE						// Layer configuration flags
 	},
 
-#if LTDC_USE_2ND_LAYER
+#if STM32LTDC_USE_LAYER2
 	{										// Foreground layer config (if turned on)
 		(LLDCOLOR_TYPE *)(SDRAM_DEVICE_ADDR+(480 * 272 * LTDC_PIXELBYTES)), // Frame buffer address
 		480, 272,							// Width, Height (pixels)
@@ -408,7 +404,7 @@ static GFXINLINE void init_ltdc_clock(void)
 	RCC->APB2ENR |= RCC_APB2ENR_LTDCEN;
 }
 
-#if LTDC_USE_DMA2D
+#if STM32LTDC_USE_DMA2D
 	static GFXINLINE void init_dma2d_clock(void)
 	{
 		// Enable DMA2D clock

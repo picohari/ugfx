@@ -19,10 +19,6 @@
 #include "stm32f4xx_hal.h"
 #include "stm324x9i_eval_sdram.h"
 
-#define LTDC_USE_DMA2D			GFXON
-#define LTDC_USE_2ND_LAYER		GFXON
-#define LTDC_DMA_CACHE_FLUSH	GFXOFF		// This will be turned on automatically on certain systems/platforms
-
 // Panel parameters
 // This panel is a AMPIRE640480 panel.
 
@@ -50,7 +46,7 @@ static const ltdcConfig driverCfg = {
 		LTDC_LEF_ENABLE						// Layer configuration flags
 	},
 
-#if LTDC_USE_2ND_LAYER
+#if STM32LTDC_USE_LAYER2
 	{										// Foreground layer config (if turned on)
 		(LLDCOLOR_TYPE *)(SDRAM_DEVICE_ADDR+(640 * 480 * LTDC_PIXELBYTES)), // Frame buffer address
 		640, 480,							// Width, Height (pixels)

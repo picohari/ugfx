@@ -8,10 +8,6 @@
 #ifndef _GDISP_LLD_BOARD_H
 #define _GDISP_LLD_BOARD_H
 
-#define LTDC_USE_DMA2D			GFXON
-#define LTDC_USE_2ND_LAYER		GFXON
-#define LTDC_DMA_CACHE_FLUSH	GFXOFF		// This will be turned on automatically on certain systems/platforms
-
 /* Avoid naming collisions with CubeHAL. */
 #if GFX_COMPAT_V2 && GFX_COMPAT_OLDCOLORS
 	#undef Red

@@ -12,11 +12,19 @@ To use this driver:
 
 3. Add a `board_STM32LTDC.h` to you project directory (or board directory)
 	based on one of the templates.
+	
+# Configuration
+Configuration options available in `gfxconf.h`:
+
+| Option | Default | Description |
+| --- | --- | --- |
+| `STM32LTDC_DMA_CACHE_FLUSH` | `GFOFF` | Whether to flush the DMA cache on DMA2D operations. This will be turned on automatically on certian platforms/systems. |
+| `STM32LTDC_USE_DMA2D` | `GFXON` | Whether to use the DMA2D peripheral for hardware acceleration. |
+| `STM32LTDC_USE_LAYER2` | `GFXOFF` | Whether to use the 2nd LTDC layer. |
+| `STM32LTDC_USE_RGB565` | `GFXOFF` | Whether to use RGB565 instead of RGB888. |
 
 # 2nd layer
-Two things need to happen in order to use the 2nd LTDC layer:
-  - Set `LTDC_USE_2ND_LAYER` to `GFXON` in the board file.
-  - Set `GDISP_TOTAL_DISPLAYS` to `2` in `gfxconf.h`.
+To use the 2nd LTDC layer, set `STM32LTDC_USE_LAYER2` to `GFXON` in `gfxconf.h`.
 
 The 2nd layer is exposed as a separate display. Use `gdispGetDisplay()` to retrieve the individual layers.
 

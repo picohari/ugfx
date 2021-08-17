@@ -13,7 +13,7 @@
 #include "gdisp_lld_config.h"
 #include "../../../src/gdisp/gdisp_driver.h"
 #include "stm32_ltdc.h"
-#if LTDC_USE_DMA2D
+#if STM32LTDC_USE_DMA2D
  	#include "stm32_dma2d.h"
 #endif
 
@@ -25,6 +25,27 @@
 	#endif
 	#undef GDISP_SCREEN_WIDTH
 	#undef GDISP_SCREEN_HEIGHT
+#endif
+
+#ifndef	STM32LTDC_DMA_CACHE_FLUSH
+	#define	STM32LTDC_DMA_CACHE_FLUSH	GFXOFF
+#endif
+#ifndef STM32LTDC_USE_DMA2D
+ 	#define STM32LTDC_USE_DMA2D 		GFXOFF
+#endif
+#ifndef STM32LTDC_USE_LAYER2
+	#define	STM32LTDC_USE_LAYER2		GFXOFF
+#endif
+#ifndef STM32LTDC_USE_RGB565
+	#define STM32LTDC_USE_RGB565		GFXOFF
+#endif
+
+// Force DMA cache flushing on certain platforms/systems.
+#if STM32LTDC_USE_DMA2D
+	#if defined(STM32F7) || defined(STM32H7) || defined(STM32F746xx)
+		#undef 	STM32LTDC_DMA_CACHE_FLUSH
+		#define	STM32LTDC_DMA_CACHE_FLUSH	GFXON
+	#endif
 #endif
 
 typedef struct ltdcLayerConfig {
@@ -74,20 +95,6 @@ typedef struct ltdcConfig {
 #endif
 
 #include "board_STM32LTDC.h"
-
-#ifndef LTDC_USE_DMA2D
- 	#define LTDC_USE_DMA2D 			GFXOFF
-#endif
-#ifndef	LTDC_DMA_CACHE_FLUSH
-	#define	LTDC_DMA_CACHE_FLUSH	GFXOFF
-#endif
-
-#if LTDC_USE_DMA2D
-	#if defined(STM32F7) || defined(STM32H7) || defined(STM32F746xx)
-		#undef 	LTDC_DMA_CACHE_FLUSH
-		#define	LTDC_DMA_CACHE_FLUSH	GFXON
-	#endif
-#endif
 
 /*===========================================================================*/
 /* Driver local definitions.                                                 */
@@ -226,7 +233,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 		_ltdc_init();
 
 		// Initialise DMA2D
-		#if LTDC_USE_DMA2D
+		#if STM32LTDC_USE_DMA2D
 			dma2d_init();
 		#endif
 
@@ -297,7 +304,7 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay* g) {
 		pos = PIXIL_POS(g, g->p.x, g->p.y);
 	#endif
 
-	#if LTDC_USE_DMA2D
+	#if STM32LTDC_USE_DMA2D
 		while(DMA2D->CR & DMA2D_CR_START);
 	#endif
 
@@ -335,7 +342,7 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 		pos = PIXIL_POS(g, g->p.x, g->p.y);
 	#endif
 
-	#if LTDC_USE_DMA2D
+	#if STM32LTDC_USE_DMA2D
 		while(DMA2D->CR & DMA2D_CR_START);
 	#endif
 
@@ -393,8 +400,8 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 	}
 #endif
 
-#if LTDC_USE_DMA2D
-	#if LTDC_DMA_CACHE_FLUSH
+#if STM32LTDC_USE_DMA2D
+	#if STM32LTDC_DMA_CACHE_FLUSH
 		#if defined(__CC_ARM)
 			#define __ugfxDSB()		__dsb(0xF)
 		#else		// GCC like
@@ -459,7 +466,7 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 			shape = (g->p.cx << 16) | (g->p.cy);
 		#endif
 
-		#if LTDC_DMA_CACHE_FLUSH
+		#if STM32LTDC_DMA_CACHE_FLUSH
 		{
 			// This is slightly less than optimal as we flush the whole line in the source and destination image
 			// instead of just the cx portion but this saves us having to iterate over each line.
@@ -524,7 +531,7 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 			srcstart = LTDC_PIXELBYTES * ((gU32)g->p.x2 * g->p.y1 * + g->p.x1) + (gU32)g->p.ptr;
 			dststart = (gU32)PIXEL_ADDR(g, PIXIL_POS(g, g->p.x, g->p.y));
 
-			#if LTDC_DMA_CACHE_FLUSH
+			#if STM32LTDC_DMA_CACHE_FLUSH
 			{
 				// This is slightly less than optimal as we flush the whole line in the source and destination image
 				// instead of just the cx portion but this saves us having to iterate over each line.

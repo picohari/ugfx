@@ -23,10 +23,6 @@ static const SPIConfig spi_cfg = {
 	((1 << 3) & SPI_CR1_BR) | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_MSTR
 };
 
-#define LTDC_USE_DMA2D			GFXON
-#define LTDC_USE_2ND_LAYER		GFXON
-#define LTDC_DMA_CACHE_FLUSH	GFXOFF		// This will be turned on automatically on certain systems/platforms
-
 static const ltdcConfig driverCfg = {
 	240, 320,
 	10, 2,
@@ -49,7 +45,7 @@ static const ltdcConfig driverCfg = {
 		0xFF,								// alpha
 		LTDC_LEF_ENABLE						// flags
 	},
-#if LTDC_USE_2ND_LAYER
+#if STM32LTDC_USE_LAYER2
 	{										// Foreground layer config (if turned on)
 		(LLDCOLOR_TYPE *)(SDRAM_BANK_ADDR+(240 * 320 * LTDC_PIXELBYTES)), // Frame buffer address
 		240, 320,							// width, height
