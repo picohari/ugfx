@@ -564,7 +564,7 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 		LLDSPEC void gdisp_lld_blit_area(GDisplay* g) {
 			gU32	srcstart, dststart;
 
-			srcstart = LTDC_PIXELBYTES * ((gU32)g->p.x2 * g->p.y1 * + g->p.x1) + (gU32)g->p.ptr;
+			srcstart = LTDC_PIXELBYTES * ((gU32)g->p.x2 * g->p.y1 + g->p.x1) + (gU32)g->p.ptr;
 			dststart = (gU32)PIXEL_ADDR(g, PIXEL_POS(g, g->p.x, g->p.y));
 
 			#if STM32LTDC_DMA_CACHE_FLUSH
