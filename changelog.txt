@@ -16,6 +16,7 @@ CHANGE:     STM32LTDC driver: Rename ALLOW_2ND_LAYER to STM32LTDC_USE_LAYER2.
 CHANGE:     STM32LTDC driver: Rename LTDC_DMA_CACHE_FLUSH to STM32LTDC_DMA_CACHE_FLUSH.
 CHANGE:     STM32LTDC driver: Rename GDISP_LTDC_USE_RGB565 to STM32LTDC_USE_RGB565.
 FEATURE:    STM32LTDC driver: Support double buffering. This introduces STM32LTDC_USE_DOUBLEBUFFERING.
+FIX:        Improve /demos/benchmarks/rectangles
 
 
 *** Release 2.9 ***
