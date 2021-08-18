@@ -22,8 +22,8 @@
 // RGB565 obviously is faster and uses less RAM but with lower color resolution than RGB888
 #if defined(STM32LTDC_USE_RGB565) && STM32LTDC_USE_RGB565
 	#define GDISP_LLD_PIXELFORMAT			GDISP_PIXELFORMAT_RGB565
-	#if GDISP_TOTAL_DISPLAYS > 1
-		#error "GDISP - STM32LTDC: You must use RGB888 pixel format with LTDC when using dual layers as only RGB888 currently supports using alpha"
+	#if defined(STM32LTDC_USE_LAYER2) && STM32LTDC_USE_LAYER2
+		#error "GDISP - STM32LTDC: You must use RGB888 pixel format with LTDC when using both layers as only RGB888 currently supports using alpha."
 	#endif
 #else
 	#define GDISP_LLD_PIXELFORMAT			GDISP_PIXELFORMAT_RGB888
