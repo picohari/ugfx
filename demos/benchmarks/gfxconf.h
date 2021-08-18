@@ -48,5 +48,10 @@
 /* Builtin Fonts */
 #define GDISP_INCLUDE_FONT_UI2          GFXON
 
+/* GFILE */
+#define GFX_USE_GFILE                   GFXON
+#define GFILE_NEED_PRINTG               GFXON
+#define GFILE_NEED_STRINGS              GFXON
+
 #endif /* _GFXCONF_H */
 
