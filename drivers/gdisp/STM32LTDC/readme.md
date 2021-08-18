@@ -25,7 +25,9 @@ Configuration options available in `gfxconf.h`:
 | `STM32LTDC_USE_RGB565` | `GFXOFF` | Whether to use RGB565 instead of RGB888. |
 
 # 2nd layer
-To use the 2nd LTDC layer, set `STM32LTDC_USE_LAYER2` to `GFXON` in `gfxconf.h`.
+To use the 2nd LTDC layer:
+  - set `STM32LTDC_USE_LAYER2` to `GFXON` in `gfxconf.h`.
+  - set `GDISP_TOTAL_DISPLAYS` to `2` in `gfxconf.h`.
 
 The 2nd layer is exposed as a separate display. Use `gdispGetDisplay()` to retrieve the individual layers.
 
@@ -34,7 +36,9 @@ For more information, see:
   - https://wiki.ugfx.io/index.php/Multiple_displays#Access_the_displays
 
 # Double buffering
-Double buffering can be enabled by setting `STM32LTDC_USE_DOUBLEBUFFERING` to `GFXON`.
+To use double buffering:
+  - set `STM32LTDC_USE_DOUBLEBUFFERING` to `GFXON` in `gfxconf.h`.
+  - set `GDISP_TOTAL_DISPLAYS` to `2` in `gfxconf.h`.
 
 When double buffering is enabled, the 2nd LTDC layer cannot be used. While this limitation is easy to remove from a software perspective, there is little benefit in doing so. Double buffering requires, as the name implies, twice the memory. If the 2nd layer would be used together with double buffering strategy, a total of four full framebuffers would be required. Years of real-world experience shows that there's practically never enough memory bandwidth available to do this.
 
