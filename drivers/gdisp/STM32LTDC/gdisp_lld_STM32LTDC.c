@@ -40,6 +40,17 @@
 	#define STM32LTDC_USE_RGB565		GFXOFF
 #endif
 
+// Prevent usage of 2nd layer and double buffering at the same time.
+// See readme.md for more inforamtion.
+#if STM32LTDC_USE_LAYER2 && STM32LTDC_USE_DOUBLEBUFFERING
+	#error "GDISP - STM32LTDC: Cannot use 2nd LTDC layer and double buffering at the same time. See the driver's readme.md for more information."
+#endif
+
+// Double buffering requires GDISP_NEED_CONTROL for the buffer swap command
+#if STM32LTDC_USE_DOUBLEBUFFERING && !GDISP_NEED_CONTROL
+	#error "GDISP - STM32LTDC: Double buffering requires GDISP_NEED_CONTROL."
+#endif
+
 // Force DMA cache flushing on certain platforms/systems.
 #if STM32LTDC_USE_DMA2D
 	#if defined(STM32F7) || defined(STM32H7) || defined(STM32F746xx)
@@ -73,8 +84,8 @@ typedef struct ltdcConfig {
 	gCoord		hsync, vsync;				// Horizontal and Vertical sync pixels
 	gCoord		hbackporch, vbackporch;		// Horizontal and Vertical back porch pixels
 	gCoord		hfrontporch, vfrontporch;	// Horizontal and Vertical front porch pixels
-	gU32	syncflags;					// Sync flags
-	gU32	bgcolor;					// Clear screen color RGB888
+	gU32		syncflags;					// Sync flags
+	gU32		bgcolor;					// Clear screen color RGB888
 
 	ltdcLayerConfig	bglayer;				// Background layer config
 	ltdcLayerConfig	fglayer;				// Foreground layer config
@@ -225,7 +236,8 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 	g->board = 0;
 
 	switch(g->controllerdisplay) {
-	case 0:			// Display 0 is the background layer
+	// Display 0 is the background layer
+	case 0:
 		// Init the board
 		init_board(g);
 
@@ -250,23 +262,26 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 
 		break;
 
-	case 1:			// Display 1 is the foreground layer
-
-		if (!(driverCfg.fglayer.layerflags & LTDC_LEF_ENABLE))
-			return gFalse;
-
-		// Load the foreground layer
-		_ltdc_layer_init(LTDC_Layer2, &driverCfg.fglayer);
-		_ltdc_reload();
-
+	// Display 1 is the foreground layer or the 2nd buffer for double buffering
+	case 1:
 		g->priv = (void *)&driverCfg.fglayer;
 
-	    // Finish Init the board
-	    post_init_board(g);
+		#if STM32LTDC_USE_LAYER2
+			if (!(driverCfg.fglayer.layerflags & LTDC_LEF_ENABLE))
+				return gFalse;
+	
+			// Load the foreground layer
+			_ltdc_layer_init(LTDC_Layer2, &driverCfg.fglayer);
+			_ltdc_reload();
+	
+		    // Finish Init the board
+		    post_init_board(g);
+		#endif
 
 		break;
 
-	default:		// There is only 1 LTDC in the CPU and only the 2 layers in the LTDC.
+	// There is only 1 LTDC in the CPU and only the 2 layers in the LTDC.
+	default:
 		return gFalse;
 	}
 
@@ -395,6 +410,27 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 			if ((unsigned)g->p.ptr > 100) g->p.ptr = (void *)100;
 			set_backlight(g, (unsigned)g->p.ptr);
 			g->g.Backlight = (unsigned)g->p.ptr;
+			return;
+		
+		#if STM32LTDC_USE_DOUBLEBUFFERING
+		case STM32LTDC_CONTROL_SHOW_BUFFER:
+		{
+			// Wait for end-of-line interrupt
+			// We use simple polling here as end-of-line interrupts are very frequent and usually happen in sub-millisecond intervals.
+			while (LTDC->ISR & LTDC_ISR_LIF);
+			
+			// Update framebuffer address in LTDC register
+			// As we currently only support one layer when doublebuffering is enabled, this change happens only to layer 1.
+			LTDC_Layer1->CFBAR = (gU32)(((ltdcLayerConfig*)g->priv)->frame) & LTDC_LxCFBAR_CFBADD;
+
+			// Reload after LTDC config register modifications
+			_ltdc_reload();
+
+			return;
+		}
+		#endif
+		
+		default:
 			return;
 		}
 	}

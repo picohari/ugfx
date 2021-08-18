@@ -20,7 +20,6 @@
 
 // Both these pixel formats are supported - pick one.
 // RGB565 obviously is faster and uses less RAM but with lower color resolution than RGB888
-
 #if defined(STM32LTDC_USE_RGB565) && STM32LTDC_USE_RGB565
 	#define GDISP_LLD_PIXELFORMAT			GDISP_PIXELFORMAT_RGB565
 	#if GDISP_TOTAL_DISPLAYS > 1
@@ -30,11 +29,16 @@
 	#define GDISP_LLD_PIXELFORMAT			GDISP_PIXELFORMAT_RGB888
 #endif
 
-
 /*===========================================================================*/
 /* Don't change stuff below this line. Please.                               */
 /*===========================================================================*/
 
+// LLD command to swap buffers if double buffering is enabled.
+#if STM32LTDC_USE_DOUBLEBUFFERING
+	#define STM32LTDC_CONTROL_SHOW_BUFFER	(GDISP_CONTROL_LLD+0)
+#endif
+
+// Adjust driver config if DMA2D is enabled.
 #if STM32LTDC_USE_DMA2D
 	// DMA2D supports accelerated fills
  	#define GDISP_HARDWARE_FILLS		GFXON

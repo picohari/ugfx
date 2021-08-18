@@ -45,7 +45,7 @@ static const ltdcConfig driverCfg = {
 		0xFF,								// alpha
 		LTDC_LEF_ENABLE						// flags
 	},
-#if STM32LTDC_USE_LAYER2
+#if STM32LTDC_USE_LAYER2 || STM32LTDC_USE_DOUBLEBUFFERING
 	{										// Foreground layer config (if turned on)
 		(LLDCOLOR_TYPE *)(SDRAM_BANK_ADDR+(240 * 320 * LTDC_PIXELBYTES)), // Frame buffer address
 		240, 320,							// width, height
