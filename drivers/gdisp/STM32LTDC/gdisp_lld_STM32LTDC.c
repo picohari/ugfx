@@ -610,6 +610,6 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 		}
 	#endif
 
-#endif /* LTDC_USE_DMA2D */
+#endif /* STM32LTDC_USE_DMA2D */
 
 #endif /* GFX_USE_GDISP */
