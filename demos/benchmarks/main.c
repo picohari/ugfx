@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2012, 2013, Joel Bodenmann aka Tectu <joel@unormal.org>
- * Copyright (c) 2012, 2013, Andrew Hannam aka inmarket
+ * Copyright (c) 2012 - 2021, Joel Bodenmann aka Tectu <joel@ugfx.io>
+ * Copyright (c) 2012 - 2021, Andrew Hannam aka inmarket <inmarket@ugfx.io>
  *
  * All rights reserved.
  *
@@ -31,87 +31,33 @@
 #include "string.h"
 #include "gfx.h"
 
-#define SCB_DEMCR (*(volatile unsigned *)0xE000EDFC)
-#define CPU_RESET_CYCLECOUNTER do { SCB_DEMCR = SCB_DEMCR | 0x01000000; \
-DWT_CYCCNT = 0; \
-DWT_CTRL = DWT_CTRL | 1 ; } while(0)
+#define RESULT_STR_LENGTH 32
 
-static int uitoa(unsigned int value, char * buf, int max) {
-    int n = 0;
-    int i = 0;
-    unsigned int tmp = 0;
-
-    if (!buf)
-        return -3;
-
-    if (2 > max)
-        return -4;
-
-    i=1;
-    tmp = value;
-    if (0 > tmp) {
-        tmp *= -1;
-        i++;
-    }
-    for (;;) {
-        tmp /= 10;
-        if (0 >= tmp)
-            break;
-        i++;
-    }
-    if (i >= max) {
-        buf[0] = '?';
-        buf[1] = 0x0;
-        return 2;
-    }
-
-    n = i;
-    tmp = value;
-    if (0 > tmp) {
-        tmp *= -1;
-    }
-    buf[i--] = 0x0;
-    for (;;) {
-        buf[i--] = (tmp % 10) + '0';
-        tmp /= 10;
-        if (0 >= tmp) {
-            break;
-        }
-    }
-    if (-1 != i) {
-        buf[i--] = '-';
-    }
-
-    return n;
-}
-
-void benchmark(void) {
-    gU32 i, pixels, ms, pps;
-    char pps_str[25];
+void benchmark(void)
+{
 	gCoord height, width, rx, ry, rcx, rcy;
     gColor random_color;
+	gCoord fontHeight;
 	gFont font;
 
-    gdispSetOrientation(gOrientation90);
-
+	// Prepare resources
 	width = gdispGetWidth();
 	height = gdispGetHeight();
-    font = gdispOpenFont("UI2 Double");
+    font = gdispOpenFont("*");
+	fontHeight = gdispGetFontMetric(font, gFontHeight);
 
+	// Show intro message
 	gdispDrawStringBox(0, 0, width, 30, "uGFX - Benchmark", font, GFX_WHITE, gJustifyCenter);
-
-	font = gdispOpenFont("UI2");
 	gdispDrawStringBox(0, height/2, width, 30, "5000 random rectangles", font, GFX_WHITE, gJustifyCenter);
-	
 	gfxSleepMilliseconds(3000);
 	
-	/* seed for the rand() */
-	srand(DWT_CYCCNT);
-	pixels = 0;
+	// Seed RNG
+	srand(0);
 
-	CPU_RESET_CYCLECOUNTER;
-
-	for (i = 0; i < 5000; i++) {
+	// Render rectangles and count ticks & pixels
+	gU64 pixels = 0;
+	const gTicks ticksStart = gfxSystemTicks();
+	for (gU32 i = 0; i < 5000; i++) {
 		random_color = (rand() % 65535);
 		rx = (rand() % (width-10));
 		ry = (rand() % (height-10));
@@ -121,19 +67,33 @@ void benchmark(void) {
 		gdispFillArea(rx, ry, rcx, rcy, random_color);
 		pixels += (rcx+1)*(rcy+1);
 	}
+	const gTicks ticksEnd = gfxSystemTicks();
+	
+	// Calculate result
+	char str_ticks[RESULT_STR_LENGTH];
+	char str_seconds[RESULT_STR_LENGTH];
+	char str_pps[RESULT_STR_LENGTH];
+	{		
+		// Figure out how many ticks are 1 second
+		const gTicks ticksPerSecond = gfxMillisecondsToTicks(1000);
+		
+		const gTicks ticksElapsed = ticksEnd - ticksStart;
+		const float secondsElapsed = (float)ticksElapsed / (float)ticksPerSecond;
+		gU32 pps = (float)pixels / secondsElapsed;
 
-	ms = DWT_CYCCNT / 168000;
-	pps = (float)pixels/((float)ms/1000.0f);
+		// Produce strings
+		memset(str_ticks, 0, RESULT_STR_LENGTH);
+		memset(str_seconds, 0, RESULT_STR_LENGTH);
+		memset(str_pps, 0, RESULT_STR_LENGTH);
+		snprintg(str_ticks, RESULT_STR_LENGTH, "%d ticks", ticksElapsed);
+		snprintg(str_pps, RESULT_STR_LENGTH, "%d pixels/s", pps);
+	}
 
-	memset (pps_str, 0, sizeof(pps_str));
-	uitoa(pps, pps_str, sizeof(pps_str));
-	strcat(pps_str, " Pixels/s");
-
-	font = gdispOpenFont("UI2 Double");
+	// Show result
 	gdispClear(GFX_BLACK);
-	gdispDrawStringBox(0, 0, width, 30, "ChibiOS/GFX - Benchmark", font, GFX_WHITE, gJustifyCenter);
-	gdispDrawStringBox(0, height/2, width, 30, pps_str, font, GFX_WHITE, gJustifyCenter);
-	//gdispDrawString(20, height/2, pps_str, font, GFX_WHITE);
+	gdispDrawStringBox(0, 0, width, 30, "uGFX - Benchmark", font, GFX_WHITE, gJustifyCenter);
+	gdispDrawStringBox(0, height/2+0*(fontHeight+10), width, 30, str_ticks, font, GFX_WHITE, gJustifyCenter);
+	gdispDrawStringBox(0, height/2+1*(fontHeight+10), width, 30, str_pps, font, GFX_WHITE, gJustifyCenter);
 }
 
 int main(void) {
@@ -141,9 +101,8 @@ int main(void) {
 	
 	benchmark();
     
-	while(1) {
+	while (gTrue)
 		gfxSleepMilliseconds(500);
-	}
 
 	return 0;
 }
