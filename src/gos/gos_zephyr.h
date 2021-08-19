@@ -6,7 +6,7 @@
  */
 
 /**
- * @file    src/gos/gos_zepyhr.h
+ * @file    src/gos/gos_zephyr.h
  * @brief   GOS - Operating System Support header file for Zephyr RTOS.
  *			Zephyr SDK 0.9.1
  */
