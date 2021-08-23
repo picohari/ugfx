@@ -99,7 +99,11 @@
 	static gBool Win32MouseInit(GMouse *m, unsigned driverinstance);
 	static gBool Win32MouseRead(GMouse *m, GMouseReading *prd);
 
-	const GMouseVMT const GMOUSE_DRIVER_VMT[1] = {{
+	/**
+	 * This should be: const GMouseVMT const GMOUSE_DRIVER_VMT[1] = {{
+	 * However, some major compilers complain about the duplicate const specifier even though this is perfectly valid standard C.
+	 */
+	const GMouseVMT GMOUSE_DRIVER_VMT[1] = {{
 		{
 			GDRIVER_TYPE_MOUSE,
 			GMOUSE_VFLG_NOPOLL|GMOUSE_VFLG_DYNAMICONLY,
@@ -885,7 +889,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	// Create the associated mouse
 	#if GFX_USE_GINPUT && GINPUT_NEED_MOUSE
 		priv->mouseenabled = hWndParent ? gFalse : gTrue;
-		priv->mouse = (GMouse *)gdriverRegister((const GDriverVMT const *)GMOUSE_DRIVER_VMT, g);
+		priv->mouse = (GMouse *)gdriverRegister((const GDriverVMT*)GMOUSE_DRIVER_VMT, g);
 	#endif
 
 	sprintf(buf, APP_NAME " - %u", g->systemdisplay+1);

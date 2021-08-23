@@ -200,8 +200,10 @@ void gwinContainerDraw_Std(GWidgetObject *gw, void *param) {
 
 		#undef gi
 	}
-#endif /* GDISP_NEED_IMAGE */ 
+#endif /* GDISP_NEED_IMAGE */
+
+/**
+ * @}
+ */
 
 #endif /* GFX_USE_GWIN && GWIN_NEED_CONTAINERS */
-
-/** @} */

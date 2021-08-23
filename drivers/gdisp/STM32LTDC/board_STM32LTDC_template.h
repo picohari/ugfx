@@ -8,8 +8,6 @@
 #ifndef _GDISP_LLD_BOARD_H
 #define _GDISP_LLD_BOARD_H
 
-#define ALLOW_2ND_LAYER		GFXON
-
 static const ltdcConfig driverCfg = {
 	480, 272,								// Width, Height (pixels)
 	41, 10,									// Horizontal, Vertical sync (pixels)
@@ -34,7 +32,7 @@ static const ltdcConfig driverCfg = {
 		LTDC_LEF_ENABLE						// Layer configuration flags
 	},
 
-#if ALLOW_2ND_LAYER
+#if STM32LTDC_USE_LAYER2 || STM32LTDC_USE_DOUBLEBUFFERING
 	{										// Foreground layer config (if turned on)
 		(LLDCOLOR_TYPE *)(SDRAM_DEVICE_ADDR+(480 * 272 * LTDC_PIXELBYTES)), // Frame buffer address
 		480, 272,							// Width, Height (pixels)
@@ -55,7 +53,20 @@ static const ltdcConfig driverCfg = {
 #endif
 };
 
-static GFXINLINE void init_board(GDisplay* g) {
+static GFXINLINE void init_ltdc_clock(void)
+{
+	// Setup LTDC clock and enable the peripheral
+}
+
+#if STM32LTDC_USE_DMA2D
+	static GFXINLINE void init_dma2d_clock(void)
+	{
+		// Setup DMA2D clock and enable the peripheral
+	}
+#endif
+
+static GFXINLINE void init_board(GDisplay* g)
+{
 	// This is function only called once with the display for the background layer.
 	(void)g;
 }

@@ -14,29 +14,32 @@
 /* Driver hardware support.                                                  */
 /*===========================================================================*/
 
-#define	LTDC_USE_DMA2D						GFXON
 #define GDISP_HARDWARE_DRAWPIXEL			GFXON
 #define GDISP_HARDWARE_PIXELREAD			GFXON
 #define GDISP_HARDWARE_CONTROL				GFXON
 
 // Both these pixel formats are supported - pick one.
 // RGB565 obviously is faster and uses less RAM but with lower color resolution than RGB888
-
-#if defined(GDISP_LTDC_USE_RGB565) && GDISP_LTDC_USE_RGB565
+#if defined(STM32LTDC_USE_RGB565) && STM32LTDC_USE_RGB565
 	#define GDISP_LLD_PIXELFORMAT			GDISP_PIXELFORMAT_RGB565
-	#if GDISP_TOTAL_DISPLAYS > 1
-		#error "LTDC: You must use RGB888 pixel format with LTDC when using dual layers as only RGB888 currently supports using alpha"
+	#if defined(STM32LTDC_USE_LAYER2) && STM32LTDC_USE_LAYER2
+		#error "GDISP - STM32LTDC: You must use RGB888 pixel format with LTDC when using both layers as only RGB888 currently supports using alpha."
 	#endif
 #else
 	#define GDISP_LLD_PIXELFORMAT			GDISP_PIXELFORMAT_RGB888
 #endif
 
-
 /*===========================================================================*/
 /* Don't change stuff below this line. Please.                               */
 /*===========================================================================*/
 
-#if LTDC_USE_DMA2D
+// LLD command to swap buffers if double buffering is enabled.
+#if STM32LTDC_USE_DOUBLEBUFFERING
+	#define STM32LTDC_CONTROL_SHOW_BUFFER	(GDISP_CONTROL_LLD+0)
+#endif
+
+// Adjust driver config if DMA2D is enabled.
+#if STM32LTDC_USE_DMA2D
 	// DMA2D supports accelerated fills
  	#define GDISP_HARDWARE_FILLS		GFXON
 

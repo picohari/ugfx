@@ -62,7 +62,7 @@ static const char* FrenchStrings[] = {
 };
 static const transTable FrenchTranslation = { sizeof(FrenchStrings)/sizeof(FrenchStrings[0]), FrenchStrings };
 
-void updateText()
+void updateText(void)
 {
     gCoord width = 400;
     gCoord height = 30;

@@ -12,6 +12,10 @@
 #define GDISP_DRIVER_VMT			GDISPVMT_STM32LTDC
 #include "gdisp_lld_config.h"
 #include "../../../src/gdisp/gdisp_driver.h"
+#include "stm32_ltdc.h"
+#if STM32LTDC_USE_DMA2D
+ 	#include "stm32_dma2d.h"
+#endif
 
 #if defined(GDISP_SCREEN_HEIGHT) || defined(GDISP_SCREEN_HEIGHT)
 	#if GFX_COMPILER_WARNING_TYPE == GFX_COMPILER_WARNING_DIRECT
@@ -23,27 +27,37 @@
 	#undef GDISP_SCREEN_HEIGHT
 #endif
 
-#ifndef LTDC_USE_DMA2D
- 	#define LTDC_USE_DMA2D 			GFXOFF
+#ifndef	STM32LTDC_DMA_CACHE_FLUSH
+	#define	STM32LTDC_DMA_CACHE_FLUSH	GFXOFF
 #endif
-#ifndef LTDC_NO_CLOCK_INIT
-	#define LTDC_NO_CLOCK_INIT		GFXOFF
+#ifndef STM32LTDC_USE_DMA2D
+ 	#define STM32LTDC_USE_DMA2D 		GFXOFF
 #endif
-#ifndef	LTDC_DMA_CACHE_FLUSH
-	#define	LTDC_DMA_CACHE_FLUSH	GFXOFF
+#ifndef STM32LTDC_USE_LAYER2
+	#define	STM32LTDC_USE_LAYER2		GFXOFF
+#endif
+#ifndef STM32LTDC_USE_RGB565
+	#define STM32LTDC_USE_RGB565		GFXOFF
 #endif
 
-#include "stm32_ltdc.h"
+// Prevent usage of 2nd layer and double buffering at the same time.
+// See readme.md for more inforamtion.
+#if STM32LTDC_USE_LAYER2 && STM32LTDC_USE_DOUBLEBUFFERING
+	#error "GDISP - STM32LTDC: Cannot use 2nd LTDC layer and double buffering at the same time. See the driver's readme.md for more information."
+#endif
 
-#if LTDC_USE_DMA2D
- 	#include "stm32_dma2d.h"
+// Double buffering requires GDISP_NEED_CONTROL for the buffer swap command
+#if STM32LTDC_USE_DOUBLEBUFFERING && !GDISP_NEED_CONTROL
+	#error "GDISP - STM32LTDC: Double buffering requires GDISP_NEED_CONTROL."
+#endif
 
-	#if defined(STM32F7) || defined(STM32F746xx)
-		#undef 	LTDC_DMA_CACHE_FLUSH
-		#define	LTDC_DMA_CACHE_FLUSH	GFXON
+// Force DMA cache flushing on certain platforms/systems.
+#if STM32LTDC_USE_DMA2D
+	#if defined(STM32F7) || defined(STM32H7) || defined(STM32F746xx)
+		#undef 	STM32LTDC_DMA_CACHE_FLUSH
+		#define	STM32LTDC_DMA_CACHE_FLUSH	GFXON
 	#endif
 #endif
-
 
 typedef struct ltdcLayerConfig {
 	// Frame
@@ -70,8 +84,8 @@ typedef struct ltdcConfig {
 	gCoord		hsync, vsync;				// Horizontal and Vertical sync pixels
 	gCoord		hbackporch, vbackporch;		// Horizontal and Vertical back porch pixels
 	gCoord		hfrontporch, vfrontporch;	// Horizontal and Vertical front porch pixels
-	gU32	syncflags;					// Sync flags
-	gU32	bgcolor;					// Clear screen color RGB888
+	gU32		syncflags;					// Sync flags
+	gU32		bgcolor;					// Clear screen color RGB888
 
 	ltdcLayerConfig	bglayer;				// Background layer config
 	ltdcLayerConfig	fglayer;				// Foreground layer config
@@ -108,7 +122,7 @@ typedef struct ltdcConfig {
 /* Driver local routines.                                                    */
 /*===========================================================================*/
 
-#define PIXIL_POS(g, x, y)		((y) * ((ltdcLayerConfig *)g->priv)->pitch + (x) * LTDC_PIXELBYTES)
+#define PIXEL_POS(g, x, y)		((y) * ((ltdcLayerConfig *)g->priv)->pitch + (x) * LTDC_PIXELBYTES)
 #define PIXEL_ADDR(g, pos)		((LLDCOLOR_TYPE *)((gU8 *)((ltdcLayerConfig *)g->priv)->frame+pos))
 
 /*===========================================================================*/
@@ -166,25 +180,8 @@ static void _ltdc_init(void) {
 	// Set up the display scanning
 	gU32 hacc, vacc;
 
-	// Reset the LTDC peripheral
-	RCC->APB2RSTR |= RCC_APB2RSTR_LTDCRST;
-	RCC->APB2RSTR = 0;
-
-	// Enable the LTDC clock
-	#if !LTDC_NO_CLOCK_INIT
-		#if defined(STM32F469xx)
-			RCC->DCKCFGR = (RCC->DCKCFGR & ~RCC_DCKCFGR_PLLSAIDIVR);
-		#elif defined(STM32F4) || defined(STM32F429_439xx) || defined(STM32F429xx)
-			RCC->DCKCFGR = (RCC->DCKCFGR & ~RCC_DCKCFGR_PLLSAIDIVR) | (1 << 16);
-		#elif defined(STM32F7) || defined(STM32F746xx)
-			RCC->DCKCFGR1 = (RCC->DCKCFGR1 & ~RCC_DCKCFGR1_PLLSAIDIVR) | (1 << 16);
-		#else
-			#error STM32LTDC driver not implemented for your platform
-		#endif
-	#endif
-
-	// Enable the peripheral
-	RCC->APB2ENR |= RCC_APB2ENR_LTDCEN;
+	// Let the board handle LTDC clock setups
+	init_ltdc_clock();
 
 	// Turn off the controller and its interrupts
 	LTDC->GCR = 0;
@@ -239,7 +236,8 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 	g->board = 0;
 
 	switch(g->controllerdisplay) {
-	case 0:			// Display 0 is the background layer
+	// Display 0 is the background layer
+	case 0:
 		// Init the board
 		init_board(g);
 
@@ -247,7 +245,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 		_ltdc_init();
 
 		// Initialise DMA2D
-		#if LTDC_USE_DMA2D
+		#if STM32LTDC_USE_DMA2D
 			dma2d_init();
 		#endif
 
@@ -264,23 +262,26 @@ LLDSPEC gBool gdisp_lld_init(GDisplay* g) {
 
 		break;
 
-	case 1:			// Display 1 is the foreground layer
-
-		if (!(driverCfg.fglayer.layerflags & LTDC_LEF_ENABLE))
-			return gFalse;
-
-		// Load the foreground layer
-		_ltdc_layer_init(LTDC_Layer2, &driverCfg.fglayer);
-		_ltdc_reload();
-
+	// Display 1 is the foreground layer or the 2nd buffer for double buffering
+	case 1:
 		g->priv = (void *)&driverCfg.fglayer;
 
-	    // Finish Init the board
-	    post_init_board(g);
+		#if STM32LTDC_USE_LAYER2
+			if (!(driverCfg.fglayer.layerflags & LTDC_LEF_ENABLE))
+				return gFalse;
+	
+			// Load the foreground layer
+			_ltdc_layer_init(LTDC_Layer2, &driverCfg.fglayer);
+			_ltdc_reload();
+	
+		    // Finish Init the board
+		    post_init_board(g);
+		#endif
 
 		break;
 
-	default:		// There is only 1 LTDC in the CPU and only the 2 layers in the LTDC.
+	// There is only 1 LTDC in the CPU and only the 2 layers in the LTDC.
+	default:
 		return gFalse;
 	}
 
@@ -300,25 +301,27 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay* g) {
 
 	#if GDISP_NEED_CONTROL
 		switch(g->g.Orientation) {
+                case gOrientationPortrait:
+                case gOrientationLandscape:
 		case gOrientation0:
 		default:
-			pos = PIXIL_POS(g, g->p.x, g->p.y);
+			pos = PIXEL_POS(g, g->p.x, g->p.y);
 			break;
 		case gOrientation90:
-			pos = PIXIL_POS(g, g->p.y, g->g.Width-g->p.x-1);
+			pos = PIXEL_POS(g, g->p.y, g->g.Width-g->p.x-1);
 			break;
 		case gOrientation180:
-			pos = PIXIL_POS(g, g->g.Width-g->p.x-1, g->g.Height-g->p.y-1);
+			pos = PIXEL_POS(g, g->g.Width-g->p.x-1, g->g.Height-g->p.y-1);
 			break;
 		case gOrientation270:
-			pos = PIXIL_POS(g, g->g.Height-g->p.y-1, g->p.x);
+			pos = PIXEL_POS(g, g->g.Height-g->p.y-1, g->p.x);
 			break;
 		}
 	#else
-		pos = PIXIL_POS(g, g->p.x, g->p.y);
+		pos = PIXEL_POS(g, g->p.x, g->p.y);
 	#endif
 
-	#if LTDC_USE_DMA2D
+	#if STM32LTDC_USE_DMA2D
 		while(DMA2D->CR & DMA2D_CR_START);
 	#endif
 
@@ -338,25 +341,27 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 
 	#if GDISP_NEED_CONTROL
 		switch(g->g.Orientation) {
+                case gOrientationPortrait:
+                case gOrientationLandscape:
 		case gOrientation0:
 		default:
-			pos = PIXIL_POS(g, g->p.x, g->p.y);
+			pos = PIXEL_POS(g, g->p.x, g->p.y);
 			break;
 		case gOrientation90:
-			pos = PIXIL_POS(g, g->p.y, g->g.Width-g->p.x-1);
+			pos = PIXEL_POS(g, g->p.y, g->g.Width-g->p.x-1);
 			break;
 		case gOrientation180:
-			pos = PIXIL_POS(g, g->g.Width-g->p.x-1, g->g.Height-g->p.y-1);
+			pos = PIXEL_POS(g, g->g.Width-g->p.x-1, g->g.Height-g->p.y-1);
 			break;
 		case gOrientation270:
-			pos = PIXIL_POS(g, g->g.Height-g->p.y-1, g->p.x);
+			pos = PIXEL_POS(g, g->g.Height-g->p.y-1, g->p.x);
 			break;
 		}
 	#else
-		pos = PIXIL_POS(g, g->p.x, g->p.y);
+		pos = PIXEL_POS(g, g->p.x, g->p.y);
 	#endif
 
-	#if LTDC_USE_DMA2D
+	#if STM32LTDC_USE_DMA2D
 		while(DMA2D->CR & DMA2D_CR_START);
 	#endif
 
@@ -399,6 +404,8 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 						g->g.Height = tmp;
 					}
 					break;
+                                case gOrientationPortrait:
+                                case gOrientationLandscape:
 				default:
 					return;
 			}
@@ -410,12 +417,33 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 			set_backlight(g, (unsigned)g->p.ptr);
 			g->g.Backlight = (unsigned)g->p.ptr;
 			return;
+		
+		#if STM32LTDC_USE_DOUBLEBUFFERING
+		case STM32LTDC_CONTROL_SHOW_BUFFER:
+		{
+			// Wait for end-of-line interrupt
+			// We use simple polling here as end-of-line interrupts are very frequent and usually happen in sub-millisecond intervals.
+			while (LTDC->ISR & LTDC_ISR_LIF);
+			
+			// Update framebuffer address in LTDC register
+			// As we currently only support one layer when doublebuffering is enabled, this change happens only to layer 1.
+			LTDC_Layer1->CFBAR = (gU32)(((ltdcLayerConfig*)g->priv)->frame) & LTDC_LxCFBAR_CFBADD;
+
+			// Reload after LTDC config register modifications
+			_ltdc_reload();
+
+			return;
+		}
+		#endif
+		
+		default:
+			return;
 		}
 	}
 #endif
 
-#if LTDC_USE_DMA2D
-	#if LTDC_DMA_CACHE_FLUSH
+#if STM32LTDC_USE_DMA2D
+	#if STM32LTDC_DMA_CACHE_FLUSH
 		#if defined(__CC_ARM)
 			#define __ugfxDSB()		__dsb(0xF)
 		#else		// GCC like
@@ -425,8 +453,8 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 
 
 	static void dma2d_init(void) {
-		// Enable DMA2D clock
-		RCC->AHB1ENR |= RCC_AHB1ENR_DMA2DEN;
+		// Let the board handle the clock setup
+		init_dma2d_clock();
 
 		// Output color format
 		#if GDISP_LLD_PIXELFORMAT == GDISP_PIXELFORMAT_RGB565
@@ -452,35 +480,37 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
+                        case gOrientationPortrait:
+                        case gOrientationLandscape:
 			case gOrientation0:
 			default:
-				pos = PIXIL_POS(g, g->p.x, g->p.y);
+				pos = PIXEL_POS(g, g->p.x, g->p.y);
 				lineadd = g->g.Width - g->p.cx;
 				shape = (g->p.cx << 16) | (g->p.cy);
 				break;
 			case gOrientation90:
-				pos = PIXIL_POS(g, g->p.y, g->g.Width-g->p.x-g->p.cx);
+				pos = PIXEL_POS(g, g->p.y, g->g.Width-g->p.x-g->p.cx);
 				lineadd = g->g.Height - g->p.cy;
 				shape = (g->p.cy << 16) | (g->p.cx);
 				break;
 			case gOrientation180:
-				pos = PIXIL_POS(g, g->g.Width-g->p.x-g->p.cx, g->g.Height-g->p.y-g->p.cy);
+				pos = PIXEL_POS(g, g->g.Width-g->p.x-g->p.cx, g->g.Height-g->p.y-g->p.cy);
 				lineadd = g->g.Width - g->p.cx;
 				shape = (g->p.cx << 16) | (g->p.cy);
 				break;
 			case gOrientation270:
-				pos = PIXIL_POS(g, g->g.Height-g->p.y-g->p.cy, g->p.x);
+				pos = PIXEL_POS(g, g->g.Height-g->p.y-g->p.cy, g->p.x);
 				lineadd = g->g.Height - g->p.cy;
 				shape = (g->p.cy << 16) | (g->p.cx);
 				break;
 			}
 		#else
-			pos = PIXIL_POS(g, g->p.x, g->p.y);
+			pos = PIXEL_POS(g, g->p.x, g->p.y);
 			lineadd = g->g.Width - g->p.cx;
 			shape = (g->p.cx << 16) | (g->p.cy);
 		#endif
 
-		#if LTDC_DMA_CACHE_FLUSH
+		#if STM32LTDC_DMA_CACHE_FLUSH
 		{
 			// This is slightly less than optimal as we flush the whole line in the source and destination image
 			// instead of just the cx portion but this saves us having to iterate over each line.
@@ -542,10 +572,10 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 		LLDSPEC void gdisp_lld_blit_area(GDisplay* g) {
 			gU32	srcstart, dststart;
 
-			srcstart = LTDC_PIXELBYTES * ((gU32)g->p.x2 * g->p.y1 * + g->p.x1) + (gU32)g->p.ptr;
-			dststart = (gU32)PIXEL_ADDR(g, PIXIL_POS(g, g->p.x, g->p.y));
+			srcstart = LTDC_PIXELBYTES * ((gU32)g->p.x2 * g->p.y1 + g->p.x1) + (gU32)g->p.ptr;
+			dststart = (gU32)PIXEL_ADDR(g, PIXEL_POS(g, g->p.x, g->p.y));
 
-			#if LTDC_DMA_CACHE_FLUSH
+			#if STM32LTDC_DMA_CACHE_FLUSH
 			{
 				// This is slightly less than optimal as we flush the whole line in the source and destination image
 				// instead of just the cx portion but this saves us having to iterate over each line.
@@ -588,6 +618,6 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 		}
 	#endif
 
-#endif /* LTDC_USE_DMA2D */
+#endif /* STM32LTDC_USE_DMA2D */
 
 #endif /* GFX_USE_GDISP */

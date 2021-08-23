@@ -3,9 +3,21 @@
 *****************************************************************************
 
 *** After Release 2.9 ***
-CHANGE:		Added type gImage          to replace V2.x gdispImage
+CHANGE:		Added type gImage to replace V2.x gdispImage
 FIX:		Fixed GWIN console widget scroll
 FIX:		A warning and adjusted is made if GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE is less than 40 bytes.
+FIX:        Prevent compiler warnings on duplicate const specifiers.
+FEATURE:	Added support for ChibiOS 6.x kernel.
+CHANGE:		STM32LTDC driver: Refactor to outsource clock setup for LTDC & DMA2D peripherals to the board file.
+CHANGE:     STM32LTDC driver: Remove obsolete LTDC_NO_CLOCK_INIT macro as this clock setup is now outsourced to the board file.
+CHANGE:     STM32LTDC driver: Automatically enable DMA cache flushing on STM32H7 platforms.
+CHANGE:     STM32LTDC driver: Rename LTDC_USE_DMA2D to STM32LTDC_USE_DMA2D.
+CHANGE:     STM32LTDC driver: Rename ALLOW_2ND_LAYER to STM32LTDC_USE_LAYER2.
+CHANGE:     STM32LTDC driver: Rename LTDC_DMA_CACHE_FLUSH to STM32LTDC_DMA_CACHE_FLUSH.
+CHANGE:     STM32LTDC driver: Rename GDISP_LTDC_USE_RGB565 to STM32LTDC_USE_RGB565.
+FEATURE:    STM32LTDC driver: Support double buffering. This introduces STM32LTDC_USE_DOUBLEBUFFERING.
+FIX:        STM32LTDC driver: Fix bug in gdisp_lld_blit_area() which affected blits with source coordinates other than (0, 0).
+FIX:        Improve /demos/benchmarks/rectangles
 
 
 *** Release 2.9 ***

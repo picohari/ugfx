@@ -19,8 +19,6 @@
 #include "stm32f4xx_hal.h"
 #include "stm324x9i_eval_sdram.h"
 
-#define ALLOW_2ND_LAYER		GFXON
-
 // Panel parameters
 // This panel is a AMPIRE640480 panel.
 
@@ -48,7 +46,7 @@ static const ltdcConfig driverCfg = {
 		LTDC_LEF_ENABLE						// Layer configuration flags
 	},
 
-#if ALLOW_2ND_LAYER
+#if STM32LTDC_USE_LAYER2 || STM32LTDC_USE_DOUBLEBUFFERING
 	{										// Foreground layer config (if turned on)
 		(LLDCOLOR_TYPE *)(SDRAM_DEVICE_ADDR+(640 * 480 * LTDC_PIXELBYTES)), // Frame buffer address
 		640, 480,							// Width, Height (pixels)

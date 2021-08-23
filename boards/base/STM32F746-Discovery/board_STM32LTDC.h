@@ -36,8 +36,6 @@
 	#define AFRH	AFR[1]
 #endif
 
-#define ALLOW_2ND_LAYER		GFXON
-
 static const ltdcConfig driverCfg = {
 	480, 272,								// Width, Height (pixels)
 	41, 10,									// Horizontal, Vertical sync (pixels)
@@ -62,7 +60,7 @@ static const ltdcConfig driverCfg = {
 		LTDC_LEF_ENABLE						// Layer configuration flags
 	},
 
-#if ALLOW_2ND_LAYER
+#if STM32LTDC_USE_LAYER2 || STM32LTDC_USE_DOUBLEBUFFERING
 	{										// Foreground layer config (if turned on)
 		(LLDCOLOR_TYPE *)(SDRAM_DEVICE_ADDR+(480 * 272 * LTDC_PIXELBYTES)), // Frame buffer address
 		480, 272,							// Width, Height (pixels)
@@ -392,6 +390,27 @@ static void configureLcdPins(void) {
 						);
 	#endif
 }
+
+static GFXINLINE void init_ltdc_clock(void)
+{
+	// Reset the LTDC peripheral
+	RCC->APB2RSTR |= RCC_APB2RSTR_LTDCRST;
+	RCC->APB2RSTR = 0;
+	
+	// Enable the LTDC clock
+	RCC->DCKCFGR1 = (RCC->DCKCFGR1 & ~RCC_DCKCFGR1_PLLSAIDIVR) | (1 << 16);
+	
+	// Enable the peripheral
+	RCC->APB2ENR |= RCC_APB2ENR_LTDCEN;
+}
+
+#if STM32LTDC_USE_DMA2D
+	static GFXINLINE void init_dma2d_clock(void)
+	{
+		// Enable DMA2D clock
+		RCC->AHB1ENR |= RCC_AHB1ENR_DMA2DEN;
+	}
+#endif
 
 static GFXINLINE void init_board(GDisplay *g) {
 	(void) g;

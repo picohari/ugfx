@@ -86,8 +86,16 @@ typedef struct GDriverVMT {
  * 				const GDriverVMT const * mylist = { DRIVER_LIST };
  * 				</code>
  *
+ * @note This could be one single typedef. However, some major compilers complain about duplicate const specifiers even though this is perfectly
+ *       valid standard C. As this problem has become worse over time we opt for splitting this into two separate typedefs to prevent these
+ *       compilers from throwing warnings.
+ *       The single typedef would look like this:
+ *       <code>
+ *           typedef const struct GDriverVMT const GDriverVMTList[1];
+ *       </code>
  */
-typedef const struct GDriverVMT const	GDriverVMTList[1];
+typedef const struct GDriverVMT ConstGDriverVMT;
+typedef ConstGDriverVMT const GDriverVMTList[1];
 
 /*===========================================================================*/
 /* External declarations.                                                    */

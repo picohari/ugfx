@@ -35,7 +35,11 @@
 #endif
 typedef systime_t	gTicks;
 typedef cnt_t		gSemcount;
-typedef msg_t		gThreadreturn;
+#if CH_KERNEL_MAJOR >= 6
+	typedef void		gThreadreturn;
+#else
+	typedef msg_t		gThreadreturn;
+#endif
 typedef tprio_t		gThreadpriority;
 
 #define gSemMaxCount			((gSemcount)(((unsigned long)((gSemcount)(-1))) >> 1))
