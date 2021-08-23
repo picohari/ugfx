@@ -12,6 +12,10 @@ To use this driver:
 
 3. Add a `board_STM32LTDC.h` to you project directory (or board directory)
 	based on one of the templates.
+
+# Limitations
+Currently, both `gOrientationPortrait` and `gOrientationLandscape` are not supported by this driver.
+
 	
 # Configuration
 Configuration options available in `gfxconf.h`:
