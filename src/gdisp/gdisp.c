@@ -2885,6 +2885,10 @@ void gdispGBlitArea(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gCoor
 				case gOrientationPortrait:
 					g->p.ptr = g->g.Width >= g->g.Height ? (void *)gOrientation90 : (void *)gOrientation0;
 					break;
+                                case gOrientation0:
+                                case gOrientation90:
+                                case gOrientation180:
+                                case gOrientation270:
 				default:
 					break;
 				}
