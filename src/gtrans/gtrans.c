@@ -51,7 +51,7 @@ const char* gtransString(const char* string)
 	return _languageCurrent->strings[i];
 }
 
-const char* gtransIndex(unsigned index)
+const char* gtransIndex(gU32 index)
 {
 	if (!_languageCurrent) {
 		return 0;

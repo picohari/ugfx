@@ -27,7 +27,7 @@
  * @brief A table containing translated strings.
  */
 typedef struct transTable {
-	unsigned numEntries;    /**< The number of strings that this table contains */
+	gU32 numEntries;    /**< The number of strings that this table contains */
 	const char** strings;	/**< The translated strings */
 } transTable;
 
@@ -59,7 +59,7 @@ const char* gtransString(const char* string);
  *
  * @return The string at the given index of the current language or 0 if it doesn't exist.
  */
-const char* gtransIndex(unsigned index);
+const char* gtransIndex(gU32 index);
 
 /**
  * @brief Set the base language.
