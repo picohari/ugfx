@@ -42,7 +42,6 @@
 #define GDISP_NEED_VALIDATION	                GFXON
 #define GDISP_NEED_CLIP			                GFXON
 #define GDISP_NEED_TEXT			                GFXON
-#define GDISP_NEED_ANTIALIAS                    GFXON
 #define GDISP_NEED_UTF8                         GFXON
 #define GDISP_NEED_TEXT_KERNING                 GFXON
 
