@@ -1283,7 +1283,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		// Make everything relative to the start of the line
 		priv = g->priv;
 		buffer = g->p.ptr;
-		buffer += g->p.x2*g->p.y1;
+		buffer += g->p.x2 * g->p.y1 + g->p.x1;
 
 		memset(&bmpInfo, 0, sizeof(bmpInfo));
 		bmpInfo.bV4Size = sizeof(bmpInfo);

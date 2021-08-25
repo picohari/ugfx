@@ -18,6 +18,7 @@ CHANGE:     STM32LTDC driver: Rename GDISP_LTDC_USE_RGB565 to STM32LTDC_USE_RGB5
 FEATURE:    STM32LTDC driver: Support double buffering. This introduces STM32LTDC_USE_DOUBLEBUFFERING.
 FIX:        STM32LTDC driver: Fix bug in gdisp_lld_blit_area() which affected blits with source coordinates other than (0, 0).
 FIX:        Improve /demos/benchmarks/rectangles.
+FIX:        Win32 driver: Fix buffer position calculation in gdisp_lld_blit_area().
 
 
 *** Release 2.9 ***
