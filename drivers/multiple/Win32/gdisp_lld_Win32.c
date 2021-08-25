@@ -1279,11 +1279,17 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		gPixel	*		buffer;
 		RECT			rect;
 		BITMAPV4HEADER	bmpInfo;
+		#if GDISP_NEED_CONTROL
+			gPixel* bufferBase;
+		#endif
 
 		// Make everything relative to the start of the line
 		priv = g->priv;
 		buffer = g->p.ptr;
 		buffer += g->p.x2 * g->p.y1 + g->p.x1;
+		#if GDISP_NEED_CONTROL
+			bufferBase = buffer;	// Keep pointer to original buffer for correct free()-ing later on
+		#endif
 
 		memset(&bmpInfo, 0, sizeof(bmpInfo));
 		bmpInfo.bV4Size = sizeof(bmpInfo);
@@ -1369,7 +1375,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		#endif
 
 		#if GDISP_NEED_CONTROL
-			if (buffer != (gPixel *)g->p.ptr)
+			if (bufferBase != buffer)
 				free(buffer);
 		#endif
 	}

@@ -19,6 +19,7 @@ FEATURE:    STM32LTDC driver: Support double buffering. This introduces STM32LTD
 FIX:        STM32LTDC driver: Fix bug in gdisp_lld_blit_area() which affected blits with source coordinates other than (0, 0).
 FIX:        Improve /demos/benchmarks/rectangles.
 FIX:        Win32 driver: Fix buffer position calculation in gdisp_lld_blit_area().
+FIX:        Win32 driver: Fix memory leak / invalid pointer to free() when re-calculating buffer position in a specific situation.
 
 
 *** Release 2.9 ***
