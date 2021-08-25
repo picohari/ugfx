@@ -47,21 +47,21 @@ GDisplay	*GDISP;
 #if !NEED_CLIPPING
 	#define TEST_CLIP_AREA(g)
 #elif GDISP_HARDWARE_CLIP == HARDWARE_AUTODETECT
-	#define TEST_CLIP_AREA(g)																					\
-			if (!gvmt(g)->setclip) {																				\
-				if ((g)->p.x < (g)->clipx0) { (g)->p.cx -= (g)->clipx0 - (g)->p.x; (g)->p.x = (g)->clipx0; }	\
-				if ((g)->p.y < (g)->clipy0) { (g)->p.cy -= (g)->clipy0 - (g)->p.y; (g)->p.y = (g)->clipy0; }	\
-				if ((g)->p.x + (g)->p.cx > (g)->clipx1)	(g)->p.cx = (g)->clipx1 - (g)->p.x;						\
-				if ((g)->p.y + (g)->p.cy > (g)->clipy1)	(g)->p.cy = (g)->clipy1 - (g)->p.y;						\
-			}																									\
-			if ((g)->p.cx > 0 && (g)->p.cy > 0)
-#else
 	#define TEST_CLIP_AREA(g)																				\
+		if (!gvmt(g)->setclip) {																			\
 			if ((g)->p.x < (g)->clipx0) { (g)->p.cx -= (g)->clipx0 - (g)->p.x; (g)->p.x = (g)->clipx0; }	\
 			if ((g)->p.y < (g)->clipy0) { (g)->p.cy -= (g)->clipy0 - (g)->p.y; (g)->p.y = (g)->clipy0; }	\
 			if ((g)->p.x + (g)->p.cx > (g)->clipx1)	(g)->p.cx = (g)->clipx1 - (g)->p.x;						\
 			if ((g)->p.y + (g)->p.cy > (g)->clipy1)	(g)->p.cy = (g)->clipy1 - (g)->p.y;						\
-			if ((g)->p.cx > 0 && (g)->p.cy > 0)
+		}																									\
+		if ((g)->p.cx > 0 && (g)->p.cy > 0)
+#else
+	#define TEST_CLIP_AREA(g)																				\
+		if ((g)->p.x < (g)->clipx0) { (g)->p.cx -= (g)->clipx0 - (g)->p.x; (g)->p.x = (g)->clipx0; }		\
+		if ((g)->p.y < (g)->clipy0) { (g)->p.cy -= (g)->clipy0 - (g)->p.y; (g)->p.y = (g)->clipy0; }		\
+		if ((g)->p.x + (g)->p.cx > (g)->clipx1)	(g)->p.cx = (g)->clipx1 - (g)->p.x;							\
+		if ((g)->p.y + (g)->p.cy > (g)->clipy1)	(g)->p.cy = (g)->clipy1 - (g)->p.y;							\
+		if ((g)->p.cx > 0 && (g)->p.cy > 0)
 #endif
 
 /*==========================================================================*/
@@ -89,14 +89,14 @@ GDisplay	*GDISP;
 #endif
 
 #if GDISP_HARDWARE_STREAM_POS && GDISP_HARDWARE_STREAM_WRITE
-	#define autoflush(g)									\
-			{												\
-				if ((g->flags & GDISP_FLG_SCRSTREAM)) {		\
-					gdisp_lld_write_stop(g);				\
-					g->flags &= ~GDISP_FLG_SCRSTREAM;		\
-				}											\
-				autoflush_stopdone(g);						\
-			}
+	#define autoflush(g)								\
+		{												\
+			if ((g->flags & GDISP_FLG_SCRSTREAM)) {		\
+				gdisp_lld_write_stop(g);				\
+				g->flags &= ~GDISP_FLG_SCRSTREAM;		\
+			}											\
+			autoflush_stopdone(g);						\
+		}
 #else
 	#define autoflush(g)		autoflush_stopdone(g)
 #endif
