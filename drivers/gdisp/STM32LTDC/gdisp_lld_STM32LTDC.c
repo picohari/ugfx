@@ -301,8 +301,8 @@ LLDSPEC void gdisp_lld_draw_pixel(GDisplay* g) {
 
 	#if GDISP_NEED_CONTROL
 		switch(g->g.Orientation) {
-                case gOrientationPortrait:
-                case gOrientationLandscape:
+		case gOrientationPortrait:
+		case gOrientationLandscape:
 		case gOrientation0:
 		default:
 			pos = PIXEL_POS(g, g->p.x, g->p.y);
@@ -341,8 +341,8 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 
 	#if GDISP_NEED_CONTROL
 		switch(g->g.Orientation) {
-                case gOrientationPortrait:
-                case gOrientationLandscape:
+		case gOrientationPortrait:
+		case gOrientationLandscape:
 		case gOrientation0:
 		default:
 			pos = PIXEL_POS(g, g->p.x, g->p.y);
@@ -404,8 +404,8 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 						g->g.Height = tmp;
 					}
 					break;
-                                case gOrientationPortrait:
-                                case gOrientationLandscape:
+				case gOrientationPortrait:
+				case gOrientationLandscape:
 				default:
 					return;
 			}
@@ -480,8 +480,8 @@ LLDSPEC	gColor gdisp_lld_get_pixel_color(GDisplay* g) {
 
 		#if GDISP_NEED_CONTROL
 			switch(g->g.Orientation) {
-                        case gOrientationPortrait:
-                        case gOrientationLandscape:
+			case gOrientationPortrait:
+			case gOrientationLandscape:
 			case gOrientation0:
 			default:
 				pos = PIXEL_POS(g, g->p.x, g->p.y);
