@@ -49,7 +49,12 @@ typedef tprio_t		gThreadpriority;
 
 #define GFX_THREAD_STACK(name, sz)			WORKING_AREA(name, sz)
 #define GFX_THREAD_FUNCTION(fnName, param)	gThreadreturn fnName(void *param)
-#define gfxThreadReturn(retval)				return retval
+
+#if CH_KERNEL_MAJOR >= 6
+	#define gfxThreadReturn(retval)				return
+#else
+	#define gfxThreadReturn(retval)				return retval
+#endif
 
 #if CH_KERNEL_MAJOR <= 2
 	typedef struct {
