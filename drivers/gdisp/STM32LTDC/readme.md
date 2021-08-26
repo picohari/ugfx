@@ -13,10 +13,7 @@ To use this driver:
 3. Add a `board_STM32LTDC.h` to you project directory (or board directory)
 	based on one of the templates.
 
-# Limitations
-Currently, both `gOrientationPortrait` and `gOrientationLandscape` are not supported by this driver.
 
-	
 # Configuration
 Configuration options available in `gfxconf.h`:
 
@@ -28,6 +25,7 @@ Configuration options available in `gfxconf.h`:
 | `STM32LTDC_USE_DOUBLEBUFFERING` | `GFXOFF` | Whether to use double buffering. See the corresponding section below. |
 | `STM32LTDC_USE_RGB565` | `GFXOFF` | Whether to use RGB565 instead of RGB888. |
 
+
 # 2nd layer
 To use the 2nd LTDC layer:
   - set `STM32LTDC_USE_LAYER2` to `GFXON` in `gfxconf.h`.
@@ -38,6 +36,7 @@ The 2nd layer is exposed as a separate display. Use `gdispGetDisplay()` to retri
 For more information, see:
   - https://wiki.ugfx.io/index.php/Multiple_displays#Example_-_Same_controller
   - https://wiki.ugfx.io/index.php/Multiple_displays#Access_the_displays
+
 
 # Double buffering
 To use double buffering:
