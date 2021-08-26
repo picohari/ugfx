@@ -54,7 +54,8 @@ static char *ltoa_wd(char *p, long num, unsigned radix, long divisor) {
 
 int vfnprintg(GFILE *f, int maxlen, const char *fmt, va_list arg) {
 	int		ret;
-	char	*p, *s, c, filler;
+	char	*p, c, filler;
+	const char *s;
 	int		i, precision, width;
 	gBool	is_long, left_align;
 	long	l;
@@ -80,7 +81,7 @@ int vfnprintg(GFILE *f, int maxlen, const char *fmt, va_list arg) {
 		}
 		fmt++;
 
-		p = s = tmpbuf;
+		s = p = tmpbuf;
 		left_align = gFalse;
 		filler = ' ';
 		width = 0;
@@ -140,7 +141,7 @@ int vfnprintg(GFILE *f, int maxlen, const char *fmt, va_list arg) {
 				s = "(null)";
 			if (precision == 0)
 				precision = 32767;
-			for (p = s; *p && (--precision >= 0); p++);
+			for (p = (char*)s; *p && (--precision >= 0); p++);
 			break;
 		case 'D':
 		case 'd':
