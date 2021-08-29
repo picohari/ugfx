@@ -3,6 +3,7 @@ build
 .dep
 .cproject
 .project
+.vscode
 *.sublime*
 *.stackdump
 *.lst
