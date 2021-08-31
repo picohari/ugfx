@@ -20,7 +20,10 @@ FIX:        STM32LTDC driver: Fix bug in gdisp_lld_blit_area() which affected bl
 FIX:        Improve /demos/benchmarks/rectangles.
 FIX:        Win32 driver: Fix buffer position calculation in gdisp_lld_blit_area().
 FIX:        Win32 driver: Fix memory leak / invalid pointer to free() when re-calculating buffer position in a specific situation.
-FIX:        Prevent const qualifier being discarded in vfnprintg()
+FIX:        Prevent const qualifier being discarded in vfnprintg().
+FIX:        Fix missing return value in gfxQueueFSyncPut().
+FIX:        Fix missing return value in gfxQueueFSyncPush().
+FIX:        Fix missing return value in gfxQueueFSyncInsert().
 
 
 *** Release 2.9 ***

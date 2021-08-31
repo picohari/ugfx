@@ -321,7 +321,7 @@ void _gqueueDeinit(void)
 	}
 
 	gBool gfxQueueFSyncPut(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gDelay ms) {
-		if (!pitem) return;				// Safety
+		if (!pitem) return gFalse;				// Safety
 		gfxSemInit(&pitem->sem, 0, 1);
 		pitem->next = 0;
 
@@ -340,7 +340,7 @@ void _gqueueDeinit(void)
 	}
 
 	gBool gfxQueueFSyncPush(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gDelay ms) {
-		if (!pitem) return;				// Safety
+		if (!pitem) return gFalse;				// Safety
 		gfxSemInit(&pitem->sem, 0, 1);
 
 		gfxSystemLock();
@@ -356,7 +356,7 @@ void _gqueueDeinit(void)
 	}
 
 	gBool gfxQueueFSyncInsert(gfxQueueFSync *pqueue, gfxQueueFSyncItem *pitem, gfxQueueFSyncItem *pafter, gDelay ms) {
-		if (!pitem) return;				// Safety
+		if (!pitem) return gFalse;				// Safety
 		gfxSemInit(&pitem->sem, 0, 1);
 
 		gfxSystemLock();
