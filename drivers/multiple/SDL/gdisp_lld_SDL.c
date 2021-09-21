@@ -174,8 +174,8 @@ static struct SDL_UGFXContext *context;
 static sem_t *ctx_mutex;
 static sem_t *input_event;
 
-#define CTX_MUTEX_NAME 		"ugfx_ctx_mutex"
-#define INPUT_EVENT_NAME 	"ugfx_input_event"
+#define CTX_MUTEX_NAME 		"/ugfx_ctx_mutex"
+#define INPUT_EVENT_NAME 	"/ugfx_input_event"
 
 
 static int SDL_loop (void) {
@@ -316,7 +316,7 @@ void sdl_driver_init (void) {
 		exit (1) ;
 	}
 
-	if ((context = (struct SDL_UGFXContext*) mmap (0,sizeof (struct SDL_UGFXContext ),PROT_WRITE|PROT_READ,(MAP_ANONYMOUS | MAP_SHARED),0,0)) ==MAP_FAILED) {
+	if ((context = (struct SDL_UGFXContext*) mmap (0, sizeof(struct SDL_UGFXContext), PROT_WRITE|PROT_READ, (MAP_ANONYMOUS | MAP_SHARED), -1, 0)) == MAP_FAILED) {
 		perror("Failed to allocate shared memory");
 		exit(1);
 	}
