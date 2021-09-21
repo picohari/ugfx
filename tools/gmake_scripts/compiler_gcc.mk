@@ -116,6 +116,10 @@ ifeq ($(basename $(OPT_OS)),osx)
   EXEFILE = $(BUILDDIR)/$(PROJECT)
   TARGETS = $(EXEFILE)
 endif
+ifeq ($(basename $(OPT_OS)),freebsd)
+  EXEFILE = $(BUILDDIR)/$(PROJECT)
+  TARGETS = $(EXEFILE)
+endif
 ifeq ($(EXEFILE),)
   LDFLAGS += -nostartfiles
   EXEFILE = $(BUILDDIR)/$(PROJECT).elf

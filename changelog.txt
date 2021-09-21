@@ -24,6 +24,7 @@ FIX:        Prevent const qualifier being discarded in vfnprintg().
 FIX:        Fix missing return value in gfxQueueFSyncPut().
 FIX:        Fix missing return value in gfxQueueFSyncPush().
 FIX:        Fix missing return value in gfxQueueFSyncInsert().
+FEATURE:    Adding support for FreeBSD.
 
 
 *** Release 2.9 ***
