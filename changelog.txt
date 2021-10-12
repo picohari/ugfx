@@ -8,6 +8,7 @@ FIX:		Fixed GWIN console widget scroll.
 FIX:		A warning and adjustment is made if GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE is less than 40 bytes.
 FIX:        Prevent compiler warnings on duplicate const specifiers.
 FEATURE:	Added support for ChibiOS 6.x kernel.
+FEATURE:	Added support for ChibiOS 7.x kernel.
 CHANGE:		STM32LTDC driver: Refactor to outsource clock setup for LTDC & DMA2D peripherals to the board file.
 CHANGE:     STM32LTDC driver: Remove obsolete LTDC_NO_CLOCK_INIT macro as this clock setup is now outsourced to the board file.
 CHANGE:     STM32LTDC driver: Automatically enable DMA cache flushing on STM32H7 platforms.
