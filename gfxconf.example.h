@@ -36,6 +36,7 @@
 //    #define GFX_FREERTOS_USE_TRACE                   GFXOFF
 //#define GFX_USE_OS_WIN32                             GFXOFF
 //#define GFX_USE_OS_LINUX                             GFXOFF
+//#define GFX_USE_OS_FREEBSD                           GFXOFF
 //#define GFX_USE_OS_OSX                               GFXOFF
 //#define GFX_USE_OS_ECOS                              GFXOFF
 //#define GFX_USE_OS_RAWRTOS                           GFXOFF

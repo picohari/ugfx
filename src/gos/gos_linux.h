@@ -8,7 +8,7 @@
 #ifndef _GOS_LINUX_H
 #define _GOS_LINUX_H
 
-#if GFX_USE_OS_LINUX
+#if GFX_USE_OS_LINUX || GFX_USE_OS_FREEBSD
 
 // We don't put this in the general sys_options.h as it is Linux specific.
 #ifndef GFX_USE_POSIX_SEMAPHORES
@@ -88,6 +88,6 @@ void gfxSemSignal(gSem *psem);
 gThread gfxThreadCreate(void *stackarea, gMemSize stacksz, gThreadpriority prio, GFX_THREAD_FUNCTION((*fn),p), void *param);
 gThreadreturn gfxThreadWait(gThread thread);
 
-#endif /* GFX_USE_OS_LINUX */
+#endif /* GFX_USE_OS_LINUX || GFX_USE_OS_FREEBSD */
 
 #endif /* _GOS_LINUX_H */

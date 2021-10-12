@@ -49,6 +49,13 @@
 		#define GFX_USE_OS_LINUX		GFXOFF
 	#endif
 	/**
+	 * @brief   Use a FreeBSD based system running X11
+	 * @details	Defaults to GFXOFF
+	 */
+	#ifndef GFX_USE_OS_FREEBSD
+		#define GFX_USE_OS_FREEBSD		GFXOFF
+	#endif
+	/**
 	 * @brief   Use a Mac OS-X based system
 	 * @details	Defaults to GFXOFF
 	 */

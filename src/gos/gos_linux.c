@@ -10,7 +10,7 @@
 
 #include "../../gfx.h"
 
-#if GFX_USE_OS_LINUX
+#if GFX_USE_OS_LINUX || GFX_USE_OS_FREEBSD
 
 // Linux seems to have deprecated pthread_yield() and now says to use sched_yield()
 #define		USE_SCHED_NOT_PTHREAD_YIELD		GFXON
@@ -238,4 +238,4 @@ gThreadreturn gfxThreadWait(gThread thread) {
 	}
 #endif // GFX_USE_POSIX_SEMAPHORES
 
-#endif /* GFX_USE_OS_LINUX */
+#endif /* GFX_USE_OS_LINUX || GFX_USE_OS_FREEBSD */

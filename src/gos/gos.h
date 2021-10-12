@@ -468,6 +468,8 @@
 	#include "gos_win32.h"
 #elif GFX_USE_OS_LINUX
 	#include "gos_linux.h"
+#elif GFX_USE_OS_FREEBSD
+	#include "gos_linux.h"
 #elif GFX_USE_OS_OSX
 	#include "gos_osx.h"
 #elif GFX_USE_OS_RAW32
