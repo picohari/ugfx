@@ -18,4 +18,10 @@ function(ugfx_target_setup TARGET)
             ${ugfx_DEFS}
     )
 
+    target_link_libraries(
+        ${TARGET}
+        PRIVATE
+            ${ugfx_LIBS}
+    )
+
 endfunction()
