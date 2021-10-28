@@ -30,6 +30,7 @@ list(APPEND ugfx_SOURCES
 
 # Core include directories
 list(APPEND ugfx_INCLUDE_DIRS
+	${UGFX_ROOT}
     ${UGFX_ROOT}/src
 )
 
