@@ -48,4 +48,4 @@ list(REMOVE_DUPLICATES ugfx_INCLUDE_DIRS)
 
 # Outsource heavy-lifting to cmake
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(ugfx DEFAULT_MSG ${UGFX_ROOT} ugfx_SOURCES ugfx_INCLUDE_DIRS)
+find_package_handle_standard_args(ugfx DEFAULT_MSG)
