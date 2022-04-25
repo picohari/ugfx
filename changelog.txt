@@ -29,6 +29,7 @@ FEATURE:    Adding support for FreeBSD.
 FIX:        Fix incorrect calls to mmap() and sem_open() in SDL2 driver (lax operating systems such as Linux & MacOS were silently tolerating these).
 FIX:        Minor code improvements
 FEATURE:    Add cmake support
+FIX:        Add missing driver.mk to SSD1322 driver.
 
 
 *** Release 2.9 ***
