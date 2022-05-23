@@ -55,6 +55,12 @@
 #define dummy_read(g)			{ volatile gU16 dummy; dummy = read_data(g); (void) dummy; }
 #define write_reg(g, reg, data)		{ write_index(g, reg); write_data(g, data); }
 
+// Serial write data for fast fill.
+#ifndef write_data_repeat
+#define write_data_repeat(g, data, count) { int i; for (i = 0; i < count; ++i) write_data (g, data) }
+/* TODO: should use DMA mem2mem */
+#endif
+
 static void set_cursor(GDisplay *g) {
 	switch(g->g.Orientation) {
 		default:
@@ -78,18 +84,18 @@ static void set_viewport(GDisplay* g) {
 		default:
 		case gOrientation0:
 		case gOrientation180:
-			write_reg(g, 0x50, g->p.x);
-			write_reg(g, 0x51, g->p.x + g->p.cx - 1);
-			write_reg(g, 0x52, g->p.y);
-			write_reg(g, 0x53, g->p.y + g->p.cy - 1);
+			write_reg(g, LGDP4532_HORIZONTAL_WINDOW_ADDR1, g->p.x);
+			write_reg(g, LGDP4532_HORIZONTAL_WINDOW_ADDR2, g->p.x + g->p.cx - 1);
+			write_reg(g, LGDP4532_VERTICAL_WINDOW_ADDR1, g->p.y);
+			write_reg(g, LGDP4532_VERTICAL_WINDOW_ADDR2, g->p.y + g->p.cy - 1);
 			break;
 
 		case gOrientation90:
 		case gOrientation270:
-			write_reg(g, 0x50, g->p.y);
-			write_reg(g, 0x51, g->p.y + g->p.cy - 1);
-			write_reg(g, 0x52, g->p.x);
-			write_reg(g, 0x53, g->p.x + g->p.cx - 1);
+			write_reg(g, LGDP4532_HORIZONTAL_WINDOW_ADDR1, g->p.y);
+			write_reg(g, LGDP4532_HORIZONTAL_WINDOW_ADDR2, g->p.y + g->p.cy - 1);
+			write_reg(g, LGDP4532_VERTICAL_WINDOW_ADDR1, g->p.x);
+			write_reg(g, LGDP4532_VERTICAL_WINDOW_ADDR2, g->p.x + g->p.cx - 1);
 			break;
 	}
 }
@@ -110,8 +116,6 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	acquire_bus(g);
 	setwritemode(g);
 
-	// chinese code starts here
-        //############# void Power_Set(void) ################//
 	write_reg(g, 0x00, 0x0001);
 	gfxSleepMilliseconds(10);
 
@@ -124,25 +128,24 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	write_reg(g, 0x12, 0x0010);
 	gfxSleepMilliseconds(10);
 	write_reg(g, 0x10, 0x2620);
-	write_reg(g, 0x13, 0x344d); //304d
+	write_reg(g, 0x13, 0x344d);
 	gfxSleepMilliseconds(10);
 
 	write_reg(g, 0x01, 0x0100);
 	write_reg(g, 0x02, 0x0300);
-	write_reg(g, 0x03, 0x1038);//0x1030
+	write_reg(g, 0x03, 0x1030);
 	write_reg(g, 0x08, 0x0604);
 	write_reg(g, 0x09, 0x0000);
 	write_reg(g, 0x0A, 0x0008);
 
 	write_reg(g, 0x41, 0x0002);
-	write_reg(g, 0x60, 0xA700);
+	write_reg(g, 0x60, 0x2700);
 	write_reg(g, 0x61, 0x0001);
 	write_reg(g, 0x90, 0x0182);
 	write_reg(g, 0x93, 0x0001);
 	write_reg(g, 0xa3, 0x0010);
 	gfxSleepMilliseconds(10);
 
-	//################# void Gamma_Set(void) ####################//
 	write_reg(g, 0x30, 0x0000);
 	write_reg(g, 0x31, 0x0502);
 	write_reg(g, 0x32, 0x0307);
@@ -155,7 +158,6 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	write_reg(g, 0x39, 0x1505);
 	gfxSleepMilliseconds(10);
 
-	//################## void Display_ON(void) ####################//
 	write_reg(g, 0x07, 0x0001);
 	gfxSleepMilliseconds(10);
 	write_reg(g, 0x07, 0x0021);
@@ -164,7 +166,6 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 	write_reg(g, 0x07, 0x0033);
 	gfxSleepMilliseconds(10);
 	write_reg(g, 0x07, 0x0133);
-	// chinese code ends here
 
 	// Finish Init
 	post_init_board(g);
@@ -356,5 +357,37 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g) {
 		}
 	}
 #endif
+
+LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
+	set_cursor(g);
+	gdisp_lld_write_color (g);
+
+}
+
+#if GDISP_HARDWARE_FILLS
+LLDSPEC void gdisp_lld_fill_area(GDisplay *g) {
+	LLDCOLOR_TYPE c = gdispColor2Native(g->p.color);
+
+	acquire_bus(g);
+
+	// Set view port if drawing more than 1 line, or write not started
+	if (g->p.cy != 1 || !ws) {
+		set_viewport(g);
+	}
+
+	set_cursor(g);
+	write_data_repeat (g,c,g->p.cx*g->p.cy);
+
+	// Restore view port if write started and drawed more than 1 line
+	if (g->p.cy != 1 && ws)
+	{
+		write_reg(g, LGDP4532_HORIZONTAL_WINDOW_ADDR2, svx);
+		write_reg(g, LGDP4532_HORIZONTAL_WINDOW_ADDR1, svx + svcx - 1);
+		write_reg(g, LGDP4532_VERTICAL_WINDOW_ADDR2, svy);
+		write_reg(g, LGDP4532_VERTICAL_WINDOW_ADDR1, svy + svcy - 1);
+	}
+	release_bus(g);
+}
+#endif // GDISP_HARDWARE_FILLS
 
 #endif /* GFX_USE_GDISP */
