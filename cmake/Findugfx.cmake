@@ -1,7 +1,7 @@
 # Define UGFX_ROOT
 set(UGFX_ROOT ${CMAKE_CURRENT_LIST_DIR}/..)
 
-# Ensure that CHIBIOS_ROOT is set
+# Ensure that UGFX_ROOT is set
 if(NOT UGFX_ROOT)
     message(FATAL_ERROR "No UGFX_ROOT specified")
 endif()
