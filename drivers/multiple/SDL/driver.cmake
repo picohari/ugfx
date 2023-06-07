@@ -1,5 +1,35 @@
 set(ROOT_PATH ${UGFX_ROOT}/drivers/multiple/SDL)
 
+# Defaults
+if (NOT UGFX_DEPENDENCY_SDL2_DOWNLOAD)
+	set(UGFX_DEPENDENCY_SDL2_DOWNLOAD OFF)
+endif()
+
+# Get or find SDL2
+if (UGFX_DEPENDENCY_SDL2_DOWNLOAD)
+	include(FetchContent)
+		
+	FetchContent_Declare(
+		SDL2
+		GIT_REPOSITORY https://github.com/libsdl-org/SDL
+		GIT_TAG        release-2.26.5
+	)
+	FetchContent_MakeAvailable(SDL2)
+
+	if (NOT UGFX_DEPENDENCY_SDL2_TARGET)
+		set(UGFX_DEPENDENCY_SDL2_TARGET SDL2-static)
+	endif()
+else()
+	find_package(
+		SDL2
+		REQUIRED
+	)
+
+	if (NOT UGFX_DEPENDENCY_SDL2_TARGET)
+		set(UGFX_DEPENDENCY_SDL2_TARGET SDL2::SDL2)
+	endif()
+endif()
+
 list(APPEND ugfx_INCLUDE_DIRS
     ${ROOT_PATH}
 )
@@ -13,12 +43,6 @@ list(APPEND ugfx_DEFS
 )
 
 list(APPEND ugfx_LIBS
-	SDL2::SDL2
-)
-
-# Find SDL2
-find_package(
-    SDL2
-    REQUIRED
+	${UGFX_DEPENDENCY_SDL2_TARGET}
 )
 
