@@ -33,6 +33,9 @@
 #ifndef GDISP_SCREEN_HEIGHT
 	#define GDISP_SCREEN_HEIGHT			480
 #endif
+#ifndef UGFX_SDL_INIT_FLAGS
+	#define UGFX_SDL_INIT_FLAGS			SDL_INIT_EVERYTHING
+#endif
 
 #if GINPUT_NEED_MOUSE
 	// Include mouse support code
@@ -311,7 +314,7 @@ static void *SDL_input_event_loop (void *arg) {
 // Must be executed on early stage of initialization:  before threads and timer
 
 void sdl_driver_init (void) {
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
+	if (SDL_Init(UGFX_SDL_INIT_FLAGS) != 0){
 		fprintf(stderr, "Unable to initialize SDL: %s\n", SDL_GetError());
 		exit (1) ;
 	}
