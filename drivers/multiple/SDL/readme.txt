@@ -26,5 +26,5 @@ and a touchscreen driver.
 	CFLAGS = `sdl2-config --libs --cflags`
 
 By default, this driver will pass the `SDL_INIT_EVERYTHING` flag to SDL_Init(). This
-can be overriden by defining the UGFX_SDL_INIT_FLAGS macro.
+can be overriden by defining the GFX_SDL_INIT_FLAGS macro.
 
