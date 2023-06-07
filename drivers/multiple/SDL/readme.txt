@@ -25,6 +25,3 @@ and a touchscreen driver.
 4. Modify your makefile to add `sdl2-config --libs --cflags` to the CFLAGS line. i.e.
 	CFLAGS = `sdl2-config --libs --cflags`
 
-By default, this driver will pass the `SDL_INIT_EVERYTHING` flag to SDL_Init(). This
-can be overriden by defining the GFX_SDL_INIT_FLAGS macro.
-
