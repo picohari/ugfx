@@ -61,6 +61,10 @@ typedef struct gwinVMT {
 } gwinVMT;
 /** @} */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if GWIN_NEED_WIDGET || defined(__DOXYGEN__)
 
 	/**
@@ -440,6 +444,10 @@ gBool _gwinWMAdd(GHandle gh, const GWindowInit *pInit);
 	 */
 	void _gwinRippleVisibility(void);
 
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif /* GFX_USE_GWIN */
