@@ -1,6 +1,6 @@
 Description:
 
-Driver for OLED with 4-wire serial interface and I²C/SPI interface
+Driver for OLED with 4-wire serial interface and I2C/SPI interface
 
 Know restictions:
 - Driver works only with SSD1306 hooked up over I2C or SPI (include corresponding header)
