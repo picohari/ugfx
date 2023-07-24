@@ -647,12 +647,30 @@ static LRESULT myWindowProc(HWND hWnd,	UINT Msg, WPARAM wParam, LPARAM lParam)
 	#endif
 
 	#if GFX_USE_GINPUT && GINPUT_NEED_KEYBOARD
+		case WM_ACTIVATE:
+			// Copy the lock key states into the uGFX keyboard as it might have changed while we were away
+			// For simplicity we do this on both activate and deactivate.
+			if (keyboard && keyboard->pLayout) {
+				if (GetKeyState(VK_NUMLOCK) & 1)
+					keyboard->keystate |= GKEYSTATE_NUMLOCK;
+				else
+					keyboard->keystate &= ~GKEYSTATE_NUMLOCK;
+				if (GetKeyState(VK_CAPITAL) & 1)
+					keyboard->keystate |= GKEYSTATE_CAPSLOCK;
+				else
+					keyboard->keystate &= ~GKEYSTATE_CAPSLOCK;
+				if (GetKeyState(VK_SCROLL) & 1)
+					keyboard->keystate |= GKEYSTATE_SCROLLLOCK;
+				else
+					keyboard->keystate &= ~GKEYSTATE_SCROLLLOCK;
+			}
+			break;
 		case WM_SYSKEYDOWN:
 		case WM_SYSKEYUP:
 		case WM_KEYDOWN:
 		case WM_KEYUP:
 			// A layout is being used: Send scan codes to the keyboard buffer
-			if (keyboard && keyboard->pLayout && keypos < (int)sizeof(keybuffer)-1 && (wParam & 0xFF) > 0x01) {
+			if (keyboard && keyboard->pLayout && keypos < (int)sizeof(keybuffer)-1 && (wParam & 0xFF) >= VK_BACK) {
 				if (Msg == WM_KEYUP || Msg == WM_SYSKEYUP)
 					keybuffer[keypos++] = 0x00;			// Keyup
 				else if (HIWORD(lParam) & KF_REPEAT)
