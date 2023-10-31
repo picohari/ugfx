@@ -5,8 +5,17 @@
  *              http://ugfx.io/license.html
  */
 
-#ifndef _GDISP_LLD_BOARD_H
-#define _GDISP_LLD_BOARD_H
+#pragma once
+
+/**
+ * The command byte to put in front of each page line.
+ *
+ * If this is defined, each page line is prefixed with the specified value in the locally
+ * maintained framebuffer.
+ *
+ * This can be omitted and handled inside of write_data() manually instead.
+ */
+#define SSD1312_PAGE_PREFIX	0x40		// Co = 0, D/C = 1
 
 static GFXINLINE void init_board(GDisplay *g)
 {
@@ -34,18 +43,16 @@ static GFXINLINE void release_bus(GDisplay *g)
 	(void) g;
 }
 
-
-static GFXINLINE void write_cmd(GDisplay *g, gU8 cmd)
-{
-	(void) g;
-	(void) cmd;
-}
-
-static GFXINLINE void write_data(GDisplay *g, gU8 data)
+static GFXINLINE void write_cmd(GDisplay *g, gU8 *data, gU16 length)
 {
 	(void) g;
 	(void) data;
+    (void) length;
 }
 
-#endif // _GDISP_LLD_BOARD_H
-
+static GFXINLINE void write_data(GDisplay *g, gU8 *data, gU16 length)
+{
+	(void) g;
+	(void) data;
+    (void) length;
+}

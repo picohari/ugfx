@@ -22,6 +22,10 @@
 
 #define GDISP_LLD_PIXELFORMAT			GDISP_PIXELFORMAT_MONO
 
-#endif	/* GFX_USE_GDISP */
+// This controller supports a special gdispControl() to inverse the display.
+// Pass a parameter of 1 for inverse and 0 for normal.
+#define GDISP_CONTROL_INVERSE			(GDISP_CONTROL_LLD+0)
 
-#endif	/* _GDISP_LLD_CONFIG_H */
+#endif	// GFX_USE_GDISP
+
+#endif	// _GDISP_LLD_CONFIG_H

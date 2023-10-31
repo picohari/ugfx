@@ -23,7 +23,7 @@
 	#define GDISP_SCREEN_HEIGHT		32	// This controller should also support 64 (untested)
 #endif
 #ifndef GDISP_SCREEN_WIDTH
-	#define GDISP_SCREEN_WIDTH		128	
+	#define GDISP_SCREEN_WIDTH		128
 #endif
 #ifndef GDISP_INITIAL_CONTRAST
 	#define GDISP_INITIAL_CONTRAST	100
@@ -41,8 +41,6 @@
 
 #define GDISP_FLG_NEEDFLUSH			(GDISP_FLG_DRIVER<<0)
 
-#include "SSD1312.h"
-
 /*===========================================================================*/
 /* Driver local functions.                                                   */
 /*===========================================================================*/
@@ -52,6 +50,9 @@
 #define xyaddr(x, y)        		(SSD1312_PAGE_OFFSET + (x) + ((y)>>3)*SSD1312_PAGE_WIDTH)
 #define xybit(y)            		(1<<((y)&7))
 
+#define write_cmd_1(g, a)			{ gU8 cmd[1]; cmd[0] = a; write_cmd(g, cmd, 1); }
+#define write_cmd_2(g, a, b)		{ gU8 cmd[2]; cmd[0] = a; cmd[1] = b; write_cmd(g, cmd, 2); }
+
 /*===========================================================================*/
 /* Driver exported functions.                                                */
 /*===========================================================================*/
@@ -59,17 +60,19 @@
 /**
  * As this controller can't update on a pixel boundary we need to maintain the
  * the entire display surface in memory so that we can do the necessary bit
- * operations. Fortunately it is a small display in 4 bit grayscale.
- * 64 * 128 / 2 = 4096 bytes.
+ * operations. Fortunately it is a small monochrome display.
+ * 64 * 128 / 8 = 1024 bytes.
  */
 
 LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 {
 	// The private area is the display surface.
 	g->priv = gfxAlloc(GDISP_SCREEN_HEIGHT/8 * SSD1312_PAGE_WIDTH);
+	if (!g->priv)
+		return gFalse;
 
 	// Fill in the prefix command byte on each page line of the display buffer
-	// We can do it during initialisation as this byte is never overwritten.
+	// We can do this during initialisation as we're being careful that this byte is never overwritten.
 	#ifdef SSD1312_PAGE_PREFIX
 		for (unsigned i = 0; i < GDISP_SCREEN_HEIGHT/8 * SSD1312_PAGE_WIDTH; i += SSD1312_PAGE_WIDTH)
 			RAM(g)[i] = SSD1312_PAGE_PREFIX;
@@ -84,54 +87,64 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 	setpin_reset(g, gFalse);
 	gfxSleepMilliseconds(200);
 
-	// Display off
-	write_cmd(g, 0xAE);
+	acquire_bus(g);
 
-	// Clock divider
-	write_cmd2(g, 0xD5, 0x80);
+	// Configuration
+    // This might require display module vendor specific changes
+	{
+		// Display off
+		write_cmd_1(g, 0xAE);
 
-	// Multiplex ratio
-	write_cmd2(g, 0xA8, 0x1F);
+		// Clock divider
+		write_cmd_2(g, 0xD5, 0x80);
 
-	// Display offset
-	write_cmd2(g, 0xD3, 0x30);
+		// Multiplex ratio
+		write_cmd_2(g, 0xA8, 0x1F);
 
-	// Display start line
-	write_cmd(g, 0x40);
+		// Display offset
+		write_cmd_2(g, 0xD3, 0x30);
 
-	// Charge pump
-	write_cmd2(g, 0x8D, 0x72);		// 0x10 if Vcc externally supplied
+		// Display start line
+		write_cmd_1(g, 0x40);
 
-	// Segment re-map
-	write_cmd(g, 0xA1);
+		// Charge pump
+		write_cmd_2(g, 0x8D, 0x72);		// 0x10 if Vcc externally supplied
 
-	// COM output scan direction
-	write_cmd(g, 0xC0);
+		// Segment re-map
+		write_cmd_1(g, 0xA1);
 
-	// COM pin hardware configuration
-	write_cmd2(g, 0xDA, 0x10);
+		// COM output scan direction
+		write_cmd_1(g, 0xC0);
 
-	// Set internal/external current reference
-	write_cmd2(g, 0xAD, 0x50);
+		// COM pin hardware configuration
+		write_cmd_2(g, 0xDA, 0x10);
 
-	// Set contract
-	// ToDo: Also add to GDISP control interface below
-	write_cmd2(g, 0x81, 0x17);
+		// Set internal/external current reference
+		write_cmd_2(g, 0xAD, 0x50);
 
-	// Set pre-charge period
-	write_cmd2(g, 0xD9, 0xF1);
+		// Set contract
+		write_cmd_2(g, 0x81, 0x17);
 
-	// Set VCOMH select level
-	write_cmd2(g, 0xDB, 0x30);
+		// Set pre-charge period
+		write_cmd_2(g, 0xD9, 0xF1);
 
-	// Set entire display on/off
-	write_cmd(g, 0xA4);
+		// Set VCOMH select level
+		write_cmd_2(g, 0xDB, 0x30);
 
-	// Set normal/inverse display
-	write_cmd(g, 0xA6);
+		// Set entire display on/off
+		write_cmd_1(g, 0xA4);
 
-	// Display on
-	write_cmd(g, 0xAF);
+		// Set normal/inverse display
+		write_cmd_1(g, 0xA6);
+
+		// Page addressing mode 
+		write_cmd_2(g, 0x20, 0x02);
+
+		// Display on
+		write_cmd_1(g, 0xAF);
+	}
+
+	release_bus(g);
 
     // Finish Init
     post_init_board(g);
@@ -148,11 +161,12 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 }
 
 #if GDISP_HARDWARE_FLUSH
-	LLDSPEC void gdisp_lld_flush(GDisplay *g) {
+	LLDSPEC void gdisp_lld_flush(GDisplay *g)
+    {
 		gU8 * ram;
 		unsigned pages;
 
-		// Don't flush if we don't need it.
+		// Only flush if necessary
 		if (!(g->flags & GDISP_FLG_NEEDFLUSH))
 			return;
 
@@ -160,8 +174,11 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 		pages = GDISP_SCREEN_HEIGHT/8;
 
 		acquire_bus(g);
-		write_cmd(g, CMD_DISPLAY_START_LINE);
+		write_cmd_1(g, 0x40 | 0);
 		while (pages--) {
+			write_cmd_1(g, 0xB0 + (((GDISP_SCREEN_HEIGHT/8)-1)-pages));
+			write_cmd_1(g, 0x00);
+			write_cmd_1(g, 0x10);
 			write_data(g, ram, SSD1312_PAGE_WIDTH);
 			ram += SSD1312_PAGE_WIDTH;
 		}
@@ -171,8 +188,70 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 	}
 #endif
 
+#if GDISP_HARDWARE_DRAWPIXEL
+	LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g)
+    {
+		gCoord		x, y;
+
+		switch(g->g.Orientation) {
+		default:
+		case gOrientation0:
+			x = g->p.x;
+			y = g->p.y;
+			break;
+		case gOrientation90:
+			x = g->p.y;
+			y = GDISP_SCREEN_HEIGHT-1 - g->p.x;
+			break;
+		case gOrientation180:
+			x = GDISP_SCREEN_WIDTH-1 - g->p.x;
+			y = GDISP_SCREEN_HEIGHT-1 - g->p.y;
+			break;
+		case gOrientation270:
+			x = GDISP_SCREEN_WIDTH-1 - g->p.y;
+			y = g->p.x;
+			break;
+		}
+		if (gdispColor2Native(g->p.color) != gdispColor2Native(GFX_BLACK))
+			RAM(g)[xyaddr(x, y)] |= xybit(y);
+		else
+			RAM(g)[xyaddr(x, y)] &= ~xybit(y);
+		g->flags |= GDISP_FLG_NEEDFLUSH;
+	}
+#endif
+
+#if GDISP_HARDWARE_PIXELREAD
+    LLDSPEC gColor gdisp_lld_get_pixel_color(GDisplay *g)
+    {
+		gCoord		x, y;
+
+		switch(g->g.Orientation) {
+		default:
+		case gOrientation0:
+			x = g->p.x;
+			y = g->p.y;
+			break;
+		case gOrientation90:
+			x = g->p.y;
+			y = GDISP_SCREEN_HEIGHT-1 - g->p.x;
+			break;
+		case gOrientation180:
+			x = GDISP_SCREEN_WIDTH-1 - g->p.x;
+			y = GDISP_SCREEN_HEIGHT-1 - g->p.y;
+			break;
+		case gOrientation270:
+			x = GDISP_SCREEN_WIDTH-1 - g->p.y;
+			y = g->p.x;
+			break;
+		}
+
+		return (RAM(g)[xyaddr(x, y)] & xybit(y)) ? GFX_WHITE : GFX_BLACK;
+	}
+#endif
+
 #if GDISP_HARDWARE_FILLS
-	LLDSPEC void gdisp_lld_fill_area(GDisplay *g) {
+    LLDSPEC void gdisp_lld_fill_area(GDisplay *g)
+    {
 		gCoord		sy, ey;
 		gCoord		sx, ex;
 		gCoord		col;
@@ -223,7 +302,8 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 			mask &= (0xff >> (7 - (ey&7)));
 			for (col = sx; col <= ex; col++)
 				base[col] &= ~mask;
-		} else {
+		}
+        else {
 			while (zpages--) {
 				for (col = sx; col <= ex; col++)
 					base[col] |= mask;
@@ -238,66 +318,9 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 	}
 #endif
 
-#if GDISP_HARDWARE_DRAWPIXEL
-	LLDSPEC void gdisp_lld_draw_pixel(GDisplay *g) {
-		gCoord		x, y;
-
-		switch(g->g.Orientation) {
-		default:
-		case gOrientation0:
-			x = g->p.x;
-			y = g->p.y;
-			break;
-		case gOrientation90:
-			x = g->p.y;
-			y = GDISP_SCREEN_HEIGHT-1 - g->p.x;
-			break;
-		case gOrientation180:
-			x = GDISP_SCREEN_WIDTH-1 - g->p.x;
-			y = GDISP_SCREEN_HEIGHT-1 - g->p.y;
-			break;
-		case gOrientation270:
-			x = GDISP_SCREEN_WIDTH-1 - g->p.y;
-			y = g->p.x;
-			break;
-		}
-		if (gdispColor2Native(g->p.color) != gdispColor2Native(GFX_BLACK))
-			RAM(g)[xyaddr(x, y)] |= xybit(y);
-		else
-			RAM(g)[xyaddr(x, y)] &= ~xybit(y);
-		g->flags |= GDISP_FLG_NEEDFLUSH;
-	}
-#endif
-
-#if GDISP_HARDWARE_PIXELREAD
-	LLDSPEC gColor gdisp_lld_get_pixel_color(GDisplay *g) {
-		gCoord		x, y;
-
-		switch(g->g.Orientation) {
-		default:
-		case gOrientation0:
-			x = g->p.x;
-			y = g->p.y;
-			break;
-		case gOrientation90:
-			x = g->p.y;
-			y = GDISP_SCREEN_HEIGHT-1 - g->p.x;
-			break;
-		case gOrientation180:
-			x = GDISP_SCREEN_WIDTH-1 - g->p.x;
-			y = GDISP_SCREEN_HEIGHT-1 - g->p.y;
-			break;
-		case gOrientation270:
-			x = GDISP_SCREEN_WIDTH-1 - g->p.y;
-			y = g->p.x;
-			break;
-		}
-		return (RAM(g)[xyaddr(x, y)] & xybit(y)) ? GFX_WHITE : GFX_BLACK;
-	}
-#endif
-
 #if GDISP_NEED_CONTROL && GDISP_HARDWARE_CONTROL
-	LLDSPEC void gdisp_lld_control(GDisplay *g) {
+    LLDSPEC void gdisp_lld_control(GDisplay *g)
+    {
 		switch(g->p.x) {
 		case GDISP_CONTROL_POWER:
 			if (g->g.Powermode == (gPowermode)g->p.ptr)
@@ -307,12 +330,12 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 			case gPowerSleep:
 			case gPowerDeepSleep:
 				acquire_bus(g);
-				write_cmd(g, SSD1312_DISPLAYOFF);
+				write_cmd_1(g, 0xAE);
 				release_bus(g);
 				break;
 			case gPowerOn:
 				acquire_bus(g);
-				write_cmd(g, SSD1312_DISPLAYON);
+				write_cmd_1(g, 0xAF);
 				release_bus(g);
 				break;
 			default:
@@ -324,8 +347,9 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 		case GDISP_CONTROL_ORIENTATION:
 			if (g->g.Orientation == (gOrientation)g->p.ptr)
 				return;
+
 			switch((gOrientation)g->p.ptr) {
-			/* Rotation is handled by the drawing routines */
+			// Rotation is handled by the drawing routines
 			case gOrientation0:
 			case gOrientation180:
 				g->g.Height = GDISP_SCREEN_HEIGHT;
@@ -339,6 +363,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 			default:
 				return;
 			}
+
 			g->g.Orientation = (gOrientation)g->p.ptr;
 			return;
 
@@ -346,7 +371,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
             if ((unsigned)g->p.ptr > 100)
             	g->p.ptr = (void *)100;
 			acquire_bus(g);
-			write_cmd2(g, SSD1312_SETCONTRAST, (((unsigned)g->p.ptr)<<8)/101);
+			write_cmd_2(g, 0x81, (((unsigned)g->p.ptr)<<8)/101);
 			release_bus(g);
             g->g.Contrast = (unsigned)g->p.ptr;
 			return;
@@ -355,7 +380,7 @@ LLDSPEC gBool gdisp_lld_init(GDisplay *g)
 		// 0 = normal, 1 = inverse
 		case GDISP_CONTROL_INVERSE:
 			acquire_bus(g);
-			write_cmd(g, g->p.ptr ? SSD1312_INVERTDISPLAY : SSD1312_NORMALDISPLAY);
+			write_cmd_1(g, g->p.ptr ? 0xA7: 0xA6);
 			release_bus(g);
 			return;
 		}
