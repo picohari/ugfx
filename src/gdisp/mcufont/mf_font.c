@@ -7,7 +7,16 @@
 
 #ifndef MF_NO_COMPILE
 
+#define MF_BWFONT_INTERNALS
+#define MF_RLEFONT_INTERNALS
+
 #include "mf_font.h"
+
+#include "mf_bwfont.h"
+#include "mf_rlefont.h"
+#include "mf_bwfont.h"
+#include "mf_scaledfont.h"
+
 #include <stdbool.h>
 
 /* This will be made into a list of included fonts using macro magic. */
