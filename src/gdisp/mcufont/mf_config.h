@@ -43,8 +43,9 @@
 #define MF_USE_KERNING GDISP_NEED_TEXT_KERNING
 #define MF_FONT_FILE_NAME "src/gdisp/fonts/fonts.h"
 
-/* These are not used for now */
-#define MF_USE_JUSTIFY 0
+#define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#define pgm_read_word(addr) (*(const uint16_t *)(addr))
+
 
 /*******************************************************
  * Configuration settings related to build environment *
@@ -168,7 +169,7 @@
 #ifdef __cplusplus
 #define MF_EXTERN extern "C"
 #else
-#define MF_EXTERN
+#define MF_EXTERN extern
 #endif
 
 #endif
