@@ -32,7 +32,7 @@ gU8 mf_render_character(const struct mf_font_s *font,
                             mf_pixel_callback_t callback,
                             void *state)
 {
-    uint8_t width;
+    gU8 width;
     width = font->render_character(font, x0, y0, character, callback, state);
 
     if (!width)
@@ -44,10 +44,10 @@ gU8 mf_render_character(const struct mf_font_s *font,
     return width;
 }
 
-uint8_t mf_character_width(const struct mf_font_s *font,
+gU8 mf_character_width(const struct mf_font_s *font,
                            mf_char character)
 {
-    uint8_t width;
+    gU8 width;
     width = font->character_width(font, character);
 
     if (!width)
@@ -60,12 +60,12 @@ uint8_t mf_character_width(const struct mf_font_s *font,
 
 struct whitespace_state
 {
-    uint8_t min_x, min_y;
-    uint8_t max_x, max_y;
+    gU8 min_x, min_y;
+    gU8 max_x, max_y;
 };
 
-static void whitespace_callback(int16_t x, int16_t y, uint8_t count,
-                                uint8_t alpha, void *state)
+static void whitespace_callback(int16_t x, int16_t y, gU8 count,
+                                gU8 alpha, void *state)
 {
     struct whitespace_state *s = state;
     if (alpha > 7)
@@ -80,8 +80,8 @@ static void whitespace_callback(int16_t x, int16_t y, uint8_t count,
 
 MF_EXTERN void mf_character_whitespace(const struct mf_font_s *font,
                                        mf_char character,
-                                       uint8_t *left, uint8_t *top,
-                                       uint8_t *right, uint8_t *bottom)
+                                       gU8 *left, gU8 *top,
+                                       gU8 *right, gU8 *bottom)
 {
     struct whitespace_state state = {255, 255, 0, 0};
     mf_render_character(font, 0, 0, character, whitespace_callback, &state);

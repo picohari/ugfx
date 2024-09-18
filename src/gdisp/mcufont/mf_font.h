@@ -105,7 +105,7 @@ MF_EXTERN gU8 mf_render_character(const struct mf_font_s *font,
  *
  * Returns width of the character in pixels.
  */
-MF_EXTERN uint8_t mf_character_width(const struct mf_font_s *font,
+MF_EXTERN gU8 mf_character_width(const struct mf_font_s *font,
                                      mf_char character);
 
 /* Count the amount of white space at the borders of a character.
@@ -124,8 +124,8 @@ MF_EXTERN uint8_t mf_character_width(const struct mf_font_s *font,
  */
 MF_EXTERN void mf_character_whitespace(const struct mf_font_s *font,
                                        mf_char character,
-                                       uint8_t *left, uint8_t *top,
-                                       uint8_t *right, uint8_t *bottom);
+                                       gU8 *left, gU8 *top,
+                                       gU8 *right, gU8 *bottom);
 
 /* Find a font based on name. The name can be either short name or full name.
  * Note: You can pass MF_INCLUDED_FONTS to search among all the included .h

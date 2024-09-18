@@ -52,7 +52,7 @@
 #include <stdint.h>
 #define PROGMEM
 #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
-#define pgm_read_word(addr) (*(const uint16_t *)(addr))
+#define pgm_read_word(addr) (*(const gU16 *)(addr))
 #endif /* __AVR__ */
 
 
