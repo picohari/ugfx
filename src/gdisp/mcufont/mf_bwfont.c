@@ -27,7 +27,7 @@ static const struct mf_bwfont_char_range_s *find_char_range(
             return range;
         }
     }
-    
+
     return 0;
 }
 
@@ -53,7 +53,7 @@ static gU8 render_char(const struct mf_bwfont_char_range_s *r,
     gU8 x, y, height, num_cols;
     gU8 bit, byte, mask;
     bool oldstate, newstate;
-    
+
     if (r->width)
     {
         data = r->glyph_data + r->width * index * r->height_bytes;
@@ -64,18 +64,18 @@ static gU8 render_char(const struct mf_bwfont_char_range_s *r,
         data = r->glyph_data + r->glyph_offsets[index] * r->height_bytes;
         num_cols = r->glyph_offsets[index + 1] - r->glyph_offsets[index];
     }
-    
+
     stride = r->height_bytes;
     height = r->height_pixels;
     y0 += r->offset_y;
     x0 += r->offset_x;
     bit = 0;
     byte = 0;
-    
+
     for (y = 0; y < height; y++)
     {
         mask = (1 << bit);
-        
+
         oldstate = false;
         runlen = 0;
         p = data + byte;
@@ -88,19 +88,19 @@ static gU8 render_char(const struct mf_bwfont_char_range_s *r,
                 {
                     callback(x0 + x - runlen, y0 + y, runlen, 255, state);
                 }
-                
+
                 oldstate = newstate;
                 runlen = 0;
             }
-            
+
             runlen++;
         }
-        
+
         if (oldstate && runlen)
         {
             callback(x0 + x - runlen, y0 + y, runlen, 255, state);
         }
-        
+
         bit++;
         if (bit > 7)
         {
@@ -108,7 +108,7 @@ static gU8 render_char(const struct mf_bwfont_char_range_s *r,
             byte++;
         }
     }
-    
+
     return get_width(r, index);
 }
 
@@ -125,7 +125,7 @@ gU8 mf_bwfont_render_character(const struct mf_font_s *font,
     range = find_char_range(bwfont, character, &index);
     if (!range)
         return 0;
-    
+
     return render_char(range, x0, y0, index, callback, state);
 }
 
@@ -139,7 +139,7 @@ gU8 mf_bwfont_character_width(const struct mf_font_s *font,
     range = find_char_range(bwfont, character, &index);
     if (!range)
         return 0;
-    
+
     return get_width(range, index);
 }
 

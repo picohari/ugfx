@@ -18,14 +18,14 @@ static gI16 mf_round_to_tab(const struct mf_font_s *font,
     gI16 tabw, dx;
     
     tabw = mf_character_width(font, 'm') * MF_TABSIZE;
-    
+
     /* Always atleast 1 space */
     x += mf_character_width(font, ' ');
-    
+
     /* Round to next tab stop */
     dx = x - x0 + font->baseline_x;
     x += tabw - (dx % tabw);
-    
+
     return x;
 }
 
@@ -36,14 +36,14 @@ static gI16 mf_round_to_prev_tab(const struct mf_font_s *font,
     gI16 tabw, dx;
     
     tabw = mf_character_width(font, 'm') * MF_TABSIZE;
-    
+
     /* Always atleast 1 space */
     x -= mf_character_width(font, ' ');
-    
+
     /* Round to previous tab stop */
     dx = x0 - x + font->baseline_x;
     x -= tabw - (dx % tabw);
-    
+
     return x;
 }
 #endif
@@ -56,7 +56,7 @@ gI16 mf_get_string_width(const struct mf_font_s *font, mf_str text,
     
     if (!count)
         count = 0xFFFF;
-    
+
     while (count-- && *text)
     {
         c2 = mf_getchar(&text);
@@ -71,14 +71,14 @@ gI16 mf_get_string_width(const struct mf_font_s *font, mf_str text,
             c2 = ' ';
 #endif
         }
-        
+
         if (kern && c1 != 0)
             result += mf_compute_kerning(font, c1, c2);
 
         result += mf_character_width(font, c2);
         c1 = c2;
     }
-    
+
     return result;
 }
 
@@ -87,10 +87,10 @@ static gU16 strip_spaces(mf_str text, gU16 count, mf_char *last_char)
 {
     gU16 i = 0, result = 0;
     mf_char tmp = 0;
-    
+
     if (!count)
         count = 0xFFFF;
-    
+
     while (count-- && *text)
     {
         i++;
@@ -101,7 +101,7 @@ static gU16 strip_spaces(mf_str text, gU16 count, mf_char *last_char)
             result = i;
         }
     }
-    
+
     if (last_char)
     {
         if (!*text)
@@ -109,7 +109,7 @@ static gU16 strip_spaces(mf_str text, gU16 count, mf_char *last_char)
         else
             *last_char = tmp;
     }
-    
+
     return result;
 }
 
@@ -122,12 +122,12 @@ static void render_left(const struct mf_font_s *font,
 {
     gI16 x;
     mf_char c1 = 0, c2;
-    
+
     x = x0 - font->baseline_x;
     while (count--)
     {
         c2 = mf_getchar(&text);
-        
+
         if (c2 == '\t')
         {
 #if MF_USE_TABS
@@ -138,7 +138,7 @@ static void render_left(const struct mf_font_s *font,
             c2 = ' ';
 #endif
         }
-        
+
         if (c1 != 0)
             x += mf_compute_kerning(font, c1, c2);
 
@@ -174,18 +174,18 @@ static void render_right(const struct mf_font_s *font,
     gU16 i;
     mf_char c1, c2 = 0;
     mf_str tmp;
-    
+
     /* Go to the end of the line. */
     for (i = 0; i < count; i++)
         mf_getchar(&text);
-    
+
     x = x0 - font->baseline_x;
     for (i = 0; i < count; i++)
     {
         mf_rewind(&text);
         tmp = text;
         c1 = mf_getchar(&tmp);
-        
+
         /* Perform tab alignment */
         if (c1 == '\t')
         {
@@ -197,14 +197,14 @@ static void render_right(const struct mf_font_s *font,
             c1 = ' ';
 #endif
         }
-        
+
         /* Apply the nominal character width */
         x -= mf_character_width(font, c1);
-        
+
         /* Apply kerning */
         if (c2 != 0)
             x -= mf_compute_kerning(font, c1, c2);
-        
+
         callback(x, y0, c1, state);
         c2 = c1;
     }
@@ -219,7 +219,7 @@ void mf_render_aligned(const struct mf_font_s *font,
 {
     gI16 string_width;
     count = strip_spaces(text, count, 0);
-    
+
     if (align == MF_ALIGN_LEFT)
     {
         render_left(font, x0, y0, text, count, callback, state);
@@ -247,7 +247,6 @@ void mf_render_justified(const struct mf_font_s *font,
                          mf_character_callback_t callback,
                          void *state)
 {
-	(void) width;
     mf_render_aligned(font, x0, y0, MF_ALIGN_LEFT, text, count, callback, state);
 }
 
@@ -281,20 +280,20 @@ void mf_render_justified(const struct mf_font_s *font,
     gI16 string_width, adjustment;
     gU16 num_spaces;
     mf_char last_char;
-    
+
     count = strip_spaces(text, count, &last_char);
-    
+
     if (last_char == '\n' || last_char == 0)
     {
         /* Line ends in linefeed, do not justify. */
         render_left(font, x0, y0, text, count, callback, state);
         return;
     }
-    
+
     string_width = mf_get_string_width(font, text, count, false);
     adjustment = width - string_width;
     num_spaces = count_spaces(text, count);
-    
+
     {
         gI16 x, tmp;
         mf_char c1 = 0, c2;
@@ -303,7 +302,7 @@ void mf_render_justified(const struct mf_font_s *font,
         while (count--)
         {
             c2 = mf_getchar(&text);
-            
+
             if (c2 == '\t')
             {
 #if MF_USE_TABS
@@ -316,7 +315,7 @@ void mf_render_justified(const struct mf_font_s *font,
                 c2 = ' ';
 #endif
             }
-            
+
             if (is_justify_space(c2))
             {
                 tmp = (adjustment + num_spaces / 2) / num_spaces;
@@ -324,7 +323,7 @@ void mf_render_justified(const struct mf_font_s *font,
                 num_spaces--;
                 x += tmp;
             }
-            
+
             if (c1 != 0)
             {
                 tmp = mf_compute_kerning(font, c1, c2);

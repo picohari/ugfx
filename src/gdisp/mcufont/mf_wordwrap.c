@@ -43,7 +43,7 @@ static bool get_wordlen(const struct mf_font_s *font, mf_str *text,
         result->chars++;
         result->word += mf_character_width(font, c);
 
-		prev = *text;
+        prev = *text;
         c = mf_getchar(text);
     }
 
@@ -56,10 +56,10 @@ static bool get_wordlen(const struct mf_font_s *font, mf_str *text,
         else if (c == '\t')
             result->space += mf_character_width(font, 'm') * MF_TABSIZE;
         else if (c == '\n') {
-			/* Special case for newlines, skip the character then break. */
-			prev = *text;
+            /* Special case for newlines, skip the character then break. */
+            prev = *text;
             break;
-		}
+        }
 
         prev = *text;
         c = mf_getchar(text);
@@ -239,6 +239,7 @@ void mf_wordwrap(const struct mf_font_s *font, gI16 width,
 void mf_wordwrap(const struct mf_font_s *font, gI16 width,
                  mf_str text, mf_line_callback_t callback, void *state)
 {
+    mf_str orig = text;
     mf_str linestart;
 
     /* Current line width and character count */

@@ -39,7 +39,7 @@ struct mf_rlefont_char_range_s
 struct mf_rlefont_s
 {
     struct mf_font_s font;
-    
+
     /* Version of the font definition used. */
     const gU8 version;
     
