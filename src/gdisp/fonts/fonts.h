@@ -85,6 +85,16 @@
 #include "fixed_7x14.c"
 #endif
 
+#if defined(GDISP_INCLUDE_FONT_UI1) && GDISP_INCLUDE_FONT_UI1
+#define GDISP_FONT_FOUND
+#include "UI1.c"
+#endif
+
+#if defined(GDISP_INCLUDE_FONT_UI2) && GDISP_INCLUDE_FONT_UI2
+#define GDISP_FONT_FOUND
+#include "UI2.c"
+#endif
+
 #if defined(GDISP_INCLUDE_USER_FONTS) && GDISP_INCLUDE_USER_FONTS
 #define GDISP_FONT_FOUND
 #include "userfonts.h"
