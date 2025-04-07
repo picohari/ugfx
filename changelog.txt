@@ -34,6 +34,7 @@ FEATURE:    LGDP4532 driver improvements.
 FIX:        Win32 Keyboard driver now retrieves lock key states on window activate
 FEATURE:    Add SSD1312 GDISP driver
 FEATURE:    Add CH1115 GDISP driver
+FIX:		Fix multiple redraws of GWIN windows (thanks to Sergey Kushnir)
 
 
 *** Release 2.9 ***

@@ -749,6 +749,7 @@ static void WM_Delete(GHandle gh) {
 
 static void WM_Redraw(GHandle gh) {
 	gU32	flags;
+    gU32    parents = 0;    // Used to indicate whether the window (gh) has parent(s).
 	
 	flags = gh->flags;
 	gh->flags &= ~(GWIN_FLG_NEEDREDRAW|GWIN_FLG_BGREDRAW|GWIN_FLG_PARENTREVEAL);
@@ -790,6 +791,8 @@ static void WM_Redraw(GHandle gh) {
 				if (gh->parent) {
 					// Child redraw is done
 
+                    parents++;
+
 					// Get the parent to redraw the area
 					gh = gh->parent;
 
@@ -805,6 +808,11 @@ static void WM_Redraw(GHandle gh) {
 
 			// Clear the area to the background color
 			gdispGFillArea(gh->display, gh->x, gh->y, gh->width, gh->height, gwinGetDefaultBgColor());
+
+            #if GWIN_NEED_CONTAINERS
+                if (!parents)
+                    return;
+            #endif
 
 			// Now loop over all windows looking for overlaps. Redraw them if they overlap the newly exposed area.
 			for(gx = gwinGetNextWindow(0); gx; gx = gwinGetNextWindow(gx)) {
