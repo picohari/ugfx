@@ -395,7 +395,7 @@ void gwinTabsetSetTab(GHandle gh) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #if GWIN_FLAT_STYLING
-	static void fgarea(GWidgetObjset *gw, const char *text, gCoord y, gCoord x, gCoord w) {
+	static void fgarea(GWidgetObject *gw, const char *text, gCoord y, gCoord x, gCoord w) {
 		const GColorSet *	pcol;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->pressed : &gw->pstyle->disabled;
@@ -403,7 +403,7 @@ void gwinTabsetSetTab(GHandle gh) {
 		gdispGDrawBox(gw->g.display, gw->g.x+x, gw->g.y+y, w, GWIN_TABSET_TABHEIGHT, pcol->edge);
 		gdispGFillStringBox(gw->g.display, gw->g.x+x+1, gw->g.y+y+1, w-2, GWIN_TABSET_TABHEIGHT-1, text, gw->g.font, pcol->text, pcol->fill, gJustifyCenter);
 	}
-	static void bgarea(GWidgetObjset *gw, const char *text, gCoord y, gCoord x, gCoord w) {
+	static void bgarea(GWidgetObject *gw, const char *text, gCoord y, gCoord x, gCoord w) {
 		const GColorSet *	pcol;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->enabled : &gw->pstyle->disabled;
@@ -412,7 +412,7 @@ void gwinTabsetSetTab(GHandle gh) {
 		gdispGDrawLine(gw->g.display, gw->g.x+x+w-1, gw->g.y+y, gw->g.x+x+w-1, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, pcol->edge);
 		gdispGDrawLine(gw->g.display, gw->g.x+x, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, gw->g.x+x+w-2, gw->g.y+y+GWIN_TABSET_TABHEIGHT-1, pcol->edge);
 	}
-	static void ntarea(GWidgetObjset *gw, gCoord y, gCoord x, gCoord w) {
+	static void ntarea(GWidgetObject *gw, gCoord y, gCoord x, gCoord w) {
 		const GColorSet *	pcol;
 
 		pcol = (gw->g.flags & GWIN_FLG_SYSENABLED) ? &gw->pstyle->pressed : &gw->pstyle->disabled;
