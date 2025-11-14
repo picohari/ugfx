@@ -3348,23 +3348,23 @@ void gdispGDrawBox(GDisplay *g, gCoord x, gCoord y, gCoord cx, gCoord cy, gColor
 
 	/* Callback to render string boxes with word wrap. */
 	#if GDISP_NEED_TEXT_WORDWRAP
-		static gBool mf_countline_callback(mf_str line, gU16 count, void *state) {
+		static _Bool mf_countline_callback(mf_str line, gU16 count, void *state) {
 			(void) line;
 			(void) count;
 
 			((gCoord*)state)[0]++;
 			return gTrue;
 		}
-		static gBool mf_drawline_callback(mf_str line, gU16 count, void *state) {
+		static _Bool mf_drawline_callback(mf_str line, gU16 count, void *state) {
 			#define GD	((GDisplay *)state)
-				mf_render_aligned(GD->t.font, GD->t.wrapx, GD->t.wrapy, GD->t.lrj, line, count, drawcharglyph, state);
+				mf_render_aligned(GD->t.font, GD->t.wrapx, GD->t.wrapy, (enum mf_align_t)GD->t.lrj, line, count, drawcharglyph, state);
 				GD->t.wrapy += GD->t.font->line_height;
 			#undef GD
 			return gTrue;
 		}
-		static gBool mf_fillline_callback(mf_str line, gU16 count, void *state) {
+		static _Bool mf_fillline_callback(mf_str line, gU16 count, void *state) {
 			#define GD	((GDisplay *)state)
-				mf_render_aligned(GD->t.font, GD->t.wrapx, GD->t.wrapy, GD->t.lrj, line, count, fillcharglyph, state);
+				mf_render_aligned(GD->t.font, GD->t.wrapx, GD->t.wrapy, (enum mf_align_t)GD->t.lrj, line, count, fillcharglyph, state);
 				GD->t.wrapy += GD->t.font->line_height;
 			#undef GD
 			return gTrue;

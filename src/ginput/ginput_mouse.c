@@ -694,14 +694,14 @@ gBool _gmouseInitDriver(GDriver *g, void *display, unsigned driverinstance, unsi
 	#endif
 
 	// Init the mouse
-    if (!gmvmt(m)->init((GMouse *)g, driverinstance))
-        return gFalse;
+	if (!gmvmt(m)->init((GMouse *)g, driverinstance)) 
+		return gFalse;
 
 	// Ensure the Poll timer is started
 	if (!gtimerIsActive(&MouseTimer))
 		gtimerStart(&MouseTimer, MousePoll, 0, gTrue, GINPUT_MOUSE_POLL_PERIOD);
 
-    return gTrue;
+	return gTrue;
 
     #undef m
 }
@@ -815,8 +815,8 @@ gBool ginputGetMouseStatus(unsigned instance, GEventMouse *pe) {
 			return 0;
 
 		// Check it needs calibration
-        if (!(gmvmt(m)->d.flags & GMOUSE_VFLG_CALIBRATE))
-        	return 0;
+		if (!(gmvmt(m)->d.flags & GMOUSE_VFLG_CALIBRATE))
+			return 0;
 
 		return CalibrateMouse(m);
 	}

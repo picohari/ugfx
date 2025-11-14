@@ -510,6 +510,6 @@ static const GColorSet *getButtonColors(GWidgetObject *gw) {
 
 #endif
 
-	void gwinButtonDraw_Clear(GWidgetObject *gw, void *param) { (void) param; } // draws a huge piece of best nothing we can get for free
+	void gwinButtonDraw_Clear(GWidgetObject *gw, void *param) { (void) gw; (void) param; } // draws a huge piece of best nothing we can get for free
 
 #endif /* GFX_USE_GWIN && GWIN_NEED_BUTTON */
